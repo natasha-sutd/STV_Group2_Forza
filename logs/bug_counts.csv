@@ -1,0 +1,2 @@
+bug_type,exc_type,exc_message,filename,lineno,count
+invalidity,ParseException,"Expected '.', found '6'  (at char 2), (line:1, col:3)",pyparsing\core.py,1340,1
