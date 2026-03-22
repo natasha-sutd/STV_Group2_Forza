@@ -8,6 +8,8 @@ treated as "new coverage" for corpus scheduling purposes.
 """
 
 import re
+import json
+import ipaddress
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import Optional, Tuple
@@ -20,6 +22,8 @@ class BugType(Enum):
     FUNCTIONAL = "functional"  # FunctionalBug: incorrect computation result
     CRASH = "crash"            # Binary exited with non-zero code unexpectedly
     TIMEOUT = "timeout"        # Binary exceeded time limit
+    SYNTACTIC = "syntactic"    # Cidrize: syntax/format error
+    MISMATCH = "mismatch"      # Differential: buggy output differs from reference 
 
 
 @dataclass
@@ -35,6 +39,53 @@ class RunResult:
     bug_key: Optional[Tuple[str, str, str]]
     is_new_behavior: bool = False  # Set by SeedCorpus after lookup
 
+def _normalize_json(stdout: str) -> Optional[str]:
+    # this function helps to extract the decoded json value from stdout and normalise it. 
+    match = re.search(r"Output decoded data: (.+?) of type", stdout)
+
+    if match:
+        try:
+            return json.dumps(eval(match.group(1)), sort_keys=True)
+        except Exception:
+            pass
+    return None
+
+def _normalize_ipv4(stdout: str) -> Optional[str]:
+    # this function helps to extract the decoded ipv4 value from stdout and normalise it. 
+    match = re.search(r"Output: \[(\d+)\]", stdout)
+
+    if match:
+        # output is already an integer string, just return it directly
+        return match.group(1)
+    return None
+
+def _normalize_ipv6(stdout: str) -> Optional[str]:
+    # this function helps to extract the decoded ipv6 value from stdout and normalise it. 
+    match = re.search(r"Output: \[(\d+)\]", stdout)
+
+    if match:
+        # output is already an integer string, just return it directly
+        return match.group(1)
+    return None
+
+def _normalize_cidr(stdout: str) -> Optional[str]:
+    # this function helps to extract the decoded cidr value from stdout and normalise it. 
+    # cidrize outputs IPNetwork('1.2.3.4/32'), not a raw number
+    match = re.search(r"IPNetwork\('([^']+)'\)", stdout)
+
+    if match:
+        try:
+            return str(ipaddress.ip_network(match.group(1), strict=False))
+        except Exception:
+            pass
+    return None
+
+normalizers = {
+    "json": _normalize_json,
+    "ipv4": _normalize_ipv4,
+    "ipv6": _normalize_ipv6,
+    "cidr": _normalize_cidr,
+}
 
 class BugOracle:
     """
@@ -68,6 +119,8 @@ class BugOracle:
         stderr: str,
         exit_code: int,
         timed_out: bool,
+        target_name: Optional[str] = None,  # e.g. "json", "ipv4", "ipv6", "cidr"
+        ref_stdout: Optional[str] = None,   # reference binary stdout for differential testing
     ) -> RunResult:
 
         if timed_out:
@@ -95,12 +148,7 @@ class BugOracle:
                     exc_type = entry_match.group(2)   # e.g. "pyparsing.exceptions.ParseException"
                     exc_msg = entry_match.group(3)[:120]  # truncate long messages
                     bug_key = (category, exc_type, exc_msg)
-                    bug_type = (
-                        BugType.INVALIDITY if category == "invalidity"
-                        else BugType.BONUS if category == "bonus"
-                        else BugType.FUNCTIONAL if category == "functional"
-                        else BugType.CRASH
-                    )
+                    bug_type = BugOracle._category_to_bug_type(category)
                     return RunResult(
                         input_data=input_data,
                         stdout=stdout,
@@ -126,6 +174,19 @@ class BugOracle:
                 bug_type=BugType.INVALIDITY,
                 bug_key=("invalidity", "ParseException", exc_msg),
             )
+
+        if "syntactic" in lower or "syntax error" in lower or "addrformaterror" in lower:
+            addr_match = re.search(r"AddrFormatError: (.+?)(?:\n|$)", combined)
+            smsg = addr_match.group(1)[:120] if addr_match else exc_msg
+            return RunResult(
+                input_data=input_data,
+                stdout=stdout,
+                stderr=stderr,
+                exit_code=exit_code,
+                timed_out=False,
+                bug_type=BugType.SYNTACTIC,
+                bug_key=("syntactic", "SyntaxError", smsg),
+            ) 
 
         if "functional" in lower and "functional bug" in lower:
             func_match = re.search(r"FunctionalBug: (.+?)(?:\n|$)", combined)
@@ -163,6 +224,22 @@ class BugOracle:
                 bug_key=("crash", "", stderr[:80].strip()),
             )
 
+        if ref_stdout is not None:
+            normalizer = normalizers.get(target_name)
+            if normalizer:
+                norm_out = normalizer(stdout)
+                norm_ref = normalizer(ref_stdout)
+                if norm_out != norm_ref:
+                    return RunResult(
+                        input_data=input_data,
+                        stdout=stdout,
+                        stderr=stderr,
+                        exit_code=exit_code,
+                        timed_out=False,
+                        bug_type=BugType.MISMATCH,
+                        bug_key=("mismatch", "OutputMismatch", f"out={norm_out} ref={norm_ref}"),
+                    )
+
         # Clean run
         return RunResult(
             input_data=input_data,
@@ -173,3 +250,17 @@ class BugOracle:
             bug_type=BugType.NORMAL,
             bug_key=None,
         )
+
+
+    @staticmethod
+    def _category_to_bug_type(category: str) -> BugType:
+        if category == "invalidity":
+            return BugType.INVALIDITY
+        elif category == "bonus":
+            return BugType.BONUS
+        elif category == "syntactic":
+            return BugType.SYNTACTIC
+        elif category == "functional":
+            return BugType.FUNCTIONAL
+        else:
+            return BugType.CRASH
