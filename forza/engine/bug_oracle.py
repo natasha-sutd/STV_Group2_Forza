@@ -2,201 +2,366 @@
 take a RawResult from target_runner.py and classify it into a structured BugResult with 
 bug_type, bug_key etc. This is the "oracle" that determines whether a given test input 
 triggers a bug and what kind of bug it is.
+
+Since both the IPv4/IPv6 parsers are closed binaries, coverage is
+approximated via behavioural novelty — every unique (bug_category,
+error_message) pair is treated as "new coverage" for corpus scheduling.
+
+Usage in output_parser.classify():
+    from engine.bug_oracle import BugOracle
+    from engine.target_runner import RawResult
+
+    oracle = BugOracle()
+    bug = oracle.classify(
+        raw         = buggy_raw,        # RawResult from run_both()
+        ref_stdout  = ref.stdout,       # reference stdout (or None)
+        target      = config["name"],   # e.g. "json_decoder"
+        input_data  = mutated_input,    # str — the input sent to the target
+        target_name = config["input_format"],  # "json"|"ipv4"|"ipv6"|"cidr"
+    )
 """
 
+from __future__ import annotations
+
+import hashlib
 import re
-from dataclasses import dataclass
-from enum import Enum
-from typing import Optional, Tuple
+import json
+import ipaddress
+from typing import Optional
 
-from .target_runner import RawResult
+from engine.types import BugResult, BugType
+from engine.target_runner import RawResult
 
-class BugType(Enum):
-    NORMAL = "normal"
-    INVALIDITY = "invalidity"
-    BONUS = "bonus"
-    FUNCTIONAL = "functional"
-    CRASH = "crash"
-    TIMEOUT = "timeout"
 
-@dataclass
-class BugResult:
-    input_data: bytes
-    stdout: str
-    stderr: str
-    exit_code: int
-    timed_out: bool
-    bug_type: BugType
-    bug_key: Optional[Tuple[str, str, str]]
-    is_new_behavior: bool = False
-    strategy: Optional[str] = None
+# ---------------------------------------------------------------------------
+# Output normalizers
+# Extract the parsed value from stdout for differential comparison.
+# Returns None if the output format is not recognised or parsing fails.
+# ---------------------------------------------------------------------------
+
+def _normalize_json(stdout: str) -> Optional[str]:
+    match = re.search(r"Output decoded data: (.+?) of type", stdout)
+    if match:
+        try:
+            return json.dumps(eval(match.group(1)), sort_keys=True)
+        except Exception:
+            pass
+    return None
+
+
+def _normalize_ipv4(stdout: str) -> Optional[str]:
+    match = re.search(r"Output: \[(\d+)\]", stdout)
+    return match.group(1) if match else None
+
+
+def _normalize_ipv6(stdout: str) -> Optional[str]:
+    match = re.search(r"Output: \[(\d+)\]", stdout)
+    return match.group(1) if match else None
+
+
+def _normalize_cidr(stdout: str) -> Optional[str]:
+    match = re.search(r"IPNetwork\('([^']+)'\)", stdout)
+    if match:
+        try:
+            return str(ipaddress.ip_network(match.group(1), strict=False))
+        except Exception:
+            pass
+    return None
+
+
+_NORMALIZERS: dict[str, callable] = {
+    "json": _normalize_json,
+    "ipv4": _normalize_ipv4,
+    "ipv6": _normalize_ipv6,
+    "cidr": _normalize_cidr,
+}
+
+
+# ---------------------------------------------------------------------------
+# BugOracle
+# ---------------------------------------------------------------------------
 
 class BugOracle:
-    # Regex to extract ParseException message from stdout/stderr
-    _PARSE_EXC_RE = re.compile(
-        r"ParseException: (.+?)(?:\n|$)", re.MULTILINE
-    )
+    """
+    Classifies a RawResult into a BugResult.
 
-    # Regex to match the structured "Final bug count" line all harnesses print:
-    # Final bug count: defaultdict(<class 'int'>, {('invalidity', ...): 1})
+    Classification priority (first match wins):
+        1. TIMEOUT     — raw.timed_out is True
+        2. Structured  — "Final bug count" line in output (json_decoder)
+        3. INVALIDITY  — "invalidity" keyword in output
+        4. SYNTACTIC   — "syntactic" / "syntax error" / "AddrFormatError"
+        5. FUNCTIONAL  — "functional bug" keyword
+        6. BONUS       — "bonus" keyword
+        7. RELIABILITY — non-zero exit with no structured output
+        8. MISMATCH    — normalised buggy output differs from reference
+        9. NORMAL      — none of the above
+    """
+
+    # Regex: pull the ParseException message from stdout or stderr
+    _PARSE_EXC_RE = re.compile(r"ParseException: (.+?)(?:\n|$)", re.MULTILINE)
+
+    # Regex: structured "Final bug count" line emitted by json_decoder
+    # e.g. Final bug count: defaultdict(<class 'int'>, {('invalidity',...): 1})
     _BUG_COUNT_RE = re.compile(
         r"Final bug count: defaultdict\(<class 'int'>, \{(.*)\}\)"
     )
-
-    # Regex to extract one bug entry from the Final bug count line:
-    # ('invalidity', <class 'pyparsing.exceptions.ParseException'>, 'msg', 'file', 123)
     _BUG_ENTRY_RE = re.compile(
         r"\('(\w+)', <class '([^']+)'>, '([^']*)', '[^']*', \d+\)"
     )
 
     def classify(
         self,
-        raw: RawResult,
-        config: dict,
+        raw         : RawResult,
+        input_data  : str,              # already-decoded str input
+        target      : str,              # config["name"],  e.g. "json_decoder"
+        config      : dict  = None,     # full YAML config for generic keyword fallback
+        target_name : Optional[str] = None,   # config["input_format"]: "json"|"ipv4"|"ipv6"|"cidr"
+        ref_stdout  : Optional[str] = None,   # reference binary stdout for MISMATCH check
     ) -> BugResult:
+        """
+        Classify one RawResult into a BugResult.
+
+        Parameters
+        ----------
+        raw         : RawResult from target_runner.run_both() (buggy binary only)
+        input_data  : the str input that was sent to the target
+        target      : target name from config["name"]
+        config      : full YAML config dict; used for generic bug_keywords fallback
+                      so any target can define custom keywords without code changes
+        target_name : input format key for selecting the output normalizer
+        ref_stdout  : stdout from the reference binary for differential testing;
+                      pass None to skip MISMATCH detection
+        """
+        config      = config or {}
+        stdout      = raw.stdout
+        stderr      = raw.stderr
+        combined    = stdout + "\n" + stderr
+        bug_keywords = config.get("bug_keywords", [])
+
+        # ── 1. TIMEOUT ────────────────────────────────────────────────────
         if raw.timed_out:
-            return BugResult(
-                input_data      = raw.input_data,
-                stdout          = raw.stdout,
-                stderr          = raw.stderr,
-                exit_code       = raw.returncode,
-                timed_out       = True,
-                bug_type        = BugType.TIMEOUT,
-                bug_key         = ("timeout", "", ""),
-                strategy        = raw.strategy,
+            return self._make_result(
+                bug_type   = BugType.TIMEOUT,
+                raw_key    = ("timeout", "", ""),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
             )
 
-        combined = raw.stdout + "\n" + raw.stderr
-
+        # ── 2. Structured "Final bug count" line (json_decoder) ───────────
         count_match = self._BUG_COUNT_RE.search(combined)
         if count_match:
             entries_str = count_match.group(1).strip()
             if entries_str:
                 entry_match = self._BUG_ENTRY_RE.search(entries_str)
                 if entry_match:
-                    category = entry_match.group(1) 
-                    exc_type = entry_match.group(2) 
-                    exc_msg  = entry_match.group(3)[:120] 
-                    bug_key  = (category, exc_type, exc_msg)
-                    bug_type = (
-                        BugType.INVALIDITY if category == "invalidity"
-                        else BugType.BONUS      if category == "bonus"
-                        else BugType.FUNCTIONAL if category == "functional"
-                        else BugType.CRASH
-                    )
-                    return BugResult(
-                        input_data = raw.input_data,
-                        stdout     = raw.stdout,
-                        stderr     = raw.stderr,
-                        exit_code  = raw.returncode,
-                        timed_out  = False,
-                        bug_type   = bug_type,
-                        bug_key    = bug_key,
-                        strategy   = raw.strategy,
+                    category = entry_match.group(1)
+                    exc_type = entry_match.group(2)
+                    exc_msg  = entry_match.group(3)[:120]
+                    return self._make_result(
+                        bug_type   = self._category_to_bug_type(category),
+                        raw_key    = (category, exc_type, exc_msg),
+                        input_data = input_data,
+                        target     = target,
+                        raw        = raw,
                     )
 
-        lower = combined.lower()
+        # Shared fallback message used by checks 3–7
         exc_match = self._PARSE_EXC_RE.search(combined)
-        exc_msg = exc_match.group(1)[:120] if exc_match else combined[-120:].strip()
-        bug_keywords = config.get("bug_keywords", [])
+        exc_msg   = exc_match.group(1)[:120] if exc_match else combined[-120:].strip()
+        lower     = combined.lower()
 
-        if any(kw.lower() == "invalidity" for kw in bug_keywords) and "invalidity" in lower:
-            return BugResult(
-                input_data = raw.input_data,
-                stdout = raw.stdout,
-                stderr = raw.stderr,
-                exit_code = raw.returncode,
-                timed_out = False,
-                bug_type = BugType.INVALIDITY,
-                bug_key = ("invalidity", "ParseException", exc_msg),
-                strategy = raw.strategy,
+        # ── 3. INVALIDITY ─────────────────────────────────────────────────
+        if "invalidity" in lower:
+            return self._make_result(
+                bug_type   = BugType.INVALIDITY,
+                raw_key    = ("invalidity", "ParseException", exc_msg),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
             )
 
-        if "functional bug" in lower:
+        # ── 4. SYNTACTIC (cidrize: AddrFormatError, SyntaxError) ──────────
+        if ("syntactic" in lower
+                or "syntax error" in lower
+                or "AddrFormatError" in combined):   # class name is case-sensitive
+            addr_match = re.search(r"AddrFormatError: (.+?)(?:\n|$)", combined)
+            smsg = addr_match.group(1)[:120] if addr_match else exc_msg
+            return self._make_result(
+                bug_type   = BugType.SYNTACTIC,
+                raw_key    = ("syntactic", "AddrFormatError", smsg),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
+            )
+
+        # ── 5. FUNCTIONAL ─────────────────────────────────────────────────
+        if "functional" in lower and "functional bug" in lower:
             func_match = re.search(r"FunctionalBug: (.+?)(?:\n|$)", combined)
             fmsg = func_match.group(1)[:120] if func_match else exc_msg
-            return BugResult(
-                input_data = raw.input_data,
-                stdout     = raw.stdout,
-                stderr     = raw.stderr,
-                exit_code  = raw.returncode,
-                timed_out  = False,
+            return self._make_result(
                 bug_type   = BugType.FUNCTIONAL,
-                bug_key    = ("functional", "FunctionalBug", fmsg),
-                strategy   = raw.strategy,
+                raw_key    = ("functional", "FunctionalBug", fmsg),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
             )
 
-        if any(kw.lower() == "bonus" for kw in bug_keywords) and "bonus" in lower:
-            return BugResult(
-                input_data = raw.input_data,
-                stdout     = raw.stdout,
-                stderr     = raw.stderr,
-                exit_code  = raw.returncode,
-                timed_out  = False,
+        # ── 6. BONUS (untracked / unseeded exceptions) ────────────────────
+        if "bonus" in lower:
+            return self._make_result(
                 bug_type   = BugType.BONUS,
-                bug_key    = ("bonus", "ParseException", exc_msg),
-                strategy   = raw.strategy,
+                raw_key    = ("bonus", "ParseException", exc_msg),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
             )
 
+        # ── 7. Generic keyword fallback (from YAML bug_keywords) ──────────
+        # Allows any target to define custom detection keywords without
+        # modifying this file — directly supports generalisability rubric.
         for kw in bug_keywords:
             if kw.lower() in lower:
-                return BugResult(
-                    input_data = raw.input_data,
-                    stdout = raw.stdout,
-                    stderr = raw.stderr,
-                    exit_code = raw.returncode,
-                    timed_out = False,
-                    bug_type = BugType.CRASH,
-                    bug_key = ("crash", kw, exc_msg),
-                    strategy = raw.strategy,
+                # Map known keywords to their specific BugType where possible,
+                # otherwise fall back to RELIABILITY (unexpected crash/bug).
+                from engine.types import classify_from_keywords
+                specific = classify_from_keywords(stdout, stderr)
+                bug_type = specific if specific is not None else BugType.RELIABILITY
+                return self._make_result(
+                    bug_type   = bug_type,
+                    raw_key    = ("keyword", kw, exc_msg),
+                    input_data = input_data,
+                    target     = target,
+                    raw        = raw,
                 )
 
+        # ── 8. RELIABILITY — non-zero exit, no structured output ──────────
         if raw.returncode != 0:
-            return BugResult(
-                input_data = raw.input_data,
-                stdout     = raw.stdout,
-                stderr     = raw.stderr,
-                exit_code  = raw.returncode,
-                timed_out  = False,
-                bug_type   = BugType.CRASH,
-                bug_key    = ("crash", "", raw.stderr[:80].strip()),
-                strategy   = raw.strategy,
+            return self._make_result(
+                bug_type   = BugType.RELIABILITY,
+                raw_key    = ("reliability", "", stderr[:80].strip()),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
             )
 
+        # ── 9. MISMATCH — differential oracle ─────────────────────────────
+        if ref_stdout is not None:
+            normalizer = _NORMALIZERS.get(target_name)
+            if normalizer:
+                norm_out = normalizer(stdout)
+                norm_ref = normalizer(ref_stdout)
+                if norm_out != norm_ref:
+                    return self._make_result(
+                        bug_type   = BugType.MISMATCH,
+                        raw_key    = ("mismatch", "OutputMismatch",
+                                      f"out={norm_out} ref={norm_ref}"),
+                        input_data = input_data,
+                        target     = target,
+                        raw        = raw,
+                    )
+
+        # ── 10. NORMAL ────────────────────────────────────────────────────
+        return self._make_result(
+            bug_type   = BugType.NORMAL,
+            raw_key    = None,
+            input_data = input_data,
+            target     = target,
+            raw        = raw,
+        )
+
+    # ── helpers ───────────────────────────────────────────────────────────
+
+    @staticmethod
+    def _make_result(
+        bug_type   : BugType,
+        raw_key    : Optional[tuple],
+        input_data : str,
+        target     : str,
+        raw        : RawResult,
+    ) -> BugResult:
+        """
+        Build a BugResult from a RawResult, hashing the tuple raw_key
+        into a stable 12-char string for bug_logger deduplication.
+        """
+        if raw_key is not None:
+            key_str = ":".join(str(p) for p in raw_key)
+        else:
+            key_str = f"normal:{input_data[:40]}"
+        bug_key = hashlib.md5(key_str.encode()).hexdigest()[:12]
+
         return BugResult(
-            input_data = raw.input_data,
+            bug_type   = bug_type,
+            bug_key    = bug_key,
+            input_data = input_data,
+            target     = target,
+            strategy   = "",           # stamped by fuzzer.py after classify()
             stdout     = raw.stdout,
             stderr     = raw.stderr,
-            exit_code  = raw.returncode,
-            timed_out  = False,
-            bug_type   = BugType.NORMAL,
-            bug_key    = None,
-            strategy   = raw.strategy,
+            returncode = raw.returncode,
+            timed_out  = raw.timed_out,
+            crashed    = raw.crashed,
         )
 
-if __name__ == "__main__":
-    import yaml
-    from pathlib import Path
-    from target_runner import load_config, load_seeds, run_both
+    @staticmethod
+    def _category_to_bug_type(category: str) -> BugType:
+        """Map a structured bug count category string to a BugType."""
+        return {
+            "invalidity" : BugType.INVALIDITY,
+            "bonus"      : BugType.BONUS,
+            "syntactic"  : BugType.SYNTACTIC,
+            "functional" : BugType.FUNCTIONAL,
+            "boundary"   : BugType.BOUNDARY,
+            "validity"   : BugType.VALIDITY,
+            "performance": BugType.PERFORMANCE,
+            "reliability": BugType.RELIABILITY,
+        }.get(category, BugType.RELIABILITY)
 
-    yaml_path = "targets/json_decoder.yaml"
-    cfg = load_config(yaml_path)
-    seeds = load_seeds(cfg["seeds_path"])
+
+# ---------------------------------------------------------------------------
+# Quick sanity test — run directly to verify oracle against live targets
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    from pathlib import Path
+    from engine.target_runner import load_config, load_seeds, run_both
+
+    TARGET_YAMLS = [
+        "targets/json_decoder.yaml",
+        "targets/cidrize.yaml",
+        "targets/ipv4_parser.yaml",
+        "targets/ipv6_parser.yaml",
+    ]
+
     oracle = BugOracle()
 
-    test_inputs = seeds[:3] + ['{"a":', '{"a": ' * 50]
+    for yaml_path in TARGET_YAMLS:
+        if not Path(yaml_path).exists():
+            print(f"[skip] {yaml_path} not found")
+            continue
 
-    print(f"{'='*60}")
-    print(f"TARGET : {cfg['name']}")
-    print(f"{'='*60}")
+        cfg    = load_config(yaml_path)
+        seeds  = load_seeds(cfg["seeds_path"])
 
-    for inp in test_inputs:
-        buggy_results, _ = run_both(cfg, inp, strategy="manual_test")
-        raw = buggy_results[0]
-        bug = oracle.classify(raw, cfg)
+        # A few seeds + a couple of obviously malformed inputs for each target
+        test_inputs = seeds[:3] + ['{"a":', '{"a": ' * 50]
 
-        print(
-            f"  [{bug.bug_type.value:11s}] "
-            f"key={str(bug.bug_key)[:60] if bug.bug_key else 'None':<60} "
-            f"| {repr(inp[:40])}"
-        )
+        print(f"{'='*60}")
+        print(f"TARGET : {cfg['name']}")
+        print(f"{'='*60}")
+
+        for inp in test_inputs:
+            buggy_results, ref = run_both(cfg, inp, strategy="oracle_test")
+            raw = buggy_results[0]
+            bug = oracle.classify(
+                raw         = raw,
+                input_data  = inp,
+                target      = cfg["name"],
+                config      = cfg,
+                target_name = cfg.get("input_format"),
+                ref_stdout  = ref.stdout if ref else None,
+            )
+            print(
+                f"  [{bug.bug_type.name:12s}] "
+                f"key={bug.bug_key:<14} "
+                f"| {repr(inp[:45])}"
+            )

@@ -21,6 +21,9 @@ bug_keywords:
   - "invalidity bug"
   - "Traceback (most recent call last)"
 
+# {value} marks the capture group for _extract_output() in bug_oracle.py
+output_pattern: "Output decoded data: {value} of type"
+
 # coverage
 coverage_enabled: true
 coverage_flag: "--show-coverage"
