@@ -13,6 +13,7 @@ from pathlib import Path, PureWindowsPath
 
 import yaml
 
+
 def get_platform() -> str:
     system = platform.system()
     if system == "Linux":
@@ -26,7 +27,7 @@ def get_platform() -> str:
 def windows_to_wsl(win_path: str) -> str:
     p = PureWindowsPath(win_path)
     drive = p.drive.rstrip(":").lower()
-    parts = p.parts[1:] # skip root
+    parts = p.parts[1:]  # skip root
     posix_parts = "/".join(part.replace("\\", "/") for part in parts)
     return f"/mnt/{drive}/{posix_parts}"
 
@@ -52,6 +53,7 @@ def resolve_binary_for_platform(binary_config) -> str:
         return binary_config[current]
     return binary_config
 
+
 @dataclass
 class RawResult:
     """
@@ -68,6 +70,8 @@ class RawResult:
     input_data: bytes = field(default_factory=bytes)
 
 # helper functions
+
+
 def _inject_input(cmd_template: list[str], replacement: str) -> list[str]:
     """Replace all {input} placeholders in a command template."""
     return [part.replace("{input}", replacement) for part in cmd_template]
@@ -91,7 +95,7 @@ def resolve_cmd(cmd: list[str]) -> list[str]:
     resolved = shutil.which(cmd[0])
     if resolved:
         return [resolved] + cmd[1:]
-    return cmd 
+    return cmd
 
 
 # runner
@@ -105,8 +109,8 @@ def run_target(
     extra_flags: list[str] | None = None,
 ) -> RawResult:
     input_bytes = input_str.encode(errors="replace")
-    tmp_file    = None
-    stdin_data  = None
+    tmp_file = None
+    stdin_data = None
 
     try:
         if input_mode == "file":
@@ -142,24 +146,24 @@ def run_target(
         )
 
         return RawResult(
-            stdout = proc.stdout.decode(errors="replace"),
-            stderr = proc.stderr.decode(errors="replace"),
-            returncode = proc.returncode,
-            timed_out = False,
-            crashed = proc.returncode < 0,
-            error = None,
-            input_data = input_bytes,
+            stdout=proc.stdout.decode(errors="replace"),
+            stderr=proc.stderr.decode(errors="replace"),
+            returncode=proc.returncode,
+            timed_out=False,
+            crashed=proc.returncode < 0,
+            error=None,
+            input_data=input_bytes,
         )
 
     except subprocess.TimeoutExpired:
         return RawResult(
-            stdout = "",
-            stderr = "",
-            returncode = -1,
-            timed_out = True,
-            crashed = False,
-            error = "timeout",
-            input_data = input_bytes,
+            stdout="",
+            stderr="",
+            returncode=-1,
+            timed_out=True,
+            crashed=False,
+            error="timeout",
+            input_data=input_bytes,
         )
 
     except FileNotFoundError as e:
@@ -217,13 +221,13 @@ def run_both(
     buggy_results = []
     for cmd in buggy_cmds:
         result = run_target(
-            cmd_template = cmd,
-            input_str = input_str,
-            input_mode = input_mode,
-            cwd = config.get("buggy_cwd"),
-            timeout = timeout,
-            use_wsl = use_wsl,
-            extra_flags = extra_flags,
+            cmd_template=cmd,
+            input_str=input_str,
+            input_mode=input_mode,
+            cwd=config.get("buggy_cwd"),
+            timeout=timeout,
+            use_wsl=use_wsl,
+            extra_flags=extra_flags,
         )
         result.strategy = strategy
         buggy_results.append(result)
@@ -231,18 +235,19 @@ def run_both(
     ref_cmd = config.get("reference_cmd")
     if ref_cmd:
         reference_result = run_target(
-            cmd_template = ref_cmd,
-            input_str = input_str,
-            input_mode = input_mode,
-            cwd = config.get("reference_cwd"),
-            timeout = timeout,
-            use_wsl = use_wsl,
+            cmd_template=ref_cmd,
+            input_str=input_str,
+            input_mode=input_mode,
+            cwd=config.get("reference_cwd"),
+            timeout=timeout,
+            use_wsl=use_wsl,
         )
         reference_result.strategy = strategy
     else:
         reference_result = None
 
     return buggy_results, reference_result
+
 
 def load_config(yaml_path: str) -> dict:
     p = Path(yaml_path).resolve()
@@ -279,10 +284,10 @@ if __name__ == "__main__":
     import yaml
 
     TARGET_YAMLS = [
-        "targets/json_decoder.yaml",
-        "targets/cidrize.yaml",
         "targets/ipv4_parser.yaml",
         "targets/ipv6_parser.yaml",
+        "targets/json_decoder.yaml",
+        "targets/cidrize.yaml",
     ]
 
     print(f"Platform : {get_platform()}\n")
@@ -323,9 +328,12 @@ if __name__ == "__main__":
 
                 ref_signal = ""
                 if ref and i == 0:
-                    if ref.timed_out: ref_signal = f"| [TIMEOUT] ref "
-                    elif ref.crashed: ref_signal = f"| [CRASH  ] ref "
-                    else: ref_signal = f"| [ok     ] ref "
+                    if ref.timed_out:
+                        ref_signal = f"| [TIMEOUT] ref "
+                    elif ref.crashed:
+                        ref_signal = f"| [CRASH  ] ref "
+                    else:
+                        ref_signal = f"| [ok     ] ref "
 
                 print(
                     f"  [{bug_signal:7s}] {label:10s} "
