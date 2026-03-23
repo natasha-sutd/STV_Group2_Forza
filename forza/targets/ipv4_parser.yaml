@@ -7,8 +7,48 @@ buggy_cwd: "../../IPv4-IPv6-parser-main"
 
 # input
 input_mode: arg
-input_format: ipv4
 seeds_path: "../inputs/ipv4_parser/seeds.txt"
+input:
+  type: sequence
+  parts:
+    - type: one_of
+      options:
+        - type: int # valid
+          min: 0
+          max: 255   
+        - type: int # invalid
+          min: 256
+          max: 999   
+    - type: literal
+      value: "."
+    - type: one_of
+      options:
+        - type: int # valid
+          min: 0
+          max: 255
+        - type: int # invalid
+          min: 256
+          max: 999
+    - type: literal
+      value: "."
+    - type: one_of
+      options:
+        - type: int # valid
+          min: 0
+          max: 255
+        - type: int # invalid
+          min: 256
+          max: 999
+    - type: literal
+      value: "."
+    - type: one_of
+      options:
+        - type: int # valid
+          min: 0
+          max: 255
+        - type: int # invalid
+          min: 256
+          max: 999
 
 # execution
 timeout: 60

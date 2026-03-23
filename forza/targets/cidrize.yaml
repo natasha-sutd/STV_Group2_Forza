@@ -7,8 +7,60 @@ buggy_cwd: "../../cidrize-runner-main"
 
 # input
 input_mode: arg
-input_format: cidr
 seeds_path: "../inputs/cidrize/seeds.txt"
+input:
+  type: sequence
+  parts:
+    - type: one_of
+      options:
+        - type: int
+          min: 0
+          max: 255
+        - type: int
+          min: 256
+          max: 999   # invalid octet
+    - type: literal
+      value: "."
+    - type: one_of
+      options:
+        - type: int
+          min: 0
+          max: 255
+        - type: int
+          min: 256
+          max: 999   # invalid octet
+    - type: literal
+      value: "."
+    - type: one_of
+      options:
+        - type: int
+          min: 0
+          max: 255
+        - type: int
+          min: 256
+          max: 999   # invalid octet
+    - type: literal
+      value: "."
+    - type: one_of
+      options:
+        - type: int
+          min: 0
+          max: 255
+        - type: int
+          min: 256
+          max: 999   # invalid octet
+    # Slash separator
+    - type: literal
+      value: "/"
+    # Mask part
+    - type: one_of
+      options:
+        - type: int
+          min: 0
+          max: 32   # valid mask
+        - type: int
+          min: 33
+          max: 64   # invalid mask
 
 # execution
 timeout: 60

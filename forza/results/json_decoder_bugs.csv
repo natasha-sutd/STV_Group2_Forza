@@ -3824,3 +3824,348 @@ Traceback (most recent call last):
   File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
     data = loads(args.str_json)
           ^^^^^^^^^^^^",0,False,False,json_aware_mutate,2026-03-22 21:08:03
+json_decoder,INVALIDITY,fd01b06058a8,{{{{{{{{{{},"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <cl","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:04
+json_decoder,INVALIDITY,4bbae172a56f,"{""json"": ""obj""+}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 15 (char 14)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,byte_insert,2026-03-23 23:14:05
+json_decoder,INVALIDITY,4b8806b0b575,trutrutrutrutrue,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:06
+json_decoder,INVALIDITY,8bc625523a41,"{""float"": 1.23e11.23e11.23e11.23e11.23e11.23e11.23e11.23e11.23e11.23e10}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:06
+json_decoder,INVALIDITY,269e2458e151,nullllllll,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 5 (char 4)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeE","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 369, in ",0,False,False,repeat_chunk,2026-03-23 23:14:07
+json_decoder,INVALIDITY,a263ce599dd0,"{""unicode"": ""\u0041\u0042\u004""\u0041\u0042\u004""\u0041\u0042\u004""\u0041\u0042\u004""\u0041\u0042\u004""\u0041\u0042\u004""\u0041\u0042\u004""\u0041\u0042\u004""\u0041\u0042\u004""\u0041\u0042\u0043""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Incorrect hex length!
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.InvalidityBug'>, 'Incorrec","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:12
+json_decoder,INVALIDITY,d23a817a1e5d,"{""key"": ""y"": ""y"": ""y"": ""y"": ""y"": ""y"": ""value""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 12 (char 11)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:15
+json_decoder,INVALIDITY,9683e3f38b60,"{""a"": true, ""b"": fa true, ""b"": false}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:16
+json_decoder,INVALIDITY,a573db09f6f5,[]]],"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 3 (char 2)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeE","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 369, in ",0,False,False,repeat_chunk,2026-03-23 23:14:17
+json_decoder,INVALIDITY,77241b022c65,"{""js{""js{""js{""js{""js{""js{""js{""js{""js{""json"": ""obj""+}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:18
+json_decoder,INVALIDITY,1613b1308234,"""hello""ello""ello""ello""ello""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 8 (char 7)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeE","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 369, in ",0,False,False,repeat_chunk,2026-03-23 23:14:20
+json_decoder,INVALIDITY,0fe61a66b0b9,"[null, true, false, 0, """", {}{}{}{}{}{}{}{}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 30 (char 29)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:21
+json_decoder,INVALIDITY,1f1fd9b4f5dc,"{""neg_float"": -1.23e-10}}}}}}}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 25 (char 24)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecod","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 369, in ",0,False,False,repeat_chunk,2026-03-23 23:14:22
+json_decoder,INVALIDITY,38a1af88de0d,"[1, 2[1, 2, 3]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 6 (char 5)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:27
+json_decoder,INVALIDITY,4a578e0aa32a,00,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeE","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 369, in ",0,False,False,repeat_chunk,2026-03-23 23:14:30
+json_decoder,INVALIDITY,b6a396fd5d9a,"{""int_max"":max"": 9999999999999999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 12 (char 11)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:32
+json_decoder,INVALIDITY,6f1bc8488660,"{""zero_variants"": [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0es"": [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0es"": [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0es"": [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0es"": [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0es"": [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0es"": [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0e0]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 60 (char 59)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:32
+json_decoder,INVALIDITY,ee870e214af2,"{""zero_variants"": [0, -0, 0.0, 0,iants"": [0, -0, 0.0, 0,iants"": [0, -0, 0.0, 0,iants"": [0, -0, 0.0, 0,iants"": [0, -0, 0.0, 0,iants"": [0, -0, 0.0, 0,iants"": [0, -0, 0.0, 0,iants"": [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0e0]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 34 (char 33)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:33
+json_decoder,INVALIDITY,89d53807c539,"{""a"": null}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 12 (char 11)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecod","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 369, in ",0,False,False,repeat_chunk,2026-03-23 23:14:34
+json_decoder,INVALIDITY,d8e7f2fd1621,"{""""""""""""""""emoji_escaped"": ""\uD83D\uDE00""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 4 (char 3)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:35
+json_decoder,INVALIDITY,1832ee55c211,"{""neg_float"": -1.23e-10at"": -1.23e-10at"": -1.23e-10at"": -1.23e-10at"": -1.23e-10at"": -1.23e-10}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 24 (char 23)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:39
+json_decoder,INVALIDITY,8fe286c7d678,"{""zero_variants"": [0, -0, 0.0, 0, 0, 0,: [0, -0, 0.0, 0, 0, 0,: [0, -0, 0.0, 0, 0, 0,: [0, -0, 0.0, 0, 0, 0,: [0, -0, 0.0, 0, 0, 0,: [0, -0, 0.0, 0, 0, 0,: [0, -0, 0.0, 0, 0, 0,: [0, -0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0e0]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 40 (char 39)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:48
+json_decoder,INVALIDITY,4a8f21ece73d,"{""json"""""""""""""""": ""obj""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 8 (char 7)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","Traceback (most recent call last):
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File ""C:\Users\ASUS\Visual_Studio_Code\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 366, in ",0,False,False,repeat_chunk,2026-03-23 23:14:54
