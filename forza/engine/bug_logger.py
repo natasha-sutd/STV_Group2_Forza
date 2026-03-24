@@ -19,6 +19,7 @@ import time
 from pathlib import Path
 from engine.types import BugResult, BugType
 from typing import Optional
+from engine import firestore_client
 
 _ENGINE_DIR  = Path(__file__).resolve().parent
 _PROJECT_DIR = _ENGINE_DIR.parent
@@ -64,6 +65,7 @@ class FuzzLogger:
         self._start_time = time.monotonic()
         self._last_snapshot_iter = 0
         self._snapshot_interval = 50  # write stats row every N runs
+        self._run_id = run_id
 
         print(f"[logger] Writing results to: {run_dir}")
 
@@ -128,6 +130,16 @@ class FuzzLogger:
                     result.input_data, encoding="utf-8", errors="replace"
                 )
 
+            # Upload to Firestore
+            firestore_client.upload_bug(result, run_id=self._run_id)
+            if result.crashed or result.timed_out:
+                firestore_client.upload_crash(
+                    target=self.target,
+                    bug_key=result.bug_key,
+                    input_data=result.input_data,
+                    error_type="TIMEOUT" if result.timed_out else "CRASH",
+                )
+
         if result.bug_type not in (BugType.NORMAL,):
             with open(self._tb_path, "a", encoding="utf-8") as f:
                 f.write(f"\n{'='*60}\n")
@@ -159,6 +171,17 @@ class FuzzLogger:
                 f"{runs_per_sec:.2f}",
             ])
         self._last_snapshot_iter = self._iteration
+
+        # Upload stats to Firestore
+        firestore_client.upload_stats(
+            target=self.target,
+            run_id=self._run_id,
+            iteration=self._iteration,
+            unique_bugs=self._unique_bugs,
+            corpus_size=corpus_size,
+            elapsed_s=now,
+            runs_per_sec=runs_per_sec,
+        )
 
     def print_status(self, corpus_size: int = 0) -> None:
         """Print a one-line status summary to stdout."""
