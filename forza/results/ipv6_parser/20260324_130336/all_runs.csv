@@ -1,0 +1,5 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'148df:b317:1864c:6aa3:ef6',BONUS,1,0
+2,12.259,'144e8:a52a:10949:9',BONUS,1,0
+3,23.987,'1b6d:af5a:10063:5342:17af6:1798f:4883:720b',INVALIDITY,1,0
+4,47.828,'d22b:14f16:7020:17f07f01:15574:aab1:665f:157bc',BONUS,1,0

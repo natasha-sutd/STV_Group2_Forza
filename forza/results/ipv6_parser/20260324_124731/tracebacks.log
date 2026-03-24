@@ -1,0 +1,106 @@
+
+============================================================
+Iteration 1 | 8 | 0.0s
+Input: '2&&001:db8:0:0:0:0:192.0.2.33333'
+Running the IPv6 parser with ipstr: 2&&001:db8:0:0:0:0:192.0.2.33333
+An unknown exception has been triggered. Expected ':', found '&'  (at char 1), (line:1, col:2)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('bonus', <class 'pyparsing.exceptions.ParseException'>, "Expected ':', found '&'  (at char 1), (line:1, col:2)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected ':', found '&'  (at char 1), (line:1, col:2)
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected ':', found '&'  (at char 1), (line:1, col:2)
+
+============================================================
+Iteration 2 | 8 | 23.1s
+Input: '2&&001:db8:0:0:0:0:192.0.2.3333333'
+Running the IPv6 parser with ipstr: 2&&001:db8:0:0:0:0:192.0.2.3333333
+An unknown exception has been triggered. Expected ':', found '&'  (at char 1), (line:1, col:2)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('bonus', <class 'pyparsing.exceptions.ParseException'>, "Expected ':', found '&'  (at char 1), (line:1, col:2)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected ':', found '&'  (at char 1), (line:1, col:2)
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected ':', found '&'  (at char 1), (line:1, col:2)
+
+============================================================
+Iteration 3 | 8 | 34.6s
+Input: '200\n1:db8::192.0.2.33'
+Running the IPv6 parser with ipstr: 200
+1:db8::192.0.2.33
+An unknown exception has been triggered. Expected ':', found '\n'  (at char 3), (line:1, col:4)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('bonus', <class 'pyparsing.exceptions.ParseException'>, "Expected ':', found '\\n'  (at char 3), (line:1, col:4)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected ':', found '\n'  (at char 3), (line:1, col:4)
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected ':', found '\n'  (at char 3), (line:1, col:4)
+
+============================================================
+Iteration 4 | 8 | 46.0s
+Input: '2001:db8:1:2:3:"4:5:::::::6'
+Running the IPv6 parser with ipstr: 2001:db8:1:2:3:"4:5:::::::6
+An unknown exception has been triggered. Expected W:(0-9A-Fa-f){1,5}, found '"'  (at char 15), (line:1, col:16)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('bonus', <class 'pyparsing.exceptions.ParseException'>, 'Expected W:(0-9A-Fa-f){1,5}, found \'"\'  (at char 15), (line:1, col:16)', 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected W:(0-9A-Fa-f){1,5}, found '"'  (at char 15), (line:1, col:16)
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected W:(0-9A-Fa-f){1,5}, found '"'  (at char 15), (line:1, col:16)
+
+============================================================
+Iteration 5 | 8 | 57.4s
+Input: '2001:1]:1:1:1:1:db8::1:2'
+Running the IPv6 parser with ipstr: 2001:1]:1:1:1:1:db8::1:2
+An unknown exception has been triggered. Expected ':', found ']'  (at char 6), (line:1, col:7)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('bonus', <class 'pyparsing.exceptions.ParseException'>, "Expected ':', found ']'  (at char 6), (line:1, col:7)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected ':', found ']'  (at char 6), (line:1, col:7)
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected ':', found ']'  (at char 6), (line:1, col:7)

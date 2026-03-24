@@ -19,62 +19,82 @@ Usage in output_parser.classify():
         input_data  = mutated_input,    # str — the input sent to the target
         target_name = config["input_format"],  # "json"|"ipv4"|"ipv6"|"cidr"
     )
+
+Classifies the output of a binary execution into a BugResult.
+
+Accepts a RawResult (from target_runner.run_both) and returns a BugResult
+(from engine.types) directly — no intermediate RunResult needed.
+
+Since both the IPv4/IPv6 parsers are closed binaries, coverage is
+approximated via behavioural novelty — every unique (bug_category,
+error_message) pair is treated as "new coverage" for corpus scheduling.
+
+All target-specific knowledge lives in the YAML config — this file
+contains no hardcoded target names, output formats, or patterns.
+
+Usage in output_parser.classify():
+    from engine.bug_oracle import BugOracle
+
+    oracle = BugOracle()
+    bug = oracle.classify(
+        raw        = buggy_raw,     # RawResult from run_both()
+        input_data = mutated_input, # str — the input sent to the target
+        target     = config["name"],
+        config     = config,        # full YAML config
+        ref_stdout = ref.stdout,    # reference stdout (or None)
+    )
+
+YAML fields read by this module
+--------------------------------
+bug_keywords   : list[str]  — keywords triggering bug detection (already used
+                              by target_runner; reused here for fallback)
+output_pattern : str | None — pattern for extracting the parsed output value
+                              for differential (MISMATCH) comparison.
+                              Use {value} as the capture placeholder.
+                              Example:  "Output: [{value}]"
+                              Example:  "Output decoded data: {value} of type"
+                              If absent, MISMATCH detection is skipped.
 """
 
 from __future__ import annotations
 
 import hashlib
 import re
-import json
-import ipaddress
 from typing import Optional
 
-from engine.types import BugResult, BugType
+from engine.types import BugResult, BugType, classify_from_keywords
 from engine.target_runner import RawResult
 
 
 # ---------------------------------------------------------------------------
-# Output normalizers
-# Extract the parsed value from stdout for differential comparison.
-# Returns None if the output format is not recognised or parsing fails.
+# Generic output extractor
 # ---------------------------------------------------------------------------
 
-def _normalize_json(stdout: str) -> Optional[str]:
-    match = re.search(r"Output decoded data: (.+?) of type", stdout)
-    if match:
-        try:
-            return json.dumps(eval(match.group(1)), sort_keys=True)
-        except Exception:
-            pass
-    return None
+def _extract_output(stdout: str, pattern: str) -> Optional[str]:
+    """
+    Extract the output value from stdout using a pattern defined in the YAML.
 
+    {value} in the pattern marks the capture group. Everything else is
+    treated as a literal string (re.escape'd).
 
-def _normalize_ipv4(stdout: str) -> Optional[str]:
-    match = re.search(r"Output: \[(\d+)\]", stdout)
-    return match.group(1) if match else None
+    Examples
+    --------
+    pattern = "Output: [{value}]"
+        matches "Output: [3232235777]" → returns "3232235777"
 
+    pattern = "Output decoded data: {value} of type"
+        matches "Output decoded data: {'a': 1} of type" → returns "{'a': 1}"
 
-def _normalize_ipv6(stdout: str) -> Optional[str]:
-    match = re.search(r"Output: \[(\d+)\]", stdout)
-    return match.group(1) if match else None
+    pattern = "IPNetwork('{value}')"
+        matches "IPNetwork('192.168.1.0/24')" → returns "192.168.1.0/24"
 
-
-def _normalize_cidr(stdout: str) -> Optional[str]:
-    match = re.search(r"IPNetwork\('([^']+)'\)", stdout)
-    if match:
-        try:
-            return str(ipaddress.ip_network(match.group(1), strict=False))
-        except Exception:
-            pass
-    return None
-
-
-_NORMALIZERS: dict[str, callable] = {
-    "json": _normalize_json,
-    "ipv4": _normalize_ipv4,
-    "ipv6": _normalize_ipv6,
-    "cidr": _normalize_cidr,
-}
+    Returns None if the pattern does not match stdout.
+    """
+    if not pattern or "{value}" not in pattern:
+        return None
+    regex = re.escape(pattern).replace(r"\{value\}", r"(.+?)")
+    match = re.search(regex, stdout)
+    return match.group(1).strip() if match else None
 
 
 # ---------------------------------------------------------------------------
@@ -111,31 +131,32 @@ class BugOracle:
 
     def classify(
         self,
-        raw         : RawResult,
-        input_data  : str,              # already-decoded str input
-        target      : str,              # config["name"],  e.g. "json_decoder"
-        config      : dict  = None,     # full YAML config for generic keyword fallback
-        target_name : Optional[str] = None,   # config["input_format"]: "json"|"ipv4"|"ipv6"|"cidr"
-        ref_stdout  : Optional[str] = None,   # reference binary stdout for MISMATCH check
+        raw        : RawResult,
+        input_data : str,              # already-decoded str input
+        target     : str,              # config["name"], e.g. "json_decoder"
+        config     : dict  = None,     # full YAML config (bug_keywords, output_pattern)
+        ref_stdout : Optional[str] = None,  # reference binary stdout for MISMATCH check
     ) -> BugResult:
         """
         Classify one RawResult into a BugResult.
 
         Parameters
         ----------
-        raw         : RawResult from target_runner.run_both() (buggy binary only)
-        input_data  : the str input that was sent to the target
-        target      : target name from config["name"]
-        config      : full YAML config dict; used for generic bug_keywords fallback
-                      so any target can define custom keywords without code changes
-        target_name : input format key for selecting the output normalizer
-        ref_stdout  : stdout from the reference binary for differential testing;
-                      pass None to skip MISMATCH detection
+        raw        : RawResult from target_runner.run_both() (buggy binary only)
+        input_data : the str input that was sent to the target
+        target     : target name from config["name"]
+        config     : full YAML config dict. Two fields are used:
+                       bug_keywords   — list of strings for generic fallback detection
+                       output_pattern — pattern for MISMATCH differential comparison
+                                        (e.g. "Output: [{value}]")
+                     Pass {} or None to skip both.
+        ref_stdout : stdout from the reference binary for differential testing;
+                     pass None to skip MISMATCH detection
         """
-        config      = config or {}
-        stdout      = raw.stdout
-        stderr      = raw.stderr
-        combined    = stdout + "\n" + stderr
+        config       = config or {}
+        stdout       = raw.stdout
+        stderr       = raw.stderr
+        combined     = stdout + "\n" + stderr
         bug_keywords = config.get("bug_keywords", [])
 
         # ── 1. TIMEOUT ────────────────────────────────────────────────────
@@ -218,13 +239,10 @@ class BugOracle:
             )
 
         # ── 7. Generic keyword fallback (from YAML bug_keywords) ──────────
-        # Allows any target to define custom detection keywords without
-        # modifying this file — directly supports generalisability rubric.
+        # Any target can define custom detection keywords in its YAML without
+        # modifying this file — directly supports the generalisability rubric.
         for kw in bug_keywords:
             if kw.lower() in lower:
-                # Map known keywords to their specific BugType where possible,
-                # otherwise fall back to RELIABILITY (unexpected crash/bug).
-                from engine.types import classify_from_keywords
                 specific = classify_from_keywords(stdout, stderr)
                 bug_type = specific if specific is not None else BugType.RELIABILITY
                 return self._make_result(
@@ -246,20 +264,21 @@ class BugOracle:
             )
 
         # ── 9. MISMATCH — differential oracle ─────────────────────────────
+        # output_pattern is read from config — no hardcoded target logic here.
+        # Each YAML defines its own pattern e.g. "Output: [{value}]"
         if ref_stdout is not None:
-            normalizer = _NORMALIZERS.get(target_name)
-            if normalizer:
-                norm_out = normalizer(stdout)
-                norm_ref = normalizer(ref_stdout)
-                if norm_out != norm_ref:
-                    return self._make_result(
-                        bug_type   = BugType.MISMATCH,
-                        raw_key    = ("mismatch", "OutputMismatch",
-                                      f"out={norm_out} ref={norm_ref}"),
-                        input_data = input_data,
-                        target     = target,
-                        raw        = raw,
-                    )
+            pattern  = config.get("output_pattern")
+            norm_out = _extract_output(stdout,    pattern)
+            norm_ref = _extract_output(ref_stdout, pattern)
+            if pattern and norm_out != norm_ref:
+                return self._make_result(
+                    bug_type   = BugType.MISMATCH,
+                    raw_key    = ("mismatch", "OutputMismatch",
+                                  f"out={norm_out} ref={norm_ref}"),
+                    input_data = input_data,
+                    target     = target,
+                    raw        = raw,
+                )
 
         # ── 10. NORMAL ────────────────────────────────────────────────────
         return self._make_result(
@@ -353,12 +372,11 @@ if __name__ == "__main__":
             buggy_results, ref = run_both(cfg, inp, strategy="oracle_test")
             raw = buggy_results[0]
             bug = oracle.classify(
-                raw         = raw,
-                input_data  = inp,
-                target      = cfg["name"],
-                config      = cfg,
-                target_name = cfg.get("input_format"),
-                ref_stdout  = ref.stdout if ref else None,
+                raw        = raw,
+                input_data = inp,
+                target     = cfg["name"],
+                config     = cfg,
+                ref_stdout = ref.stdout if ref else None,
             )
             print(
                 f"  [{bug.bug_type.name:12s}] "

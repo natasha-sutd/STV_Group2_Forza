@@ -1,0 +1,5 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'129.3',INVALIDITY,1,0
+2,12.959,'127.0.0.1',FUNCTIONAL,1,0
+3,37.199,'2',INVALIDITY,1,0
+4,49.221,'224.0.40.1',FUNCTIONAL,0,0

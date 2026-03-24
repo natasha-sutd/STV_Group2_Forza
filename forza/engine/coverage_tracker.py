@@ -80,6 +80,11 @@ class CoverageTracker:
 		self.current_metric: int = 0
 		self.last_iteration_id: int = 0
 
+		# Real coverage percentages from --show-coverage output (json_decoder)
+        # None = not yet seen, use proxy metric instead
+		self._last_line_cov  : float | None = None
+		self._last_branch_cov: float | None = None
+
 		_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 		self.coverage_log_path = _RESULTS_DIR / f"{self.target}_coverage.csv"
 		self.ensure_log_file()
@@ -112,7 +117,21 @@ class CoverageTracker:
 		elif self.mode == "code_execution":
 			newly_seen_lines = self.extract_line_identifiers(payload.execution_metrics)
 			if newly_seen_lines:
-                # True white-box coverage data available — use it
+                # Extract real percentages if present (format: "line:204/323")
+				for identifier in newly_seen_lines:
+					if identifier.startswith("line:"):
+						try:
+							covered, total = identifier[5:].split("/")
+							self._last_line_cov = round(int(covered) / int(total) * 100, 2)
+						except (ValueError, ZeroDivisionError):
+							pass
+					elif identifier.startswith("branch:"):
+						try:
+							covered, total = identifier[7:].split("/")
+							self._last_branch_cov = round(int(covered) / int(total) * 100, 2)
+						except (ValueError, ZeroDivisionError):
+							pass
+
 				novel_lines = newly_seen_lines - self.covered_line_ids
 				if novel_lines:
 					self.covered_line_ids.update(novel_lines)
@@ -120,11 +139,25 @@ class CoverageTracker:
 					new_path_found = True
 			else:
                 # No coverage lines in output — fall back to behavioral
-                # (happens when --show-coverage flag is not active)
 				if payload.bug_key and payload.bug_key not in self.seen_bug_keys:
 					self.seen_bug_keys.add(payload.bug_key)
 					self.current_metric = len(self.seen_bug_keys)
 					new_path_found = True
+			
+			# if newly_seen_lines:
+            #     # True white-box coverage data available — use it
+			# 	novel_lines = newly_seen_lines - self.covered_line_ids
+			# 	if novel_lines:
+			# 		self.covered_line_ids.update(novel_lines)
+			# 		self.current_metric = len(self.covered_line_ids)
+			# 		new_path_found = True
+			# else:
+            #     # No coverage lines in output — fall back to behavioral
+            #     # (happens when --show-coverage flag is not active)
+			# 	if payload.bug_key and payload.bug_key not in self.seen_bug_keys:
+			# 		self.seen_bug_keys.add(payload.bug_key)
+			# 		self.current_metric = len(self.seen_bug_keys)
+			# 		new_path_found = True
 
 		# elif self.mode == "code_execution":
 		# 	newly_seen_lines = self.extract_line_identifiers(payload.execution_metrics)
@@ -142,9 +175,14 @@ class CoverageTracker:
 		if self.coverage_log_path.exists():
 			return
 
+		# with self.coverage_log_path.open("w", newline="", encoding="utf-8") as f:
+		# 	writer = csv.writer(f)
+		# 	writer.writerow(["Timestamp", "Iteration", "Coverage_Metric", "New_Paths_Found"])
+
 		with self.coverage_log_path.open("w", newline="", encoding="utf-8") as f:
-			writer = csv.writer(f)
-			writer.writerow(["Timestamp", "Iteration", "Coverage_Metric", "New_Paths_Found"])
+			csv.writer(f).writerow([
+                "timestamp", "statement_coverage", "branch_coverage", "function_coverage", "total_inputs",
+            ])
 
 	def log_state(self, current_metric: int, new_path_found: bool) -> None:
 		# Log the current state to CSV
@@ -163,21 +201,36 @@ class CoverageTracker:
 		# 	)
 		
 		timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+
+		# Use real coverage percentages if available (parsed from output),
+        # otherwise use the behavioural proxy metric
+		stmt_cov = self._last_line_cov   if self._last_line_cov   is not None else min(100.0, current_metric * 2.0)
+		branch_cov = self._last_branch_cov if self._last_branch_cov is not None else stmt_cov
+		func_cov   = stmt_cov  # function coverage not separately reported by json_decoder
  
-        # Express current_metric as a coverage percentage proxy capped at 100
-		if self.mode == "behavioral":
-			cov = min(100.0, current_metric * 2.0)
-		else:
-			cov = round(float(current_metric), 2)
-		
 		with self.coverage_log_path.open("a", newline="", encoding="utf-8") as f:
 			csv.writer(f).writerow([
                 timestamp,
-                cov,   # statement_coverage
-                cov,   # branch_coverage  (same proxy until richer data available)
-                cov,   # function_coverage
+                round(stmt_cov,   2),
+                round(branch_cov, 2),
+                round(func_cov,   2),
                 self.total_inputs,
             ])
+ 
+        # # Express current_metric as a coverage percentage proxy capped at 100
+		# if self.mode == "behavioral":
+		# 	cov = min(100.0, current_metric * 2.0)
+		# else:
+		# 	cov = round(float(current_metric), 2)
+		
+		# with self.coverage_log_path.open("a", newline="", encoding="utf-8") as f:
+		# 	csv.writer(f).writerow([
+        #         timestamp,
+        #         cov,   # statement_coverage
+        #         cov,   # branch_coverage  (same proxy until richer data available)
+        #         cov,   # function_coverage
+        #         self.total_inputs,
+        #     ])
 
 	def extract_line_identifiers(self, execution_metrics: Optional[Any]) -> set[str]:
 		# Normalize possible metric shapes into a set of line identifiers 
@@ -262,19 +315,45 @@ def reset() -> None:
  
 def _extract_coverage_lines(stdout: str, stderr: str) -> set[str]:
     """
-    Parse coverage line identifiers from target output.
+    Parse coverage data from target output.
  
-    json_decoder with --show-coverage prints lines like:
+    Supports two formats:
+ 
+    Format 1 — simple line identifiers (generic):
         coverage: engine/json_decoder.py:42
+        → returns {"engine/json_decoder.py:42", ...}
  
-    Any line starting with "coverage:" is treated as a line identifier.
-    Returns an empty set if no coverage output is found (behavioral mode
-    targets won't emit any, which is fine — execution_metrics=None triggers
-    the behavioral path in CoverageTracker).
+    Format 2 — json_decoder's --show-coverage report:
+        line coverage     : 63.16% (204/323)
+        branch coverage   : 65.22% (90/138)
+        → returns {"line:63.16", "branch:65.22"} as proxy identifiers
+ 
+    Returns an empty set if no coverage output is found, which triggers
+    the behavioral fallback in CoverageTracker.update().
     """
     lines: set[str] = set()
-    for line in (stdout + "\n" + stderr).splitlines():
+    combined = stdout + "\n" + stderr
+ 
+    for line in combined.splitlines():
         stripped = line.strip()
+ 
+        # Format 1: "coverage: <file>:<lineno>"
         if stripped.startswith("coverage:"):
             lines.add(stripped[len("coverage:"):].strip())
+ 
+        # Format 2: json_decoder coverage report
+        # "line coverage     : 63.16% (204/323)"
+        # "branch coverage   : 65.22% (90/138)"
+        elif "line coverage" in stripped.lower() and "%" in stripped:
+            import re
+            m = re.search(r"(\d+)/(\d+)", stripped)
+            if m:
+                lines.add(f"line:{m.group(1)}/{m.group(2)}")
+ 
+        elif "branch coverage" in stripped.lower() and "%" in stripped:
+            import re
+            m = re.search(r"(\d+)/(\d+)", stripped)
+            if m:
+                lines.add(f"branch:{m.group(1)}/{m.group(2)}")
+ 
     return lines

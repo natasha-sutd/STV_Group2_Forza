@@ -1,0 +1,80 @@
+
+============================================================
+Iteration 1 | 2 | 0.0s
+Input: '688.988.32.643'
+Running the IPv4 parser with ipstr: 688.988.32.643
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'pyparsing.exceptions.ParseException'>, "Expected '.', found '8'  (at char 2), (line:1, col:3)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv4_parser_stv.py", line 220, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected '.', found '8'  (at char 2), (line:1, col:3)
+
+============================================================
+Iteration 2 | 2 | 11.4s
+Input: '48.670/.214.104'
+Running the IPv4 parser with ipstr: 48.670/.214.104
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'pyparsing.exceptions.ParseException'>, "Expected '.', found '0'  (at char 5), (line:1, col:6)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv4_parser_stv.py", line 220, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected '.', found '0'  (at char 5), (line:1, col:6)
+
+============================================================
+Iteration 3 | 2 | 22.8s
+Input: '96351..31.453'
+Running the IPv4 parser with ipstr: 96351..31.453
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'pyparsing.exceptions.ParseException'>, "Expected '.', found '351'  (at char 2), (line:1, col:3)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv4_parser_stv.py", line 220, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected '.', found '351'  (at char 2), (line:1, col:3)
+
+============================================================
+Iteration 4 | 2 | 34.2s
+Input: '952.501.26.8'
+Running the IPv4 parser with ipstr: 952.501.26.8
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'pyparsing.exceptions.ParseException'>, "Expected '.', found '2'  (at char 2), (line:1, col:3)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv4_parser_stv.py", line 220, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected '.', found '2'  (at char 2), (line:1, col:3)
+
+============================================================
+Iteration 5 | 2 | 45.7s
+Input: '405.869.870.430'
+Running the IPv4 parser with ipstr: 405.869.870.430
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'pyparsing.exceptions.ParseException'>, "Expected '.', found '5'  (at char 2), (line:1, col:3)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv4_parser_stv.py", line 220, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected '.', found '5'  (at char 2), (line:1, col:3)

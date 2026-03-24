@@ -1,0 +1,6 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'10a92:168:6:13ee2:fa79:e8:177ab110724:184ba',BONUS,1,0
+2,23.373,'8155:1007f:179d6:10b43:8bb5:4c00:160dc:4599',INVALIDITY,1,0
+3,35.023,'5a0a:15237:ccbb:25ce:b2d9:b7f8:ed1f:126ad26ad26ad26ad26ad26ad26ad26ad26ad',INVALIDITY,0,0
+4,46.732,'1730e:26ae:2461:4466*:16a80:fc98:1961:16bcf',BONUS,1,0
+5,62.328,'60e:71f:d3ce:df1d:135f9:12d02:d442:17e89',INVALIDITY,0,0

@@ -70,6 +70,5 @@ output_pattern: "Output decoded data: {value} of type"
 # coverage
 coverage_enabled: true
 coverage_flag: "--show-coverage"
-
 tracking_mode: code_execution
 seed_count: 30

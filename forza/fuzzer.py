@@ -165,6 +165,45 @@ KNOWN_YAMLS  = [
 ]
 
 # ---------------------------------------------------------------------------
+# Config helpers
+# ---------------------------------------------------------------------------
+
+def get_input_format(config: dict) -> str:
+    """
+    Resolve the input format string from a config dict.
+
+    Supports two YAML schemas:
+      Old: input_format: json
+      New: input:
+             type: random_object   ← json_decoder
+             type: sequence        ← ipv4/ipv6/cidr (inferred from target name)
+
+    Falls back to the target name for inference when input.type is ambiguous
+    (e.g. both ipv4 and ipv6 use type: sequence).
+    """
+    # Old schema — explicit field present
+    if "input_format" in config:
+        return config["input_format"]
+
+    # New schema — infer from input.type + target name
+    input_block = config.get("input", {})
+    input_type  = input_block.get("type", "") if isinstance(input_block, dict) else ""
+    target_name = config.get("name", "").lower()
+
+    if input_type == "random_object":
+        return "json"
+    if "ipv6" in target_name:
+        return "ipv6"
+    if "ipv4" in target_name:
+        return "ipv4"
+    if "cidr" in target_name:
+        return "cidr"
+    if input_type == "sequence":
+        return "text"   # generic fallback for unknown sequence targets
+
+    return "text"
+
+# ---------------------------------------------------------------------------
 # ANSI colour helpers (no external deps)
 # ---------------------------------------------------------------------------
 class C:
@@ -229,7 +268,7 @@ def _fmt_remaining(elapsed: float, duration: float | None) -> str:
 
 def print_banner(config: dict, mode: str, duration: float | None, max_iters: int) -> None:
     name    = config.get("name", "unknown")
-    fmt     = config.get("input_format", "?")
+    fmt     = get_input_format(config)
     timeout = config.get("timeout", "?")
     dur_str = f"{duration:.0f}s" if duration else "∞"
     iter_str = f"{max_iters:,}"
@@ -561,9 +600,10 @@ def run_seed_mode(config: dict) -> None:
 # ---------------------------------------------------------------------------
 
 def run_fuzz_mode(
-    config    : dict,
-    duration  : float | None,
-    max_iters : int,
+    config      : dict,
+    duration    : float | None,
+    max_iters   : int,
+    all_targets : list[str] | None = None,
 ) -> None:
     """
     AFL-style energy-based mutation loop.
@@ -595,21 +635,29 @@ def run_fuzz_mode(
         print(C.yellow("  [warn] no seeds found — check seeds_path in YAML"))
         return
 
-    engine     = MutationEngine(input_format=config.get("input_format", "text"))
+    engine     = MutationEngine(input_format=get_input_format(config))
     oracle     = BugOracle()
     corpus     = list(seeds)
     target     = config.get("name", "unknown")
     out_path   = report_generator.RESULTS_DIR / "report.html"
 
     # ── seed corpus initialisation ────────────────────────────────────────
-    # Augment static seeds.txt with dynamically generated seeds.
-    # seed_count in the YAML controls how many to add (0 = static only).
-    seed_count   = config.get("seed_count", 0)
-    input_format = config.get("input_format", "")
-    if seed_count > 0 and input_format:
+    # Augment static seeds.txt with dynamically generated seeds using the
+    # grammar defined in config["input"]. seed_count in the YAML controls
+    # how many to add (0 = static seeds only).
+    # Falls back gracefully if seed_generator is unavailable or input: is absent.
+    seed_count = config.get("seed_count", 0)
+    if seed_count > 0 and config.get("input"):
         try:
-            from engine.seed_generator import generate_seed
-            generated = [generate_seed(input_format) for _ in range(seed_count)]
+            from engine.seed_generator import generate_from_spec
+            input_spec = config["input"]
+            generated  = []
+            for _ in range(seed_count):
+                seed = generate_from_spec(input_spec)
+                # generate_from_spec may return non-str (e.g. dict, list) — coerce
+                if not isinstance(seed, str):
+                    seed = str(seed)
+                generated.append(seed)
             corpus.extend(generated)
             print(C.dim(
                 f"  corpus: {len(seeds)} static seeds "
@@ -622,10 +670,26 @@ def run_fuzz_mode(
     bug_logger.reset()
     coverage_tracker.reset()
 
+    # ── reset accumulated coverage file ───────────────────────────────────
+    # Ensures the coverage curve always starts from 0% for a clean,
+    # meaningful upward trend in the report. Only applies to white-box
+    # targets where coverage_enabled: true and a buggy_cwd is set.
+    if config.get("coverage_enabled") and config.get("buggy_cwd"):
+        cov_file = Path(config["buggy_cwd"]) / ".coverage_buggy_json"
+        if cov_file.exists():
+            try:
+                cov_file.unlink()
+                print(C.dim("  reset accumulated coverage data for clean baseline"))
+            except Exception as e:
+                print(C.yellow(f"  [warn] could not reset coverage file: {e}"))
+
     print_banner(config, mode="fuzz", duration=duration, max_iters=max_iters)
 
     # ── background report refresher ───────────────────────────────────────
-    refresher = ReportRefresher(targets=[target], out_path=out_path)
+    # Report on all known targets so the HTML always shows the full picture,
+    # not just the target currently being fuzzed.
+    report_targets = all_targets if all_targets else [target]
+    refresher = ReportRefresher(targets=report_targets, out_path=out_path)
     refresher.start()
 
     # ── graceful shutdown ─────────────────────────────────────────────────
@@ -823,6 +887,14 @@ def main() -> None:
         print(C.red("  [error] no target YAMLs found"))
         sys.exit(1)
 
+    # Resolve all target names upfront so every run's report covers all targets
+    all_targets = []
+    for yp in yaml_paths:
+        try:
+            all_targets.append(load_config(yp).get("name", "unknown"))
+        except Exception:
+            pass
+
     for yaml_path in yaml_paths:
         try:
             config = load_config(yaml_path)
@@ -835,9 +907,10 @@ def main() -> None:
         else:
             try:
                 run_fuzz_mode(
-                    config    = config,
-                    duration  = args.duration,
-                    max_iters = args.iterations,
+                    config      = config,
+                    duration    = args.duration,
+                    max_iters   = args.iterations,
+                    all_targets = all_targets,
                 )
             except ImportError as e:
                 print(C.red(f"\n  [error] missing module:\n  {e}\n"))

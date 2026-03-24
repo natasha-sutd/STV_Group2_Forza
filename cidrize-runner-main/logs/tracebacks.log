@@ -743,3 +743,275 @@ Traceback (most recent call last):
 buggy_cidrize.cidrize_stv.PerformanceBug: Unhandled while True loop.
 
 
+================================================================================
+Timestamp : 2026-03-24 04:33:27.032194+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 04:33:52.253345+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 04:45:32.997470+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 05:09:23.201681+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 05:30:25.073982+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:52:06.223845+00:00
+Bug Type  : performance
+Exception: PerformanceBug: Unhandled while True loop.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 421, in cidrize
+buggy_cidrize.cidrize_stv.PerformanceBug: Unhandled while True loop.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:53:03.031666+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:53:15.087857+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:53:26.376106+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:53:37.668927+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:20:11.325143+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:20:22.724310+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:20:45.495948+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:22:13.538397+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:22:48.476701+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:27:42.197970+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:29:48.471704+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:29:59.869426+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: More than permitted number of '-'
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 461, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 254, in parse_hyphen
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: More than permitted number of '-'
+
+
+================================================================================
+Timestamp : 2026-03-24 07:31:38.521073+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: More than permitted number of '-'
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 461, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 254, in parse_hyphen
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: More than permitted number of '-'
+
+
+================================================================================
+Timestamp : 2026-03-24 07:31:50.293385+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:32:58.563324+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+

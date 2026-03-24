@@ -1,0 +1,4 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'12557:91b2:16fef:4219:88ec:15635:1499d:17921',INVALIDITY,1,0
+2,11.488,'>fe80::1',BONUS,1,0
+3,15.681,'2001:db8::1:',BONUS,1,1

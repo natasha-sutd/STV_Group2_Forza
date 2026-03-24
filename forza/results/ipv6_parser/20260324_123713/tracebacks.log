@@ -1,0 +1,21 @@
+
+============================================================
+Iteration 1 | 8 | 0.0s
+Input: '2001:db8::01:db8::01:db8::01:db8::01:db8::01:db8::01:db8::01:db8::1:2:3:4'
+Running the IPv6 parser with ipstr: 2001:db8::01:db8::01:db8::01:db8::01:db8::01:db8::01:db8::01:db8::1:2:3:4
+An unknown exception has been triggered. Expected end of text, found ':'  (at char 16), (line:1, col:17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('bonus', <class 'pyparsing.exceptions.ParseException'>, "Expected end of text, found ':'  (at char 16), (line:1, col:17)", 'pyparsing/core.py', 1340): 1})
+[STDERR]
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected end of text, found ':'  (at char 16), (line:1, col:17)
+Traceback (most recent call last):
+  File "ipv6_parser_stv.py", line 219, in <module>
+  File "pyparsing/core.py", line 1340, in parse_string
+pyparsing.exceptions.ParseException: Expected end of text, found ':'  (at char 16), (line:1, col:17)

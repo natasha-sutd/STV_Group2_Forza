@@ -78,6 +78,9 @@ bug_keywords:
   - "AddrFormatError"
   - "Traceback (most recent call last)"
 
+# differential output comparison
+output_pattern: "IPNetwork('{value}')"
+
 # coverage
 coverage_enabled: false
 tracking_mode: behavioral
