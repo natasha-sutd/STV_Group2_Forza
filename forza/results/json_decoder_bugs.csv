@@ -9480,3 +9480,1480 @@ Traceback (most recent call last):
   File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
     data = loads(args.str_json)
           ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-24 15:14:42
+json_decoder,INVALIDITY,fd01b06058a8,"{'stApW': '3,4', 'NuB': '', 'qo': 'OsHvfVCOak', 'vgFObMJag': '??'}","An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting property","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,radamsa,2026-03-24 16:20:01
+json_decoder,INVALIDITY,2f795ab6c84e,falseseses%00ese,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 6 (char 5)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-24 16:20:01
+json_decoder,INVALIDITY,b503c18c8dd8,"[1, 2, 3Ý","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 9 (char 8)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-24 16:20:02
+json_decoder,INVALIDITY,91c6806cde31,"[||1, 2, 3Ý","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 16:20:02
+json_decoder,INVALIDITY,4b8806b0b575,falala999999999999999999999999lalse,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-24 16:20:04
+json_decoder,INVALIDITY,32cb9286b868,"{""zero_variants"": [0, -0, ].0, 0e00}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Illegal trailing comma before end of array: line 1 column 25 (char 24)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_js","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,swap_chars,2026-03-24 16:20:04
+json_decoder,INVALIDITY,9cf4489f73a6,"[1, 2- 3]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 6 (char 5)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-24 16:20:06
+json_decoder,INVALIDITY,3f1a4806a3c3,"{""a"": {""b""> {""c"": 1}}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 11 (char 10)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-24 16:20:09
+json_decoder,INVALIDITY,edbd440a67f0,"{""json"": ""ob"": ""ob"": ""ob"": ""ob"": ""ob"": ""ob"": ""ob"": ""ob"": <""ob"": ""obj""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 14 (char 13)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-24 16:20:10
+json_decoder,INVALIDITY,a573db09f6f5,11%00,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 3 (char 2)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-24 16:20:14
+json_decoder,INVALIDITY,bb823fad1310,"{""a"": n8ull}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,byte_insert,2026-03-24 16:20:16
+json_decoder,INVALIDITY,2f946ddb705f,"{""jso"""": ""objn}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,swap_chars,2026-03-24 16:20:18
+json_decoder,INVALIDITY,a263ce599dd0,"{""emoji_escaped"": ""\uD83D\uDE0","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Incorrect hex length!
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.InvalidityBug'>, 'Incorrect hex le","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-24 16:20:18
+json_decoder,INVALIDITY,95d51414b91e,"{""a"": [1, {""b"": 2}]}Q","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 21 (char 20)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,byte_insert,2026-03-24 16:20:19
+json_decoder,INVALIDITY,53407fd9a5d8,"{""a"":ÿ {""b""> {""c"": 1}}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 6 (char 5)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 16:20:23
+json_decoder,INVALIDITY,c8ee95762db1,"""hellob","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-24 16:20:26
+json_decoder,INVALIDITY,c8ee95762db1,""" ","An invalidity bug has been triggered: Unterminated string starting at: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Unterminated string starting at: lin","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-24 18:51:29
+json_decoder,INVALIDITY,fd01b06058a8,"{'HDWNcuX': '},1'8","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'bug","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,swap_chars,2026-03-24 18:51:30
+json_decoder,INVALIDITY,1e5b30e57c33,"{""key"": ""val: ""val: ""val:] ""val: ""value""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 16 (char 15)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-24 18:51:31
+json_decoder,INVALIDITY,a263ce599dd0,"{""emoji_escaped"": ""\uD83D\uDE0","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Incorrect hex length!
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.InvalidityBug'>, 'Incorrect hex le","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-24 18:51:32
+json_decoder,INVALIDITY,4b8806b0b575,"""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-24 18:51:33
+json_decoder,INVALIDITY,eb0e9a5b0402,"{""k[ey"": ""value""ue""ue""ue""ue""ue""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 17 (char 16)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-24 18:51:34
+json_decoder,RELIABILITY,1df208f3bb24,"{""a"": null}",,,-1,False,True,bit_flip,2026-03-24 18:51:35
+json_decoder,INVALIDITY,fd01b06058a8,"{'FbihEaZni': '1075', 'kQGWTFMiW': '', 'HE': False, 'iheeGS': False}","An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting property","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 18:52:27
+json_decoder,INVALIDITY,e0202db02dc3,"{""int_max"":999999999999999999999999 9999999999999999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 37 (char 36)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 18:52:30
+json_decoder,RELIABILITY,1df208f3bb24,"{'FbihEaZni': '1075', 'kQGWT FMiW': '': '': '': '': '': '': '': '': '', 'HE': False, 'iheeGS': False}",,,-1,False,True,grammar_aware_mutate,2026-03-24 18:52:31
+json_decoder,INVALIDITY,a573db09f6f5,[]ÿ,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 3 (char 2)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 18:52:34
+json_decoder,INVALIDITY,cd29389668bd,"{""float"": 1.oat"": 1.oat"": 1.oat"": 1.oat"": 1.o\at"": 1.oat"": 1.23e10}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 12 (char 11)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-24 18:52:35
+json_decoder,INVALIDITY,bb823fad1310,"{""a"": ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-24 18:52:37
+json_decoder,INVALIDITY,4a578e0aa32a,00<,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-24 18:52:38
+json_decoder,INVALIDITY,397b9805e28c,"{""{""{""{""{""{""{""{""a"": null}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 5 (char 4)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,repeat_chunk,2026-03-24 18:52:39
+json_decoder,INVALIDITY,9f2e3df7b06e,"{""zero_variants"": [0, -0, 0.0, 0}e0]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 33 (char 32)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 18:52:40
+json_decoder,INVALIDITY,9683e3f38b60,"{""emoji_escaped"":= ""\uD83D\uDE00""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,byte_insert,2026-03-24 18:52:42
+json_decoder,INVALIDITY,4b8806b0b575,nulh,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-24 18:52:43
+json_decoder,INVALIDITY,c4b5c3eaec71,"{""a"":     ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 11 (char 10)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,repeat_chunk,2026-03-24 18:52:50
+json_decoder,INVALIDITY,4d5047d217e6,"{""a"": {""b"": ÿ{""c"": 1}}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 13 (char 12)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 18:52:52
+json_decoder,INVALIDITY,79cad1010dfe,"{""emoji_esc999999999999999999999999aped"": ""\&&uD83D\uDE00""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid \escape: '&': line 1 column 45 (char 44)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDec","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/buggy_json/decoder_stv.py"", line 133, in py_scanstring
+    char = _b[esc]
+           ~~^^^^^
+KeyEr",0,False,False,insert_special_char,2026-03-24 18:53:00
+json_decoder,INVALIDITY,6987bd458b9e,"{""/../a"": [1, {[""b"": 2}]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 16 (char 15)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'b","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 18:53:04
+json_decoder,INVALIDITY,b83967b9b66a,"{""int_max"":999999999999999999999999] 9999999999999999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 36 (char 35)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 18:53:04
+json_decoder,INVALIDITY,91c6806cde31,[||]ÿ,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-24 18:53:08
+json_decoder,INVALIDITY,2e54a9b3e17d,"[1, [2, 3]","An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 11 (char 10)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ""Expecting ',' delimiter: line 1 column 11 ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:14:57
+json_decoder,INVALIDITY,bb823fad1310,"{""a"": ]null}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-25 12:15:00
+json_decoder,INVALIDITY,9683e3f38b60,"{""zero_variants"":variants"":variants"":variants"":variants"":variants"":variants"":variants"": [0, -0, 0.0, 0e0]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,repeat_chunk,2026-03-25 12:15:00
+json_decoder,INVALIDITY,4b8806b0b575,][,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,swap_chars,2026-03-25 12:15:02
+json_decoder,INVALIDITY,e9a735bb836e,"{""emoji_escaped"": ""\uD83D\uDE00""}1","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 34 (char 33)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,byte_insert,2026-03-25 12:15:03
+json_decoder,INVALIDITY,91c6806cde31,[\],"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:03
+json_decoder,INVALIDITY,e1e9f1d55f8c,"""line\+nbreak""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid \escape: '+': line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecod","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/buggy_json/decoder_stv.py"", line 133, in py_scanstring
+    char = _b[esc]
+           ~~^^^^^
+KeyEr",0,False,False,byte_insert,2026-03-25 12:15:05
+json_decoder,INVALIDITY,78ff0a30e3b7,"{""int_max"": 999999999999
+9999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 2 column 1 (char 25)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSOND","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:06
+json_decoder,INVALIDITY,4a578e0aa32a,00ÿ,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,grammar_aware_mutate,2026-03-25 12:15:08
+json_decoder,INVALIDITY,fd01b06058a8,"{/../""a"": ]null}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'bug","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:09
+json_decoder,INVALIDITY,19bf39d6ad49,"{""a"": true, ""b"":sfal e}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 17 (char 16)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,swap_chars,2026-03-25 12:15:11
+json_decoder,INVALIDITY,921af13888ba,"{""int_max"": 999999999999999999999999999999999999
+9999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 2 column 1 (char 49)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSOND","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:12
+json_decoder,INVALIDITY,5f50586bfcd1,"{""float"": 1.23e10<}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:15
+json_decoder,INVALIDITY,ff903a5438a1,"{""json"": ""o","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_s","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 12:15:16
+json_decoder,INVALIDITY,cd29389668bd,"{""float"": 1'.23e10}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 12 (char 11)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:18
+json_decoder,INVALIDITY,f0eafd731f83,"[1, [2, 9999999999999999999999993]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 35 (char 34)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:19
+json_decoder,INVALIDITY,31af978bb3f9,"[1, [2, 3']","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSOND","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:20
+json_decoder,INVALIDITY,3f1a4806a3c3,"{""int_max"""": 999999999999
+9999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 11 (char 10)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:22
+json_decoder,INVALIDITY,aaf2c8ad34fa,"{""a"": [1,","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 12:15:23
+json_decoder,INVALIDITY,e16d710d3d5b,"{""int_max"": 999999999999}
+9999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 2 column 1 (char 26)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>,","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:24
+json_decoder,INVALIDITY,6ec60d80316f,"{""key"": ÿ""value""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 9 (char 8)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:25
+json_decoder,INVALIDITY,10f44c785908,"{""i
+nt_max"""": 999999999999
+9999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\n' at: line 2 column 1 (char 4)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:26
+json_decoder,INVALIDITY,a573db09f6f5,[]]]]]]]],"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 3 (char 2)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,repeat_chunk,2026-03-25 12:15:27
+json_decoder,INVALIDITY,f39b37309ecc,"{""a"": [1, {""b"": 2}]999999999999999999999999}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 20 (char 19)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:28
+json_decoder,INVALIDITY,aa2eedd31ed1,"
+{""a"": ]null}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 2 column 7 (char 7)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:30
+json_decoder,INVALIDITY,2e3f7f6de240,"[null, true, false, 0, """", {ÿ}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 29 (char 28)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'b","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:31
+json_decoder,INVALIDITY,9cf4489f73a6,"[null', true, false, 0, """", {}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 6 (char 5)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:32
+json_decoder,RELIABILITY,1df208f3bb24,"{""int_max"""": 9 99999999999
+9999}",,,-1,False,True,constraint_violation,2026-03-25 12:15:33
+json_decoder,INVALIDITY,39acc64498a3,"{""a"": true,%00 ""b"": false}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 12 (char 11)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'b","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:35
+json_decoder,INVALIDITY,3205545de262,"{""
+emoji_escaped"": ""\uD83D\uDE00""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\n' at: line 2 column 1 (char 3)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:36
+json_decoder,INVALIDITY,54d79547f3e4,"[null, true, false, 0, """", {}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 14 (char 13)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:37
+json_decoder,INVALIDITY,4d5047d217e6,"[null, true,\ false, 0, """", {}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 13 (char 12)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:38
+json_decoder,INVALIDITY,b26b0ae65dc1,"{""emoji_escaped"": ""\uD83D\]uDE00""}1","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid \escape: ']': line 1 column 27 (char 26)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDec","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/buggy_json/decoder_stv.py"", line 133, in py_scanstring
+    char = _b[esc]
+           ~~^^^^^
+KeyEr",0,False,False,constraint_violation,2026-03-25 12:15:39
+json_decoder,INVALIDITY,70299a3c4200,"{""zero_variants"":6ariants"":variants"":variants"":variants"":variants"":variants"":variants"": [0, -0, 0.0, 0e0]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 19 (char 18)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-25 12:15:41
+json_decoder,INVALIDITY,70508c868fee,"""li/../ne\+nbreak""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid \escape: '+': line 1 column 11 (char 10)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDec","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/buggy_json/decoder_stv.py"", line 133, in py_scanstring
+    char = _b[esc]
+           ~~^^^^^
+KeyEr",0,False,False,constraint_violation,2026-03-25 12:15:42
+json_decoder,INVALIDITY,18e3c83b6ade,"""line%00\+nbreak""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid \escape: '+': line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDeco","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/buggy_json/decoder_stv.py"", line 133, in py_scanstring
+    char = _b[esc]
+           ~~^^^^^
+KeyEr",0,False,False,constraint_violation,2026-03-25 12:15:44
+json_decoder,INVALIDITY,bc9e8897423e,"{""a"": {""b"": {\""c"": 1}}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 14 (char 13)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'b","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 12:15:46
+json_decoder,INVALIDITY,57ed0a61d8b8,"{""float"": 1.23e","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 15 (char 14)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:10
+json_decoder,INVALIDITY,bb823fad1310,"{""a"": }","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 21:19:11
+json_decoder,INVALIDITY,093e8de6fcba,"{""KxOVVpSuWQXZTO"": ""['null', 'TNoxuWpnVfulQXrCiYnIXFQkFVieVoofrLJxugYizHuVurZxyxZPUNxblOfCwVZLpIyNMztheEDmg', '90', 'null', 'null', '89', 'WuXtKvqRkLVzEKfySn","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 20 (char 19)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:11
+json_decoder,INVALIDITY,f413a2bc9cef,"[null, true, false, ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 21 (char 20)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:13
+json_decoder,INVALIDITY,f1e629d7cf75,"""{neg_float"": -1.23e-10}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 13 (char 12)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,swap_chars,2026-03-25 21:19:14
+json_decoder,INVALIDITY,53407fd9a5d8,"{""a"":","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 6 (char 5)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:15
+json_decoder,INVALIDITY,43aeef1c3975,"{""p"": ""['31']"", ""RiLIJZeyczryUn"": 1563221132, ""Eu"": ""['True', 'False', 'beYOJdzqtaYCJhlpDWiRoWoRRmNyfMvxWJPppwBqqJXaAbocXpkIxyF', 'False', 'False', '52', 'phhyWJNrEIAZSoWxOKdQQWnWmgVOTHwZiYNyAEiSJreDFtzHoQptXhja', 'False', 'dAXqSnImHs","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 53 (char 52)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:16
+json_decoder,INVALIDITY,f39b37309ecc,"{""a"": {""b"": {""c"": 1=}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 20 (char 19)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-25 21:19:17
+json_decoder,INVALIDITY,54d79547f3e4,"{""unclosed"": ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 14 (char 13)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 21:19:17
+json_decoder,INVALIDITY,279b141bee9a,"{""PzbRP"": ""['mJWHhA', '47',","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 11 (char 10)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:19
+json_decoder,INVALIDITY,2f2a23a409dc,"{""sg","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:19
+json_decoder,INVALIDITY,91f4ce745c2b,"{""WJSeP"": ""['SLwlfrJnHnjMeWssmDrxxiJaCoQlLugxTMoNHGdpjkqGoWPpdq
+OCLOAaARLgKrAZJNSiRuunrJthCTSJnAwfVV', 'False', 'null', 'False', 'XiuBWF', 'False', 'BYQcaVdZgQgUxdhh']"", ""MOv"": ""EiOFYjOopSGqPo"", ""yQQM"": ""UAJllUvoiuBnkbmGufIZHILtxSOqhLrGRvwlIIkmjAJctCliMCIMtQtCZBxnLbkQLKisSPbSQSAbHQJQRNTu"", ""eJaoOuxIrtXZEF"": ""jldIfRCHjhzkChPIPLdLcUJnLTFEMYJbjH""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\n' at: line 2 column 1 (char 64)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-25 21:19:21
+json_decoder,INVALIDITY,6c546b3af63e,"{""PtdqSmeOcRkCMgf"": ""['7', 'False', 'False', '75']"", ""TxpG"": """", ""c","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 66 (char 65)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:21
+json_decoder,INVALIDITY,3d502de676c6,"{""MugPj"": ""True"", ""vccMBSK"": 742422481, ""wimQStQbQdpctmLMAjcQ"": [], ""hfvfCUQsBtrSwJyyG"": ""IFgQDqDIibiKJBVWhnEAzkKpo"", ""xU"": """", ""dIsRO"": -1662","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 143 (char 142)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JS","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:22
+json_decoder,INVALIDITY,c8ee95762db1,"""{neg_f","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:23
+json_decoder,INVALIDITY,aaf2c8ad34fa,"{""eVbbv"":","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:25
+json_decoder,INVALIDITY,4358879a2d4b,"{""WAQkRogSVsfrI"": ""sPYxrHtkQneEUAYozbbLNTNZKcWTUYfNRDCxkxMDpBWZTbzgCOTmLeBDZRyCbtjcNmpRkczeDpkQdcrQMuJFEZxyaJcS"", ""eOuRGjZwUWIhAg"": -1359503548, ""uvmepAzE"": ""False"", ""WkqPapAYVICRDHsQNsC"": ""CHmRBnZMjcKyvhzUqLPhVCXoJKMfAsIIGRlqHN"", ""feGVMdfoJgWqNcDQ"": ""ccpMoEafOjlqwtnCNhiDwErLRGvzutRzTSFhlaJThjbxmVBggGgy"", ""G"": ""['38', '29', 'null', 'WSToMRPtjvoJvJskYfsAKSbcwNTwQdChxaKzinbIbwDjXoPzOYEuHlCxdMlsH', 'False', 'raeNNItfhpPlZJuFRcbytEnpbEUfjQOmafXFKnZEfjvczWTuvDbcoihpvejCDnWVlNjPVuFMaydJbdvhFLfwuvSnQxSJrxEeE']"", ""kuZnw"": ""['10', 'True', 'False', '53', 'F","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 521 (char 520)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:26
+json_decoder,INVALIDITY,fd01b06058a8,{bad json},"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'bug","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,constraint_violation,2026-03-25 21:19:27
+json_decoder,INVALIDITY,4b8806b0b575,f,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeErro","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:29
+json_decoder,INVALIDITY,1613b1308234,"[1, 2] 3,","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 8 (char 7)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,swap_chars,2026-03-25 21:19:30
+json_decoder,INVALIDITY,6655454fb20c,"{""emoji_escaped"": ""\uD83D\uDE00","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 19 (char 18)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:31
+json_decoder,INVALIDITY,fbd0a9fee8e8,"{""A"": ""pGGpcggFCXnQxryNOlfzFYrovaHzBfZszUffnnxNyYbkToLgPiVAJk","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:31
+json_decoder,INVALIDITY,6a80bf21072c,"{""jOAzhuHfvQeYsWEubMU"": ""eyXTSRspzlUkPnOinyzacVaNgGQjcKouCAz"", ""EccRDCjAKGKhhQo"": ""['False', 'null', 'True', 'null', 'null', 'True', 'gixBerSvVNNQABDTImgBLzfpWiPEwhxbFyugasTiZyWgixKKMOlidKlQJdqDXnjziKIfEcFqDWcUGWspklAXCFUjSe', '28', 'qLjXxgyGBQwQiHTXvJLGSOIXvktMJipcIFvFnpUHGmwFoRGDnVnRPSdqZLWwdPjQk', 'nulL']"", ""LzPdQpdoTuHZiXYbmI"": 1916879758, ""EV"": 2125819252, ""FBDQqnjk"": ""['null', '37', 'null', 'YUBOfx","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 377 (char 376)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:33
+json_decoder,INVALIDITY,4a578e0aa32a,0,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Extra data: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,byte_insert,2026-03-25 21:19:34
+json_decoder,INVALIDITY,d95933944d48,"{""fYzXBViDmjfAdjVoeGX"": ""False"", ""NTEksnsiCgtUdAIxzH"": ""UbGISbpTAWRuBUxAblCRTTUaBKtIIzUFFSeiHhpipOwjNakjwUyXgoJajGCDwuPIVhiLzukSOPAJuhAclowAbwWBiHDeFx"", ""EAJbuWmgSgXXIYVlaxjv"": 1004987058, ""BlXDDgjhWOc"": ""vLzRzbYEQQgU","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 205 (char 204)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:35
+json_decoder,INVALIDITY,af2295ecf936,"{""hyvlnhZZhux"": ""KKdhYdSAZnhjeNobuXmTLOzgKsbgViCmofjRJhAMoZxZyhujbmXzAmMFT"", ""mAoX"": ""xEPXObpFNfJMZlVubPbUxMLOESAcyOIpCqjgsNlCzajnUfkAdvTpFFuItMoyW"", ""MVWPNQMEJ"": -686860188, ""Ym"": ""['null']"", ""NkVBRVdBLHaJP"": 1986911607, ""FNbkvc"": -714036276, ""suV"": ""WEaoWPXrRVfMOLBepldCagLZqqRAsGUTeVCUMMMExbwkcNgmG"", ""sdYaoqyvWmqatfZQoex"": ""['20', '26', 'null', 'False', 'SOMAfIhmZcMPchWecCshIPHujSJSMYgPLhWuKZZiPnpVMj']"", ""Y","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 411 (char 410)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:40
+json_decoder,INVALIDITY,1926274363eb,"{""zerm_variants"": _[0, -0, 0.0, 0e0]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 19 (char 18)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,byte_insert,2026-03-25 21:19:41
+json_decoder,INVALIDITY,d1073e59c855,"{""unicode"": ""\","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 13 (char 12)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:42
+json_decoder,INVALIDITY,9276580c21fa,"{""a"": true, <""b"": false}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 13 (char 12)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'b","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,insert_special_char,2026-03-25 21:19:43
+json_decoder,INVALIDITY,cc811f704bc8,"{""U"": ""['KNgC', 'True', 'null', 'gYZHIguACXkE', 'True', 'dt', 'OithlGJDyzjTpWsVHzFxkFeYSQfthvWZgPrnKInbyTIaxlUhFLoVyCN', 'null']"", ""hJWLylXeO"": 1800861016, ""vPTTssrNCxYdseMHVN"": ""False"", ""jvWRVDCkPdTzBYb","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 188 (char 187)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:44
+json_decoder,INVALIDITY,82228c23863c,"{""tbisTZuLaxgDRqGMvLIP"": ""cjnGkWwzMPIdsozJvjaoeerUYGrUBCSYXYdkNOuxFGRkjQPqljqxVdePEbUYrieLZWuWQJkceKAycukkhJpUNQWj"", ""WB"": """", ""d"": ""True"", ""KKzyrPunZ"": -781271782, ""wRZ"": ""WzcpkJXXLwFCmCFKjoFHEAAyzRktqswHEghDxDolQLvlWmvxWdkdRGYCBpegh","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 173 (char 172)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:47
+json_decoder,INVALIDITY,c78f8439cd41,"{""pcdZyzAhvNe"": ""Y"", ""HtjXAgcANYYzJW"": """", ""NxtoWJVBSJ"": """", ""avcFcsuXeKiqzjTUZ"": ""ftvcTyGfYKfMqqsAOzSmMJgrYFTwYbgfcCgYMRc","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 83 (char 82)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:48
+json_decoder,INVALIDITY,85584b801ee2,"{""hyvlnhZZhux"": ""KKdhYdSAZnhjeNobuXmTLOzgKsbgViCmofjRJhAMoZxZyhujbmXzAmMFT"", ""mAoX"": ""xEPXObpFNfJMZlVubPbUxMLOESAcy","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 86 (char 85)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:49
+json_decoder,INVALIDITY,397b9805e28c,"{""a""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 5 (char 4)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+2026-03-25 21:19:50.863 uv[58232:2368701] CFPropertyListCreateFromXMLData(): Old-style plist parser: missing semicolon or value in dictionary on line 1. Parsing will be abandoned. Break on _CFPropertyListMissingSemicolonOrValue to debug.
+2026-03",0,False,False,truncate,2026-03-25 21:19:51
+json_decoder,INVALIDITY,df9df5dd3704,"{""d"": ""True"", ""GTDCIzkFomgfF"": ""['null', '55', 'True', 'False', 'null', 'MqcBnv', 'WDuWZQOKVjnKqrXKtjHjONrG']"", ""TUhetD"": ""['XiUOjzGlFCLCP', 'null', '14'","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 123 (char 122)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:52
+json_decoder,INVALIDITY,a263ce599dd0,"{""emoji_escaped"": ""\uD83D\uDE","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Incorrect hex length!
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.InvalidityBug'>, 'Incorrect hex le","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,truncate,2026-03-25 21:19:53
+json_decoder,INVALIDITY,c4b5c3eaec71,"{""a"": [1, :""b""{ 2}]}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 11 (char 10)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeEr","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,swap_chars,2026-03-25 21:19:54
+json_decoder,INVALIDITY,8c16ed9fcf6f,"{""eVbbv"": ""['BEudHczZINakJmAdb', 'False', 'null', 'MzMUwFiNDIfXztWzRRPjEEzpDVywyFebwzSWrInecdcCUvEnMpvGxJmCS', 'False', '34', 'null']"", ""hzVdQqeC"": ""cZnkIYwUDtmHvrbnwaRCziSoIJojyYDxGLrNPaeFHgjku"", ""BWWoP"": 645381224, ""cZsMLACveYYDDxjFnKtH"": ""PqNORQFbvmFWFYqczBqlNQScbIPoUlIpxySRgHSvLYOZPMQoORVcV"", ""saZWTIlGB"": """", ""AoSVOet"": 54546402?, ""HMCiRdzqREmwHqjEM"": ""True""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 335 (char 334)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JS","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,bit_flip,2026-03-25 21:19:55
+json_decoder,INVALIDITY,8f3d273cbe44,"{""ekwyfQY"": """", ""ommaQtmceMRhpk"": 1487641807, ""rzdBLzGOktxveBZGRuf"": """", ""zKHsakHuLhvLutXx"": -241675814, ""NZvFQxqwCSiiK"": ""['65', 'True', 'SRmRTRdWgHxijjtlftAGxFQCyiWqQiIeexyPYKnzFksCRMbfalYiNuPdmKRTTFNdgNkbF', 'EETOnUbdtwZiEoiLygUEhkmAUKBYPEo', 'null']"", ""U"": ""uRemyXBdBYXtqnZHSJuJanggiePmySkjykMsMSBiXJuGq"", ""jzTXULvZ"": ""['False', 'False', '16', 'null', 'Fa""jzTXULvZ"": ""['False', 'False', '16', 'null', 'Fa""jzTXULvZ"": ""['False', 'False', '16', 'null', 'Fa""jzTXULvZ"": ""['False', 'False', '16', 'null', 'Fa""jzTXULvZ"": ""['False', 'False', '16', 'null', 'Fa""jzTXULvZ"": ""['False', 'False', '16', 'null', 'False', 'True', 'null', 'True', 'True', 'BI']""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 361 (char 360)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JS","warning: `VIRTUAL_ENV=/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/forza/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Traceback (most recent call last):
+  File ""/Users/weiyang/Documents/SUTD/Term 6/Software Testing and Verification/STV_Project_Group_2/json-decoder/json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^",0,False,False,repeat_chunk,2026-03-25 21:19:56

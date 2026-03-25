@@ -205,6 +205,19 @@ class FuzzLogger:
         with open(path, "w", newline="", encoding="utf-8") as f:
             csv.writer(f).writerow(fields)
 
+    def _bugs_csv_is_stale(self) -> bool:
+        """
+        Return True if bugs.csv exists but has a different header than
+        BUGS_FIELDS — prevents DictWriter from raising ValueError on first
+        writerow when the schema changed between runs.
+        """
+        try:
+            with open(self._bug_path, newline="", encoding="utf-8") as f:
+                existing_header = next(csv.reader(f), None)
+            return existing_header != self.BUGS_FIELDS
+        except Exception:
+            return True  # unreadable → treat as stale, rewrite
+
     @property
     def iteration(self) -> int:
         return self._iteration

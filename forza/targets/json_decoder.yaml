@@ -9,50 +9,18 @@ buggy_cwd: "../../json-decoder"
 input_mode: arg
 seeds_path: ../inputs/json_decoder/seeds.txt
 input:
-  type: random_object
-  max_fields: 5
-  key:
-    type: string
-    min: 1
-    max: 10
+  type: object
+  encoding: json
+  max_fields: 10
+  key: { type: string, min: 1, max: 20 }
   value:
     type: one_of
     options:
-      # valid types
-      - type: int
-        min: 0
-        max: 1000
-      - type: string
-        min: 1
-        max: 10
-      - type: boolean
-      - type: array
-        min_length: 2
-        max_length: 5
-        element:
-          type: int
-          min: 0
-          max: 10
-      - type: sequence
-        parts:
-          - type: int
-            min: 0
-            max: 10
-          - type: literal
-            value: ","
-          - type: int
-            min: 0
-            max: 10
-      # invalid types for fuzzing
-      - type: int # out-of-range
-        min: 1001
-        max: 2000   
-      - type: string # empty string
-        min: 0
-        max: 0      
-      - type: literal # random literal
-        value: "??"  
-      - type: boolean
+      - { type: int, min: -2147483648, max: 2147483647 } # Standard 32-bit range
+      - { type: string, min: 0, max: 100 }
+      - { type: boolean }
+      - { type: array, min_length: 0, max_length: 10, element: { type: any } }
+      - { type: null }
 
 # execution
 timeout: 60

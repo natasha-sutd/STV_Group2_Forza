@@ -10,45 +10,12 @@ input_mode: arg
 seeds_path: "../inputs/ipv4_parser/seeds.txt"
 input:
   type: sequence
-  parts:
-    - type: one_of
-      options:
-        - type: int # valid
-          min: 0
-          max: 255   
-        - type: int # invalid
-          min: 256
-          max: 999   
-    - type: literal
-      value: "."
-    - type: one_of
-      options:
-        - type: int # valid
-          min: 0
-          max: 255
-        - type: int # invalid
-          min: 256
-          max: 999
-    - type: literal
-      value: "."
-    - type: one_of
-      options:
-        - type: int # valid
-          min: 0
-          max: 255
-        - type: int # invalid
-          min: 256
-          max: 999
-    - type: literal
-      value: "."
-    - type: one_of
-      options:
-        - type: int # valid
-          min: 0
-          max: 255
-        - type: int # invalid
-          min: 256
-          max: 999
+  separator: "."
+  count: 4
+  element:
+    type: int
+    min: 0
+    max: 255 
 
 # execution
 timeout: 60

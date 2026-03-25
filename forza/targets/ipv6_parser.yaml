@@ -10,85 +10,12 @@ input_mode: arg
 seeds_path: "../inputs/ipv6_parser/seeds.txt"
 input:
   type: sequence
-  parts:
-    - type: one_of
-      options:
-        - type: hex
-          min: 0
-          max: 65535   # valid
-        - type: hex
-          min: 65536
-          max: 99999   # invalid
-    - type: literal
-      value: ":"
-    - type: one_of
-      options:
-        - type: hex
-          min: 0
-          max: 65535   # valid
-        - type: hex
-          min: 65536
-          max: 99999   # invalid
-    - type: literal
-      value: ":"
-    - type: one_of
-      options:
-        - type: hex
-          min: 0
-          max: 65535   # valid
-        - type: hex
-          min: 65536
-          max: 99999   # invalid
-    - type: literal
-      value: ":"
-    - type: one_of
-      options:
-        - type: hex
-          min: 0
-          max: 65535   # valid
-        - type: hex
-          min: 65536
-          max: 99999   # invalid
-    - type: literal
-      value: ":"
-    - type: one_of
-      options:
-        - type: hex
-          min: 0
-          max: 65535   # valid
-        - type: hex
-          min: 65536
-          max: 99999   # invalid
-    - type: literal
-      value: ":"
-    - type: one_of
-      options:
-        - type: hex
-          min: 0
-          max: 65535   # valid
-        - type: hex
-          min: 65536
-          max: 99999   # invalid
-    - type: literal
-      value: ":"
-    - type: one_of
-      options:
-        - type: hex
-          min: 0
-          max: 65535   # valid
-        - type: hex
-          min: 65536
-          max: 99999   # invalid
-    - type: literal
-      value: ":"
-    - type: one_of
-      options:
-        - type: hex
-          min: 0
-          max: 65535   # valid
-        - type: hex
-          min: 65536
-          max: 99999   # invalid
+  separator: ":"
+  count: 8
+  element:
+    type: hex
+    min: 0
+    max: 0xFFFF
 
 # execution
 timeout: 60

@@ -1,0 +1,84 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,"'[1, [2, 3]'",INVALIDITY,1,0
+2,2.196,"'{""a"": ]null}'",INVALIDITY,1,0
+3,2.968,"'{""zero_variants"":variants"":variants"":variants"":variants"":variants"":variants"":variants"": [0, -0, 0.0, 0e0]}'",INVALIDITY,1,0
+4,4.218,'][',INVALIDITY,1,0
+5,4.930,"'{""a"": tr{ue, ""b"": false}'",INVALIDITY,0,0
+6,5.201,"'{""emoji_escaped"": ""\\uD83D\\uDE00""}1'",INVALIDITY,1,0
+7,6.047,'[\\]',INVALIDITY,1,0
+8,7.238,"'""line\\+nbreak""'",INVALIDITY,1,0
+9,7.989,"'il""ne\\nbreak""'",INVALIDITY,0,0
+10,8.251,"'""line\\+nbrea<k""'",INVALIDITY,0,0
+11,8.511,'[\\]8',INVALIDITY,0,0
+12,8.774,'trrrue',INVALIDITY,0,0
+13,9.047,"'{""int_max"": 999999999999\n9999}'",INVALIDITY,1,0
+14,9.734,'t%00rue',INVALIDITY,0,0
+15,10.260,"'{""a"": tr@ue, ""b"": false}'",INVALIDITY,0,0
+16,10.522,"'{""a"": true, ""b"": f{""a"": true, ""b"": f{""a"": true, ""b"": f{""a"": true, ""b"": f{""a"": true, ""b"": f{""a"": true"", ""b"": f{""a"": true",INVALIDITY,1,0
+17,10.793,'00ÿ',INVALIDITY,0,0
+18,11.720,"'{/../""a"": ]null}'",INVALIDITY,1,0
+19,13.067,'1{',INVALIDITY,0,0
+20,13.856,"'{""a"": true, ""b"":sfal e}'",INVALIDITY,0,0
+21,14.663,"'{""int_max"": 999999999999999999999999999999999999\n9999}'",INVALIDITY,0,0
+22,15.834,'n>ull',INVALIDITY,0,0
+23,16.618,'ÿ][',INVALIDITY,0,0
+24,16.884,'tru)e',INVALIDITY,0,0
+25,17.479,"'{""float"": 1.23e10<}'",INVALIDITY,1,0
+26,18.132,'%00{}',INVALIDITY,0,0
+27,18.539,"'{""int_max"": 999999999999\n9||999}'",INVALIDITY,0,0
+28,18.816,"'{""json"": ""o'",INVALIDITY,1,0
+29,19.656,"""'[1, 2, 3]""",INVALIDITY,0,0
+30,20.207,"'{""float"": 1\'.23e10}'",INVALIDITY,0,0
+31,21.266,"'[1, [2, 9999999999999999999999993]'",INVALIDITY,0,0
+32,21.976,"'{""zero_variants"":variants"":variants"":variants"":variants"":variants"":vari]ants"":variants"": [0, -0, 0.0, 0e0]}'",INVALIDITY,0,0
+33,22.262,"'}""float"": 1.23e10{'",INVALIDITY,0,0
+34,22.625,"""[1, [2, 3']""",INVALIDITY,0,0
+35,23.508,'t{rue',INVALIDITY,0,0
+36,23.806,'&&0',INVALIDITY,0,0
+37,24.092,"'{""a"": true, ""b"": fal||se}'",INVALIDITY,0,0
+38,24.365,"'{""int_max"""": 999999999999\n9999}'",INVALIDITY,1,0
+39,24.940,"'{""json"": ""o'",INVALIDITY,0,0
+40,25.218,"'{""a"": [1,'",INVALIDITY,1,0
+41,26.133,"""[\\']""",INVALIDITY,0,0
+42,26.403,'t}rue',INVALIDITY,0,0
+43,26.672,"'{""json"": 6""obj""}'",INVALIDITY,0,0
+44,26.951,"'{""int_max"": 999999999999}\n9999}'",INVALIDITY,0,0
+45,27.587,"'{""key"": ÿ""value""}'",INVALIDITY,0,0
+46,28.786,"'{""i\nnt_max"""": 999999999999\n9999}'",INVALIDITY,1,0
+47,29.675,'fa/../lse',INVALIDITY,0,0
+48,29.957,'[]]]]]]]]',INVALIDITY,0,0
+49,30.618,'tr{ue',INVALIDITY,0,0
+50,30.910,"'{""a"": [1, {""b"": 2}]999999999999999999999999}'",INVALIDITY,0,0
+51,32.576,"'{""json"": "">o'",INVALIDITY,0,0
+52,32.851,"'\n{""a"": ]null}'",INVALIDITY,0,0
+53,33.486,"'{""a"": ]nul\nl}'",INVALIDITY,0,0
+54,33.913,"'[null, true, false, 0, """", {ÿ}]'",INVALIDITY,1,0
+55,34.732,"'{""float"": 1.23e10</../}'",INVALIDITY,0,0
+56,34.998,"'[null\', true, false, 0, """", {}]'",INVALIDITY,0,0
+57,35.736,"'""""""'",INVALIDITY,0,0
+58,36.009,'trte',INVALIDITY,0,0
+59,36.009,"'{""int_max"""": 9\x0099999999999\n9999}'",RELIABILITY,1,-1
+60,37.696,"'{""a"": true,%00 ""b"": false}'",INVALIDITY,1,0
+61,38.411,"'{""\nemoji_escaped"": ""\\uD83D\\uDE00""}'",INVALIDITY,0,0
+62,39.535,"'[null, true, f\ralse, 0, """", {}]'",INVALIDITY,0,0
+63,40.153,'[ÿ]',INVALIDITY,0,0
+64,40.153,"'{""int_max"""": 9\x00ÿ99999999999\n9999}'",RELIABILITY,0,-1
+65,40.433,'[]<',INVALIDITY,0,0
+66,40.707,"'[null, true,\\ false, 0, """", {}]'",INVALIDITY,1,0
+67,41.374,"'{""emoji_escaped"": ""\\uD83D\\]uDE00""}1'",INVALIDITY,1,0
+68,42.933,"'[11, [2, 3]'",INVALIDITY,0,0
+69,43.210,"'{""int_max"": 99999&&9999999\n9999}'",INVALIDITY,0,0
+70,43.739,"'{""zero_variants"":6ariants"":variants"":variants"":variants"":variants"":variants"":variants"": [0, -0, 0.0, 0e0]}'",INVALIDITY,0,0
+71,44.348,"'""li/../ne\\+nbreak""'",INVALIDITY,0,0
+72,45.485,"""0'""",INVALIDITY,0,0
+73,45.758,'0ÿ',INVALIDITY,0,0
+74,45.758,"'999999999999999999999999{""int_max"""": 9\x0099999999999\n9999}'",RELIABILITY,0,-1
+75,46.029,'n999999999999999999999999ull',INVALIDITY,0,0
+76,46.300,"'""line%00\\+nbreak""'",INVALIDITY,0,0
+77,47.107,"'{""json"":&& ""obj""}'",INVALIDITY,0,0
+78,47.518,"'{""a"": \\]null}'",INVALIDITY,0,0
+79,47.795,"'{""json"": ""o'",INVALIDITY,0,0
+80,48.062,"'{""i\nnt_ma[x"""": 999999999999\n9999}'",INVALIDITY,0,0
+81,48.332,"'[1, 2\\, 3]'",INVALIDITY,0,0
+82,48.869,"'{""a"": {""b"": {\\""c"": 1}}}'",INVALIDITY,0,0
+83,49.445,"'{""a"": ]null}'",INVALIDITY,0,0

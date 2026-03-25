@@ -86,6 +86,7 @@ See INTERFACES.md for full details. Quick summary:
 from __future__ import annotations
 
 import argparse
+from logging import config
 import random
 import signal
 import sys
@@ -634,8 +635,11 @@ def run_fuzz_mode(
     if not seeds:
         print(C.yellow("  [warn] no seeds found — check seeds_path in YAML"))
         return
+    
+    # Get the input spec from the config (the 'input:' section of your YAML)
+    input_spec = config.get("input", {})
 
-    engine     = MutationEngine(input_format=get_input_format(config))
+    engine     = MutationEngine(input_format=get_input_format(config), input_spec=input_spec)
     oracle     = BugOracle()
     corpus     = list(seeds)
     target     = config.get("name", "unknown")
