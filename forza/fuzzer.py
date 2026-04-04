@@ -166,6 +166,8 @@ KNOWN_YAMLS  = [
     "ipv6_parser.yaml",
 ]
 
+MAX_CORPUS = 10000
+
 # ---------------------------------------------------------------------------
 # Config helpers
 # ---------------------------------------------------------------------------
@@ -686,6 +688,13 @@ def run_fuzz_mode(
     target     = config.get("name", "unknown")
     out_path   = report_generator.RESULTS_DIR / "report.html"
 
+    # ── energy scheduling state ───────────────────────────────
+    energy = {s: 1.0 for s in corpus}
+
+    def pick_seed(corpus, energy):
+        weights = [energy.get(s, 1.0) for s in corpus]
+        return random.choices(corpus, weights=weights, k=1)[0] # weighted random choice based on energy
+
     # ── seed corpus initialisation ────────────────────────────────────────
     # Augment static seeds.txt with dynamically generated seeds using the
     # grammar defined in config["input"]. seed_count in the YAML controls
@@ -769,7 +778,7 @@ def run_fuzz_mode(
                 break
 
             # ── 1. pick seed and mutate ───────────────────────────────────
-            seed     = random.choice(corpus)
+            seed     = pick_seed(corpus, energy)
             mutated  = engine.mutate(seed)
             strategy = engine.get_last_strategy()
 
@@ -796,11 +805,25 @@ def run_fuzz_mode(
             # ── 5. corpus growth + energy boost ───────────────────────────
             if found_new:
                 corpus.append(mutated)
+                parent_energy = energy.get(seed, 1.0)
+                energy[mutated] = min(10.0, parent_energy * 1.2 + 2.0) # assign high energy to new seed
+                energy[seed] = min(10.0, energy.get(seed, 1.0) * 1.5) # reward parent seed
                 engine.boost(strategy)
                 new_paths += 1
+                # limit corpus size
+                if len(corpus) > MAX_CORPUS:
+                    worst = min(corpus, key=lambda s: energy.get(s, 1.0))
+                    corpus.remove(worst)
+                    energy.pop(worst, None)
+            else:
+                energy[seed] = max(0.1, energy.get(seed, 1.0) * 0.95) # decay seed if it didn't find anything
 
             # AFL-style energy decay — prevents one strategy dominating
             engine.decay()
+            
+            # global energy decay to prevent domination
+            for s in energy:
+                energy[s] = max(0.1, energy[s] * 0.999)
 
             # ── 6. log bugs ───────────────────────────────────────────────
             if bug.is_bug():

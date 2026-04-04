@@ -1,5 +1,0 @@
-timestamp,run_id,statement_coverage,branch_coverage,function_coverage,total_inputs,coverage_source
-2026-04-04 10:23:38,20260404_102338,2.0,2.0,2.0,1,proxy
-2026-04-04 10:28:10,20260404_102810,2.0,2.0,2.0,1,proxy
-2026-04-04 10:28:43,20260404_102810,4.0,4.0,4.0,2,proxy
-2026-04-04 10:29:09,20260404_102810,4.0,4.0,4.0,3,proxy
