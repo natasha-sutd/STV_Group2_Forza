@@ -1,0 +1,2 @@
+* Make it a class instead of a function... maybe?
+* Add support for reverse/host masks (1.2.3.0 0.0.0.255) & subnet masks (1.2.3.0/255.255.255.0)
