@@ -13,6 +13,7 @@ from pathlib import Path, PureWindowsPath
 
 import yaml
 
+
 def get_platform() -> str:
     system = platform.system()
     if system == "Linux":
@@ -22,12 +23,14 @@ def get_platform() -> str:
     else:
         return "windows"
 
+
 def windows_to_wsl(win_path: str) -> str:
     p = PureWindowsPath(win_path)
     drive = p.drive.rstrip(":").lower()
     parts = p.parts[1:]  # skip root
     posix_parts = "/".join(part.replace("\\", "/") for part in parts)
     return f"/mnt/{drive}/{posix_parts}"
+
 
 def resolve_binary_path(binary_path: str, use_wsl: bool = False) -> list[str]:
     use_wsl = use_wsl or bool(os.environ.get("FUZZER_USE_WSL"))
@@ -37,6 +40,7 @@ def resolve_binary_path(binary_path: str, use_wsl: bool = False) -> list[str]:
         return ["wsl", windows_to_wsl(binary_path)]
 
     return [binary_path]
+
 
 def resolve_binary_for_platform(binary_config) -> str:
     if isinstance(binary_config, dict):
@@ -48,6 +52,7 @@ def resolve_binary_for_platform(binary_config) -> str:
             )
         return binary_config[current]
     return binary_config
+
 
 @dataclass
 class RawResult:
@@ -62,8 +67,11 @@ class RawResult:
     input_data: bytes = field(default_factory=bytes)
 
 # helper functions
+
+
 def _inject_input(cmd_template: list[str], replacement: str) -> list[str]:
     return [part.replace("{input}", replacement) for part in cmd_template]
+
 
 def _make_error_result(e: Exception, input_bytes: bytes) -> RawResult:
     return RawResult(
@@ -76,6 +84,7 @@ def _make_error_result(e: Exception, input_bytes: bytes) -> RawResult:
         input_data=input_bytes,
     )
 
+
 def resolve_cmd(cmd: list[str]) -> list[str]:
     resolved = shutil.which(cmd[0])
     if resolved:
@@ -83,6 +92,8 @@ def resolve_cmd(cmd: list[str]) -> list[str]:
     return cmd
 
 # runner
+
+
 def run_target(
     cmd_template: list[str],
     input_str: str,
@@ -165,17 +176,20 @@ def run_target(
             os.remove(tmp_file)
 
 # wrapper
+
+
 def run_both(
     config: dict,
     input_str: str,
     strategy: str | None = None,
     use_coverage: bool = False,
-    timeout: int  = 60,
+    timeout: int = 60,
 ) -> tuple[RawResult, RawResult | None]:
     """run buggy binaries and the reference target for a given config dict, returns buggy result, reference result*"""
     input_mode = config.get("input_mode", "arg")
     use_wsl = config.get("use_wsl", False)
-    extra_flags = [config["coverage_flag"]] if use_coverage and config.get("coverage_enabled") else None
+    extra_flags = [config["coverage_flag"]] if use_coverage and config.get(
+        "coverage_enabled") else None
 
     raw_buggy_cmd = config["buggy_cmd"]
     if not raw_buggy_cmd:
@@ -213,6 +227,7 @@ def run_both(
 
     return buggy_result, reference_result
 
+
 def load_config(yaml_path: str) -> dict:
     p = Path(yaml_path).resolve()
     with open(p) as f:
@@ -227,6 +242,7 @@ def load_config(yaml_path: str) -> dict:
 
     return config
 
+
 def load_seeds(seeds_path: str) -> list[str]:
     path = Path(seeds_path)
     if not path.exists():
@@ -239,6 +255,7 @@ def load_seeds(seeds_path: str) -> list[str]:
             if line and not line.startswith("#"):
                 seeds.append(line)
     return seeds
+
 
 # test runner
 # python3 engine/target_runner.py

@@ -49,6 +49,8 @@ SPECIAL_CHARS = [
 # ---------------------------------------------------------------------------
 # Generic mutation strategies
 # ---------------------------------------------------------------------------
+
+
 def bit_flip(data: str) -> str:
     """Flip a random bit in a random character of the input."""
     if not data:
@@ -57,11 +59,13 @@ def bit_flip(data: str) -> str:
     flipped = chr(ord(data[idx]) ^ (1 << random.randint(0, 7)))
     return data[:idx] + flipped + data[idx + 1:]
 
+
 def truncate(data: str) -> str:
     """Cut the input short at a random position."""
     if len(data) <= 1:
         return data
     return data[:random.randint(0, len(data) - 1)]
+
 
 def insert_special_char(data: str) -> str:
     """Insert a special/bad character at a random position."""
@@ -69,6 +73,7 @@ def insert_special_char(data: str) -> str:
         return random.choice(SPECIAL_CHARS)
     idx = random.randint(0, len(data))
     return data[:idx] + random.choice(SPECIAL_CHARS) + data[idx:]
+
 
 def repeat_chunk(data: str) -> str:
     """Duplicate a random slice of the input (stress-tests length handling)."""
@@ -79,10 +84,12 @@ def repeat_chunk(data: str) -> str:
     chunk = data[start:end]
     return data[:start] + chunk * random.randint(2, 10) + data[end:]
 
+
 def byte_insert(data: str) -> str:
     """Insert a random printable ASCII character at a random position."""
     idx = random.randint(0, len(data))
     return data[:idx] + random.choice(string.printable) + data[idx:]
+
 
 def swap_chars(data: str) -> str:
     """Swap two random characters in the input."""
@@ -93,14 +100,17 @@ def swap_chars(data: str) -> str:
     lst[i], lst[j] = lst[j], lst[i]
     return "".join(lst)
 
+
 def radamsa_mutate(data: str) -> str:
     """Mutate using external Radamsa (skipped silently if not installed)."""
     try:
-        p = subprocess.Popen(["radamsa"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        p = subprocess.Popen(
+            ["radamsa"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         out, _ = p.communicate(data.encode())
         return out.decode(errors="ignore")
     except Exception:
         return data
+
 
 # ---------------------------------------------------------------------------
 # Strategy registry
@@ -120,6 +130,8 @@ STRATEGIES = [
 # ---------------------------------------------------------------------------
 # MutationEngine
 # ---------------------------------------------------------------------------
+
+
 class MutationEngine:
     """
     AFL-style weighted mutation engine.
@@ -133,10 +145,11 @@ class MutationEngine:
 
     Without a grammar spec, only generic format-agnostic mutations are used.
     """
+
     def __init__(
         self,
-        input_format : str = "*",
-        grammar_spec : dict | None = None
+        input_format: str = "*",
+        grammar_spec: dict | None = None
     ) -> None:
         self.input_format = input_format
         self._grammar_spec = grammar_spec or {}
@@ -152,13 +165,13 @@ class MutationEngine:
         # Add grammar-aware strategies when a spec is available
         if self._grammar_spec:
             self.strategies.append({
-                "name"  : "grammar_mutate",
-                "fn"    : self._grammar_mutate,
+                "name": "grammar_mutate",
+                "fn": self._grammar_mutate,
                 "weight": 1.5,
             })
             self.strategies.append({
-                "name"  : "constraint_violation",
-                "fn"    : self._constraint_violation,
+                "name": "constraint_violation",
+                "fn": self._constraint_violation,
                 "weight": 2.0,  # High weight — directly targets logic bugs
             })
 
@@ -218,8 +231,8 @@ class MutationEngine:
     # ── Internal ──────────────────────────────────────────────────────────
     def _weighted_choice(self) -> dict:
         """Select a strategy using weighted random sampling."""
-        total      = sum(s["weight"] for s in self.strategies)
-        pick       = random.uniform(0, total)
+        total = sum(s["weight"] for s in self.strategies)
+        pick = random.uniform(0, total)
         cumulative = 0.0
         for s in self.strategies:
             cumulative += s["weight"]
@@ -228,6 +241,7 @@ class MutationEngine:
                 return s
         self._last_strategy = self.strategies[-1]["name"]
         return self.strategies[-1]
+
 
 # ---------------------------------------------------------------------------
 # Quick manual test — python3 engine/mutation_engine.py
@@ -238,7 +252,7 @@ if __name__ == "__main__":
 
     print("=== Generic mutations ===")
     engine = MutationEngine(input_format="*")
-    seed   = '{"name": "alice", "age": 30}'
+    seed = '{"name": "alice", "age": 30}'
     for _ in range(6):
         mutated = engine.mutate(seed)
         print(f"[{engine.get_last_strategy():25s}] {repr(mutated[:60])}")
@@ -249,8 +263,8 @@ if __name__ == "__main__":
         with open(yaml_path) as f:
             cfg = yaml.safe_load(f)
         engine = MutationEngine(
-            input_format = "json",
-            grammar_spec = cfg.get("input"),
+            input_format="json",
+            grammar_spec=cfg.get("input"),
         )
         seed = '{"a": 1}'
         for _ in range(10):

@@ -84,11 +84,11 @@ from engine import coverage_tracker, bug_logger, report_generator
 DISPLAY_INTERVAL = 5    # iterations between status redraws
 DISPLAY_TIME_INT = 0.5  # seconds between status redraws
 REPORT_INTERVAL = 300   # seconds between background report refreshes (5 min)
-DEFAULT_DURATION = None # None = no time limit unless --duration given
-DEFAULT_ITERS = 100_000 # safety cap when no --iterations given
+DEFAULT_DURATION = None  # None = no time limit unless --duration given
+DEFAULT_ITERS = 100_000  # safety cap when no --iterations given
 
-TARGETS_DIR  = Path(__file__).resolve().parent / "targets"
-KNOWN_YAMLS  = [
+TARGETS_DIR = Path(__file__).resolve().parent / "targets"
+KNOWN_YAMLS = [
     "json_decoder.yaml",
     "cidrize.yaml",
     "ipv4_parser.yaml",
@@ -100,26 +100,31 @@ MAX_CORPUS = 10000
 # ---------------------------------------------------------------------------
 # Config helpers
 # ---------------------------------------------------------------------------
+
+
 def get_input_type(config: dict) -> str:
     """Resolve the input format string from a config dict."""
     input_block = config.get("input", {})
-    input_type = input_block.get("type", "") if isinstance(input_block, dict) else None
+    input_type = input_block.get("type", "") if isinstance(
+        input_block, dict) else None
     return input_type
 
 # ---------------------------------------------------------------------------
 # ANSI colour helpers (no external deps)
 # ---------------------------------------------------------------------------
+
+
 class C:
-    RESET   = "\033[0m"
-    BOLD    = "\033[1m"
-    DIM     = "\033[2m"
-    GREEN   = "\033[92m"
-    YELLOW  = "\033[93m"
-    RED     = "\033[91m"
-    CYAN    = "\033[96m"
-    BLUE    = "\033[94m"
+    RESET = "\033[0m"
+    BOLD = "\033[1m"
+    DIM = "\033[2m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    CYAN = "\033[96m"
+    BLUE = "\033[94m"
     MAGENTA = "\033[95m"
-    WHITE   = "\033[97m"
+    WHITE = "\033[97m"
 
     @staticmethod
     def green(s): return f"\033[92m{s}\033[0m"
@@ -144,25 +149,30 @@ class C:
 # ---------------------------------------------------------------------------
 _W = 72  # display width
 
+
 def _div(label: str = "") -> str:
     if label:
         inner = f" {label} "
         return f"{C.CYAN}──{inner}{'─' * (_W - len(inner) - 2)}{C.RESET}"
     return C.cyan("─" * _W)
 
+
 def _kv(key: str, val: str, w: int = 26) -> str:
     return f"  {C.DIM}{key:<{w}}{C.RESET}: {val}"
+
 
 def _fmt_elapsed(seconds: float) -> str:
     h, r = divmod(int(seconds), 3600)
     m, s = divmod(r, 60)
     return f"{h}h {m:02d}m {s:02d}s"
 
+
 def _fmt_remaining(elapsed: float, duration: float | None) -> str:
     if duration is None:
         return C.dim("∞")
     rem = max(0.0, duration - elapsed)
     return C.yellow(_fmt_elapsed(rem))
+
 
 def print_banner(config: dict, mode: str, duration: float | None, max_iters: int) -> None:
     target = config.get("name", "unknown")
@@ -176,17 +186,22 @@ def print_banner(config: dict, mode: str, duration: float | None, max_iters: int
     print(f"  {C.bold(C.cyan('greybox fuzzer'))}  ·  "
           f"target: {C.green(target)}  ·  mode: {C.yellow(mode)}")
     print(_div())
-    if (input_type != None): print(_kv("input format",  C.cyan(input_type)))
+    if (input_type != None):
+        print(_kv("input format",  C.cyan(input_type)))
     print(_kv("exec timeout", f"{timeout}s per input"))
-    print(_kv("stop after", f"{dur_str}  /  {iter_str} iters (whichever first)"))
+    print(
+        _kv("stop after", f"{dur_str}  /  {iter_str} iters (whichever first)"))
     print(_kv("detection", config.get("detection_mode", "keyword+crash+diff")))
-    print(_kv("coverage", C.green("enabled") if config.get("coverage_enabled") else C.dim("disabled")))
+    print(_kv("coverage", C.green("enabled") if config.get(
+        "coverage_enabled") else C.dim("disabled")))
     print(_div())
     print()
 
+
 # number of lines in the live status block (must match print_fuzz_status exactly)
 _STATUS_LINES = 23
-_status_drawn = False 
+_status_drawn = False
+
 
 def _afl_time(seconds: float) -> str:
     if seconds is None:
@@ -197,13 +212,16 @@ def _afl_time(seconds: float) -> str:
     s = int(seconds % 60)
     return f"{d} days, {h} hrs, {m} min, {s} sec"
 
+
 def _pad(s: str, w: int) -> str:
     v = str(s)[:w]
     return v + " " * (w - len(v))
 
+
 def _cp(s: str, w: int, c_fn=None) -> str:
     padded = _pad(s, w)
     return c_fn(padded) if c_fn else padded
+
 
 def print_fuzz_status(
     config: dict,
@@ -224,47 +242,48 @@ def print_fuzz_status(
     _, rows = shutil.get_terminal_size()
     if rows < _STATUS_LINES + 2:
         pass
-    
+
     # Process timing
-    t_run_time    = _afl_time(elapsed)
-    t_last_find   = _afl_time(elapsed - last_report) if last_report is not None else "none seen yet"
-    t_last_crash  = "recently" if last_bug else "none seen yet"
-    t_last_hang   = "none seen yet"
-    
+    t_run_time = _afl_time(elapsed)
+    t_last_find = _afl_time(
+        elapsed - last_report) if last_report is not None else "none seen yet"
+    t_last_crash = "recently" if last_bug else "none seen yet"
+    t_last_hang = "none seen yet"
+
     # Overall results
-    t_cycles      = "n/a"
-    t_corpus      = str(corpus_len)
-    t_crashes     = str(total_bugs)
-    t_hangs       = "n/a"
-    
+    t_cycles = "n/a"
+    t_corpus = str(corpus_len)
+    t_crashes = str(total_bugs)
+    t_hangs = "n/a"
+
     # Cycle progress
-    t_now_proc    = "n/a"
-    t_runs_to     = "n/a"
-    t_map_dens    = "n/a"
-    t_count_cov   = "n/a"
-    
+    t_now_proc = "n/a"
+    t_runs_to = "n/a"
+    t_map_dens = "n/a"
+    t_count_cov = "n/a"
+
     # Stage progress
     strats = list(strategy_counts.items())
     strats.sort(key=lambda x: x[1], reverse=True)
-    t_now_trying  = strats[0][0] if strats else "explore"
+    t_now_trying = strats[0][0] if strats else "explore"
     t_stage_execs = "n/a"
-    
+
     if iteration >= 1000:
         t_total_execs = f"{iteration/1000:.1f}k"
     else:
         t_total_execs = str(iteration)
-        
+
     t_exec_speed = f"{execs_sec:.1f}/sec"
-    
-    # Findings 
+
+    # Findings
     t_fav_items = str(corpus_len)  # the whole corpus is favored basically
     t_new_edges = str(new_paths)
-    
+
     def st_name(i):
         if i < len(strats):
             return f"{strats[i][0]}: {strats[i][1]}"
         return "n/a"
-        
+
     s1, s2, s3, s4, s5, s6, s7 = [st_name(i) for i in range(7)]
 
     lines = [
@@ -300,12 +319,13 @@ def print_fuzz_status(
     output = ""
     if _status_drawn:
         output += f"\033[{_STATUS_LINES}A"
-    
+
     output += "\n".join(lines) + "\n"
 
     sys.stdout.write(output)
     sys.stdout.flush()
     _status_drawn = True
+
 
 def print_seed_result(
     seed: str,
@@ -314,22 +334,23 @@ def print_seed_result(
     total: int,
 ) -> None:
     tag = {
-        BugType.NORMAL      : C.green("  ok         "),
-        BugType.RELIABILITY : C.red("  RELIABILITY"),
-        BugType.TIMEOUT     : C.yellow("  TIMEOUT    "),
-        BugType.VALIDITY    : C.magenta("  VALIDITY   "),
-        BugType.INVALIDITY  : C.magenta("  INVALIDITY "),
-        BugType.PERFORMANCE : C.yellow("  PERFORMANCE"),
-        BugType.FUNCTIONAL  : C.magenta("  FUNCTIONAL "),
-        BugType.BOUNDARY    : C.magenta("  BOUNDARY   "),
-        BugType.BONUS       : C.cyan("  BONUS      "),
-        BugType.SYNTACTIC   : C.yellow("  SYNTACTIC  "),
-        BugType.ERROR       : C.red("  ERROR      "),
+        BugType.NORMAL: C.green("  ok         "),
+        BugType.RELIABILITY: C.red("  RELIABILITY"),
+        BugType.TIMEOUT: C.yellow("  TIMEOUT    "),
+        BugType.VALIDITY: C.magenta("  VALIDITY   "),
+        BugType.INVALIDITY: C.magenta("  INVALIDITY "),
+        BugType.PERFORMANCE: C.yellow("  PERFORMANCE"),
+        BugType.FUNCTIONAL: C.magenta("  FUNCTIONAL "),
+        BugType.BOUNDARY: C.magenta("  BOUNDARY   "),
+        BugType.BONUS: C.cyan("  BONUS      "),
+        BugType.SYNTACTIC: C.yellow("  SYNTACTIC  "),
+        BugType.ERROR: C.red("  ERROR      "),
     }.get(bug.bug_type, C.dim("  ?           "))
 
     progress = C.dim(f"[{idx:>3}/{total}]")
     seed_str = C.dim(repr(seed[:48]))
     print(f"  {progress} {tag}  {seed_str}")
+
 
 def print_summary(
     label: str,
@@ -356,17 +377,20 @@ def print_summary(
 # ---------------------------------------------------------------------------
 # Background report refresh thread
 # ---------------------------------------------------------------------------
+
+
 class ReportRefresher(threading.Thread):
     """
     Daemon thread that regenerates report.html every REPORT_INTERVAL seconds.
     Keeps the report warm during long fuzz runs so Ctrl+C exit is fast.
     """
+
     def __init__(self, targets: list[str], out_path: Path) -> None:
         super().__init__(daemon=True)
         self.targets = targets
         self.out_path = out_path
         self._stop_evt = threading.Event()
-        self.last_run : float | None = None
+        self.last_run: float | None = None
         self._rg = report_generator
 
     def run(self) -> None:
@@ -381,7 +405,8 @@ class ReportRefresher(threading.Thread):
             rg = self._rg
             all_data = rg.load_all(self.targets, use_firestore=final)
             all_coverage = rg.load_all_coverage(self.targets)
-            rg.generate_report(all_data, all_coverage, self.targets, self.out_path)
+            rg.generate_report(all_data, all_coverage,
+                               self.targets, self.out_path)
             self.last_run = time.monotonic()
         except Exception as e:
             print(f"\n[report_generator] Report generation failed: {e}")
@@ -399,6 +424,8 @@ class ReportRefresher(threading.Thread):
 # ---------------------------------------------------------------------------
 # Inline minimal classifier (seed mode only — no output_parser dependency)
 # ---------------------------------------------------------------------------
+
+
 def _classify_inline(
     buggy_result: RawResult,
     ref: RawResult | None,
@@ -426,7 +453,7 @@ def _classify_inline(
             bug_type=BugType.ERROR, bug_key="no_result", input_data=seed,
             target=config.get("name", "unknown"), strategy="seed",
         )
-    
+
     import hashlib
 
     target = config.get("name", "unknown")
@@ -442,12 +469,14 @@ def _classify_inline(
     #    classified as RELIABILITY rather than a generic crash.
     elif buggy_result.crashed:
         # Still check for a named exception in stderr — prefer the specific type
-        keyword_type = classify_from_keywords(buggy_result.stdout, buggy_result.stderr)
+        keyword_type = classify_from_keywords(
+            buggy_result.stdout, buggy_result.stderr)
         btype = keyword_type if keyword_type is not None else BugType.RELIABILITY
 
     # 3. Named exception keyword in output — covers all 6 seeded types + BONUS
     else:
-        keyword_type = classify_from_keywords(buggy_result.stdout, buggy_result.stderr)
+        keyword_type = classify_from_keywords(
+            buggy_result.stdout, buggy_result.stderr)
         if keyword_type is not None:
             btype = keyword_type
 
@@ -463,24 +492,27 @@ def _classify_inline(
         else:
             btype = BugType.NORMAL
 
-    bug_key = hashlib.md5(f"{btype.name}:{seed[:80]}".encode()).hexdigest()[:12]
+    bug_key = hashlib.md5(
+        f"{btype.name}:{seed[:80]}".encode()).hexdigest()[:12]
 
     return BugResult(
-        bug_type = btype,
-        bug_key = bug_key,
-        input_data = seed,
-        target = target,
-        strategy = "seed",
-        stdout = buggy_result.stdout,
-        stderr = buggy_result.stderr,
-        returncode = buggy_result.returncode,
-        timed_out = buggy_result.timed_out,
-        crashed = buggy_result.crashed,
+        bug_type=btype,
+        bug_key=bug_key,
+        input_data=seed,
+        target=target,
+        strategy="seed",
+        stdout=buggy_result.stdout,
+        stderr=buggy_result.stderr,
+        returncode=buggy_result.returncode,
+        timed_out=buggy_result.timed_out,
+        crashed=buggy_result.crashed,
     )
 
 # ---------------------------------------------------------------------------
 # Seed mode
 # ---------------------------------------------------------------------------
+
+
 def run_seed_mode(config: dict) -> None:
     """
     Run every seed through the full pipeline once (no mutation).
@@ -498,7 +530,7 @@ def run_seed_mode(config: dict) -> None:
     print()
 
     total_bugs = 0
-    start      = time.monotonic()
+    start = time.monotonic()
 
     for idx, seed in enumerate(seeds, 1):
         buggy_results, ref = run_both(config, seed, strategy="seed")
@@ -509,12 +541,12 @@ def run_seed_mode(config: dict) -> None:
 
     elapsed = time.monotonic() - start
     print_summary(
-        label = "seed mode",
-        n_run = len(seeds),
-        total_bugs = total_bugs,
-        new_paths = None,
-        corpus_len = None,
-        elapsed = elapsed,
+        label="seed mode",
+        n_run=len(seeds),
+        total_bugs=total_bugs,
+        new_paths=None,
+        corpus_len=None,
+        elapsed=elapsed,
     )
     print(C.dim("  tip: omit --seed to run the full mutation loop"))
     print()
@@ -559,11 +591,12 @@ def run_fuzz_mode(
     if not seeds:
         print(C.yellow("  [warn] no seeds found — check seeds_path in YAML"))
         return
-    
+
     # Get the input spec from the config (the 'input:' section of your YAML)
     grammar_spec = config.get("input", {})
 
-    engine = MutationEngine(input_format=get_input_type(config), grammar_spec=grammar_spec)
+    engine = MutationEngine(input_format=get_input_type(
+        config), grammar_spec=grammar_spec)
     oracle = BugOracle()
     corpus = list(seeds)
     target = config.get("name", "unknown")
@@ -574,7 +607,8 @@ def run_fuzz_mode(
 
     def pick_seed(corpus, energy):
         weights = [energy.get(s, 1.0) for s in corpus]
-        return random.choices(corpus, weights=weights, k=1)[0] # weighted random choice based on energy
+        # weighted random choice based on energy
+        return random.choices(corpus, weights=weights, k=1)[0]
 
     # ── seed corpus initialisation ────────────────────────────────────────
     # Augment static seeds.txt with dynamically generated seeds using the
@@ -599,7 +633,8 @@ def run_fuzz_mode(
                 f"+ {seed_count} generated = {len(corpus)} total"
             ))
         except Exception as e:
-            print(C.yellow(f"  [warn] seed_generator failed: {e} — using static seeds only"))
+            print(
+                C.yellow(f"  [warn] seed_generator failed: {e} — using static seeds only"))
 
     # Reset per-target state in module-level wrappers
     bug_logger.reset()
@@ -650,12 +685,12 @@ def run_fuzz_mode(
     signal.signal(signal.SIGINT, _handle_sigint)
 
     # ── loop state ────────────────────────────────────────────────────────
-    total_bugs      = 0
-    new_paths       = 0
-    last_bug        : BugResult | None = None
-    strategy_counts : dict[str, int]   = {}
-    start           = time.monotonic()
-    iteration       = 0
+    total_bugs = 0
+    new_paths = 0
+    last_bug: BugResult | None = None
+    strategy_counts: dict[str, int] = {}
+    start = time.monotonic()
+    iteration = 0
 
     try:
         for iteration in range(1, max_iters + 1):
@@ -668,13 +703,14 @@ def run_fuzz_mode(
                 break
 
             # ── 1. pick seed and mutate ───────────────────────────────────
-            seed     = pick_seed(corpus, energy)
-            mutated  = engine.mutate(seed)
+            seed = pick_seed(corpus, energy)
+            mutated = engine.mutate(seed)
             strategy = engine.get_last_strategy()
 
             # ── 2. run target ─────────────────────────────────────────────
             t0 = time.monotonic()
-            buggy_result, reference_result = run_both(config, mutated, strategy=strategy, use_coverage=True, timeout=timeout)
+            buggy_result, reference_result = run_both(
+                config, mutated, strategy=strategy, use_coverage=True, timeout=timeout)
             exec_time = time.monotonic() - t0
             exec_time_window.append(exec_time)
             if len(exec_time_window) > MAX_WINDOW:
@@ -689,13 +725,14 @@ def run_fuzz_mode(
             # ── 3. classify ───────────────────────────────────────────────
             ref_stdout = reference_result.stdout if reference_result else None
             bug = oracle.classify(
-                raw        = buggy_result,
-                input_data = mutated,
-                target     = target,
-                config     = config,
-                ref_stdout = ref_stdout,
+                raw=buggy_result,
+                input_data=mutated,
+                target=target,
+                config=config,
+                ref_stdout=ref_stdout,
             )
-            bug.strategy = strategy  # stamp strategy (classify leaves it blank)
+            # stamp strategy (classify leaves it blank)
+            bug.strategy = strategy
 
             # ── 4. coverage tracking ──────────────────────────────────────
             found_new = coverage_tracker.update(bug, config)
@@ -704,8 +741,10 @@ def run_fuzz_mode(
             if found_new:
                 corpus.append(mutated)
                 parent_energy = energy.get(seed, 1.0)
-                energy[mutated] = min(10.0, parent_energy * 1.2 + 2.0) # assign high energy to new seed
-                energy[seed] = min(10.0, energy.get(seed, 1.0) * 1.5) # reward parent seed
+                # assign high energy to new seed
+                energy[mutated] = min(10.0, parent_energy * 1.2 + 2.0)
+                energy[seed] = min(10.0, energy.get(
+                    seed, 1.0) * 1.5)  # reward parent seed
                 engine.boost(strategy)
                 new_paths += 1
                 # limit corpus size
@@ -714,11 +753,12 @@ def run_fuzz_mode(
                     corpus.remove(worst)
                     energy.pop(worst, None)
             else:
-                energy[seed] = max(0.1, energy.get(seed, 1.0) * 0.95) # decay seed if it didn't find anything
+                # decay seed if it didn't find anything
+                energy[seed] = max(0.1, energy.get(seed, 1.0) * 0.95)
 
             # AFL-style energy decay — prevents one strategy dominating
             engine.decay()
-            
+
             # global energy decay to prevent domination
             for s in energy:
                 energy[s] = max(0.1, energy[s] * 0.999)
@@ -727,8 +767,9 @@ def run_fuzz_mode(
             if bug.is_bug():
                 bug_logger.log(bug, config)
                 total_bugs += 1
-                last_bug    = bug
-                strategy_counts[strategy] = strategy_counts.get(strategy, 0) + 1
+                last_bug = bug
+                strategy_counts[strategy] = strategy_counts.get(
+                    strategy, 0) + 1
 
             # ── 7. live status redraw ─────────────────────────────────────
             elapsed = time.monotonic() - start
@@ -737,39 +778,39 @@ def run_fuzz_mode(
                 execs_sec = iteration / elapsed if elapsed > 0 else 0.0
                 print_fuzz_status.last_draw = time.monotonic()
                 print_fuzz_status(
-                    config          = config,
-                    iteration       = iteration,
-                    total_bugs      = total_bugs,
-                    new_paths       = new_paths,
-                    corpus_len      = len(corpus),
-                    execs_sec       = execs_sec,
-                    elapsed         = elapsed,
-                    duration        = duration,
-                    max_iters       = max_iters,
-                    last_bug        = last_bug,
-                    last_report     = refresher.elapsed_since_last(time.monotonic()),
-                    strategy_counts = strategy_counts,
+                    config=config,
+                    iteration=iteration,
+                    total_bugs=total_bugs,
+                    new_paths=new_paths,
+                    corpus_len=len(corpus),
+                    execs_sec=execs_sec,
+                    elapsed=elapsed,
+                    duration=duration,
+                    max_iters=max_iters,
+                    last_bug=last_bug,
+                    last_report=refresher.elapsed_since_last(time.monotonic()),
+                    strategy_counts=strategy_counts,
                 )
 
     finally:
         # ── shutdown sequence ─────────────────────────────────────────────
         elapsed = time.monotonic() - start
-        
+
         # Issue final redraw to ensure 100% accurate final stats
         execs_sec = iteration / elapsed if elapsed > 0 else 0.0
         print_fuzz_status(
-            config          = config,
-            iteration       = iteration,
-            total_bugs      = total_bugs,
-            new_paths       = new_paths,
-            corpus_len      = len(corpus),
-            execs_sec       = execs_sec,
-            elapsed         = elapsed,
-            duration        = duration,
-            max_iters       = max_iters,
-            last_bug        = last_bug,
-            last_report     = refresher.elapsed_since_last(time.monotonic()),
-            strategy_counts = strategy_counts,
+            config=config,
+            iteration=iteration,
+            total_bugs=total_bugs,
+            new_paths=new_paths,
+            corpus_len=len(corpus),
+            execs_sec=execs_sec,
+            elapsed=elapsed,
+            duration=duration,
+            max_iters=max_iters,
+            last_bug=last_bug,
+            last_report=refresher.elapsed_since_last(time.monotonic()),
+            strategy_counts=strategy_counts,
         )
 
         # Stop refresher → triggers final report generation
@@ -778,18 +819,20 @@ def run_fuzz_mode(
         refresher.stop()
 
         print_summary(
-            label       = "fuzz",
-            n_run       = iteration,
-            total_bugs  = total_bugs,
-            new_paths   = new_paths,
-            corpus_len  = len(corpus),
-            elapsed     = elapsed,
-            report_path = out_path if out_path.exists() else None,
+            label="fuzz",
+            n_run=iteration,
+            total_bugs=total_bugs,
+            new_paths=new_paths,
+            corpus_len=len(corpus),
+            elapsed=elapsed,
+            report_path=out_path if out_path.exists() else None,
         )
 
 # ---------------------------------------------------------------------------
 # Target resolution
 # ---------------------------------------------------------------------------
+
+
 def _collect_yamls(explicit: str | None, run_all: bool) -> list[str]:
     if explicit:
         return [explicit]
@@ -889,10 +932,10 @@ def main() -> None:
         else:
             try:
                 run_fuzz_mode(
-                    config      = config,
-                    duration    = args.duration,
-                    max_iters   = args.iterations,
-                    all_targets = all_targets,
+                    config=config,
+                    duration=args.duration,
+                    max_iters=args.iterations,
+                    all_targets=all_targets,
                 )
             except ImportError as e:
                 print(C.red(f"\n  [error] missing module:\n  {e}\n"))

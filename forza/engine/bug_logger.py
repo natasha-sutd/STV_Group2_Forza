@@ -13,18 +13,19 @@ Files written to results/<target>/<run_id>/:
   - tracebacks.log  : raw stdout for anything that is not NORMAL
 """
 
+from engine import firestore_client
+from typing import Optional
+from engine.types import BugResult, BugType
+from pathlib import Path
+import time
 import os
 import csv
-import time
-from pathlib import Path
-from engine.types import BugResult, BugType
-from typing import Optional
-from engine import firestore_client
 
-_ENGINE_DIR  = Path(__file__).resolve().parent
+_ENGINE_DIR = Path(__file__).resolve().parent
 _PROJECT_DIR = _ENGINE_DIR.parent
 _RESULTS_DIR = _PROJECT_DIR / "results"
 _CRASHES_DIR = _PROJECT_DIR / "crashes"
+
 
 class FuzzLogger:
     """
@@ -49,10 +50,10 @@ class FuzzLogger:
         run_dir = _RESULTS_DIR / target / run_id
         run_dir.mkdir(parents=True, exist_ok=True)
 
-        self._bug_path  = _RESULTS_DIR / f"{target}_bugs.csv"
-        self._run_path  = run_dir / "all_runs.csv"
+        self._bug_path = _RESULTS_DIR / f"{target}_bugs.csv"
+        self._run_path = run_dir / "all_runs.csv"
         self._stat_path = run_dir / "stats.csv"
-        self._tb_path   = run_dir / "tracebacks.log"
+        self._tb_path = run_dir / "tracebacks.log"
 
         self._init_csv(self._run_path, self.RUNS_FIELDS)
         self._init_csv(self._stat_path, self.STATS_FIELDS)
@@ -95,21 +96,21 @@ class FuzzLogger:
         if result.bug_key and result.bug_key not in self._seen_keys:
             self._seen_keys.add(result.bug_key)
             self._unique_bugs += 1
- 
+
             with open(self._bug_path, "a", newline="", encoding="utf-8") as f:
                 writer = csv.DictWriter(f, fieldnames=self.BUGS_FIELDS)
                 writer.writerow({
-                    "target"     : self.target,
-                    "bug_type"   : result.bug_type.name,
-                    "bug_key"    : result.bug_key,
-                    "input_data" : result.input_data,
-                    "stdout"     : result.stdout[:500],
-                    "stderr"     : result.stderr[:500],
-                    "returncode" : result.returncode,
-                    "timed_out"  : result.timed_out,
-                    "crashed"    : result.crashed,
-                    "strategy"   : result.strategy,
-                    "timestamp"  : time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "target": self.target,
+                    "bug_type": result.bug_type.name,
+                    "bug_key": result.bug_key,
+                    "input_data": result.input_data,
+                    "stdout": result.stdout[:500],
+                    "stderr": result.stderr[:500],
+                    "returncode": result.returncode,
+                    "timed_out": result.timed_out,
+                    "crashed": result.crashed,
+                    "strategy": result.strategy,
+                    "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
                 })
 
             # Upload to Firestore
@@ -210,8 +211,10 @@ class FuzzLogger:
 # all iterations for that target. reset() creates a fresh instance for
 # the next target when running --all.
 # ---------------------------------------------------------------------------
- 
+
+
 _logger: FuzzLogger | None = None
+
 
 def log(bug: BugResult, config: dict) -> None:
     """
@@ -220,12 +223,13 @@ def log(bug: BugResult, config: dict) -> None:
     """
     global _logger
     target = bug.target or config.get("name", "unknown")
- 
+
     if _logger is None or _logger.target != target:
         _logger = FuzzLogger(target=target)
- 
+
     _logger.record(bug)
- 
+
+
 def reset() -> None:
     """
     Drop the current FuzzLogger instance.

@@ -2,9 +2,9 @@ name: cidrize
 
 # commands
 buggy_cmd: 
-  windows: ["./win-cidrize-runner.exe", "--func", "cidrize", "--ipstr", "{input}"]
-  mac: ["./mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}"]
-buggy_cwd: "../../cidrize-runner-main/bin"
+  windows: ["../cidrize-runner-main/bin/win-cidrize-runner.exe", "--func", "cidrize", "--ipstr", "{input}"]
+  mac: ["../cidrize-runner-main/bin/mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}"]
+buggy_cwd: "../../cidrize-runner-main"
 
 reference_cmd:
   windows: ["python", "cidrize.py", "{input}"]

@@ -26,12 +26,15 @@ KNOWN_TARGETS = ["json_decoder", "cidrize", "ipv4_parser", "ipv6_parser"]
 # ---------------------------------------------------------------------------
 # Data loading
 # ---------------------------------------------------------------------------
+
+
 def load_csv(target: str) -> list[dict]:
     csv_path = RESULTS_DIR / f"{target}_bugs.csv"
     if not csv_path.exists():
         return []
     with open(csv_path, newline="", encoding="utf-8", errors="replace") as f:
         return list(csv.DictReader(f))
+
 
 def load_coverage_csv(target: str) -> list[dict]:
     csv_path = RESULTS_DIR / f"{target}_coverage.csv"
@@ -45,7 +48,9 @@ def load_coverage_csv(target: str) -> list[dict]:
     latest_run = max(r.get("run_id", "") for r in rows)
     return [r for r in rows if r.get("run_id") == latest_run]
 
+
 _CACHE_PATH = RESULTS_DIR / "firestore_cache.json"
+
 
 def _normalise_row(row: dict) -> dict:
     ts = row.get("timestamp")
@@ -55,6 +60,7 @@ def _normalise_row(row: dict) -> dict:
     row["timed_out"] = str(row.get("timed_out", False)).lower()
     row["crashed"] = str(row.get("crashed",   False)).lower()
     return row
+
 
 def _load_from_firestore(targets: list[str]) -> dict[str, list[dict]] | None:
     """
@@ -103,11 +109,12 @@ def _load_from_firestore(targets: list[str]) -> dict[str, list[dict]] | None:
                 query = query.where("timestamp", ">", dt)
 
         new_docs = list(query.stream())
-        print(f"[report_generator] Fetched {len(new_docs)} new bugs from Firestore "              
+        print(f"[report_generator] Fetched {len(new_docs)} new bugs from Firestore "
               f"(cache has {sum(len(v) for v in cached_bugs.values())})")
 
         # ── merge new docs into result ────────────────────────────────────
-        result: dict[str, list[dict]] = {t: list(cached_bugs[t]) for t in targets}
+        result: dict[str, list[dict]] = {
+            t: list(cached_bugs[t]) for t in targets}
         newest_ts = last_timestamp
 
         for doc in new_docs:
@@ -125,7 +132,7 @@ def _load_from_firestore(targets: list[str]) -> dict[str, list[dict]] | None:
             _json_mod.dump({
                 "bugs": {t: result[t] for t in targets},
                 "last_timestamp": newest_ts
-                }, f)
+            }, f)
 
         total = sum(len(v) for v in result.values())
         print(f"[report_generator] Total {total} bugs (cached + new)")
@@ -134,6 +141,7 @@ def _load_from_firestore(targets: list[str]) -> dict[str, list[dict]] | None:
     except Exception as e:
         print(f"[report_generator] Firestore fetch failed: {e}")
         return None
+
 
 def load_all(targets: list[str], use_firestore: bool = True) -> dict[str, list[dict]]:
     """Try Firestore first, fall back to local CSVs if unavailable."""
@@ -144,18 +152,23 @@ def load_all(targets: list[str], use_firestore: bool = True) -> dict[str, list[d
     print("[report_generator] Using local CSVs")
     return {t: load_csv(t) for t in targets}
 
+
 def load_all_coverage(targets: list[str]) -> dict[str, list[dict]]:
     return {t: load_coverage_csv(t) for t in targets}
 
 # ---------------------------------------------------------------------------
 # Aggregation
 # ---------------------------------------------------------------------------
+
+
 def summarise(rows: list[dict]) -> dict:
     total = len(rows)
     by_type = Counter(r.get("bug_type", "unknown") for r in rows)
     by_strategy = Counter(r.get("strategy",  "unknown") for r in rows)
-    timeouts = sum(1 for r in rows if str(r.get("timed_out", "")).lower() == "true")
-    crashes = sum(1 for r in rows if str(r.get("crashed",   "")).lower() == "true")
+    timeouts = sum(1 for r in rows if str(
+        r.get("timed_out", "")).lower() == "true")
+    crashes = sum(1 for r in rows if str(
+        r.get("crashed",   "")).lower() == "true")
     unique_keys = len({r.get("bug_key", "") for r in rows})
     return dict(
         total=total,
@@ -169,10 +182,13 @@ def summarise(rows: list[dict]) -> dict:
 # ---------------------------------------------------------------------------
 # HTML helpers
 # ---------------------------------------------------------------------------
+
+
 def _esc(s) -> str:
     s = str(s) if not isinstance(s, str) else s
     return (s.replace("&", "&amp;").replace("<", "&lt;")
              .replace(">", "&gt;").replace('"', "&quot;"))
+
 
 def _pill(row: dict) -> str:
     bt = row.get("bug_type", "").lower()
@@ -187,6 +203,7 @@ def _pill(row: dict) -> str:
         return f'<span class="pill pill-diff">{label}</span>'
     return f'<span class="pill pill-error">{label}</span>'
 
+
 def _badge(total: int, has_data: bool) -> str:
     if not has_data:
         return '<span class="badge muted">no data</span>'
@@ -196,8 +213,10 @@ def _badge(total: int, has_data: bool) -> str:
         return f'<span class="badge danger">{total} bugs</span>'
     return f'<span class="badge warn">{total} bugs</span>'
 
+
 def _target_label(t: str) -> str:
     return t.replace("_", " ").title()
+
 
 def _bar_row(key: str, count: int, maximum: int) -> str:
     pct = round(count / maximum * 100) if maximum else 0
@@ -214,11 +233,14 @@ def _bar_row(key: str, count: int, maximum: int) -> str:
 # ---------------------------------------------------------------------------
 # Section renderers
 # ---------------------------------------------------------------------------
+
+
 def render_overview_card(target: str, rows: list[dict]) -> str:
     summary = summarise(rows)
     has_data = len(rows) > 0
     total = summary["total"]
-    card_cls = "card has-bugs" if total > 0 else ("card no-data" if not has_data else "card")
+    card_cls = "card has-bugs" if total > 0 else (
+        "card no-data" if not has_data else "card")
     badge = _badge(total, has_data)
     n_timeouts = summary["timeouts"]
     n_unique = summary["unique_keys"]
@@ -259,6 +281,7 @@ def render_overview_card(target: str, rows: list[dict]) -> str:
   </div>
   {breakdown}
 </div>"""
+
 
 def render_ablation_section(all_data: dict[str, list[dict]], targets: list[str]) -> str:
     """
@@ -345,6 +368,7 @@ def render_ablation_section(all_data: dict[str, list[dict]], targets: list[str])
   }});
 }})();
 </script>"""
+
 
 def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[str]) -> str:
     """
@@ -455,6 +479,7 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
 <div class="section-title">coverage over time</div>
 <div class="coverage-grid">{charts_html}</div>"""
 
+
 def render_bug_table(rows: list[dict], target: str) -> str:
     """Recent bugs table — newest first, max 50 rows."""
     if not rows:
@@ -479,6 +504,7 @@ def render_bug_table(rows: list[dict], target: str) -> str:
     <tbody>{trows}</tbody>
   </table>
 </div>"""
+
 
 def render_bug_reports(all_data: dict[str, list[dict]], targets: list[str]) -> str:
     """
@@ -569,6 +595,7 @@ def render_bug_reports(all_data: dict[str, list[dict]], targets: list[str]) -> s
     return f"""
 <div class="section-title">appendix — structured bug reports (first {total_shown} unique bugs)</div>
 <div class="bug-reports-list">{cards}</div>"""
+
 
 # ---------------------------------------------------------------------------
 # CSS + JS
@@ -690,6 +717,8 @@ document.addEventListener('DOMContentLoaded', () => {
 # ---------------------------------------------------------------------------
 # Full report
 # ---------------------------------------------------------------------------
+
+
 def generate_report(
     all_data: dict[str, list[dict]],
     all_coverage: dict[str, list[dict]],
@@ -758,6 +787,8 @@ def generate_report(
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Generate an HTML fuzzing report from bug + coverage CSVs."
@@ -787,6 +818,7 @@ def main() -> None:
 
     if not args.no_open:
         webbrowser.open(out_path.as_uri())
+
 
 if __name__ == "__main__":
     main()

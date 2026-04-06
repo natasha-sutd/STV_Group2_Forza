@@ -42,12 +42,15 @@ def _init_firebase_archive() -> bool:
     _archive_initialized = True
 
     if not FIREBASE_AVAILABLE:
-        print("[firestore-archive] firebase-admin not installed. Run: pip install firebase-admin")
+        print(
+            "[firestore-archive] firebase-admin not installed. Run: pip install firebase-admin")
         return False
 
     if not _ARCHIVE_CREDS_PATH.exists():
-        print(f"[firestore-archive] Credentials not found at {_ARCHIVE_CREDS_PATH}")
-        print("[firestore-archive] Archive uploads disabled - results saved locally only")
+        print(
+            f"[firestore-archive] Credentials not found at {_ARCHIVE_CREDS_PATH}")
+        print(
+            "[firestore-archive] Archive uploads disabled - results saved locally only")
         return False
 
     try:
@@ -74,12 +77,15 @@ def _init_firebase_current() -> bool:
     _current_initialized = True
 
     if not FIREBASE_AVAILABLE:
-        print("[firestore-current] firebase-admin not installed. Run: pip install firebase-admin")
+        print(
+            "[firestore-current] firebase-admin not installed. Run: pip install firebase-admin")
         return False
 
     if not _CURRENT_CREDS_PATH.exists():
-        print(f"[firestore-current] Credentials not found at {_CURRENT_CREDS_PATH}")
-        print("[firestore-current] Current uploads disabled - results saved locally only")
+        print(
+            f"[firestore-current] Credentials not found at {_CURRENT_CREDS_PATH}")
+        print(
+            "[firestore-current] Current uploads disabled - results saved locally only")
         return False
 
     try:
@@ -152,7 +158,8 @@ def clear_current_db(run_id: str) -> bool:
                 deleted_count += 1
 
             if deleted_count > 0:
-                print(f"[firestore-current] Cleared {deleted_count} documents from '{collection_name}' collection")
+                print(
+                    f"[firestore-current] Cleared {deleted_count} documents from '{collection_name}' collection")
 
         _current_run_id = run_id
         print(f"[firestore-current] Database cleared for new run: {run_id}")
