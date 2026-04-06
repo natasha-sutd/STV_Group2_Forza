@@ -75,7 +75,7 @@ def gen_hex(spec: dict) -> str:
 @register_type("string")
 def gen_string(spec: dict) -> str:
     length = random.randint(spec.get("min", 1), spec.get("max", 10))
-    chars  = spec.get("chars", string.ascii_letters)
+    chars = spec.get("chars", string.ascii_letters)
     return "".join(random.choice(chars) for _ in range(length))
 
 
@@ -103,9 +103,10 @@ def gen_literal(spec: dict) -> str:
 
 @register_type("array")
 def gen_array(spec: dict) -> str:
-    length       = random.randint(spec.get("min_length", 1), spec.get("max_length", 3))
+    length = random.randint(spec.get("min_length", 1),
+                            spec.get("max_length", 3))
     element_spec = spec.get("element", {"type": "int", "min": 0, "max": 100})
-    items        = [generate_from_spec(element_spec) for _ in range(length)]
+    items = [generate_from_spec(element_spec) for _ in range(length)]
     return str(items)
 
 
@@ -123,14 +124,16 @@ def gen_object(spec: dict) -> str:
       dict_str           — {'a': 1}   Python dict string
     """
     # Accept both naming conventions
-    key_spec   = spec.get("key_schema") or spec.get("key",   {"type": "string", "min": 1, "max": 8})
-    value_spec = spec.get("value_schema") or spec.get("value", {"type": "int",    "min": 0, "max": 100})
+    key_spec = spec.get("key_schema") or spec.get(
+        "key",   {"type": "string", "min": 1, "max": 8})
+    value_spec = spec.get("value_schema") or spec.get(
+        "value", {"type": "int",    "min": 0, "max": 100})
 
     n_fields = random.randint(1, spec.get("max_fields", 3))
-    obj      = {}
+    obj = {}
     for _ in range(n_fields):
-        k      = generate_from_spec(key_spec)
-        v_raw  = generate_from_spec(value_spec)
+        k = generate_from_spec(key_spec)
+        v_raw = generate_from_spec(value_spec)
         # Try to parse the value back to a Python type for proper JSON encoding
         try:
             v = json.loads(v_raw)
@@ -153,9 +156,10 @@ def gen_sequence(spec: dict) -> str:
       Parts mode   (parts list)                  — concatenate fixed parts
     """
     if "count" in spec and "element" in spec:
-        count    = spec["count"]
-        sep      = str(spec.get("separator", ""))
-        elements = [str(generate_from_spec(spec["element"])) for _ in range(count)]
+        count = spec["count"]
+        sep = str(spec.get("separator", ""))
+        elements = [str(generate_from_spec(spec["element"]))
+                    for _ in range(count)]
         return sep.join(elements)
     # Parts mode
     return "".join(str(generate_from_spec(p)) for p in spec.get("parts", []))
@@ -182,11 +186,13 @@ def generate_from_spec(spec: Any) -> str:
 
     # Aliases
     elif t == "concat":
-        result = "".join(str(generate_from_spec(p)) for p in spec.get("parts", []))
+        result = "".join(str(generate_from_spec(p))
+                         for p in spec.get("parts", []))
 
     elif t == "one_of":
         options = spec.get("options", [])
-        result  = str(generate_from_spec(random.choice(options))) if options else ""
+        result = str(generate_from_spec(
+            random.choice(options))) if options else ""
 
     elif t == "weighted_one_of":
         options = spec.get("options", [])
@@ -194,8 +200,8 @@ def generate_from_spec(spec: Any) -> str:
             result = ""
         else:
             weights = [float(o.get("weight", 1.0)) for o in options]
-            chosen  = random.choices(options, weights=weights, k=1)[0]
-            result  = str(generate_from_spec(chosen))
+            chosen = random.choices(options, weights=weights, k=1)[0]
+            result = str(generate_from_spec(chosen))
 
     else:
         result = ""
@@ -222,7 +228,8 @@ def mutate_from_spec(seed: str, spec: dict) -> str:
     if not spec:
         return seed
 
-    strategy = random.choice([_mutate_fresh, _mutate_boundary, _mutate_component_swap])
+    strategy = random.choice(
+        [_mutate_fresh, _mutate_boundary, _mutate_component_swap])
     try:
         return strategy(seed, spec)
     except Exception:
@@ -251,9 +258,10 @@ def violate_constraints(seed: str, spec: dict) -> str:
 
     if t == "sequence" and "count" in spec:
         bad_count = max(0, spec["count"] + random.choice([-2, -1, 1, 3, 8]))
-        sep       = str(spec.get("separator", ""))
+        sep = str(spec.get("separator", ""))
         elem_spec = spec.get("element", {"type": "int", "min": 0, "max": 255})
-        elements  = [str(generate_from_spec(elem_spec)) for _ in range(bad_count)]
+        elements = [str(generate_from_spec(elem_spec))
+                    for _ in range(bad_count)]
         return sep.join(elements)
 
     if t in ("one_of", "weighted_one_of"):
@@ -287,21 +295,22 @@ def _mutate_fresh(seed: str, spec: dict) -> str:
 def _mutate_boundary(seed: str, spec: dict) -> str:
     import copy
     mutated_spec = copy.deepcopy(spec)
-    leaves       = _collect_numeric_leaves(mutated_spec)
+    leaves = _collect_numeric_leaves(mutated_spec)
     if not leaves:
         return generate_from_spec(mutated_spec)
     leaf = random.choice(leaves)
-    leaf["_boundary"] = leaf.get("min", 0) if random.random() < 0.5 else leaf.get("max", 999)
+    leaf["_boundary"] = leaf.get(
+        "min", 0) if random.random() < 0.5 else leaf.get("max", 999)
     return _generate_with_boundary(mutated_spec)
 
 
 def _mutate_component_swap(seed: str, spec: dict) -> str:
     import copy
-    mutated_spec   = copy.deepcopy(spec)
-    one_of_nodes   = _collect_one_of_nodes(mutated_spec)
+    mutated_spec = copy.deepcopy(spec)
+    one_of_nodes = _collect_one_of_nodes(mutated_spec)
     if not one_of_nodes:
         return generate_from_spec(mutated_spec)
-    node    = random.choice(one_of_nodes)
+    node = random.choice(one_of_nodes)
     options = node.get("options", [])
     if options:
         node["_forced_index"] = len(options) - 1
@@ -357,8 +366,10 @@ def _generate_with_boundary(spec: dict) -> str:
         return "".join(_generate_with_boundary(p) for p in spec.get("parts", []))
     if t in ("one_of", "weighted_one_of"):
         options = spec.get("options", [])
-        weights = [float(o.get("weight", 1.0)) for o in options] if options else []
-        chosen  = random.choices(options, weights=weights, k=1)[0] if options else {}
+        weights = [float(o.get("weight", 1.0))
+                   for o in options] if options else []
+        chosen = random.choices(options, weights=weights, k=1)[
+            0] if options else {}
         return _generate_with_boundary(chosen)
     return generate_from_spec(spec)
 
@@ -369,7 +380,7 @@ def _generate_forced(spec: dict) -> str:
     t = spec.get("type", "")
     if t in ("one_of", "weighted_one_of") and "_forced_index" in spec:
         options = spec.get("options", [])
-        idx     = min(spec["_forced_index"], len(options) - 1)
+        idx = min(spec["_forced_index"], len(options) - 1)
         return _generate_forced(options[idx])
     if t in TYPE_GENERATORS:
         return str(TYPE_GENERATORS[t](spec))
@@ -380,8 +391,10 @@ def _generate_forced(spec: dict) -> str:
         return "".join(_generate_forced(p) for p in spec.get("parts", []))
     if t in ("one_of", "weighted_one_of"):
         options = spec.get("options", [])
-        weights = [float(o.get("weight", 1.0)) for o in options] if options else []
-        chosen  = random.choices(options, weights=weights, k=1)[0] if options else {}
+        weights = [float(o.get("weight", 1.0))
+                   for o in options] if options else []
+        chosen = random.choices(options, weights=weights, k=1)[
+            0] if options else {}
         return _generate_forced(chosen)
     return generate_from_spec(spec)
 
@@ -419,8 +432,10 @@ def generate_seeds_from_yaml(yaml_path: str, count: int | None = None) -> list[s
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Generalised grammar-based seed generator")
+    parser = argparse.ArgumentParser(
+        description="Generalised grammar-based seed generator")
     parser.add_argument("yaml_file", help="Path to YAML grammar config")
-    parser.add_argument("--count", type=int, help="Number of seeds to generate")
+    parser.add_argument("--count", type=int,
+                        help="Number of seeds to generate")
     args = parser.parse_args()
     generate_seeds_from_yaml(args.yaml_file, args.count)

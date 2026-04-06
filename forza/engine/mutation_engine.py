@@ -29,11 +29,9 @@ import random
 import string
 import subprocess
 
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-
 SPECIAL_CHARS = [
     "\x00",                      # null byte
     "\xff",                      # max byte
@@ -45,19 +43,19 @@ SPECIAL_CHARS = [
     "/../",                      # path traversal
     "%00",                       # URL-encoded null
     "&&", "||",                  # shell injection
-    "999999999999999999999999",   # integer overflow bait
+    "999999999999999999999999",  # integer overflow bait
 ]
-
 
 # ---------------------------------------------------------------------------
 # Generic mutation strategies
 # ---------------------------------------------------------------------------
 
+
 def bit_flip(data: str) -> str:
     """Flip a random bit in a random character of the input."""
     if not data:
         return data
-    idx     = random.randint(0, len(data) - 1)
+    idx = random.randint(0, len(data) - 1)
     flipped = chr(ord(data[idx]) ^ (1 << random.randint(0, 7)))
     return data[:idx] + flipped + data[idx + 1:]
 
@@ -82,7 +80,7 @@ def repeat_chunk(data: str) -> str:
     if len(data) < 2:
         return data * 2
     start = random.randint(0, len(data) - 1)
-    end   = random.randint(start + 1, len(data))
+    end = random.randint(start + 1, len(data))
     chunk = data[start:end]
     return data[:start] + chunk * random.randint(2, 10) + data[end:]
 
@@ -97,8 +95,8 @@ def swap_chars(data: str) -> str:
     """Swap two random characters in the input."""
     if len(data) < 2:
         return data
-    i, j  = random.sample(range(len(data)), 2)
-    lst   = list(data)
+    i, j = random.sample(range(len(data)), 2)
+    lst = list(data)
     lst[i], lst[j] = lst[j], lst[i]
     return "".join(lst)
 
@@ -107,8 +105,7 @@ def radamsa_mutate(data: str) -> str:
     """Mutate using external Radamsa (skipped silently if not installed)."""
     try:
         p = subprocess.Popen(
-            ["radamsa"], stdin=subprocess.PIPE, stdout=subprocess.PIPE
-        )
+            ["radamsa"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         out, _ = p.communicate(data.encode())
         return out.decode(errors="ignore")
     except Exception:
@@ -120,7 +117,6 @@ def radamsa_mutate(data: str) -> str:
 # grammar_mutate and constraint_violation are added dynamically in __init__
 # when a grammar_spec is provided.
 # ---------------------------------------------------------------------------
-
 STRATEGIES = [
     ("bit_flip",            bit_flip,            1.0, ["*"]),
     ("truncate",            truncate,            1.0, ["*"]),
@@ -131,10 +127,10 @@ STRATEGIES = [
     ("radamsa",             radamsa_mutate,      2.0, ["*"]),
 ]
 
-
 # ---------------------------------------------------------------------------
 # MutationEngine
 # ---------------------------------------------------------------------------
+
 
 class MutationEngine:
     """
@@ -152,14 +148,11 @@ class MutationEngine:
 
     def __init__(
         self,
-        input_format : str        = "*",
-        grammar_spec : dict | None = None,
-        # Legacy alias — accepted but grammar_spec takes priority
-        input_spec   : dict | None = None,
+        input_format: str = "*",
+        grammar_spec: dict | None = None
     ) -> None:
-        self.input_format   = input_format
-        # Accept both parameter names for backwards compatibility
-        self._grammar_spec  = grammar_spec or input_spec or {}
+        self.input_format = input_format
+        self._grammar_spec = grammar_spec or {}
         self._last_strategy = "unknown"
 
         # Build active strategy list
@@ -172,18 +165,17 @@ class MutationEngine:
         # Add grammar-aware strategies when a spec is available
         if self._grammar_spec:
             self.strategies.append({
-                "name"  : "grammar_mutate",
-                "fn"    : self._grammar_mutate,
+                "name": "grammar_mutate",
+                "fn": self._grammar_mutate,
                 "weight": 1.5,
             })
             self.strategies.append({
-                "name"  : "constraint_violation",
-                "fn"    : self._constraint_violation,
+                "name": "constraint_violation",
+                "fn": self._constraint_violation,
                 "weight": 2.0,  # High weight — directly targets logic bugs
             })
 
     # ── Public interface ──────────────────────────────────────────────────
-
     def mutate(self, seed: str) -> str:
         """Pick a strategy via weighted random selection and return a mutated seed."""
         chosen = self._weighted_choice()
@@ -214,7 +206,6 @@ class MutationEngine:
         return {s["name"]: round(s["weight"], 3) for s in self.strategies}
 
     # ── Grammar-aware strategies ──────────────────────────────────────────
-
     def _grammar_mutate(self, seed: str) -> str:
         """
         Structurally valid mutation using the YAML grammar spec.
@@ -238,11 +229,10 @@ class MutationEngine:
             return insert_special_char(seed)
 
     # ── Internal ──────────────────────────────────────────────────────────
-
     def _weighted_choice(self) -> dict:
         """Select a strategy using weighted random sampling."""
-        total      = sum(s["weight"] for s in self.strategies)
-        pick       = random.uniform(0, total)
+        total = sum(s["weight"] for s in self.strategies)
+        pick = random.uniform(0, total)
         cumulative = 0.0
         for s in self.strategies:
             cumulative += s["weight"]
@@ -256,14 +246,13 @@ class MutationEngine:
 # ---------------------------------------------------------------------------
 # Quick manual test — python3 engine/mutation_engine.py
 # ---------------------------------------------------------------------------
-
 if __name__ == "__main__":
     import yaml
     from pathlib import Path
 
     print("=== Generic mutations ===")
     engine = MutationEngine(input_format="*")
-    seed   = '{"name": "alice", "age": 30}'
+    seed = '{"name": "alice", "age": 30}'
     for _ in range(6):
         mutated = engine.mutate(seed)
         print(f"[{engine.get_last_strategy():25s}] {repr(mutated[:60])}")
@@ -274,8 +263,8 @@ if __name__ == "__main__":
         with open(yaml_path) as f:
             cfg = yaml.safe_load(f)
         engine = MutationEngine(
-            input_format = "json",
-            grammar_spec = cfg.get("input"),
+            input_format="json",
+            grammar_spec=cfg.get("input"),
         )
         seed = '{"a": 1}'
         for _ in range(10):

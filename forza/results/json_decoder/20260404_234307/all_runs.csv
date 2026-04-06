@@ -1,0 +1,9 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,"'{""KgrdkwMDOqMel"": ""RbQWfKGdrnkrqvOEZTutneVgxMWzZRcQnTLRmXwnGCLIpHvuKxAppvfwbxcsoPCzuhUFtLtaRzOLUPCClelhh""}uKxAppvfwbxcs",INVALIDITY,1,0
+2,0.675,"'{""OinrVMxPExCLZ"":{""OinrVMxPExCLZ"":{""OinrVMxPExCLZ"":{""OinrVMxPExCLZ"":{""OinrVMxPExCLZ"":{""OinrVMxPExCLZ"":{""OinrVMxPExCLZ"":",INVALIDITY,1,0
+3,4.485,"'{""KgrdkwMDOqMel"":'",INVALIDITY,1,0
+4,5.142,"'{""a"": }'",INVALIDITY,1,0
+5,6.880,"'{""pzbLTNtzIWqYUFHHV"": ""glZXhgp"", ""mtEqRoveTjBFWATyrW"": [], ""meABaQeseCxQx"": """", erD"": ""Tru""""}'",INVALIDITY,1,0
+6,7.478,'{bad json}',INVALIDITY,1,0
+7,8.658,"'{""DT"": 1482995324, ""tlQbJvvRhbVKuE"": """", ""UtQnnw"": ""KGrq"", ""TcqXDizy"": ""RzRNKsRaFtttlHifCabIVoiiORFWCLdMyoieYxAImONMZBl",INVALIDITY,1,0
+8,8.753,"'{""KgrdkwMDOqMel"":'",BONUS,1,3221225786

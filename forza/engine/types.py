@@ -1,13 +1,3 @@
-"""
-engine/types.py
-
-Canonical shared types for the fuzzer pipeline.
-ALL modules import BugResult and BugType from here — never redefine them.
-
-Import pattern:
-    from engine.types import BugResult, BugType
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -63,24 +53,25 @@ class BugType(Enum):
     ERROR        — unexpected Python-level failure in the fuzzer infrastructure.
     """
     # ── seeded bug types (from the PDF taxonomy) ──────────────────────────
-    VALIDITY    = auto()
-    INVALIDITY  = auto()
+    VALIDITY = auto()
+    INVALIDITY = auto()
     PERFORMANCE = auto()
-    FUNCTIONAL  = auto()
-    BOUNDARY    = auto()
+    FUNCTIONAL = auto()
+    BOUNDARY = auto()
     RELIABILITY = auto()   # covers bug_oracle's CRASH too (unexpected non-zero exit)
 
     # ── cidrize-specific seeded type ──────────────────────────────────────
-    SYNTACTIC   = auto()   # AddrFormatError / SyntaxError in cidrize target
+    SYNTACTIC = auto()   # AddrFormatError / SyntaxError in cidrize target
 
     # ── bonus / untracked bugs ────────────────────────────────────────────
-    BONUS       = auto()   # JSONDecodeError, CidrizeError, ParseException(StringEnd), etc.
+    # JSONDecodeError, CidrizeError, ParseException(StringEnd), etc.
+    BONUS = auto()
 
     # ── infrastructure results ────────────────────────────────────────────
-    TIMEOUT     = auto()   # process killed by timeout
-    MISMATCH    = auto()   # normalised output differs from reference (was DIFF)
-    NORMAL      = auto()   # clean run
-    ERROR       = auto()   # fuzzer-level failure
+    TIMEOUT = auto()   # process killed by timeout
+    MISMATCH = auto()   # normalised output differs from reference (was DIFF)
+    NORMAL = auto()   # clean run
+    ERROR = auto()   # fuzzer-level failure
 
 
 # ---------------------------------------------------------------------------
@@ -93,7 +84,8 @@ class BugType(Enum):
 KEYWORD_TO_BUGTYPE: list[tuple[str, BugType]] = [
     # Seeded exception class names (highest specificity — check first)
     ("ValidityBug",             BugType.VALIDITY),
-    ("invalidity bug",          BugType.INVALIDITY),   # json_decoder lowercase keyword
+    # json_decoder lowercase keyword
+    ("invalidity bug",          BugType.INVALIDITY),
     ("InvalidityBug",           BugType.INVALIDITY),
     ("InvalidCidrFormatError",  BugType.INVALIDITY),
     ("PerformanceBug",          BugType.PERFORMANCE),
@@ -104,7 +96,8 @@ KEYWORD_TO_BUGTYPE: list[tuple[str, BugType]] = [
 
     # Cidrize-specific syntax/format errors → SYNTACTIC
     ("AddrFormatError",         BugType.SYNTACTIC),
-    ("syntactic",               BugType.SYNTACTIC),    # bug_oracle lowercase match
+    # bug_oracle lowercase match
+    ("syntactic",               BugType.SYNTACTIC),
     ("syntax error",            BugType.SYNTACTIC),
 
     # Bonus / untracked exceptions (after all seeded types)
@@ -167,18 +160,18 @@ class BugResult:
                              used by BugOracle to detect PERFORMANCE bugs
                              (execution time significantly above baseline)
     """
-    bug_type    : BugType
-    bug_key     : str
-    input_data  : str
-    target      : str
-    strategy    : str        = ""
-    stdout      : str        = ""
-    stderr      : str        = ""
-    returncode  : int        = 0
-    timed_out   : bool       = False
-    crashed     : bool       = False
-    new_coverage: bool       = False
-    exec_time_ms: float      = 0.0
+    bug_type: BugType
+    bug_key: str
+    input_data: str
+    target: str
+    strategy: str = ""
+    stdout: str = ""
+    stderr: str = ""
+    returncode: int = 0
+    timed_out: bool = False
+    crashed: bool = False
+    new_coverage: bool = False
+    exec_time_ms: float = 0.0
 
     def is_bug(self) -> bool:
         """True for any result that should be logged (everything except NORMAL and ERROR)."""

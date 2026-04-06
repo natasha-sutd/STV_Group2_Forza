@@ -56,10 +56,7 @@ def resolve_binary_for_platform(binary_config) -> str:
 
 @dataclass
 class RawResult:
-    """
-    This is the OUTPUT of target_runner.py and the INPUT to oracle.py.
-    oracle.py then classifies this into a BugResult with bug_type, bug_key etc.
-    """
+    """output of target_runner.py, input to oracle.py"""
     stdout: str
     stderr: str
     returncode: int
@@ -73,12 +70,10 @@ class RawResult:
 
 
 def _inject_input(cmd_template: list[str], replacement: str) -> list[str]:
-    """Replace all {input} placeholders in a command template."""
     return [part.replace("{input}", replacement) for part in cmd_template]
 
 
 def _make_error_result(e: Exception, input_bytes: bytes) -> RawResult:
-    """Return a RawResult representing an unexpected Python-level failure."""
     return RawResult(
         stdout="",
         stderr="",
@@ -91,14 +86,12 @@ def _make_error_result(e: Exception, input_bytes: bytes) -> RawResult:
 
 
 def resolve_cmd(cmd: list[str]) -> list[str]:
-    """Replace the command name (cmd[0]) with its full path using shutil.which()."""
     resolved = shutil.which(cmd[0])
     if resolved:
         return [resolved] + cmd[1:]
     return cmd
 
 
-# runner
 def run_target(
     cmd_template: list[str],
     input_str: str,
@@ -181,72 +174,54 @@ def run_target(
             os.remove(tmp_file)
 
 
-# wrapper
 def run_both(
     config: dict,
     input_str: str,
     strategy: str | None = None,
     use_coverage: bool = False,
-) -> tuple[list[RawResult], RawResult | None]:
-    """
-    Run ALL buggy binaries AND the reference target for a given config dict.
-    Returns (buggy_results, reference_result).
-
-    buggy_results is always a LIST of RawResult — one per buggy_cmd entry.
-    This supports targets like ip_parser that have multiple binaries
-    (mac-ipv4-parser + mac-ipv6-parser) in a single YAML config.
-
-    reference_result is None if no reference_cmd is defined in the config.
-    """
+    timeout: int = 60,
+) -> tuple[RawResult, RawResult | None]:
+    """run buggy binaries and the reference target for a given config dict, returns buggy result, reference result*"""
     input_mode = config.get("input_mode", "arg")
-    timeout = config.get("timeout", 60)
     use_wsl = config.get("use_wsl", False)
-
-    extra_flags = None
-    if use_coverage and config.get("coverage_enabled") and config.get("coverage_flag"):
-        extra_flags = [config["coverage_flag"]]
+    extra_flags = [config["coverage_flag"]] if use_coverage and config.get(
+        "coverage_enabled") else None
 
     raw_buggy_cmd = config["buggy_cmd"]
-    if isinstance(raw_buggy_cmd, dict):
-        current_os = get_platform()  # This returns "windows", "mac", or "linux"
-        if current_os not in raw_buggy_cmd:
-            raise RuntimeError(
-                f"No command configured for {current_os} in YAML!")
-        buggy_cmds = [raw_buggy_cmd[current_os]]
-    elif isinstance(raw_buggy_cmd[0], list):
-        buggy_cmds = raw_buggy_cmd
-    else:
-        buggy_cmds = [raw_buggy_cmd]
+    if not raw_buggy_cmd:
+        raise ValueError("buggy_cmd is required in the config")
+    current_os = get_platform()
+    if current_os not in raw_buggy_cmd:
+        raise RuntimeError(
+            f"No command configured for {current_os} in YAML!")
+    buggy_cmd = raw_buggy_cmd[current_os]
 
-    buggy_results = []
-    for cmd in buggy_cmds:
-        result = run_target(
-            cmd_template=cmd,
-            input_str=input_str,
-            input_mode=input_mode,
-            cwd=config.get("buggy_cwd"),
-            timeout=timeout,
-            use_wsl=use_wsl,
-            extra_flags=extra_flags,
-        )
-        result.strategy = strategy
-        buggy_results.append(result)
+    buggy_result = run_target(
+        cmd_template=buggy_cmd,
+        input_str=input_str,
+        input_mode=input_mode,
+        cwd=config.get("buggy_cwd"),
+        timeout=timeout,
+        use_wsl=use_wsl,
+        extra_flags=extra_flags,
+    )
+    buggy_result.strategy = strategy
 
-    ref_cmd = config.get("reference_cmd")
-    if ref_cmd:
-        reference_result = run_target(
-            cmd_template=ref_cmd,
-            input_str=input_str,
-            input_mode=input_mode,
-            cwd=config.get("reference_cwd"),
-            timeout=timeout,
-            use_wsl=use_wsl,
-        )
-        reference_result.strategy = strategy
-    else:
-        reference_result = None
+    reference_result = None
+    if buggy_result.returncode == 0 and not buggy_result.timed_out and not buggy_result.crashed:
+        ref_cmd = config.get("reference_cmd")
+        if ref_cmd:
+            reference_result = run_target(
+                cmd_template=ref_cmd[get_platform()],
+                input_str=input_str,
+                input_mode=input_mode,
+                cwd=config.get("reference_cwd"),
+                timeout=timeout,
+                use_wsl=use_wsl,
+            )
+            reference_result.strategy = strategy
 
-    return buggy_results, reference_result
+    return buggy_result, reference_result
 
 
 def load_config(yaml_path: str) -> dict:
