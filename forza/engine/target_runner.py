@@ -174,6 +174,149 @@ def run_target(
             os.remove(tmp_file)
 
 
+def run_reference_with_coverage(
+    cmd_template: list[str],
+    input_str: str,
+    input_mode: str,
+    cwd: str | None,
+    timeout: int,
+    use_wsl: bool,
+) -> RawResult:
+    """
+    Run a plain Python reference script under 'coverage run', then immediately
+    call 'coverage report' and append its output to stdout so that
+    _extract_coverage_percentages in coverage_tracker.py can parse the real
+    statement/branch/combined percentages.
+
+    The reference script must be invoked as:
+        python script.py {input}
+    We replace 'python'/'python3' with 'coverage run --branch script.py'.
+
+    A unique .coverage data file is used per invocation so parallel runs
+    don't clobber each other.
+    """
+    import uuid
+
+    # Build the coverage-instrumented command:
+    # ["python", "script.py", ...]  →  ["coverage", "run", "--branch", "script.py", ...]
+    # Drop the leading python/python3 interpreter, keep everything else.
+    python_interpreters = {"python", "python3", "py"}
+    rest = cmd_template[1:] if cmd_template[0].lower().split(
+        os.sep)[-1].split(".")[0] in python_interpreters else cmd_template
+
+    data_file = f".coverage_{uuid.uuid4().hex[:8]}"
+    cov_run_cmd = ["coverage", "run", "--branch",
+                   f"--data-file={data_file}"] + rest
+
+    run_result = run_target(
+        cmd_template=cov_run_cmd,
+        input_str=input_str,
+        input_mode=input_mode,
+        cwd=cwd,
+        timeout=timeout,
+        use_wsl=use_wsl,
+    )
+
+    # Now call 'coverage report' to get the percentages and append to stdout.
+    try:
+        report_proc = subprocess.run(
+            ["coverage", "report", f"--data-file={data_file}",
+             "--precision=2", "-m"],
+            capture_output=True,
+            timeout=15,
+            cwd=cwd or None,
+        )
+        report_out = report_proc.stdout.decode(errors="replace")
+
+        # Parse totals from the report and reformat into the lines that
+        # _extract_coverage_percentages expects:
+        #   line coverage     : 36.84%
+        #   branch coverage   : 37.68%
+        #   combined coverage : 37.09%
+        cov_lines = _parse_coverage_report_to_summary(report_out)
+
+        # Clean up the ephemeral .coverage file.
+        try:
+            cleanup_path = Path(cwd or ".") / data_file
+            if cleanup_path.exists():
+                cleanup_path.unlink()
+        except OSError:
+            pass
+
+        run_result = RawResult(
+            stdout=run_result.stdout + "\n" + cov_lines,
+            stderr=run_result.stderr,
+            returncode=run_result.returncode,
+            timed_out=run_result.timed_out,
+            crashed=run_result.crashed,
+            error=run_result.error,
+            strategy=run_result.strategy,
+            input_data=run_result.input_data,
+        )
+    except Exception:
+        pass  # If coverage report fails, return the plain result.
+
+    return run_result
+
+
+def _parse_coverage_report_to_summary(report_text: str) -> str:
+    """
+    Parse the TOTAL line from a 'coverage report' table and emit the summary
+    lines that _extract_coverage_percentages regex-matches against:
+
+        line coverage     : 63.16%
+        branch coverage   : 37.68%
+        combined coverage : 50.00%
+
+    Coverage report TOTAL line format (--branch mode):
+        TOTAL   323   204   138   86   37%
+    columns: Name Stmts Miss Branch BrPart Cover
+    """
+    for line in report_text.splitlines():
+        parts = line.split()
+        if not parts or parts[0].upper() != "TOTAL":
+            continue
+        try:
+            if len(parts) >= 6:
+                # branch mode: TOTAL stmts miss branch brpart cover%
+                stmts = int(parts[1])
+                miss_stmts = int(parts[2])
+                branches = int(parts[3])
+                br_part = int(parts[4])
+                covered_stmts = stmts - miss_stmts
+                covered_branches = br_part  # BrPart = partially/fully covered
+
+                line_pct = (covered_stmts / stmts *
+                            100) if stmts else 0.0
+                branch_pct = (covered_branches / branches *
+                              100) if branches else 0.0
+                combined_pct = (
+                    (covered_stmts + covered_branches) /
+                    (stmts + branches) * 100
+                ) if (stmts + branches) else 0.0
+
+                return (
+                    f"line coverage     : {line_pct:.2f}%\n"
+                    f"branch coverage   : {branch_pct:.2f}%\n"
+                    f"combined coverage : {combined_pct:.2f}%\n"
+                )
+            elif len(parts) >= 4:
+                # no-branch mode: TOTAL stmts miss cover%
+                stmts = int(parts[1])
+                miss_stmts = int(parts[2])
+                covered_stmts = stmts - miss_stmts
+                line_pct = (covered_stmts / stmts *
+                            100) if stmts else 0.0
+                return (
+                    f"line coverage     : {line_pct:.2f}%\n"
+                    f"branch coverage   : {line_pct:.2f}%\n"
+                    f"combined coverage : {line_pct:.2f}%\n"
+                )
+        except (ValueError, ZeroDivisionError):
+            continue
+    return ""
+
+
 def run_both(
     config: dict,
     input_str: str,
@@ -181,11 +324,16 @@ def run_both(
     use_coverage: bool = False,
     timeout: int = 60,
 ) -> tuple[RawResult, RawResult | None]:
-    """run buggy binaries and the reference target for a given config dict, returns buggy result, reference result*"""
+    """Run buggy and reference targets. When tracking_mode is code_execution
+    and coverage_enabled is true, the reference run is instrumented with
+    'coverage run' so real statement/branch percentages flow through to
+    coverage_tracker._extract_coverage_percentages."""
     input_mode = config.get("input_mode", "arg")
     use_wsl = config.get("use_wsl", False)
+
+    # coverage_flag is only used for white-box buggy targets (e.g. json_decoder)
     extra_flags = [config["coverage_flag"]] if use_coverage and config.get(
-        "coverage_enabled") else None
+        "coverage_enabled") and config.get("coverage_flag") else None
 
     raw_buggy_cmd = config["buggy_cmd"]
     if not raw_buggy_cmd:
@@ -211,14 +359,31 @@ def run_both(
     if buggy_result.returncode == 0 and not buggy_result.timed_out and not buggy_result.crashed:
         ref_cmd = config.get("reference_cmd")
         if ref_cmd:
-            reference_result = run_target(
-                cmd_template=ref_cmd[get_platform()],
-                input_str=input_str,
-                input_mode=input_mode,
-                cwd=config.get("reference_cwd"),
-                timeout=timeout,
-                use_wsl=use_wsl,
+            use_ref_coverage = (
+                use_coverage
+                and config.get("coverage_enabled")
+                and config.get("tracking_mode") == "code_execution"
+                # black-box buggy targets only
+                and not config.get("coverage_flag")
             )
+            if use_ref_coverage:
+                reference_result = run_reference_with_coverage(
+                    cmd_template=ref_cmd[current_os],
+                    input_str=input_str,
+                    input_mode=input_mode,
+                    cwd=config.get("reference_cwd"),
+                    timeout=timeout,
+                    use_wsl=use_wsl,
+                )
+            else:
+                reference_result = run_target(
+                    cmd_template=ref_cmd[current_os],
+                    input_str=input_str,
+                    input_mode=input_mode,
+                    cwd=config.get("reference_cwd"),
+                    timeout=timeout,
+                    use_wsl=use_wsl,
+                )
             reference_result.strategy = strategy
 
     return buggy_result, reference_result

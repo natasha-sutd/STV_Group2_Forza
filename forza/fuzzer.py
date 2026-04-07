@@ -432,7 +432,7 @@ def _classify_inline(
     config: dict,
     seed: str,
 ) -> BugResult:
-    
+
     if buggy_result is None:
         return BugResult(
             bug_type=BugType.ERROR, bug_key="no_result", input_data=seed,
@@ -720,7 +720,7 @@ def run_fuzz_mode(
             bug.strategy = strategy
 
             # ── 4. coverage tracking ──────────────────────────────────────
-            found_new = coverage_tracker.update(bug, config)
+            found_new = coverage_tracker.update(bug, config, reference_result)
 
             # ── 5. corpus growth + energy boost ───────────────────────────
             if found_new:

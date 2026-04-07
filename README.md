@@ -36,7 +36,7 @@ forza/
 │   ├── coverage_tracker.py    # Tracks coverage (instrumented or behavioral proxy)
 │   ├── bug_logger.py          # Writes bugs to CSV and uploads to Firestore
 │   ├── firestore_client.py    # Firebase Firestore client (archive + current DBs)
-│   └── report_generator.py   # Generates report.html from CSV/Firestore data
+│   └── report_generator.py    # Generates report.html from CSV/Firestore data
 ├── results/
 │   ├── *_bugs.csv             # Deduplicated bug log per target
 │   ├── *_coverage.csv         # Coverage snapshots per target
@@ -91,6 +91,15 @@ fuzzer.py (orchestrator)
             └── loads from Firestore (with local cache) or CSV fallback
 ```
 
+### External Libraries Used
+
+| Libraries             | Description                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------- |
+| `Radamsa`             |   |
+| `PyPYAML`             | Defines how each target is executed in separate YAML files. Promotes extensibility by allowing new targets to be added without modifying the core fuzzer logic  |
+
+---
+
 ### What We Built Ourselves
 
 Every component in `engine/` was written from scratch:
@@ -105,8 +114,6 @@ Every component in `engine/` was written from scratch:
 | `firestore_client.py` | Dual Firestore setup (archive + current), singleton pattern                           |
 | `report_generator.py` | Full HTML report with RQ1 charts, coverage graphs, ablation study, bug reports        |
 | `fuzzer.py`           | Main loop with AFL-style terminal UI, graceful shutdown, background report refresh    |
-
-The target binaries (`json_decoder`, `cidrize`, `ipv4_parser`, `ipv6_parser`) were provided — we did not write them.
 
 ---
 
