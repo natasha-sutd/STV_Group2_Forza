@@ -108,13 +108,18 @@ class BugOracle:
     Classification priority (first match wins):
         1. TIMEOUT     — raw.timed_out is True
         2. Structured  — "Final bug count" line in output (json_decoder)
-        3. INVALIDITY  — "invalidity" keyword in output
-        4. SYNTACTIC   — "syntactic" / "syntax error" / "AddrFormatError"
-        5. FUNCTIONAL  — "functional bug" keyword
-        6. BONUS       — "bonus" keyword
-        7. RELIABILITY — non-zero exit with no structured output
-        8. MISMATCH    — normalised buggy output differs from reference
-        9. NORMAL      — none of the above
+        3. BONUS       — unhandled JSONDecodeError / CidrizeError (in Traceback)
+        4. INVALIDITY  — "invalidity" keyword or InvalidityBug/InvalidCidrFormatError exceptions
+        5. SYNTACTIC   — "syntactic" / "syntax error" / "AddrFormatError"
+        6. PERFORMANCE — PerformanceBug exception
+        7. VALIDITY    — ValidityBug exception
+        8. BOUNDARY    — BoundaryBug exception
+        9. FUNCTIONAL  — FunctionalBug exception
+        10. RELIABILITY— ReliabilityBug exception
+        11. BONUS      — "bonus" keyword or other unhandled exceptions
+        12. RELIABILITY— non-zero exit (infra crash, not seeded bug)
+        13. MISMATCH   — normalised buggy output differs from reference
+        14. NORMAL     — none of the above
     """
 
     # Regex: pull the ParseException message from stdout or stderr
@@ -192,19 +197,40 @@ class BugOracle:
         exc_msg   = exc_match.group(1)[:120] if exc_match else combined[-120:].strip()
         lower     = combined.lower()
 
-        # ── 3. INVALIDITY ─────────────────────────────────────────────────
-        if "invalidity" in lower:
+        # ── 3. BONUS — unhandled JSONDecodeError / CidrizeError (in Traceback) ────────
+        # Check BEFORE "invalidity" because "An invalidity bug has been triggered:"
+        # might contain JSONDecodeError class name. If it's unhandled (has Traceback),
+        # it's a bonus bug, not a seeded invalidity bug.
+        if "Traceback (most recent" in combined:
+            if ("JSONDecodeError" in combined or "CidrizeError" in combined):
+                exc_snippet = (combined[-200:] if len(combined) > 200 else combined).strip()
+                return self._make_result(
+                    bug_type   = BugType.BONUS,
+                    raw_key    = ("bonus_unhandled", "JSONDecodeError|CidrizeError", exc_snippet),
+                    input_data = input_data,
+                    target     = target,
+                    raw        = raw,
+                )
+
+        # ── 4. INVALIDITY ─────────────────────────────────────────────────
+        # Detects: "invalidity" keyword OR InvalidityBug/InvalidCidrFormatError exceptions
+        if ("invalidity" in lower
+                or "InvalidityBug" in combined
+                or "InvalidCidrFormatError" in combined):   # class names are case-sensitive
+            # Try to extract the full message
+            inv_match = re.search(r"(?:InvalidityBug|InvalidCidrFormatError): (.+?)(?:\n|$)", combined)
+            inv_msg = inv_match.group(1)[:160] if inv_match else exc_msg
             # Include stdout to differentiate similar invalidity bugs
             stdout_snippet = stdout[:80].strip() if stdout else ""
             return self._make_result(
                 bug_type   = BugType.INVALIDITY,
-                raw_key    = ("invalidity", "ParseException", exc_msg, stdout_snippet),
+                raw_key    = ("invalidity", "InvalidityBug|InvalidCidrFormatError", inv_msg, stdout_snippet),
                 input_data = input_data,
                 target     = target,
                 raw        = raw,
             )
 
-        # ── 4. SYNTACTIC (cidrize: AddrFormatError, SyntaxError) ──────────
+        # ── 5. SYNTACTIC (cidrize: AddrFormatError, SyntaxError) ──────────
         if ("syntactic" in lower
                 or "syntax error" in lower
                 or "AddrFormatError" in combined):   # class name is case-sensitive
@@ -220,7 +246,46 @@ class BugOracle:
                 raw        = raw,
             )
 
-        # ── 5. FUNCTIONAL ─────────────────────────────────────────────────
+        # ── 6. PERFORMANCE ────────────────────────────────────────────────
+        if "PerformanceBug" in combined or "performance bug" in lower:
+            perf_match = re.search(r"PerformanceBug: (.+?)(?:\n|$)", combined)
+            pmsg = perf_match.group(1)[:160] if perf_match else exc_msg
+            stdout_snippet = stdout[:80].strip() if stdout else ""
+            return self._make_result(
+                bug_type   = BugType.PERFORMANCE,
+                raw_key    = ("performance", "PerformanceBug", pmsg, stdout_snippet),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
+            )
+
+        # ── 7. VALIDITY ───────────────────────────────────────────────────
+        if "ValidityBug" in combined or "validity bug" in lower:
+            val_match = re.search(r"ValidityBug: (.+?)(?:\n|$)", combined)
+            vmsg = val_match.group(1)[:160] if val_match else exc_msg
+            stdout_snippet = stdout[:80].strip() if stdout else ""
+            return self._make_result(
+                bug_type   = BugType.VALIDITY,
+                raw_key    = ("validity", "ValidityBug", vmsg, stdout_snippet),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
+            )
+
+        # ── 8. BOUNDARY ────────────────────────────────────────────────────
+        if "BoundaryBug" in combined or "boundary bug" in lower:
+            bound_match = re.search(r"BoundaryBug: (.+?)(?:\n|$)", combined)
+            bmsg = bound_match.group(1)[:160] if bound_match else exc_msg
+            stdout_snippet = stdout[:80].strip() if stdout else ""
+            return self._make_result(
+                bug_type   = BugType.BOUNDARY,
+                raw_key    = ("boundary", "BoundaryBug", bmsg, stdout_snippet),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
+            )
+
+        # ── 9. FUNCTIONAL ─────────────────────────────────────────────────
         if "functional" in lower and "functional bug" in lower:
             func_match = re.search(r"FunctionalBug: (.+?)(?:\n|$)", combined)
             fmsg = func_match.group(1)[:160] if func_match else exc_msg  # increased from 120
@@ -234,7 +299,20 @@ class BugOracle:
                 raw        = raw,
             )
 
-        # ── 6. BONUS (untracked / unseeded exceptions) ────────────────────
+        # ── 10. RELIABILITY ────────────────────────────────────────────────
+        if "ReliabilityBug" in combined or "reliability bug" in lower:
+            rel_match = re.search(r"ReliabilityBug: (.+?)(?:\n|$)", combined)
+            rmsg = rel_match.group(1)[:160] if rel_match else exc_msg
+            stdout_snippet = stdout[:80].strip() if stdout else ""
+            return self._make_result(
+                bug_type   = BugType.RELIABILITY,
+                raw_key    = ("reliability_seeded", "ReliabilityBug", rmsg, stdout_snippet),
+                input_data = input_data,
+                target     = target,
+                raw        = raw,
+            )
+
+        # ── 11. BONUS (untracked / unseeded exceptions) ────────────────────
         if "bonus" in lower:
             # Include stdout to differentiate similar bonus bugs
             stdout_snippet = stdout[:80].strip() if stdout else ""
@@ -246,7 +324,7 @@ class BugOracle:
                 raw        = raw,
             )
 
-        # ── 7. Generic keyword fallback (from YAML bug_keywords) ──────────
+        # ── 12. Generic keyword fallback (from YAML bug_keywords) ──────────
         # Any target can define custom detection keywords in its YAML without
         # modifying this file — directly supports the generalisability rubric.
         for kw in bug_keywords:
@@ -263,7 +341,7 @@ class BugOracle:
                     raw        = raw,
                 )
 
-        # ── 8. RELIABILITY — non-zero exit, no structured output ──────────
+        # ── 13. RELIABILITY — non-zero exit (infra crash, not seeded bug) ──────
         if raw.returncode != 0:
             # Include returncode + more stderr/stdout to differentiate bugs
             rel_msg = (stderr[:160] or stdout[:160]).strip()
@@ -275,7 +353,7 @@ class BugOracle:
                 raw        = raw,
             )
 
-        # ── 9. MISMATCH — differential oracle ─────────────────────────────
+        # ── 14. MISMATCH — differential oracle ─────────────────────────────
         # output_pattern is read from config — no hardcoded target logic here.
         # Each YAML defines its own pattern e.g. "Output: [{value}]"
         if ref_stdout is not None:
@@ -292,7 +370,7 @@ class BugOracle:
                     raw        = raw,
                 )
 
-        # ── 10. NORMAL ────────────────────────────────────────────────────
+        # ── 15. NORMAL ────────────────────────────────────────────────────
         return self._make_result(
             bug_type   = BugType.NORMAL,
             raw_key    = None,

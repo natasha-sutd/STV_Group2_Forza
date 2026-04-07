@@ -86,6 +86,7 @@ See INTERFACES.md for full details. Quick summary:
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 from logging import config
 import random
 import signal
@@ -759,75 +760,91 @@ def run_fuzz_mode(
     iteration       = 0
 
     try:
-        for iteration in range(1, max_iters + 1):
+        # ── 2x parallel execution: batch iterations by pairs ──────────────────────
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            iteration = 0
+            while iteration < max_iters:
+                # ── stop conditions ─────────────────────────────────────────
+                if _shutdown.is_set():
+                    break
+                elapsed = time.monotonic() - start
+                if duration is not None and elapsed >= duration:
+                    break
 
-            # ── stop conditions ───────────────────────────────────────────
-            if _shutdown.is_set():
-                break
-            elapsed = time.monotonic() - start
-            if duration is not None and elapsed >= duration:
-                break
+                # ── Process up to 2 iterations in parallel ──────────────────
+                # Prepare both mutations sequentially (fast)
+                batch_size = min(2, max_iters - iteration)
+                mutations = []
+                strategies = []
 
-            # ── 1. pick seed and mutate ───────────────────────────────────
-            seed     = random.choice(corpus)
-            mutated  = engine.mutate(seed)
-            strategy = engine.get_last_strategy()
+                for _ in range(batch_size):
+                    seed = random.choice(corpus)
+                    mutated = engine.mutate(seed)
+                    strategy = engine.get_last_strategy()
+                    mutations.append(mutated)
+                    strategies.append(strategy)
+                    iteration += 1
 
-            # ── 2. run target ─────────────────────────────────────────────
-            buggy_results, ref = run_both(
-                config, mutated, strategy=strategy, use_coverage=True
-            )
+                # ── Run both in parallel ─────────────────────────────────────
+                futures = [
+                    executor.submit(run_both, config, m, strategy=s, use_coverage=True)
+                    for m, s in zip(mutations, strategies)
+                ]
 
-            # ── 3. classify ───────────────────────────────────────────────
-            raw        = buggy_results[0]
-            ref_stdout = ref.stdout if ref else None
-            bug        = oracle.classify(
-                raw        = raw,
-                input_data = mutated,
-                target     = target,
-                config     = config,
-                ref_stdout = ref_stdout,
-            )
-            bug.strategy = strategy  # stamp strategy (classify leaves it blank)
+                # ── Collect results and process sequentially ─────────────────
+                for idx, (future, mutated, strategy) in enumerate(zip(futures, mutations, strategies)):
+                    buggy_results, ref = future.result()
 
-            # ── 4. coverage tracking ──────────────────────────────────────
-            found_new = coverage_tracker.update(bug, config)
+                    # ── 3. classify ─────────────────────────────────────────
+                    raw = buggy_results[0]
+                    ref_stdout = ref.stdout if ref else None
+                    bug = oracle.classify(
+                        raw=raw,
+                        input_data=mutated,
+                        target=target,
+                        config=config,
+                        ref_stdout=ref_stdout,
+                    )
+                    bug.strategy = strategy  # stamp strategy (classify leaves it blank)
 
-            # ── 5. corpus growth + energy boost ───────────────────────────
-            if found_new:
-                corpus.append(mutated)
-                engine.boost(strategy)
-                new_paths += 1
+                    # ── 4. coverage tracking ────────────────────────────────
+                    found_new = coverage_tracker.update(bug, config)
 
-            # AFL-style energy decay — prevents one strategy dominating
-            engine.decay()
+                    # ── 5. corpus growth + energy boost ────────────────────
+                    if found_new:
+                        corpus.append(mutated)
+                        engine.boost(strategy)
+                        new_paths += 1
 
-            # ── 6. log bugs ───────────────────────────────────────────────
-            if bug.is_bug():
-                bug_logger.log(bug, config)
-                total_bugs += 1
-                last_bug    = bug
-                strategy_counts[strategy] = strategy_counts.get(strategy, 0) + 1
+                    # ── 6. log bugs ────────────────────────────────────────
+                    if bug.is_bug():
+                        bug_logger.log(bug, config)
+                        total_bugs += 1
+                        last_bug = bug
+                        strategy_counts[strategy] = strategy_counts.get(strategy, 0) + 1
 
-            # ── 7. live status redraw ─────────────────────────────────────
-            elapsed = time.monotonic() - start
-            if iteration % DISPLAY_INTERVAL == 0 or iteration == 1 or (time.monotonic() - getattr(print_fuzz_status, "last_draw", 0)) > DISPLAY_TIME_INT:
-                execs_sec = iteration / elapsed if elapsed > 0 else 0.0
-                print_fuzz_status.last_draw = time.monotonic()
-                print_fuzz_status(
-                    config          = config,
-                    iteration       = iteration,
-                    total_bugs      = total_bugs,
-                    new_paths       = new_paths,
-                    corpus_len      = len(corpus),
-                    execs_sec       = execs_sec,
-                    elapsed         = elapsed,
-                    duration        = duration,
-                    max_iters       = max_iters,
-                    last_bug        = last_bug,
-                    last_report     = refresher.elapsed_since_last(time.monotonic()),
-                    strategy_counts = strategy_counts,
-                )
+                # AFL-style energy decay — prevents one strategy dominating
+                engine.decay()
+
+                # ── 7. live status redraw ─────────────────────────────────────
+                elapsed = time.monotonic() - start
+                if iteration % DISPLAY_INTERVAL == 0 or iteration <= 2 or (time.monotonic() - getattr(print_fuzz_status, "last_draw", 0)) > DISPLAY_TIME_INT:
+                    execs_sec = iteration / elapsed if elapsed > 0 else 0.0
+                    print_fuzz_status.last_draw = time.monotonic()
+                    print_fuzz_status(
+                        config          = config,
+                        iteration       = iteration,
+                        total_bugs      = total_bugs,
+                        new_paths       = new_paths,
+                        corpus_len      = len(corpus),
+                        execs_sec       = execs_sec,
+                        elapsed         = elapsed,
+                        duration        = duration,
+                        max_iters       = max_iters,
+                        last_bug        = last_bug,
+                        last_report     = refresher.elapsed_since_last(time.monotonic()),
+                        strategy_counts = strategy_counts,
+                    )
 
     finally:
         # ── shutdown sequence ─────────────────────────────────────────────
