@@ -22,21 +22,14 @@ input:
     min: 0
     max: 255
 seeds_path: "../inputs/ipv4_parser/seeds.txt"
-seed_count: 30
 
-# execution
-timeout: 60
-
-# bug detection
-detection_mode: keyword
+# special bug keywords
 bug_keywords:
-  - "invalidity"
-  - "bonus"
-  - "Traceback (most recent call last)"
+  - "ParseException"
 
 # differential output comparison
 output_pattern: "Output: [{value}]"
 
 # coverage
-coverage_enabled: false
-tracking_mode: behavioral
+coverage_enabled: true
+tracking_mode: code_execution

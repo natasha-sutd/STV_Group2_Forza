@@ -2,42 +2,41 @@ name: json_decoder
 
 # commands
 buggy_cmd:
-  windows: ["python", "decoder_stv.py", "--str-json", "{input}"]
-  mac: ["uv", "run", "decoder_stv.py", "--str-json", "{input}"]
-buggy_cwd: "../../json-decoder/buggy_json"
-
-reference_cmd:
   windows: ["python", "json_decoder_stv.py", "--str-json", "{input}"]
   mac: ["uv", "run", "json_decoder_stv.py", "--str-json", "{input}"]
+buggy_cwd: "../../json-decoder"
+
+reference_cmd:
+  windows: ["python", "-c", "import json, sys; print(json.loads(sys.argv[1]))", "{input}"]
+  mac: ["python3", "-c", "import json, sys; print(json.loads(sys.argv[1]))", "{input}"]
 reference_cwd: "../../json-decoder"
 
 # input
 input_mode: arg
 input:
-  type: object
-  encoding: json
-  max_fields: 10
-  key: { type: string, min: 1, max: 20 }
-  value:
-    type: one_of
-    options:
-      - { type: int, min: -2147483648, max: 2147483647 } # Standard 32-bit range
-      - { type: string, min: 0, max: 100 }
-      - { type: boolean }
-      - { type: array, min_length: 0, max_length: 10, element: { type: any } }
-      - { type: null }
-seeds_path: "../inputs/cidrize/seeds.txt"
-seed_count: 30
+  type: one_of
+  options:
+    - type: object
+      max_fields: 10
+      key: { type: string, min: 1, max: 20 }
+      value:
+        type: one_of
+        options:
+          - { type: int, min: -2147483648, max: 2147483647 }
+          - { type: float, min: -1.7e+308, max: 1.7e+308 }
+          - { type: string, min: 0, max: 100 }
+          - { type: boolean }
+          - { type: null }
+          - { type: array, min_length: 0, max_length: 10, element: { type: any } }
+          - { type: object, max_fields: 5, key: { type: string, min: 1, max: 20 }, value: { type: any } }
+    - type: string
+      min: 0
+      max: 100
+seeds_path: "../inputs/json_decoder/seeds.txt"
 
-# execution
-timeout: 60
-
-# bug detection
-detection_mode: keyword
+# special bug keywords
 bug_keywords:
-  - "bug has been triggered"
-  - "invalidity bug"
-  - "Traceback (most recent call last)"
+  - "JSONDecodeError"
 
 # differential output comparison
 output_pattern: "Output decoded data: {value} of type"
@@ -46,3 +45,4 @@ output_pattern: "Output decoded data: {value} of type"
 coverage_enabled: true
 coverage_flag: "--show-coverage"
 tracking_mode: code_execution
+ 

@@ -1,6 +1,10 @@
 '''
 Firestore client module for uploading fuzzing results to Firebase Firestore.
 '''
+# Suppress gRPC debug logs
+import os
+os.environ["GRPC_VERBOSITY"] = "ERROR"
+os.environ["GRPC_TRACE"] = ""
 
 from pathlib import Path
 from typing import Optional, Tuple

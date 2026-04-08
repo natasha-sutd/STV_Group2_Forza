@@ -14,20 +14,14 @@ from collections import Counter
 from datetime import datetime
 from pathlib import Path
 
-# ---------------------------------------------------------------------------
-# Paths
-# ---------------------------------------------------------------------------
 ENGINE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = ENGINE_DIR.parent
 RESULTS_DIR = PROJECT_DIR / "results"
+_CACHE_PATH = RESULTS_DIR / "firestore_cache.json"
 
 KNOWN_TARGETS = ["json_decoder", "cidrize", "ipv4_parser", "ipv6_parser"]
 
-# ---------------------------------------------------------------------------
 # Data loading
-# ---------------------------------------------------------------------------
-
-
 def load_csv(target: str) -> list[dict]:
     csv_path = RESULTS_DIR / f"{target}_bugs.csv"
     if not csv_path.exists():
@@ -49,9 +43,6 @@ def load_coverage_csv(target: str) -> list[dict]:
     return [r for r in rows if r.get("run_id") == latest_run]
 
 
-_CACHE_PATH = RESULTS_DIR / "firestore_cache.json"
-
-
 def _normalise_row(row: dict) -> dict:
     ts = row.get("timestamp")
     if ts and hasattr(ts, "strftime"):
@@ -66,11 +57,10 @@ def _load_from_firestore(targets: list[str]) -> dict[str, list[dict]] | None:
     """
     Fetch bugs from Firestore using a local cache to minimise reads.
 
-    First run  : fetches all documents, saves to results/firestore_cache.json.
-    Later runs : only fetches documents newer than the cached last_timestamp,
-                 merges with cache, and updates the cache file.
+    First run: fetches all documents, saves to results/firestore_cache.json.
+    Later runs: only fetches documents newer than the cached last_timestamp, merges with cache, and updates the cache file.
 
-    Falls back to None (→ CSVs) if Firestore is unavailable.
+    Use local CSV if Firestore is unavailable.
     """
     try:
         from engine.firestore_client import get_archive_db
@@ -96,7 +86,7 @@ def _load_from_firestore(targets: list[str]) -> dict[str, list[dict]] | None:
             except Exception:
                 pass  # corrupted cache — refetch everything
 
-        # ── query only new docs ───────────────────────────────────────────
+        # query only new docs
         query = db.collection("bugs")
         if last_timestamp:
             from datetime import datetime
@@ -112,7 +102,7 @@ def _load_from_firestore(targets: list[str]) -> dict[str, list[dict]] | None:
         print(f"[report_generator] Fetched {len(new_docs)} new bugs from Firestore "
               f"(cache has {sum(len(v) for v in cached_bugs.values())})")
 
-        # ── merge new docs into result ────────────────────────────────────
+        # merge new docs into result
         result: dict[str, list[dict]] = {
             t: list(cached_bugs[t]) for t in targets}
         newest_ts = last_timestamp
@@ -126,7 +116,7 @@ def _load_from_firestore(targets: list[str]) -> dict[str, list[dict]] | None:
             if target in result:
                 result[target].append(row)
 
-        # ── save updated cache ────────────────────────────────────────────
+        # save updated cache
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         with open(_CACHE_PATH, "w", encoding="utf-8") as f:
             _json_mod.dump({
@@ -155,11 +145,7 @@ def load_all(targets: list[str], use_firestore: bool = True) -> dict[str, list[d
 def load_all_coverage(targets: list[str]) -> dict[str, list[dict]]:
     return {t: load_coverage_csv(t) for t in targets}
 
-# ---------------------------------------------------------------------------
 # Aggregation
-# ---------------------------------------------------------------------------
-
-
 def summarise(rows: list[dict]) -> dict:
     total = len(rows)
     by_type = Counter(r.get("bug_type", "unknown") for r in rows)
@@ -178,11 +164,7 @@ def summarise(rows: list[dict]) -> dict:
         unique_keys=unique_keys,
     )
 
-# ---------------------------------------------------------------------------
-# HTML helpers
-# ---------------------------------------------------------------------------
-
-
+# HTML helper functions
 def _esc(s) -> str:
     s = str(s) if not isinstance(s, str) else s
     return (s.replace("&", "&amp;").replace("<", "&lt;")
@@ -229,11 +211,8 @@ def _bar_row(key: str, count: int, maximum: int) -> str:
         f'</div>'
     )
 
-# ---------------------------------------------------------------------------
+
 # Section renderers
-# ---------------------------------------------------------------------------
-
-
 def render_overview_card(target: str, rows: list[dict]) -> str:
     summary = summarise(rows)
     has_data = len(rows) > 0
