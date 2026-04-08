@@ -26,6 +26,7 @@ from engine import firestore_client
 import csv
 import re
 import time
+import threading
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
@@ -695,6 +696,7 @@ class CoverageTracker:
 # Singleton tracker, reset per target
 _tracker: CoverageTracker | None = None
 _iteration: int = 0
+_tracker_lock = threading.Lock()
 
 
 def update(
@@ -702,61 +704,64 @@ def update(
 ) -> bool:
     """Translate a BugResult into a FuzzIterationPayload and update the tracker."""
     global _tracker, _iteration
-    _iteration += 1
+    
+    with _tracker_lock:
+        _iteration += 1
 
-    if _tracker is None or _tracker.target != bug.target:
-        _tracker = CoverageTracker(config)
+        if _tracker is None or _tracker.target != bug.target:
+            _tracker = CoverageTracker(config)
 
-    # Extract execution metrics from stdout for code_execution mode.
-    # json_decoder prints detailed coverage percentages with --show-coverage.
-    tracking_mode = config.get("tracking_mode", "behavioral")
-    has_coverage_flag = bool(config.get("coverage_flag"))
+        # Extract execution metrics from stdout for code_execution mode.
+        # json_decoder prints detailed coverage percentages with --show-coverage.
+        tracking_mode = config.get("tracking_mode", "behavioral")
+        has_coverage_flag = bool(config.get("coverage_flag"))
 
-    if (
-        tracking_mode == "code_execution"
-        and not has_coverage_flag
-        and reference_result is not None
-    ):
-        cov_stdout = reference_result.stdout
-        cov_stderr = reference_result.stderr
-    else:
-        cov_stdout = bug.stdout
-        cov_stderr = bug.stderr
+        if (
+            tracking_mode == "code_execution"
+            and not has_coverage_flag
+            and reference_result is not None
+        ):
+            cov_stdout = reference_result.stdout
+            cov_stderr = reference_result.stderr
+        else:
+            cov_stdout = bug.stdout
+            cov_stderr = bug.stderr
 
-    covered_lines = _extract_coverage_lines(cov_stdout, cov_stderr)
-    coverage_percentages = _extract_coverage_percentages(cov_stdout, cov_stderr)
-    execution_metrics = (
-        {
-            "covered_lines": covered_lines,
-            "coverage_percentages": coverage_percentages,
-        }
-        if covered_lines or coverage_percentages
-        else None
-    )
+        covered_lines = _extract_coverage_lines(cov_stdout, cov_stderr)
+        coverage_percentages = _extract_coverage_percentages(cov_stdout, cov_stderr)
+        execution_metrics = (
+            {
+                "covered_lines": covered_lines,
+                "coverage_percentages": coverage_percentages,
+            }
+            if covered_lines or coverage_percentages
+            else None
+        )
 
-    payload = FuzzIterationPayload(
-        iteration_id=_iteration,
-        target_name=bug.target,
-        strategy_used=bug.strategy,
-        bug_key=bug.bug_key,
-        execution_metrics=execution_metrics,
-        input_data=bug.input_data,
-        exec_time_ms=bug.exec_time_ms,
-        input_depth=input_depth,
-    )
+        payload = FuzzIterationPayload(
+            iteration_id=_iteration,
+            target_name=bug.target,
+            strategy_used=bug.strategy,
+            bug_key=bug.bug_key,
+            execution_metrics=execution_metrics,
+            input_data=bug.input_data,
+            exec_time_ms=bug.exec_time_ms,
+            input_depth=input_depth,
+        )
 
-    new_path = _tracker.update(payload)
+        new_path = _tracker.update(payload)
 
-    if new_path:
-        bug.new_coverage = True
+        if new_path:
+            bug.new_coverage = True
 
-    return new_path
+        return new_path
 
 
 def reset() -> None:
     global _tracker, _iteration
-    _tracker = None
-    _iteration = 0
+    with _tracker_lock:
+        _tracker = None
+        _iteration = 0
 
 
 def get_tracker() -> CoverageTracker | None:

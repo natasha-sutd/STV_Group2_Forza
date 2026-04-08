@@ -13,6 +13,7 @@ from engine.types import BugResult, BugType
 from pathlib import Path
 import time
 import csv
+import threading
 
 _ENGINE_DIR = Path(__file__).resolve().parent
 _PROJECT_DIR = _ENGINE_DIR.parent
@@ -205,18 +206,21 @@ class FuzzLogger:
 
 # Singleton logger, reset per target
 _logger: FuzzLogger | None = None
+_logger_lock = threading.Lock()
 
 
 def log(bug: BugResult, config: dict) -> None:
     global _logger
     target = bug.target or config.get("name", "unknown")
 
-    if _logger is None or _logger.target != target:
-        _logger = FuzzLogger(target=target)
+    with _logger_lock:
+        if _logger is None or _logger.target != target:
+            _logger = FuzzLogger(target=target)
 
-    _logger.record(bug)
+        _logger.record(bug)
 
 
 def reset() -> None:
     global _logger
-    _logger = None
+    with _logger_lock:
+        _logger = None

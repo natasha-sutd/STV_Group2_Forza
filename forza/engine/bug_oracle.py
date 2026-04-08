@@ -260,7 +260,8 @@ class BugOracle:
         #     pattern = config.get("output_pattern")
         #     norm_out = _extract_output(stdout, pattern)
         #     norm_ref = _extract_output(ref.stdout, pattern)
-        #     if pattern and norm_out != norm_ref:
+        #     # Only mark as mismatch if both extractions succeeded and outputs differ
+        #     if pattern and norm_out is not None and norm_ref is not None and norm_out != norm_ref:
         #         return self._make_result(
         #             bug_type=BugType.MISMATCH,
         #             raw_key=(
