@@ -7,6 +7,7 @@ import os
 import platform
 import shutil
 import subprocess
+import sys
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path, PureWindowsPath
@@ -86,6 +87,8 @@ def _make_error_result(e: Exception, input_bytes: bytes) -> RawResult:
 
 
 def resolve_cmd(cmd: list[str]) -> list[str]:
+    if cmd[0] in ("python", "python3"):
+        return [sys.executable] + cmd[1:]
     resolved = shutil.which(cmd[0])
     if resolved:
         return [resolved] + cmd[1:]
@@ -173,6 +176,147 @@ def run_target(
         if tmp_file and os.path.exists(tmp_file):
             os.remove(tmp_file)
 
+def run_reference_with_coverage(
+    cmd_template: list[str],
+    input_str: str,
+    input_mode: str,
+    cwd: str | None,
+    timeout: int,
+    use_wsl: bool,
+) -> RawResult:
+    """
+    Run a plain Python reference script under 'coverage run', then immediately
+    call 'coverage report' and append its output to stdout so that
+    _extract_coverage_percentages in coverage_tracker.py can parse the real
+    statement/branch/combined percentages.
+
+    The reference script must be invoked as:
+        python script.py {input}
+    We replace 'python'/'python3' with 'coverage run --branch script.py'.
+
+    A unique .coverage data file is used per invocation so parallel runs
+    don't clobber each other.
+    """
+    import uuid
+
+    # Build the coverage-instrumented command:
+    # ["python", "script.py", ...]  →  ["coverage", "run", "--branch", "script.py", ...]
+    # Drop the leading python/python3 interpreter, keep everything else.
+    python_interpreters = {"python", "python3", "py"}
+    rest = cmd_template[1:] if cmd_template[0].lower().split(
+        os.sep)[-1].split(".")[0] in python_interpreters else cmd_template
+
+    data_file = f".coverage_{uuid.uuid4().hex[:8]}"
+    cov_run_cmd = [sys.executable, "-m", "coverage", "run", "--branch", f"--data-file={data_file}"] + rest
+
+
+    run_result = run_target(
+        cmd_template=cov_run_cmd,
+        input_str=input_str,
+        input_mode=input_mode,
+        cwd=cwd,
+        timeout=timeout,
+        use_wsl=use_wsl,
+    )
+
+    # Now call 'coverage report' to get the percentages and append to stdout.
+    try:
+        report_proc = subprocess.run(
+            [sys.executable, "coverage", "report", f"--data-file={data_file}",
+             "--precision=2", "-m"],
+            capture_output=True,
+            timeout=15,
+            cwd=cwd or None,
+        )
+        report_out = report_proc.stdout.decode(errors="replace")
+
+        # Parse totals from the report and reformat into the lines that
+        # _extract_coverage_percentages expects:
+        #   line coverage     : 36.84%
+        #   branch coverage   : 37.68%
+        #   combined coverage : 37.09%
+        cov_lines = _parse_coverage_report_to_summary(report_out)
+
+        # Clean up the ephemeral .coverage file.
+        try:
+            cleanup_path = Path(cwd or ".") / data_file
+            if cleanup_path.exists():
+                cleanup_path.unlink()
+        except OSError:
+            pass
+
+        run_result = RawResult(
+            stdout=run_result.stdout + "\n" + cov_lines,
+            stderr=run_result.stderr,
+            returncode=run_result.returncode,
+            timed_out=run_result.timed_out,
+            crashed=run_result.crashed,
+            error=run_result.error,
+            strategy=run_result.strategy,
+            input_data=run_result.input_data,
+        )
+    except Exception:
+        pass  # If coverage report fails, return the plain result.
+
+    return run_result
+
+
+def _parse_coverage_report_to_summary(report_text: str) -> str:
+    """
+    Parse the TOTAL line from a 'coverage report' table and emit the summary
+    lines that _extract_coverage_percentages regex-matches against:
+
+        line coverage     : 63.16%
+        branch coverage   : 37.68%
+        combined coverage : 50.00%
+
+    Coverage report TOTAL line format (--branch mode):
+        TOTAL   323   204   138   86   37%
+    columns: Name Stmts Miss Branch BrPart Cover
+    """
+    for line in report_text.splitlines():
+        parts = line.split()
+        if not parts or parts[0].upper() != "TOTAL":
+            continue
+        try:
+            if len(parts) >= 6:
+                # branch mode: TOTAL stmts miss branch brpart cover%
+                stmts = int(parts[1])
+                miss_stmts = int(parts[2])
+                branches = int(parts[3])
+                br_part = int(parts[4])
+                covered_stmts = stmts - miss_stmts
+                covered_branches = br_part  # BrPart = partially/fully covered
+
+                line_pct = (covered_stmts / stmts *
+                            100) if stmts else 0.0
+                branch_pct = (covered_branches / branches *
+                              100) if branches else 0.0
+                combined_pct = (
+                    (covered_stmts + covered_branches) /
+                    (stmts + branches) * 100
+                ) if (stmts + branches) else 0.0
+
+                return (
+                    f"line coverage     : {line_pct:.2f}%\n"
+                    f"branch coverage   : {branch_pct:.2f}%\n"
+                    f"combined coverage : {combined_pct:.2f}%\n"
+                )
+            elif len(parts) >= 4:
+                # no-branch mode: TOTAL stmts miss cover%
+                stmts = int(parts[1])
+                miss_stmts = int(parts[2])
+                covered_stmts = stmts - miss_stmts
+                line_pct = (covered_stmts / stmts *
+                            100) if stmts else 0.0
+                return (
+                    f"line coverage     : {line_pct:.2f}%\n"
+                    f"branch coverage   : {line_pct:.2f}%\n"
+                    f"combined coverage : {line_pct:.2f}%\n"
+                )
+        except (ValueError, ZeroDivisionError):
+            continue
+    return ""
 
 def run_reference_with_coverage(
     cmd_template: list[str],

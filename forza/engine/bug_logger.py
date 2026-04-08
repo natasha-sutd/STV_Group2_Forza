@@ -203,7 +203,7 @@ class FuzzLogger:
         return self._unique_bugs
 
 
-# Singleton instance, reset per target
+# Singleton logger, reset per target
 _logger: FuzzLogger | None = None
 
 

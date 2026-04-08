@@ -2,8 +2,8 @@ name: cidrize
 
 # commands
 buggy_cmd: 
-  windows: ["../cidrize-runner-main/bin/win-cidrize-runner.exe", "--func", "cidrize", "--ipstr", "{input}"]
-  mac: ["../cidrize-runner-main/bin/mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}"]
+  windows: ["../cidrize-runner-main/bin/win-cidrize-runner.exe", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
+  mac: ["../cidrize-runner-main/bin/mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
 buggy_cwd: "../../cidrize-runner-main"
 
 reference_cmd:
@@ -26,23 +26,10 @@ input:
       min: 0
       max: 32
 seeds_path: "../inputs/cidrize/seeds.txt"
-seed_count: 30
 
-# execution
-timeout: 60
-
-# bug detection
-detection_mode: keyword
+# special bug keywords
 bug_keywords:
-  - "bug has been triggered"
-  - "syntactic"
-  - "functional"
-  - "Traceback"
-  - "Error"
-  - "invalidity bug"
-  - "InvalidCidrFormatError"
-  - "AddrFormatError"
-  - "Traceback (most recent call last)"
+  - "CidrizeError"
 
 # differential output comparison
 output_pattern: "IPNetwork('{value}')"
