@@ -127,7 +127,16 @@ class CoverageTracker:
             branch_coverage = statement_coverage
             function_coverage = statement_coverage
         elif self.mode == "code_execution":
-            if newly_seen_lines:
+            if coverage_percentages:
+                # Real instrumented percentages — detect novelty by comparing
+                # against the last recorded statement coverage value.
+                new_statement = coverage_percentages.get("statement", 0.0)
+                new_path_found = new_statement > (self._last_line_cov or 0.0)
+                self._last_line_cov = new_statement
+                self._last_branch_cov = coverage_percentages.get(
+                    "branch", self._last_branch_cov)
+                self.current_metric = self.execution_metric
+            elif newly_seen_lines:
                 self.current_metric = self.execution_metric
                 new_path_found = new_execution_found
             else:
@@ -277,7 +286,7 @@ _tracker: CoverageTracker | None = None
 _iteration: int = 0
 
 
-def update(bug: BugResult, config: dict) -> bool:
+def update(bug: BugResult, config: dict, reference_result=None) -> bool:
     """
     Translate a BugResult into a FuzzIterationPayload and update the tracker.
 
@@ -297,14 +306,30 @@ def update(bug: BugResult, config: dict) -> bool:
     # Extract execution metrics from stdout for code_execution mode.
     # json_decoder prints detailed coverage percentages with --show-coverage.
     covered_lines = _extract_coverage_lines(bug.stdout, bug.stderr)
+    # White-box targets (e.g. json_decoder): coverage output is in buggy
+    # stdout via --show-coverage flag.
+    # Black-box targets (e.g. cidrize, ipv4/ipv6): buggy binary is a compiled
+    # exe — coverage comes from the instrumented reference run instead.
+    tracking_mode = config.get("tracking_mode", "behavioral")
+    has_coverage_flag = bool(config.get("coverage_flag"))
+
+    if tracking_mode == "code_execution" and not has_coverage_flag and reference_result is not None:
+        cov_stdout = reference_result.stdout
+        cov_stderr = reference_result.stderr
+    else:
+        cov_stdout = bug.stdout
+        cov_stderr = bug.stderr
+
+    covered_lines = _extract_coverage_lines(cov_stdout, cov_stderr)
     coverage_percentages = _extract_coverage_percentages(
-        bug.stdout, bug.stderr)
+        cov_stdout, cov_stderr)
+    has_coverage_data = bool(covered_lines) or bool(coverage_percentages)
     execution_metrics = (
         {
             "covered_lines": covered_lines,
             "coverage_percentages": coverage_percentages,
         }
-        if covered_lines or coverage_percentages
+        if has_coverage_data
         else None
     )
 

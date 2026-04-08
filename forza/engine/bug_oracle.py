@@ -103,7 +103,8 @@ class BugOracle:
 
         # Shared fallback message used by checks 3–7
         exc_match = self._PARSE_EXC_RE.search(combined)
-        exc_msg = exc_match.group(1)[:120] if exc_match else combined[-120:].strip()
+        exc_msg = exc_match.group(
+            1)[:120] if exc_match else combined[-120:].strip()
         lower = combined.lower()
 
         # 3. INVALIDITY
@@ -112,7 +113,8 @@ class BugOracle:
             stdout_snippet = stdout[:80].strip() if stdout else ""
             return self._make_result(
                 bug_type=BugType.INVALIDITY,
-                raw_key=("invalidity", "ParseException", exc_msg, stdout_snippet),
+                raw_key=("invalidity", "ParseException",
+                         exc_msg, stdout_snippet),
                 input_data=input_data,
                 target=target,
                 raw=raw,
@@ -191,12 +193,14 @@ class BugOracle:
                 raw=raw,
             )
 
+
         # 9. MISMATCH
         if ref_stdout is not None:
             pattern = config.get("output_pattern")
             norm_out = _extract_output(stdout, pattern)
             norm_ref = _extract_output(ref_stdout, pattern)
-            if pattern and norm_out != norm_ref:
+            # Only mark as mismatch if both extractions succeeded and outputs differ
+            if pattern and norm_out is not None and norm_ref is not None and norm_out != norm_ref:
                 return self._make_result(
                     bug_type=BugType.MISMATCH,
                     raw_key=(

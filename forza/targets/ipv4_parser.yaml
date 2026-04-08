@@ -38,5 +38,5 @@ bug_keywords:
 output_pattern: "Output: [{value}]"
 
 # coverage
-coverage_enabled: false
-tracking_mode: behavioral
+coverage_enabled: true
+tracking_mode: code_execution

@@ -2,13 +2,13 @@ name: json_decoder
 
 # commands
 buggy_cmd:
-  windows: ["python", "decoder_stv.py", "--str-json", "{input}"]
-  mac: ["uv", "run", "decoder_stv.py", "--str-json", "{input}"]
-buggy_cwd: "../../json-decoder/buggy_json"
-
-reference_cmd:
   windows: ["python", "json_decoder_stv.py", "--str-json", "{input}"]
   mac: ["uv", "run", "json_decoder_stv.py", "--str-json", "{input}"]
+buggy_cwd: "../../json-decoder"
+
+reference_cmd:
+  windows: ["python", "-c", "import json, sys; print(json.loads(sys.argv[1]))", "{input}"]
+  mac: ["python3", "-c", "import json, sys; print(json.loads(sys.argv[1]))", "{input}"]
 reference_cwd: "../../json-decoder"
 
 # input
@@ -26,11 +26,11 @@ input:
       - { type: boolean }
       - { type: array, min_length: 0, max_length: 10, element: { type: any } }
       - { type: null }
-seeds_path: "../inputs/cidrize/seeds.txt"
+seeds_path: "../inputs/json_decoder/seeds.txt"
 seed_count: 30
 
 # execution
-timeout: 60
+timeout: 30
 
 # bug detection
 detection_mode: keyword
