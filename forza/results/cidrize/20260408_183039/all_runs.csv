@@ -1,0 +1,6 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,2.101,'3[7.8.11.15',SYNTACTIC,1,0
+2,26.926,'37.8.11/../.151/31',SYNTACTIC,1,0
+3,39.834,'19l2.0.2.8[0-5]',FUNCTIONAL,1,0
+4,64.938,"'37.""8.11.15'",SYNTACTIC,1,0
+5,77.823,'8&&4.135.88.109/27',SYNTACTIC,1,0

@@ -107,8 +107,7 @@ class CoverageTracker:
     PLATEAU_THRESHOLD = 500
 
     def __init__(self, config_dict: dict[str, Any]) -> None:
-        mode = str(config_dict.get("tracking_mode",
-                   "behavioral")).strip().lower()
+        mode = str(config_dict.get("tracking_mode", "behavioral")).strip().lower()
         if mode not in self.valid_modes:
             raise ValueError(
                 "Invalid tracking_mode. Expected one of "
@@ -139,8 +138,7 @@ class CoverageTracker:
 
         # AFL tuple bucketing for count coverage
         # Maps edge_id → set of observed bucket indices
-        self.global_edge_buckets: dict[str,
-                                       set[int]] = collections.defaultdict(set)
+        self.global_edge_buckets: dict[str, set[int]] = collections.defaultdict(set)
 
         # =====================================================================
         # AFL 64KB bitmap simulation
@@ -151,14 +149,12 @@ class CoverageTracker:
         # comparable map density numbers (nonzero_slots / MAP_SIZE * 100).
         self._bitmap: bytearray = bytearray(MAP_SIZE)
         # Track which slots have ever been touched (for count coverage)
-        self._bitmap_virgin: bytearray = bytearray(
-            MAP_SIZE)  # 0 = virgin, 0xFF = seen
+        self._bitmap_virgin: bytearray = bytearray(MAP_SIZE)  # 0 = virgin, 0xFF = seen
 
         # --- Coverage stability tracking ---
         # Maps edge_id → list of bucket indices observed across calibration runs.
         # An edge is "variable" if it shows different buckets on identical inputs.
-        self._edge_stability: dict[str, set[int]
-                                   ] = collections.defaultdict(set)
+        self._edge_stability: dict[str, set[int]] = collections.defaultdict(set)
         self._variable_edges: set[str] = set()
 
         # --- Favored input tracking ---
@@ -232,8 +228,7 @@ class CoverageTracker:
             self.seen_bug_keys.add(payload.bug_key)
             new_behavior_found = True
 
-        newly_seen_lines = self.extract_line_identifiers(
-            payload.execution_metrics)
+        newly_seen_lines = self.extract_line_identifiers(payload.execution_metrics)
         coverage_percentages = self.extract_percentage_metrics(
             payload.execution_metrics
         )
@@ -248,8 +243,7 @@ class CoverageTracker:
                     input_hash = hashlib.md5(
                         payload.input_data[:200].encode(errors="replace")
                     ).hexdigest()[:12]
-                    input_len = len(
-                        payload.input_data) if payload.input_data else 0
+                    input_len = len(payload.input_data) if payload.input_data else 0
                     for edge_id in novel_lines:
                         if edge_id not in self._edge_discoverer:
                             self._edge_discoverer[edge_id] = input_hash
@@ -264,13 +258,11 @@ class CoverageTracker:
         if self.mode == "behavioral":
             self.current_metric = self.behavioral_metric
             new_path_found = new_behavior_found
-            statement_coverage = min(
-                100.0, float(self.behavioral_metric) * 2.0)
+            statement_coverage = min(100.0, float(self.behavioral_metric) * 2.0)
             branch_coverage = statement_coverage
             function_coverage = statement_coverage
             if payload.bug_key:
-                self.global_edge_buckets[payload.bug_key].add(
-                    0)  # 1 hit bucket
+                self.global_edge_buckets[payload.bug_key].add(0)  # 1 hit bucket
                 # --- Update bitmap for behavioral mode ---
                 idx = _hash_edge_to_bitmap_idx(payload.bug_key)
                 self._bitmap[idx] = max(self._bitmap[idx], 1)
@@ -283,7 +275,8 @@ class CoverageTracker:
                 new_path_found = new_statement > (self._last_line_cov or 0.0)
                 self._last_line_cov = new_statement
                 self._last_branch_cov = coverage_percentages.get(
-                    "branch", self._last_branch_cov)
+                    "branch", self._last_branch_cov
+                )
                 self.current_metric = self.execution_metric
             elif newly_seen_lines:
                 self.current_metric = self.execution_metric
@@ -296,11 +289,9 @@ class CoverageTracker:
                 statement_coverage = coverage_percentages.get(
                     "statement", round(float(self.current_metric), 2)
                 )
-                branch_coverage = coverage_percentages.get(
-                    "branch", statement_coverage)
+                branch_coverage = coverage_percentages.get("branch", statement_coverage)
                 function_coverage = coverage_percentages.get(
-                    "function", coverage_percentages.get(
-                        "combined", statement_coverage)
+                    "function", coverage_percentages.get("combined", statement_coverage)
                 )
             else:
                 statement_coverage = round(float(self.current_metric), 2)
@@ -310,8 +301,7 @@ class CoverageTracker:
             # --- AFL bucket novelty detection ---
             # Extract per-edge hit frequencies and check for new bucket entries.
             # A new bucket for an EXISTING edge = new path (AFL virgin-bits).
-            line_frequencies = self.extract_line_frequencies(
-                payload.execution_metrics)
+            line_frequencies = self.extract_line_frequencies(payload.execution_metrics)
 
             # Bitmap-hash fast path: if the entire frequency dict hashes the
             # same as last iteration, skip the per-edge bucket check.
@@ -376,8 +366,7 @@ class CoverageTracker:
             statement_coverage=statement_coverage,
             branch_coverage=branch_coverage,
             function_coverage=function_coverage,
-            coverage_source=(
-                "instrumented" if coverage_percentages else "proxy"),
+            coverage_source=("instrumented" if coverage_percentages else "proxy"),
         )
         return new_path_found
 
@@ -395,14 +384,12 @@ class CoverageTracker:
         Prefers shorter inputs; breaks ties with faster execution time.
         """
         if edge_id not in self._favored_inputs:
-            self._favored_inputs[edge_id] = (
-                input_hash, input_len, exec_time_ms)
+            self._favored_inputs[edge_id] = (input_hash, input_len, exec_time_ms)
             return
         _, old_len, old_time = self._favored_inputs[edge_id]
         # Prefer smaller inputs; break ties with faster execution
         if input_len < old_len or (input_len == old_len and exec_time_ms < old_time):
-            self._favored_inputs[edge_id] = (
-                input_hash, input_len, exec_time_ms)
+            self._favored_inputs[edge_id] = (input_hash, input_len, exec_time_ms)
 
     # --- Stability API ---
 
@@ -559,8 +546,7 @@ class CoverageTracker:
         """
         try:
             self._snapshot_dir.mkdir(parents=True, exist_ok=True)
-            path = self._snapshot_dir / \
-                (f"{self.target}_iter{self.total_inputs}.csv")
+            path = self._snapshot_dir / (f"{self.target}_iter{self.total_inputs}.csv")
             with path.open("w", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)
                 writer.writerow(["edge_id", "buckets", "discoverer"])
@@ -644,7 +630,7 @@ class CoverageTracker:
     # --- Metric extraction from target output ---
 
     def extract_line_identifiers(self, execution_metrics: Optional[Any]) -> set[str]:
-        # Normalize possible metric shapes into a set of line/edge identifiers
+        """Normalize possible metric shapes into a set of line/edge identifiers"""
         if execution_metrics is None:
             return set()
 
@@ -689,7 +675,7 @@ class CoverageTracker:
     def extract_percentage_metrics(
         self, execution_metrics: Optional[Any]
     ) -> dict[str, float]:
-        # Extract normalized coverage percentages from execution metrics payloads.
+        """Extract normalized coverage percentages from execution metrics payloads."""
         if execution_metrics is None:
             return {}
 
@@ -723,33 +709,23 @@ def update(
     if _tracker is None or _tracker.target != bug.target:
         _tracker = CoverageTracker(config)
 
-    # Extract execution metrics from stdout for code_execution mode.
-    # json_decoder prints detailed coverage percentages with --show-coverage.
-    tracking_mode = config.get("tracking_mode", "behavioral")
-    has_coverage_flag = bool(config.get("coverage_flag"))
+    coverage_enabled = bool(config.get("coverage_enabled", False))
 
-    if (
-        tracking_mode == "code_execution"
-        and not has_coverage_flag
-        and reference_result is not None
-    ):
+    # coverage_enabled = True means white box
+    if not coverage_enabled and reference_result is not None:
         cov_stdout = reference_result.stdout
         cov_stderr = reference_result.stderr
     else:
         cov_stdout = bug.stdout
         cov_stderr = bug.stderr
 
+
     covered_lines = _extract_coverage_lines(cov_stdout, cov_stderr)
-    coverage_percentages = _extract_coverage_percentages(
-        cov_stdout, cov_stderr)
-    execution_metrics = (
-        {
-            "covered_lines": covered_lines,
-            "coverage_percentages": coverage_percentages,
-        }
-        if has_coverage_flag
-        else None
-    )
+    coverage_percentages = _extract_coverage_percentages(cov_stdout, cov_stderr)
+    execution_metrics = {
+        "covered_lines": covered_lines,
+        "coverage_percentages": coverage_percentages,
+    }
 
     payload = FuzzIterationPayload(
         iteration_id=_iteration,
@@ -802,7 +778,7 @@ def _extract_coverage_lines(stdout: str, stderr: str) -> set[str]:
         stripped = line.strip()
 
         if stripped.startswith("coverage_freq:"):
-            parts = stripped[len("coverage_freq:"):].split("=")
+            parts = stripped[len("coverage_freq:") :].split("=")
             if len(parts) == 2:
                 loc = parts[0].strip()
                 try:
@@ -811,7 +787,7 @@ def _extract_coverage_lines(stdout: str, stderr: str) -> set[str]:
                     pass
 
         elif stripped.startswith("coverage:"):
-            loc = stripped[len("coverage:"):].strip()
+            loc = stripped[len("coverage:") :].strip()
             frequencies[loc] = frequencies.get(loc, 0) + 1
 
         elif "line coverage" in stripped.lower() and "%" in stripped:

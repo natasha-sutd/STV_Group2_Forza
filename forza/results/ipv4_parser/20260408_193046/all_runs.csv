@@ -1,0 +1,6 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,16.570,'44.243.53.137.extra',INVALIDITY,1,0
+2,43.136,'127.0.0',INVALIDITY,1,0
+3,59.579,'74.2%3.227.132',INVALIDITY,1,0
+4,73.403,'44.243.53.1t7.ex3ra',INVALIDITY,1,0
+5,86.981,'44.243.53.137.extra44.243.53.137.extra44.243.53.137.extra44.243.53.137.extra',INVALIDITY,1,0

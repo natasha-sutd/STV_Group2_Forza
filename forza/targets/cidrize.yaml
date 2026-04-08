@@ -35,5 +35,5 @@ bug_keywords:
 output_pattern: "IPNetwork('{value}')"
 
 # coverage
-coverage_enabled: true
+coverage_enabled: false
 tracking_mode: code_execution

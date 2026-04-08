@@ -1,0 +1,8 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,17.543,'BRDraRDmxXPhXumtOyzsAqXZpxlPdusSatZSchzCJjZzTEDpeQMYJYJYJYJYJYJYJYJN',INVALIDITY,1,0
+2,19.396,'bm',INVALIDITY,0,0
+3,20.520,"'{""SGd"": """", ""UvmUaDCn"": ""xiXDOlOuOurRdrSVcnyDIrErYtzhpBWrRXegLxDXevCqwMbpYMZmCuKNjhXKGfuomuzyBAbLBcUyJNooHTKjBbRxzzbk"",",RELIABILITY,1,-1
+4,24.070,'dfPlFcGnVJKvjlsucVUqhskLFudSPuTtãxGGnWFdvM',INVALIDITY,0,0
+5,29.146,"'{""SGd"": """", ""UvmUaDCn"": ""xiXDOlOuOurRdrSVcnyDIrErYtzhpBWrRXegLxDXevCqwMbpYMZmCuKNjhXKGfuomuzyBAbLBcUyJNooHTKjBbRxzzbk"",",RELIABILITY,0,-1
+6,30.120,'smuAWtqZnysSkmxZIUMsEuAQMZgkjNTSFHHiVOlhfENMyuEBzaJcBYZCRsawUEoYrfAYxcQjMIWPLKQEAkBJDoSQ',INVALIDITY,0,0
+7,31.259,'REqYGrtAtmONsSDAZLyYwO',RELIABILITY,1,-2

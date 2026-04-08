@@ -1,0 +1,3 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,2.626,'524d:256c:664c:fc72:180a:53cb:5c57:3955:9452:cf3e',INVALIDITY,1,0
+2,27.339,'c28d:e4d9:b0d1:3cbe:20:b1db:r9a8f:fcf3',BONUS,1,-2

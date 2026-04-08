@@ -12,7 +12,7 @@ import hashlib
 import re
 from typing import Optional
 
-from engine.types import BugResult, BugType, classify_from_keywords
+from engine.types import BugResult, BugType
 from engine.target_runner import RawResult
 
 

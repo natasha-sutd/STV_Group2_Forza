@@ -58,6 +58,7 @@ def resolve_binary_for_platform(binary_config) -> str:
 @dataclass
 class RawResult:
     """output of target_runner.py, input to oracle.py"""
+
     stdout: str
     stderr: str
     returncode: int
@@ -66,6 +67,7 @@ class RawResult:
     error: str | None
     strategy: str | None = None
     input_data: bytes = field(default_factory=bytes)
+
 
 # helper functions
 
@@ -110,9 +112,7 @@ def run_target(
 
     try:
         if input_mode == "file":
-            tmp = tempfile.NamedTemporaryFile(
-                mode="w", suffix=".txt", delete=False
-            )
+            tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False)
             tmp.write(input_str)
             tmp.close()
             tmp_file = tmp.name
@@ -176,90 +176,6 @@ def run_target(
         if tmp_file and os.path.exists(tmp_file):
             os.remove(tmp_file)
 
-def run_reference_with_coverage(
-    cmd_template: list[str],
-    input_str: str,
-    input_mode: str,
-    cwd: str | None,
-    timeout: int,
-    use_wsl: bool,
-) -> RawResult:
-    """
-    Run a plain Python reference script under 'coverage run', then immediately
-    call 'coverage report' and append its output to stdout so that
-    _extract_coverage_percentages in coverage_tracker.py can parse the real
-    statement/branch/combined percentages.
-
-    The reference script must be invoked as:
-        python script.py {input}
-    We replace 'python'/'python3' with 'coverage run --branch script.py'.
-
-    A unique .coverage data file is used per invocation so parallel runs
-    don't clobber each other.
-    """
-    import uuid
-
-    # Build the coverage-instrumented command:
-    # ["python", "script.py", ...]  →  ["coverage", "run", "--branch", "script.py", ...]
-    # Drop the leading python/python3 interpreter, keep everything else.
-    python_interpreters = {"python", "python3", "py"}
-    rest = cmd_template[1:] if cmd_template[0].lower().split(
-        os.sep)[-1].split(".")[0] in python_interpreters else cmd_template
-
-    data_file = f".coverage_{uuid.uuid4().hex[:8]}"
-    cov_run_cmd = [sys.executable, "-m", "coverage", "run", "--branch", f"--data-file={data_file}"] + rest
-
-
-    run_result = run_target(
-        cmd_template=cov_run_cmd,
-        input_str=input_str,
-        input_mode=input_mode,
-        cwd=cwd,
-        timeout=timeout,
-        use_wsl=use_wsl,
-    )
-
-    # Now call 'coverage report' to get the percentages and append to stdout.
-    try:
-        report_proc = subprocess.run(
-            [sys.executable, "coverage", "report", f"--data-file={data_file}",
-             "--precision=2", "-m"],
-            capture_output=True,
-            timeout=15,
-            cwd=cwd or None,
-        )
-        report_out = report_proc.stdout.decode(errors="replace")
-
-        # Parse totals from the report and reformat into the lines that
-        # _extract_coverage_percentages expects:
-        #   line coverage     : 36.84%
-        #   branch coverage   : 37.68%
-        #   combined coverage : 37.09%
-        cov_lines = _parse_coverage_report_to_summary(report_out)
-
-        # Clean up the ephemeral .coverage file.
-        try:
-            cleanup_path = Path(cwd or ".") / data_file
-            if cleanup_path.exists():
-                cleanup_path.unlink()
-        except OSError:
-            pass
-
-        run_result = RawResult(
-            stdout=run_result.stdout + "\n" + cov_lines,
-            stderr=run_result.stderr,
-            returncode=run_result.returncode,
-            timed_out=run_result.timed_out,
-            crashed=run_result.crashed,
-            error=run_result.error,
-            strategy=run_result.strategy,
-            input_data=run_result.input_data,
-        )
-    except Exception:
-        pass  # If coverage report fails, return the plain result.
-
-    return run_result
-
 
 def _parse_coverage_report_to_summary(report_text: str) -> str:
     """
@@ -288,14 +204,13 @@ def _parse_coverage_report_to_summary(report_text: str) -> str:
                 covered_stmts = stmts - miss_stmts
                 covered_branches = br_part  # BrPart = partially/fully covered
 
-                line_pct = (covered_stmts / stmts *
-                            100) if stmts else 0.0
-                branch_pct = (covered_branches / branches *
-                              100) if branches else 0.0
+                line_pct = (covered_stmts / stmts * 100) if stmts else 0.0
+                branch_pct = (covered_branches / branches * 100) if branches else 0.0
                 combined_pct = (
-                    (covered_stmts + covered_branches) /
-                    (stmts + branches) * 100
-                ) if (stmts + branches) else 0.0
+                    ((covered_stmts + covered_branches) / (stmts + branches) * 100)
+                    if (stmts + branches)
+                    else 0.0
+                )
 
                 return (
                     f"line coverage     : {line_pct:.2f}%\n"
@@ -307,8 +222,7 @@ def _parse_coverage_report_to_summary(report_text: str) -> str:
                 stmts = int(parts[1])
                 miss_stmts = int(parts[2])
                 covered_stmts = stmts - miss_stmts
-                line_pct = (covered_stmts / stmts *
-                            100) if stmts else 0.0
+                line_pct = (covered_stmts / stmts * 100) if stmts else 0.0
                 return (
                     f"line coverage     : {line_pct:.2f}%\n"
                     f"branch coverage   : {line_pct:.2f}%\n"
@@ -318,6 +232,7 @@ def _parse_coverage_report_to_summary(report_text: str) -> str:
             continue
     return ""
 
+
 def run_reference_with_coverage(
     cmd_template: list[str],
     input_str: str,
@@ -327,30 +242,30 @@ def run_reference_with_coverage(
     use_wsl: bool,
 ) -> RawResult:
     """
-    Run a plain Python reference script under 'coverage run', then immediately
+    'coverage run' a plain Python reference script under, then immediately
     call 'coverage report' and append its output to stdout so that
     _extract_coverage_percentages in coverage_tracker.py can parse the real
     statement/branch/combined percentages.
-
-    The reference script must be invoked as:
-        python script.py {input}
-    We replace 'python'/'python3' with 'coverage run --branch script.py'.
-
-    A unique .coverage data file is used per invocation so parallel runs
-    don't clobber each other.
     """
     import uuid
 
-    # Build the coverage-instrumented command:
-    # ["python", "script.py", ...]  →  ["coverage", "run", "--branch", "script.py", ...]
-    # Drop the leading python/python3 interpreter, keep everything else.
     python_interpreters = {"python", "python3", "py"}
-    rest = cmd_template[1:] if cmd_template[0].lower().split(
-        os.sep)[-1].split(".")[0] in python_interpreters else cmd_template
+    rest = (
+        cmd_template[1:]
+        if cmd_template[0].lower().split(os.sep)[-1].split(".")[0]
+        in python_interpreters
+        else cmd_template
+    )
 
     data_file = f".coverage_{uuid.uuid4().hex[:8]}"
-    cov_run_cmd = ["coverage", "run", "--branch",
-                   f"--data-file={data_file}"] + rest
+    cov_run_cmd = [
+        sys.executable,
+        "-m",
+        "coverage",
+        "run",
+        "--branch",
+        f"--data-file={data_file}",
+    ] + rest
 
     run_result = run_target(
         cmd_template=cov_run_cmd,
@@ -361,25 +276,25 @@ def run_reference_with_coverage(
         use_wsl=use_wsl,
     )
 
-    # Now call 'coverage report' to get the percentages and append to stdout.
     try:
         report_proc = subprocess.run(
-            ["coverage", "report", f"--data-file={data_file}",
-             "--precision=2", "-m"],
+            [
+                sys.executable,
+                "-m",
+                "coverage",
+                "report",
+                f"--data-file={data_file}",
+                "--precision=2",
+                "-m",
+            ],
             capture_output=True,
             timeout=15,
             cwd=cwd or None,
         )
         report_out = report_proc.stdout.decode(errors="replace")
 
-        # Parse totals from the report and reformat into the lines that
-        # _extract_coverage_percentages expects:
-        #   line coverage     : 36.84%
-        #   branch coverage   : 37.68%
-        #   combined coverage : 37.09%
         cov_lines = _parse_coverage_report_to_summary(report_out)
 
-        # Clean up the ephemeral .coverage file.
         try:
             cleanup_path = Path(cwd or ".") / data_file
             if cleanup_path.exists():
@@ -398,24 +313,12 @@ def run_reference_with_coverage(
             input_data=run_result.input_data,
         )
     except Exception:
-        pass  # If coverage report fails, return the plain result.
-
+        pass 
     return run_result
 
 
 def _parse_coverage_report_to_summary(report_text: str) -> str:
-    """
-    Parse the TOTAL line from a 'coverage report' table and emit the summary
-    lines that _extract_coverage_percentages regex-matches against:
-
-        line coverage     : 63.16%
-        branch coverage   : 37.68%
-        combined coverage : 50.00%
-
-    Coverage report TOTAL line format (--branch mode):
-        TOTAL   323   204   138   86   37%
-    columns: Name Stmts Miss Branch BrPart Cover
-    """
+    """Parse the TOTAL line from a 'coverage report' table and emit the summary lines"""
     for line in report_text.splitlines():
         parts = line.split()
         if not parts or parts[0].upper() != "TOTAL":
@@ -430,14 +333,13 @@ def _parse_coverage_report_to_summary(report_text: str) -> str:
                 covered_stmts = stmts - miss_stmts
                 covered_branches = br_part  # BrPart = partially/fully covered
 
-                line_pct = (covered_stmts / stmts *
-                            100) if stmts else 0.0
-                branch_pct = (covered_branches / branches *
-                              100) if branches else 0.0
+                line_pct = (covered_stmts / stmts * 100) if stmts else 0.0
+                branch_pct = (covered_branches / branches * 100) if branches else 0.0
                 combined_pct = (
-                    (covered_stmts + covered_branches) /
-                    (stmts + branches) * 100
-                ) if (stmts + branches) else 0.0
+                    ((covered_stmts + covered_branches) / (stmts + branches) * 100)
+                    if (stmts + branches)
+                    else 0.0
+                )
 
                 return (
                     f"line coverage     : {line_pct:.2f}%\n"
@@ -449,8 +351,7 @@ def _parse_coverage_report_to_summary(report_text: str) -> str:
                 stmts = int(parts[1])
                 miss_stmts = int(parts[2])
                 covered_stmts = stmts - miss_stmts
-                line_pct = (covered_stmts / stmts *
-                            100) if stmts else 0.0
+                line_pct = (covered_stmts / stmts * 100) if stmts else 0.0
                 return (
                     f"line coverage     : {line_pct:.2f}%\n"
                     f"branch coverage   : {line_pct:.2f}%\n"
@@ -468,19 +369,23 @@ def run_both(
     use_coverage: bool = False,
     timeout: int = 60,
 ) -> tuple[RawResult, RawResult | None]:
-    """run buggy binaries and the reference target for a given config dict, returns buggy result, reference result*"""
+    """run buggy binaries and the reference target if necessary, returns buggy result, reference result*"""
     input_mode = config.get("input_mode", "arg")
     use_wsl = config.get("use_wsl", False)
-    extra_flags = [config["coverage_flag"]] if use_coverage and config.get(
-        "coverage_enabled") and config.get("coverage_flag") else None
+    extra_flags = (
+        [config["coverage_flag"]]
+        if use_coverage
+        and config.get("coverage_enabled")
+        and config.get("coverage_flag")
+        else None
+    )
 
     raw_buggy_cmd = config["buggy_cmd"]
     if not raw_buggy_cmd:
         raise ValueError("buggy_cmd is required in the config")
     current_os = get_platform()
     if current_os not in raw_buggy_cmd:
-        raise RuntimeError(
-            f"No command configured for {current_os} in YAML!")
+        raise RuntimeError(f"No command configured for {current_os} in YAML!")
     buggy_cmd = raw_buggy_cmd[current_os]
 
     buggy_result = run_target(
@@ -495,17 +400,14 @@ def run_both(
     buggy_result.strategy = strategy
 
     reference_result = None
-    if buggy_result.returncode == 0 and not buggy_result.timed_out and not buggy_result.crashed:
+    if (
+        buggy_result.returncode == 0
+        and not buggy_result.timed_out
+        and not buggy_result.crashed
+    ):
         ref_cmd = config.get("reference_cmd")
         if ref_cmd:
-            use_ref_coverage = (
-                use_coverage
-                and config.get("coverage_enabled")
-                and config.get("tracking_mode") == "code_execution"
-                # black-box buggy targets only
-                and not config.get("coverage_flag")
-            )
-            if use_ref_coverage:
+            if use_coverage and not config.get("coverage_enabled"):
                 reference_result = run_reference_with_coverage(
                     cmd_template=ref_cmd[current_os],
                     input_str=input_str,
@@ -533,6 +435,7 @@ def load_config(yaml_path: str) -> dict:
     with open(p) as f:
         config = yaml.safe_load(f)
 
+    # Resolve relative paths to absolute paths
     for key in ("buggy_cwd", "reference_cwd"):
         if config.get(key):
             config[key] = str((p.parent / config[key]).resolve())
@@ -555,69 +458,3 @@ def load_seeds(seeds_path: str) -> list[str]:
             if line and not line.startswith("#"):
                 seeds.append(line)
     return seeds
-
-
-# test runner
-# python3 engine/target_runner.py
-if __name__ == "__main__":
-    import yaml
-
-    TARGET_YAMLS = [
-        "targets/ipv4_parser.yaml",
-        "targets/ipv6_parser.yaml",
-        "targets/json_decoder.yaml",
-        "targets/cidrize.yaml",
-    ]
-
-    print(f"Platform : {get_platform()}\n")
-
-    for yaml_file in TARGET_YAMLS:
-        if not Path(yaml_file).exists():
-            print(f"[SKIP] {yaml_file} not found\n")
-            continue
-
-        cfg = load_config(yaml_file)
-        seeds = load_seeds(cfg["seeds_path"])
-
-        print(f"{'='*60}")
-        print(f"TARGET : {cfg['name']}")
-        print(f"CWD    : {cfg.get('buggy_cwd', 'n/a')}")
-        print(f"SEEDS  : {len(seeds)} loaded from {cfg['seeds_path']}")
-        print(f"{'='*60}")
-
-        if not seeds:
-            print("[WARN] No seeds found — skipping\n")
-            continue
-
-        for seed in seeds:
-            buggy_results, ref = run_both(cfg, seed, strategy="sanity_test")
-            bug_keywords = cfg.get("bug_keywords", [])
-
-            for i, buggy in enumerate(buggy_results):
-                label = "buggy" if len(buggy_results) == 1 else f"buggy[{i}]"
-
-                if buggy.timed_out:
-                    bug_signal = "TIMEOUT"
-                elif buggy.crashed:
-                    bug_signal = "CRASH"
-                elif any(kw in buggy.stdout + buggy.stderr for kw in bug_keywords):
-                    bug_signal = "BUG?"
-                else:
-                    bug_signal = "ok"
-
-                ref_signal = ""
-                if ref and i == 0:
-                    if ref.timed_out:
-                        ref_signal = f"| [TIMEOUT] ref "
-                    elif ref.crashed:
-                        ref_signal = f"| [CRASH  ] ref "
-                    else:
-                        ref_signal = f"| [ok     ] ref "
-
-                print(
-                    f"  [{bug_signal:7s}] {label:10s} "
-                    + ref_signal
-                    + f"| {repr(seed[:50])}"
-                )
-
-        print()

@@ -1,0 +1,7 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,6.278,'2001:db8::::::',RELIABILITY,1,0
+2,20.102,'1fd8:c96:1c88:1111111e:48ae:d4d9:64da:2d1c',BONUS,1,0
+3,60.396,'bafb:1059:e8d::96bd2dd4e:52c5:ba52:ee22',INVALIDITY,1,0
+4,85.023,'8b0b:b575:2457:f0a:3140:9523:4684:864:7b84:ba32',INVALIDITY,1,0
+5,97.477,'1fd8:c96:1c88:1111111e:48ae:d4d9:64da:2d1c',BONUS,0,0
+6,109.350,'b5c7:6c1c:1002:cd68:3949:451e:84f6:6d7b:f0cd:a772',INVALIDITY,0,0

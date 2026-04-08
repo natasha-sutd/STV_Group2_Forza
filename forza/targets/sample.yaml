@@ -36,5 +36,6 @@ bug_keywords:
 output_pattern: "_"
 
 # coverage
-coverage_enabled: true / false
+coverage_enabled: true / false # white box / black box
+coverage_flag: "_"
 tracking_mode: code_execution / behavioral

@@ -1,0 +1,7 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,6.140,'9231:89fe:de4e:60af::d6b:2925c7b93:11e',INVALIDITY,1,0
+2,42.289,'db1f:688:8ae4:ab05:5765:5dd2:60ed:5c.extra',BONUS,1,0
+3,70.141,'db1f:688:8ae4:ab05:5765:5dd2:60ed:5c.extra',BONUS,0,0
+4,83.660,'2801*db0::1:2',BONUS,1,0
+5,96.510,'9231:89fe:de4e:601f::d6b:2925c7b93:a1e',INVALIDITY,0,0
+6,108.339,'2001:db8::1:192.0.&&2.33',BONUS,1,0
