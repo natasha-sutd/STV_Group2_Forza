@@ -1,0 +1,33 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'iXWtuBUgYVDsCRhhXeEoFJFYHiMovjLezgPMJZlcBNMJZlcBNMJZlcBNMJZlcBNMJZlcBNMJZlcBNMJZlcBNnSVolVXRgOStg',INVALIDITY,1,1
+2,2.125,"'{""RYbyUgClaWzp"": ""pcFdGITIYOAqCJHTaRliuCpwMOBsEAPxyGsJTJVsgNnfPiBxHAkRiJfLGNDDKxDYBnZFaMWbezuLMXXrqinuFPmxzUOEGU"", ""afR",INVALIDITY,1,0
+3,2.407,"'{""__complex__"": true, ""rea'",INVALIDITY,1,0
+4,3.875,'iXWtuBUg>YVDsCRhhXeEoFJFYHiMovjLezgPMJZlcBNnSVolVXRgOStg',INVALIDITY,1,0
+5,4.141,"'[""foo"", {""bar"":[""baz"", nul'",INVALIDITY,1,0
+6,5.719,"'[""foo"", {2bar"":[""baz"", null, 1.0, 2]}]'",INVALIDITY,1,0
+7,6.079,"'[""foo"", {""bar"":[""baz"", nul\\l, 1.0, 2]}]'",INVALIDITY,0,0
+8,7.563,"'{""RYbyUgClaWzp"": ""pcFdGITIYOAqCJHTaRliuCpwMOBsEAPxyGsJTJVsgNnfPiBxHAkRiJfLGNDDKxDYBnZFaMWbezuLMXXrqinuFPmxzUOEGU"", ""afR",INVALIDITY,0,0
+9,7.922,"'[""foo"", {2bar"":[""baz"", null, 1.0, 2]'",INVALIDITY,0,0
+10,9.204,"'[""foo"", {""barz:[""ba"""", null, 1.0, 2]}]'",INVALIDITY,1,0
+11,10.829,'iXWtuBUg>]YVDsCRhhXeEoFJFYHiMovjLezgPMJZlcBNnSVolVXRgOStg',INVALIDITY,0,0
+12,11.063,"'[""foo"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", null, 1.0, 2]}]'",INVALIDITY,1,0
+13,12.407,"'[zfoo"", {""bar"":[""ba"""", null, 1.0, 2]}]'",INVALIDITY,0,0
+14,12.641,"'[""foo"", {""bar"":[\'""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", null, 1.0, 2]}]'",INVALIDITY,0,0
+15,14.110,"'[""foo"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", null, 1.0, .0, .0, .0",INVALIDITY,0,0
+16,14.329,"'[""foo"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[\x02baz"", {""bar"":[""baz"", null, 1.0, 2]}]'",INVALIDITY,0,0
+17,15.797,"'[""foo"", {""bar"":[""baz"", nul'",INVALIDITY,0,0
+18,16.016,"'[""foo"", {""barz:[""ba"""", '",INVALIDITY,0,0
+19,17.766,'jTFJswbcRfBfAYFRyJcj',INVALIDITY,0,0
+20,17.954,'MguuoDcgghrrmYWbrEwKqYkKypdkTgmGJvBiOqJTXAcYAhDPVIWGfRbJfVyFBpMMKPJZIWrApRqYWKpTOqZrvKzRdjgsdCUT',INVALIDITY,0,0
+21,19.797,"'{""__""complex__"": true, ""rea'",INVALIDITY,0,0
+22,19.938,"'[""foo"", {""'",INVALIDITY,0,0
+23,21.579,"'{""RYbyUgClaWzp"": ""pcFdGITIYOAqCJHTaRliuCpwMOBsEAPxyGsJTJVsgNnfPiBxHAkRiJfLGNDDKxDYBnZFaMWbezuLMXXrqinuFPmxzUOEGU"", ""afR",INVALIDITY,0,0
+24,21.704,"'{""kcHVzkgf'",INVALIDITY,0,0
+25,23.188,'CcmpzMRvVS',INVALIDITY,0,0
+26,23.344,"'[""foo"", {""bar'",INVALIDITY,0,0
+27,25.079,"'[""foo"", {""barz:[""ba"""", null, 1.0, 2]}]'",INVALIDITY,0,0
+28,25.188,'iXWtuBUg>YVDsCRhhXeEoFJFYHiMovjLezgPMJZlcBNnSVolVXRgOStg',INVALIDITY,0,0
+29,26.641,'QwWATKESssCUMJiiJdhZvhwnRpZGxdOHKOhlDAfUFePNHqMkyJelpVlIqiCoq',INVALIDITY,0,0
+30,26.797,'tbCbzqrwAexSBbqIFvNvdKTUCdlBWkIUsDaROMYSFsItoKcYPPBfZJOhpIm',INVALIDITY,0,0
+31,28.407,"'[""foo"", {""bar"":[[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", null, 1.0, 2]}]'",INVALIDITY,1,0
+32,28.485,"'[""foo""¬ {""bar"":[""baz"", null, 1.0, 2]}]'",INVALIDITY,0,0

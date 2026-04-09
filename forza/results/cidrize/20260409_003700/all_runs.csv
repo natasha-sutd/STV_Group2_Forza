@@ -1,0 +1,4 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'8.207.²20.125/24',SYNTACTIC,1,0
+2,1.344,'192.0.20.6[4/26',SYNTACTIC,1,0
+3,16.859,'192.0.2.80-19V2.0.2.85',SYNTACTIC,1,0

@@ -1,0 +1,14 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'qmlEiwvaKvZAWRtRHiUynNEWjuRzqgfHONXvnramaccfmMKtbVQNwquaaTiRFWxHHZRn',INVALIDITY,1,0
+2,1.593,'NNY\x15',INVALIDITY,0,0
+3,3.203,'NxxvndorHlmGRzUvyn',INVALIDITY,0,0
+4,4.812,'GCCHkhuUylbGbnGpENcPvMyDLyIOnLpQkkYyye<SZlWiEOUAfXFlbuigHdRZ',INVALIDITY,0,0
+5,8.125,'NUjXjvitIuLm]DGvtWbJmZKNbsyYOnv',INVALIDITY,0,0
+6,9.984,'dup\rDwNrHDigckBbzMcdeZALVtrxk',INVALIDITY,0,0
+7,11.812,'opXTDPOiwTcnHcVKoJlkqIhISsbDpjVWNbjkegouFJmqEJyNpFpSBo\x11AxaEgFfOWxdxd',INVALIDITY,0,0
+8,13.531,'qmlEiwvaKvZAWRtRHiUynNEWjuRzq',INVALIDITY,0,0
+9,15.312,'XDptztpZLoASrnwfIWJIddiRdMoGbfVqsVeYASIiCCdGaohSBeccoJGmZpT',INVALIDITY,0,0
+10,21.921,"'{""__complex__"": true, ""real"": 1, *imag"": 2}'",INVALIDITY,1,0
+11,23.515,"'{""yPdfQlqToJWsG"": {""STzHOskSFKWBynhxY"": 76, ""BtB"": 78, ""RqQjh"": null, ""svAZV"": ""CPEfqDGVGeDCRCYChJgDaVVy""}, ""H"": ""False",INVALIDITY,1,0
+12,25.171,'KfUAlCrqTESgyFiFvDWPpgsUeqdGDkdIxj',INVALIDITY,0,0
+13,28.421,"'{""yPdfQlqToJWsG"": {""STzHOskSFKWBynhxY"": 76, ""BtB"": 78, ""RqQjh"": null, ""svAZV"": ""CPEfqDGVGeDCRCYChJgDaVVy""}, ""H"": ""False",INVALIDITY,0,0

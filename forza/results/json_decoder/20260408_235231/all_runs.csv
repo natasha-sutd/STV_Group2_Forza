@@ -1,0 +1,27 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,"'{""sGO"": \r"""", ""tn"": """"}'",RELIABILITY,1,1
+2,4.484,'KPVjsEQLffTGAJWrBRkFkVcrtswTG',INVALIDITY,1,0
+3,6.500,'KPVjsEQLffTGAJWzBRkFkVcrtswTVcrtswTVcrtswTVcrtswTVcrtswTVcrtswTVcrtswTVcrtswTVcrtswTG',INVALIDITY,0,0
+4,6.812,'guyWUiGrweGUHhQsEROkAHtTUnEqNkBTmsyXpJBXHpEwxKzcmfdxIFjQnKGxLMxuBcsTaKGXW',INVALIDITY,0,0
+5,6.828,"'{""json"":\x00""obj""}'",RELIABILITY,1,-1
+6,8.640,"'{""sGO"": """", ""tn"":R """"}'",INVALIDITY,1,0
+7,9.031,"""KPVjsE'QLffTGAJWzBRkFkVcrtswTG""",INVALIDITY,0,0
+8,11.234,'KPVjsEQLffTGAJWrBRkFkVcrtswTG',INVALIDITY,0,0
+9,12.625,'\n',INVALIDITY,1,0
+10,14.297,"'}[""foo"", {""bar"":[""baz"", null, 1.0, 2]}]'",INVALIDITY,0,0
+11,14.468,"'{""TZFLm"": ""MsWfcdRULXQlXNFpRWraeVPLWmzXpksLsUyBAbktCQ"", ""q"": ""RGdImKINGxyenxpqhWAGkFPVLeErQcCeE""OWeeqKlbCtldYkV"", ""vhQY",INVALIDITY,1,0
+12,16.000,'{',INVALIDITY,1,0
+13,17.406,"'[""foo"", {""b'",INVALIDITY,1,0
+14,17.531,'',INVALIDITY,0,0
+15,19.109,'qaJpaFRWNcEGkHJEVhRnQLpBUZmXcFeIZBMptAFjhudkxnTjkPtN',INVALIDITY,0,0
+16,19.265,"'{""s||GO"": """", ""tn"":R """"}'",INVALIDITY,0,0
+17,20.718,'EaSbSRAhiKGVdudtTx<pHP',INVALIDITY,0,0
+18,20.828,'FAobRAQFxdoFz]ytycBLFJzSJtlVvRTQPIKdGonlNgYeuiIeBl',INVALIDITY,0,0
+19,22.390,"'[""foo"", {""bar"":[*baz"", null, 1.0, 2]}]'",INVALIDITY,1,0
+20,23.968,"'{""sGO"": \r"""", ""t'",INVALIDITY,1,0
+21,24.047,"'[""foo"", {""bar"":[""baz"", ntll, 1.0, 2]}]'",INVALIDITY,0,0
+22,24.062,"'{""json"":\x00""obj""}'",RELIABILITY,0,-1
+23,25.843,"'{""__complex__"": true\', ""real"": 1, ""imag"": 2}'",INVALIDITY,0,0
+24,27.672,"'[""foo"", {""bar"":[]*baz"", null, 1.0, 2]}]'",INVALIDITY,0,0
+25,27.781,"'s""sGO"": \r"""", ""t'",INVALIDITY,0,0
+26,29.781,'BeN',INVALIDITY,0,0

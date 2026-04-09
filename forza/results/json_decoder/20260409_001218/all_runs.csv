@@ -1,0 +1,11 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'ffMXgrQTXJOedgDQOVvMZwIskaW',INVALIDITY,1,0
+2,1.610,'tkOPZkRUZDnbIxJIqVIFG',INVALIDITY,0,0
+3,6.375,'kSiZBNqugxvNuuZYoQjUNvCViCiiEbiQiQYsYjxfxTuUqoXJspQMfqOByHSmgJcUzSZwQdoTnIKtEyiVNYjBsIziEYbK',INVALIDITY,0,0
+4,8.329,'HPiZZJcJWuqunXdDPliFLU/../VeiFsNWlnOjnwjHyCxDsQ',INVALIDITY,0,0
+5,11.469,'kSiZBNqugxvNuuZYoQjUNvCViCiiEbiQiQYsYjxfxTuUqiXJspQMfqOByHSmgJcUzSZwQdoTnIKtEyiVNYjBsIzoEYbK',INVALIDITY,0,0
+6,13.125,'kSiZBNqugxvNuuZYoQjUNvCViCiiEbiQiQYsYjxfxTuUqiXJspQMfqOByHSmgJcUmzSZwQdoTnIKtEyiVNYjBsIzoEYbK',INVALIDITY,0,0
+7,16.407,'ubwFVE',INVALIDITY,0,0
+8,17.954,"'{""wUX"": -752438409, ""G'",INVALIDITY,1,0
+9,21.360,"'{""jNfhitAocEIcksUqIL"": 1944393674, ""ZumfLM"": -2098709663, ""sdcJAEITcfFi"": -1023362260, ""dof"": ""[\'null\', \'aXE\', \'nu",INVALIDITY,1,0
+10,24.532,'zOxDzAedJHUjfsZGqKeafnteYcdXtgULetD{JXdZHuoGSzpdCkqfsAyDnxANPEKwPMMGZWswHbgeapVYvD',INVALIDITY,0,0

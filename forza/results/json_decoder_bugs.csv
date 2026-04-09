@@ -3157,3 +3157,2123 @@ json_decoder,BONUS,12aaec05430fc066,"{""a"": }",,"Traceback (most recent call la
 ModuleNotFoundError: No module named 'buggy_json'
 ",1,False,False,constraint_violation,2026-04-06 14:14:50
 json_decoder,RELIABILITY,6b6acc3ca57e4f54," {""a"": }",,,-1,False,True,insert_special_char,2026-04-06 14:15:01
+json_decoder,INVALIDITY,e990c7609dd04137,"{""EihDFOJ"": """", ""LdkSAP"": """", ""ERkDfWkJMorgpF"": ""yDcnjJVDQdBXIGQcZofnMvkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ""vkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbiZ"", ""XDDquKbGTGEgiDBdXTe"": ""False""}","An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 122 (char 121)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, ""Expecting ',' delimiter: line 1 co","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-08 17:01:28
+json_decoder,INVALIDITY,84b33d95026d79cf,"{""wrKnfFfTPhEhZT"": 963495609, ""VqylqUlo"": ""iY""dzh, ""GpFSIklKIJUt"": 185018304}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 47 (char 46)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-08 17:01:31
+json_decoder,INVALIDITY,4b8806b0b575eb16,pqbZVvmE_QtiEwrlLttqlPMoRKRYMZquDKIWP,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,byte_insert,2026-04-08 17:01:33
+json_decoder,INVALIDITY,1319348b942b0c7b,oTmwPoxLnzBLWMULYztEQgRBDazRolZZPhWjhNgBzzebtPGQjVoOYt,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,grammar_mutate,2026-04-08 17:01:43
+json_decoder,INVALIDITY,4b8806b0b575eb16,iKXYPsIYYvJubJGupDS,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,radamsa,2026-04-08 17:01:45
+json_decoder,INVALIDITY,fd01b06058a8e373,"{sBKKCXlX""h"": ""True""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <cl","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-08 17:01:46
+json_decoder,INVALIDITY,6566b0463b370214,"{""oonMkKFqCFh"": ""GCttjwelTtKUjKXBoHySGSnSpaRUXHbjInbrAuQcqcvaNPJWXLX"", ""MMvQVEjWxKZrkhf"": ""eBVWdPXdambqrMfdjTqGeA","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 91 (char 90)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 17:01:48
+json_decoder,INVALIDITY,41830aa096a8276d,"{""bTuGrH"": {""m"": null, ""pnskRkDWS"": 26, ""idaymwhJTZTPRScfVx"": 73}, ""ZvHaLYPLxiusqXBDq"": ""False"", ""KkoAP""tY"": 91127200, ""AWYbxgGWVTsIbVVdeF"": {""XDLNdVUUlBsqGIff"": null}, ""x"": {""NLuAVnALZwegpSbDJn"": 3, ""M"": ""True"", ""zMAZdvrEohN"": 67, ""BbOxvdCsNqKvcEQU"": null, ""kLZ"": 32}, ""VVseBYihswLoRe"": ""r, ""fpJdwAMcfxCQEfqCehBm"": ""False""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 105 (char 104)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-08 17:01:52
+json_decoder,INVALIDITY,4b8806b0b575eb16,TpRGIGVPFyyAenOcCRQRgMNzNWÆ,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 22:22:07
+json_decoder,INVALIDITY,7c66f2b22bbef628,"{""rECmEAH"": ""False"", ""HPYAqN"": ""qaLFlKjqqtScogYryzsbRDUznxbRpzYc"", ""CHTDxXi"": {""tAUgXrpujszDi"": null}, ""TMozyazWa","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 104 (char 103)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 22:22:18
+json_decoder,INVALIDITY,a82402d24f980a3b,kMuj,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,truncate,2026-04-08 22:22:24
+json_decoder,INVALIDITY,1d0007f71f580c65,"{""__complex__"": true, ""real"": 1, ","An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 34 (char 33)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting ","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 22:22:24
+json_decoder,INVALIDITY,4b8806b0b575eb16,fx!EDhxmBFOzvbgUBNAFPrpHtPdevEaSCkVrjS,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 22:22:26
+json_decoder,INVALIDITY,1ba286d3873c3498,"{""yGogmLiLnsQykBzQzR"": """", ""Xgx"": ""['39', 'True']"", ""XojJggkqolCUsYKhsaQ"": ""True"", ""JJlVTt"": {""RUWFVHJ"": ""QxYWTnvjrHykNhtwi"", ""YhEHeTGxG"": null, ""mnzMVCqECkzL"": ""LUawiRvVVKDMmedikwrAVRUALAMSmcrwsYnkobIIfHBSLhVbNRRllvfEgMHyAWaGdRr","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 162 (char 161)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 22:22:27
+json_decoder,INVALIDITY,7c0c8d91ea931968,"{""__complex__"": true, ""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 23 (char 22)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 22:22:28
+json_decoder,INVALIDITY,51c5e4786c5f552c,"{""BFoTrYKjA"": {""hymkzXkEV"": 5, ""TiEVHnmLxT"": ""False"", ""AnnUXSwjVZQUjJrjCSj"": ""ThPAVYegtxGQZyLYOIgkOLqncezrTJVpoEcLhrvAuCsXRMxqw""edEEYDCWbWPmHjXLZggAcIHXVSYcWba"", ""AmGiDDbGo"": ""fTTEKDChoPpHIARIRLtzajNsOvCsXGppGwHqBfxUimi""}, ""mlyjmOgfTAvjRgP"": """", ""DtdMvutQCkYKWYdyyJ"": {""ygMAzlPTpA"": ""iiBG"", ""vMdEnxamWFcbwO"": null}, ""OdQvVEodcswt"": ""True""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 129 (char 128)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-08 22:22:29
+json_decoder,INVALIDITY,827e95fcc77c58e8,"{""KFMExsvbLdgmTLcR"": ""['null', 'UgO', 'null', 'False', 'False', '92', '23', '3', 'ppuvPrNRCYhIMXXxZxZXZKeZYPdyYDaRnzSXepDtqxscgBETeZVMhShGPFcOk', 'null']"", ""LJuVqvK"": ""['kcgZCJBENFaSytCCnWFjoMgEIJxGitQGbRRsHAB', '10']""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\x17' at: line 1 column 86 (char 85)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_j","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 22:22:33
+json_decoder,INVALIDITY,aa41376502114c47,"[""foo"", {""bar"":[""baz"", n}ll, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 24 (char 23)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 22:22:34
+json_decoder,INVALIDITY,399494ce79e91f8d,"{""__complex__"": true, ""real"": 1, ""imag"": ""2}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 42 (char 41)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-08 22:22:37
+json_decoder,INVALIDITY,db89516de867c861,"{""m"": ""True"", ""mBINvqBLWpxkxnyXc"": ""['vvlyZbRwCCSbNCyavw']"", ""cngWjQsh"": 1336462204, ""lLFAKMQIdcvKv"": """", ""UKXcCMnYmzboJVszHnQh"": ""['82', 'null', '94']"", ""V"": {""o"": null}, ""TNmXfrVk"": {""QbPBTLyPOcP"": null, ""T"": 38}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\x0b' at: line 1 column 136 (char 135)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,byte_insert,2026-04-08 22:22:43
+json_decoder,INVALIDITY,0f47037447758833,"{""KFMExsvbLdgmTLcR"": ""['null', 'UgO', 'null', 'False', 'False', '92', '23', '3', 'ppWuvPrNRCYhIMXXxZxZXZKeZYPdyYDaRnzSXepDtqxscgBETeZVMhShGPFcOk', 'null']"", ""LJuVqvK"": ""['kcgZCJBENFaS","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 169 (char 168)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 22:22:44
+json_decoder,INVALIDITY,2f2a23a409dc61d6,"[""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.de","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 22:22:49
+json_decoder,INVALIDITY,90648a3ca2e5eca6,"{""QWyqqzPKpqKE""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 16 (char 15)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 22:22:49
+json_decoder,INVALIDITY,a3b2eb4355e52ef1,"{""rDfZ
+Qlvzuh"": {""vu"": null, ""p"": 74}, ""oApAXiRFesQYzUDGkea"": ""yCOUskKtkiELRiopcBtErndNwyBPSglQAJSLmSAHbKUZNjGszcxzzekEvgAUyHdospClzeUfGudHNclMsRWbJwUgnykCWElgbNC"", ""NJEPeUtBYpX"": {""N"": ""True"", ""saWejli"": 43}, ""nvoOFzlriAd"": ""zzINtUWikNplWMkDEEoOaQFTrvUGEsLzVjwRcShMXGqhsfsJWonXVMIOosyBSGntHBpODa"", ""mDYdzzYSoTVg"": -452392700, ""RTtmyKlhveRXqAMEjP"": ""xIfcbpmzHxQGgqIBFuLcaupmmCtQFdGsffDtgnLhcWgUBShqzCCXyeWONpuBZHtZomiMtNEUrbhw"", ""psJhHjAD"": ""True"", ""huGAeyPwRTxdMZmJBWvJ"": """"}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\n' at: line 2 column 1 (char 7)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 22:22:51
+json_decoder,INVALIDITY,4b8806b0b575eb16,Z{gvlh,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting value: line 1 column 1 (char 0)', 'C","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-08 23:51:12
+json_decoder,INVALIDITY,227215a0da2fac57,"{""czek"": ""True"", ""YoX"": """", ""LorrEKg"": """", ""vepOzYnJswoIT"": """", ""ulJ"": {""wnRSoqLjdolMrUpDyh"": ""True""}, ""pwsoaCbKPtQcxrUHGCAz"": ""True"", ""POUJkmBUQmZsNhUKu"": ""['VCdbOkBxUTyuTXnFwkFIGBoYZfsnMqhiFPNPtpRdkXSluuGYhMOHgiVLTnRliQjpukfgvnWbgPUzHdDVmWhcYjeWvqhHVofT', '68', 'True']"", ""HinRsGruRugcApF"": ""True""l ""Aokyi"": """", ""SbonEWuPAsNyhNxAydqd"": ""['qLiKvSutfHQhCZrmXKHEoJkVXvaPGLSohnPuA', 'null', '26', 'True', 'null', 'null', '23']""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 300 (char 299)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 23:51:26
+json_decoder,INVALIDITY,a82402d24f980a3b,iXWtuBUgYVDsCRhhXeEoFJFYHiMovjLezgPMJZlcBNMJZlcBNMJZlcBNMJZlcBNMJZlcBNMJZlcBNMJZlcBNnSVolVXRgOStg,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,repeat_chunk,2026-04-08 23:51:30
+json_decoder,INVALIDITY,374a16645af6b534,"{""RYbyUgClaWzp"": ""pcFdGITIYOAqCJHTaRliuCpwMOBsEAPxyGsJTJVsgNnfPiBxHAkRiJfLGNDDKxDYBnZFaMWbezuLMXXrqinuFPmxzUOEGU"", ""afRrAWohWCSbD"": ""IvDkkuGArzJpZdsLYalxqMpGzWspEJhGGMqHWtmBAiSnqmlTVkunWPDrNDTijgRYchyWbPhawHQTBOfMEhhCS"", ""ct"": ""WdafkwqVPFiSJlHilyZWuTibeZcBNTKWdOqDDIShpiRtnwWZNpCXcOTyAEcRDDEejSuXaRfXahfwpxZOzmct"", ""JypJnQsUAr"": 1263647570, ""HvhQBbrxEwVgzlGyGkLm"": ""['2', 'null', 'RODPxeKtGiGzZQvtfGAMNMJSABLibTamWbhtCNBSrXgDIaAKZmIztJsMsMn', 'True', 'dxKxnGMGCGIgXcOHVorUfRRUclIOOclrdhFswxuZwMnSuourRnkXaieaHRXKWfoimGsYAY
+', '16', 'null', '74', 'null', 'True']"", ""kC"": 486951070, ""lDOzgcgBtccSQlFvnt"": 992934105, ""HbthPWnlMfhhmZaC"": {""qyaZPb"": 14, ""BYuXgL"": null, ""vGwIQkFhXHL"": ""False"", ""xXPIZ"": 91, ""Ywnfcz"": ""False""}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\n' at: line 2 column 1 (char 523)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:51:32
+json_decoder,INVALIDITY,7c0c8d91ea931968,"{""__complex__"": true, ""rea","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 23 (char 22)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:51:32
+json_decoder,INVALIDITY,4b8806b0b575eb16,iXWtuBUg>YVDsCRhhXeEoFJFYHiMovjLezgPMJZlcBNnSVolVXRgOStg,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:51:33
+json_decoder,INVALIDITY,aa41376502114c47,"[""foo"", {""bar"":[""baz"", nul","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 24 (char 23)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:51:34
+json_decoder,INVALIDITY,130594d3707f7c18,"[""foo"", {2bar"":[""baz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <c","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 23:51:35
+json_decoder,INVALIDITY,ba4734051d2ad4bc,"[""foo"", {""barz:[""ba"""", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-08 23:51:39
+json_decoder,INVALIDITY,b3201134e2fb6ce0,"[""foo"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 114 (char 113)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-08 23:51:41
+json_decoder,INVALIDITY,91c6806cde31c696,"[zfoo"", {""bar"":[""ba"""", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-08 23:51:42
+json_decoder,INVALIDITY,19bf39d6ad4947e5,"[""foo"", {""bar"":['""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 17 (char 16)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:51:42
+json_decoder,INVALIDITY,f32df99ff6c08200,"[""foo"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", null, 1.0, .0, .0, .0, .0, .0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 110 (char 109)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JS","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-08 23:51:44
+json_decoder,INVALIDITY,ec96a683d99a302e,"[""foo"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[baz"", {""bar"":[""baz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 77 (char 76)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 23:51:44
+json_decoder,INVALIDITY,d3fe692d6bed7042,"{""__""complex__"": true, ""rea","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 6 (char 5)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-08 23:51:49
+json_decoder,INVALIDITY,ff903a5438a10297,"[""foo"", {""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.d","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:51:50
+json_decoder,INVALIDITY,f78b764fc7d1e898,"{""RYbyUgClaWzp"": ""pcFdGITIYOAqCJHTaRliuCpwMOBsEAPxyGsJTJVsgNnfPiBxHAkRiJfLGNDDKxDYBnZFaMWbezuLMXXrqinuFPmxzUOEGU"", ""afRrAWohWCSbD"": ""IvDkkuGArzJpZdsLYalxqMpGzWspEJhGGMqHWtmBAiSnqmlTVkunWPDrNDTijgRYchyWbPhawHQTBOfMEhhCS"", ""ct"": ""WdafkwqVPFiSJlHilyZWuTibeZcBNTKWdOqDDIShpiRtnwWZNpCXcOTyAEcRDDEej]SuXaRfXahfwpxZOzmct"", ""JypJnQsUAr"": 1263647570, ""HvhQBbrxEwVgzlGyGkLm"": ""['2', 'null', 'RODPxeKtGiGzZQvtfGAMNMJSABLibTamWbhtCNBSrXgDIaAKZmIztJsMsMn', 'True', 'dxKxnGMGCGIgXcOHVorUfRRUclIOOclrdhFswxuZwMnSuourRnkXaieaHRXKWfoimGsYAY
+', '16', 'null', '74', 'null', 'True']"", ""kC"": 486951070, ""lDOzgcgBtccSQlFvnt"": 992934105, ""HbthPWnlMfhhmZaC"": {""qyaZPb"": 14, ""BYuXgL"": null, ""vGwIQkFhXHL"": ""False"", ""xXPIZ"": 91, ""Ywnfcz"": ""False""}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\n' at: line 2 column 1 (char 524)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:51:51
+json_decoder,INVALIDITY,2f2a23a409dc61d6,"{""kcHVzkgf","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.de","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:51:51
+json_decoder,INVALIDITY,b61aece52701cf7b,"[""foo"", {""bar"":[[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", {""bar"":[""baz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 115 (char 114)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,byte_insert,2026-04-08 23:51:58
+json_decoder,INVALIDITY,4cd11b58653f21c2,"[""foo""¬ {""bar"":[""baz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 7 (char 6)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 23:51:58
+json_decoder,INVALIDITY,a82402d24f980a3b,Y(,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,byte_insert,2026-04-08 23:52:00
+json_decoder,RELIABILITY,6b6acc3ca57e4f54,Y (,,,-1,False,True,insert_special_char,2026-04-08 23:52:01
+json_decoder,INVALIDITY,4b8806b0b575eb16,kbzCxAnkhmJyyCAclCEWJfBkYnvbqApMcYFOeheZtcjkUrZCtHceSPvGNWVaWNmgMNhPwMtjRgVkoPOSPveZSwTDKHkNrXKAjWU,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-08 23:52:02
+json_decoder,INVALIDITY,858345777d0addc9,"{""IGYSfwcCzdjEOr"": {""IPwDxmDyKEcKzxifobit"": ""True"", ""hqkY
+OUaKaYbuHKEF"": ""ffhQGLrGUfDILQVAzIJzkBReqqTsvxZZaXKYfRclgjpsquEUytCyAubXSPCnOQSYlPjaySUHTkYrT"", ""poyJuGQlMyeksPHW"": ""False"", ""PWLJjkGqKJKnOf"": 2, ""aoFYSuIxXJQRZZFvq"": 41}, ""DLGFEH"": ""dTssCwpehQaUuMIPItLfdznOvWeHfjfknGkdxsLuUzKSzg"", ""PxTwwozSGW"": ""['96', 'True', 'False', 'True', 'False', 'gDlxRLHnljGkggnayxlMPYfUhIzsIAegqHYGqfInjyZWwyeVkSYiTeEQFrfMoCearyOJTigQPxBFgUnzXmmZxJeY', '51', 'False']"", ""vNUSaxQvXtmqL"": ""Z"", ""ii"": """", ""elJApVjEUQXfZ"": ""['kVifZcLVnTYDGbVoWIKMNb', '22', 'null', '45', '16', 'null', 'null', 'null', '6']"", ""gcgxuKyMANx"": 1052117232}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\n' at: line 2 column 1 (char 58)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-08 23:52:04
+json_decoder,INVALIDITY,fd01b06058a8e373,{Y(,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <cl","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:52:07
+json_decoder,INVALIDITY,9430b67c145ee995,"{""cpCy"": """", ""Bx"": """", ""RbLQNs"": """", ""XHlBiJ"": ""TrueCy"": """", ""Bx"": """", ""RbLQNs"": """", ""XHlBiJ"": ""TrueCy"": """", ""Bx"": """", ""RbLQNs"": """", ""XHlBiJ"": ""TrueCy"": """", ""Bx"": """", ""RbLQNs"": """", ""XHlBiJ"": ""TrueCy"": """", ""Bx"": """", ""RbLQNs"": """", ""XHlBiJ"": ""True""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 56 (char 55)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-08 23:52:12
+json_decoder,RELIABILITY,1964cd4ac21956df,"{""sGO"": """", ""tn"": """"}","Output decoded data: {'sGO': '', 'tn': ''} of type <class 'dict'>
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 291, in <module>
+    cov.save()
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\.venv\Lib\site-packages\coverage\control.py"", line 855, in save
+    data = self.get_data()
+           ^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\.venv\Lib\site-packages\coverage\control.py"", line 935, in get_data
+    if self._co",1,False,False,insert_special_char,2026-04-08 23:52:31
+json_decoder,INVALIDITY,4b8806b0b575eb16,KPVjsEQLffTGAJWrBRkFkVcrtswTG,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 23:52:36
+json_decoder,RELIABILITY,6b6acc3ca57e4f54,"{""json"": ""obj""}",,,-1,False,True,insert_special_char,2026-04-08 23:52:38
+json_decoder,INVALIDITY,9683e3f38b602bb5,"{""sGO"": """", ""tn"":R """"}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,byte_insert,2026-04-08 23:52:40
+json_decoder,INVALIDITY,23d2ef1ec0c9df19,"
+","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 2 column 1 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:52:44
+json_decoder,INVALIDITY,7a8306cb28a07ac1,"{""TZFLm"": ""MsWfcdRULXQlXNFpRWraeVPLWmzXpksLsUyBAbktCQ"", ""q"": ""RGdImKINGxyenxpqhWAGkFPVLeErQcCeE""OWeeqKlbCtldYkV"", ""vhQYwnuCietOmFxSj"": 179955161}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 97 (char 96)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:52:46
+json_decoder,INVALIDITY,fd01b06058a8e373,{,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <cl","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:52:47
+json_decoder,INVALIDITY,ff903a5438a10297,"[""foo"", {""b","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.d","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:52:49
+json_decoder,INVALIDITY,2768a7b2d15a3109,"{""s||GO"": """", ""tn"":R """"}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 20 (char 19)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:52:51
+json_decoder,INVALIDITY,19bf39d6ad4947e5,"[""foo"", {""bar"":[*baz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 17 (char 16)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 23:52:54
+json_decoder,INVALIDITY,a5713dda23a20e3f,"{""sGO"": """", ""t","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 14 (char 13)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:52:55
+json_decoder,INVALIDITY,aa41376502114c47,"[""foo"", {""bar"":[""baz"", ntll, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 24 (char 23)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 23:52:55
+json_decoder,INVALIDITY,87c0ff60c222178a,"{""__complex__"": true', ""real"": 1, ""imag"": 2}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 21 (char 20)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:52:57
+json_decoder,INVALIDITY,06d1eac2fc849fe1,"[""foo"", {""bar"":[]*baz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:52:59
+json_decoder,INVALIDITY,54d5f4d482ce5865,"{""RsySXdIRrc"": {""WjKDvUwcapIJkQR"": numl, ""xLvkZHGHWGKbOWU"": null}, ""VfvwYtP"": 414640927}","An invalidity bug has been triggered: Expecting value: line 1 column 36 (char 35)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,bit_flip,2026-04-08 23:53:03
+json_decoder,INVALIDITY,4b8806b0b575eb16,VoSUmNjRHogyJwTPlBewDjga,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting value: line 1 column 1 (char 0)', 'C","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-08 23:53:03
+json_decoder,INVALIDITY,3c47d46b5da7c820,"{""nuJvxQdscuYlPFy"": ""eHPJvNZsetaOcBRAEEhxFdoXsRvUXKDadjztoPoAW","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 21 (char 20)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:53:07
+json_decoder,INVALIDITY,34ebff19032ed795,"{""NiZkDwpBqk"": ""['null', '77', 'null', 'null', '87', '7', '10', '88', 'True', 'False']"", ""BPwFYOQNWq"": ""['True', 'auhlgHahZgXmURVgNdzhzIJcWepKAvQiRFVUkPxXCsFofInBhRaUYfoBlzOhYJeHTDKmeOsyhtAHskdJdIYgvSxZjUgdLY', '80', 'null', '2', 'False', 'null']"", ""KYGekDLf"": [], ""TkvVcPpLJgEEidSpg"": {""UrGDBtCzliPeyBjTKPI"": null, ""MYbv","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 317 (char 316)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:53:11
+json_decoder,INVALIDITY,3928e97f5a30ccf3,"{""[nuJvxQdscuYlPFy"": ""eHPJvNZsetaOcBRAEEhxFdoXsRvUXKDadjztoPoAW","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 22 (char 21)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-08 23:53:15
+json_decoder,INVALIDITY,2d99006ac2698fd4,"{""NiZkDwpBqk"": ""['null', '77', 'null', 'null', '87', '7', '10', '88', 'True', 'False']"", ""BPwFYOQNWq"":""""['True', 'auhlgHahZgXmURVgNdzhzIJcWepKAvQiRFVUkPxXCsFofInBhRaUYfoBlzOhYJeHTDKmeOsyhtAHskdJdIYgvSxZjUgdLY', '80', 'null', '2', 'False', 'null']"", ""KYGekDLf"": [], ""TkvVcPpLJgEEidSpg"": {""UrGDBtCzliPeyBjTKPI"": null, ""MYbv","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 105 (char 104)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-08 23:53:17
+json_decoder,INVALIDITY,7267c3eb50d64ed2,"{""""mYVHmhQFuOCIUuF"": 129005649, ""vEysqrQfHITbUsREFJ"": 1154762198, ""BP"": ""['12', 'null', 'False', 'False', '60', 'True', 'null', '87', 'BqLgjlbqnTRNCuBmHbSzYZlJeuKFbyMorRTFAapyMlZNVLfcbVNwkzOTlAwrG', 'ydPnceydWbpUneVtMPBYOsOT']"", ""KeobnHAZHHPW"": ""False"", ""VUZuVusXogUzHqhXGT"": {""szBXLeytlfYQ"": null, ""VCk"": ""MAamdTDtWmVsywdROjPdkWVhvrSPRBFCyQPNnHYnforHNjvaNWngNVEzeOiszScFFbxzowIPzpymBDoLoyPNYJDdPUNvum"", ""EneW"": null, ""DEyFOGK"": ""FalseW}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 4 (char 3)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_st","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-08 23:53:20
+json_decoder,INVALIDITY,4683ca4aaaef19b2,"{""WmYVHmhQFuOCIUuF"": 129005649, ""vEysqrQfHITbUsREFJ"": 1154762198, ""BP"": ""['12', 'null', 'False', 'False', '60', 'True', 'null', '87', 'BqLgjlbqnTRNCuBmHbSzYZlJeuKFbyMorRTFAapyMlZNVLfcbVNwkzOTlAwrG', 'ydPnceydWbpUneVtMPBYOsOT']"", ""KeobnHAZHHPW"": ""False"", ""VUZuVusXogUzHqhXGT"": {""szBXLeytlfYQ"": null, ""VCk"": ""MAamdTDtWm","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 307 (char 306)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:53:28
+json_decoder,INVALIDITY,fd01b06058a8e373,"{'""nuJvxQdscuYlPFy"": ""eHPJvNZsetaOcBRAEEhxFdoXsRvUXKDadjztoPoAW","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <cl","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-08 23:53:30
+json_decoder,INVALIDITY,7c66f2b22bbef628,"{""NiZkDwpBqk"": ""['null', '77', 'null', 'null', '87', '7', '10', '88', 'True', 'False']"", ""BPwFYOQNWq"": ""['True', 'auhlgHahZgXmURVgNdzhzIJcWepKAvQiRFVUkPxXCsFofInBhR","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 104 (char 103)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:53:30
+json_decoder,INVALIDITY,dd78ad9caeb086c5,"{""NiZkDwpBqk"": ""['null', '77', 'null', 'null', '87', '7', '10', '88', 'True', 'False']"", ""BPwFYOQNWq"": ""['True', 'auhlgHahZgXmURVgNdzhzIJcWepKAvQiRFVUkPxXCsFofInBhRaUYfoBlzOhYJeHTDKmeOsyhtAHskdJdIYgvSxZjUgdLY', '80', 'null', '2', 'False', 'null']"", ""KYGekDLf"": [], ""TkvVcPpLJgEEidSpg999999999999999999999999"": {""UrGDBtCzliPeyBjTKPI"": null, ""MYbv","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 341 (char 340)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-08 23:53:31
+json_decoder,INVALIDITY,73abb5f4ffc7f6a0,"{""WmYVHmhQFuOCIUuF"": 129005649, ""vEysqrQfHITbUsREFJ"": 1154762198, ""BP"": ""['12', 'null', 'False', 'False', '60', 'True', 'null', '87', 'BqLgjlbqnTRNCuBmHbSzYZlJeuKFbyMorRTFAapyMlZNVLfcbVNwkzOTlAwrG', 'ydPnceydWbpUneVtMPBYOsOT']"", ""KeobnHAZHHPW"": ""Fals","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 246 (char 245)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-08 23:53:33
+json_decoder,INVALIDITY,4b8806b0b575eb16,ffMXgrQTXJOedgDQOVvMZwIskaW,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting value: line 1 column 1 (char 0)', 'C","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-09 00:12:18
+json_decoder,INVALIDITY,3c47d46b5da7c820,"{""wUX"": -752438409, ""G","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 21 (char 20)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:12:36
+json_decoder,INVALIDITY,05233f783ccc1522,"{""jNfhitAocEIcksUqIL"": 1944393674, ""ZumfLM"": -2098709663, ""sdcJAEITcfFi"": -1023362260, ""dof"": ""['null', 'aXE', 'null', 'null","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 95 (char 94)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:12:39
+json_decoder,INVALIDITY,a82402d24f980a3b,yrukMkEMAXpdGgwkw,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,grammar_mutate,2026-04-09 00:12:51
+json_decoder,INVALIDITY,87ff5a8febbac159,"{""pScNDQZsqAZpFpe"": ""['null']"", ""uOrBoJkxosRP"": {""XcpxzQOa uRaCFOlnf"": ""iavTsSpiYPiLmBDybUVlCOBxNqLmAFKfgtINXIUmcDbxgdqZcHJZqiW"", ""IGicVVo"": 99, ""mmjyh"": ""RxuBQfwBTxZXRtaOAsmMhLXvMWMTELbDsoFlvFBQzBZbEyYSTcNUQoAoNwLiIdsaOUlGAIWxzgIPkxycRikEyqXN""}, ""Y"": """", ""nmRprPkzcMH"": """", ""bZzplbbq"": ""ywdvpoAmmLZEzenJzCiJBEafYMzzDslyBzbYBHu"", ""BBEqM"": {""jfHritthyZ"": ""NOwcedFn"", ""Ikd"": null, ""oNvbQ"": ""CPoWEguUOhytIhVevwGRWeJVOHxXjHACzRzmfREy"", ""pEJmCPVwj"": ""False"", ""AOlfyq"": null}, ""GpLHpSOsPfAhv"": {""VUy"": null, ""baEqxaAAZnRJSrPoxvWX"":j""sdawPcIIjZdGCjJPYvdtcQVcseAXPPhyDwVDD"", ""aWk"": ""False"", ""yzhHgGgLnqAHPvoQTqB"": 90}}","An invalidity bug has been triggered: Expecting value: line 1 column 526 (char 525)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting value: line 1 column 526 (char 5","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-09 00:12:52
+json_decoder,INVALIDITY,4b8806b0b575eb16,jJRucsSmdwWXdbYjKrdBkABkmXauCaXTeanlofxarxLUmCEQPjRdrLrvuLvQzwCqqDrOmYMWvoidFDs,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,radamsa,2026-04-09 00:12:53
+json_decoder,INVALIDITY,5599d08d1cd67550,"{""pScNDQZsqAZpFpe"": ""['null']"", ""uOrB]oJkxosRP"": {""XcpxzQOa uRaCFOlnf"": ""iavTsSpiYPiLmBDybUVlCOBxNqLmAFKfgtINXIUmcDbxgdqZcHJZqiW"", ""IGicVVo"": 99, ""mmjyh"": ""RxuBQfwBTxZXRtaOAsmMhLXvMWMTELbDsoFlvFBQzBZbEyYSTcNUQoAoNwLiIdsaOUlGAIWxzgIPkxycRikEyqXN""}, ""Y"": """", ""nmRprPkzcMH"": """", ""bZzplbbq"": ""ywdvpoAmmLZEzenJzCiJBEafYMzzDslyBzbYBHu"", ""BBEqM"": {""jfHritthyZ"": ""NOwcedFn"", ""Ikd"": null, ""oNvbQ"": ""CPoWEguUOhytIhVevwGRWeJVOHxXjHACzRzmfREy"", ""pEJmCPVwj"": ""False"", ""AOlfyq"": null}, ""GpLHpSOsPfAhv"": {""VUy"": null, ""baEqxaAAZnRJSrPoxvWX"":j""sdawPcIIjZdGCjJPYvdtcQVcseAXPPhyDwVDD"", ""aWk"": ""False"", ""yzhHgGgLnqAHPvoQTqB"": 90}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 527 (char 526)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JS","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:13:03
+json_decoder,INVALIDITY,2fdde6fbca515265,"{""AgilsmTiscMTnlkmavO"": [""False""], ""nefK"": ""False"", ""xfPVXdPLGofWCzVE"": {/../""WQNeENqbU"": null, ""kIpMDUUAzajNlYVoDR"": null, ""pZM"": ""False"", ""zIwJPqgTZMpohLQ"": ""False"", ""DILSTTcGJwzCeUTE"": ""GwQZsbDQLkEzqmEBtHmlqHdPeCPqrjEZaEmZgEnvQfwxYgPNVwPwhHAGriFggrvigrGUlwTeJAcjB""}, ""nAt"": """"}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 74 (char 73)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:13:10
+json_decoder,INVALIDITY,2f2a23a409dc61d6,"{""json","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.de","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:13:12
+json_decoder,RELIABILITY,6b6acc3ca57e4f54,"{""yHvI"":  ""['100', '52', 'null', '63', '16']"", ""rUPRqsIDyVM"": """", ""ejJLMevOXbGi"": ""True""}",,,-1,False,True,constraint_violation,2026-04-09 00:13:16
+json_decoder,INVALIDITY,cebe7861e14f47e8,"{""fLKQuKvJU"": {""HNKzBVnlYobxrK"": 93, ""DPGyguAUXZscgyuWNz"": 40, ""sURinOL"": 85, ""qApeXaIZanEhCo"": null, ""iZoZyvePmLSzkQW"": null}, ""sbjNHcQMAdTTGn"": ""['True', 'False', '18', 'dAwWdBgMbYDYgCYXutHnWgRoFMgEINrSUJVlrOrlHhNezNTRLPZcpiDFWhtpEjtoBiWitiSclshJHgiIcp', 'DdGWsYHTeKymNghKtNszfQavGtdmomGqgGgpseEFwPSYFgMujmTUDfoGjuqCYXFgzzkakQvoyjzekWKY', 'null', '29']"", ""Ux"": ""lJqxYLCWOoKHyTNtLcqJyNsQRDwmfhnqtfEpajU"", ""kgobQp"": ""bAYflulMOJzjZJd
+QKTPlaUSRYMFDAMLvXIaVKnaAPMhEzbCoWC"", ""KmWrtkP"": """", ""wMscYhhMxlVbfK"": -1316274955, ""paDErDnqJWA"": {""jfJyPQrc"": ""xzvooibxG"", ""EGAcLteYlBqXeViRxlPe"": null, ""NDalQqAttBLIhoLz"": ""BmXXgmlVWSuIskPpytNTFlfTXg""}, ""eez"": ""True"", ""XXyZHyTP"": 1222577684}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\n' at: line 2 column 1 (char 433)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:13:20
+json_decoder,INVALIDITY,864ac8df0e56739b,"{""gInJ"": """"","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 12 (char 11)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:13:21
+json_decoder,INVALIDITY,a82402d24f980a3b,RAvnroKcpqhmHcLstYgspAvgxMxlEtrasqgPbjkqdchhxSKHXe,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,radamsa,2026-04-09 00:13:23
+json_decoder,INVALIDITY,4b8806b0b575eb16,ScKwyQpQScGtrXRwIvahN,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,swap_chars,2026-04-09 00:13:25
+json_decoder,INVALIDITY,7d3011b1771c504c,"{""DxNXekfV"": 1754192602, ""VAoXakvdemQsIKSEOu"":%00 """", ""TWSNjpqHCQQXawAkv"": ""['null', 'True', '85', 'True', '83']""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 47 (char 46)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:13:25
+json_decoder,INVALIDITY,2f1666f669a9c92f,"{""__complex__"": true, ""real"": 1, ""imag"": "": "": 2}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 46 (char 45)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:13:37
+json_decoder,INVALIDITY,9bdfe95b0f4209a8,"{""MXpIAeyAZSoO"": """", ""N"": """", ""qopIgQkKtSRDRgbVQfHh"": """", ""AvYxTceIrYtmf"": ""QQpBytHMXhuCfaJQOQprFdfyQTGgbVQfHh"": """", ""AvYxTceIrYtmf"": ""QQpBytHMXhuCfaJQOQprFdfyQTGgbVQfHh"": """", ""AvYxTceIrYtmf"": ""QQpBytHMXhuCfaJQOQprFdfyQTGgbVQfHh"": """", ""AvYxTceIrYtmf"": ""QQpBytHMXhuCfaJQOQprFdfyQTGgbVQfHh"": """", ""AvYxTceIrYtmf"": ""QQpBytHMXhuCfaJQOQprFdfyQTGZFownnXmddpWHQoxhLJChmWSwOr"", ""GejMbIWzSnskKZoNWX"": 1427341028, ""oegtEo"": """", ""kryGBYBxRjdmiDYUKkg"": []}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 112 (char 111)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:13:50
+json_decoder,INVALIDITY,9683e3f38b602bb5,"{""qpOZFLDOqXvC"": %00""False"", ""CmzNOPctTLBezTfnQ"": ""sZIlLKAylDJVmkEV""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-09 00:13:50
+json_decoder,INVALIDITY,e87b559c78ccfa03,"{""IpVxzlrY"": ""True"", ""bzHRNuxIVmL"": """", ""QvjhWMKKNA"": """", ""DDeALoB"": ""nLdSrCxcazknbjnXuRRImIHZIntlVVMgExojMUeIfFVWldjKOuOfiiXuxUgSWAzLHlMUxDCVpNcpHogQbynDaoshQ"", ""nSwjHGrpg"": """", ""kUziSE"": {""P"": null, ""OywFcKrzzFNpH"": ""True"", ""bfpXvMH"": ""False"", ""yyryzKiVxN"": ""IMMLrfOCzUKUXUfplhlRQOwrKgxlsWYTFlOTFWMuZdpEmxHvWBwbBIpxxUayocgPyhLzCxtDQDxtZgHKZIeo"", ""d"": ""JCExnNIvDkypRYqIYeVQOkqlrFeLeLtLKwykYCUdtoPMBZGEfjJfuiRhHLW","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 354 (char 353)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_jso","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:13:52
+json_decoder,INVALIDITY,a82402d24f980a3b,iVHy&&qBPQKSfcVfzigLtTexOaANFfSHsZjxTnEuOeJypnLWIDioMnzrEadMpRqjUhPecDuNbVM,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,constraint_violation,2026-04-09 00:13:53
+json_decoder,RELIABILITY,6b6acc3ca57e4f54,R XEom,,,-1,False,True,insert_special_char,2026-04-09 00:13:53
+json_decoder,INVALIDITY,4b8806b0b575eb16,MBoICDyIwyMoAlLgBIOkhTtuGFdwtIziXgTQaFtTAPrbyyFQiEnMjWKbSmQaFtTAPrbyyFQiEnMjWKbSmQaFtTAPrbyyFQiEnMjWKbSmQaFtTAPrbyyFQiEnMjWKbSmQaFtTAPrbyyFQiEnMjWKbSmgor,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:13:55
+json_decoder,INVALIDITY,89af09358f8c49f2,"{""GvcHpLrHpauz"": ""True"", ""SOKNjAS\d"": ""['OHNFFvtZFkWdUMLaRTvxfGGYMFqVxjiiHFTbtgeNDNaMEitrkZi', '55', 'True', 'True', 'qXkGPkJgRiXwyNfSGKZqUsVXf', 'iYUUNFgyyEWKVZhnzXUtA', 'null', 'zCLhtyKICgiKJPDUqyLtFtQBvzxWeCyeOAGIvrnaUB', 'False', 'False']"", ""ZQFmTjdnDqNc"": """", ""WasVDibUONRBNJEmu"": ""udZDrVJOgKTjQJmtLYbSPDPZXxgIwdIYrqRFWOsyOeJtAbwfNugcMLy"", ""AJZrnKSotybKOeG"": """", ""rxfTJVCHFFcZZxqfVm"": """"}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid \escape: 'd': line 1 column 35 (char 34)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 133, in py_scanstring
+    char = _b[esc]
+           ~~^^^^^
+KeyError: 'd'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  ",0,False,False,insert_special_char,2026-04-09 00:13:59
+json_decoder,INVALIDITY,1642e9fa912582d8,"{""iUijWeAeEscdUSF"": ""abaJNKeZbqhHvtyDmjyTWmQUPsGAfTjHNFVyaFwGCAwbtQUeLRryygNfFjnywhdVZWUaVRtOoYnaessygloZbdGXdeny"", ""rlFMgzIscUfZTRobFRryygNfFjnywhdVZWUaVRtOoYnaessygloZbdGXdeny"", ""rlFMgzIscUfZTRobFRryygNfFjnywhdVZWUaVRtOoYnaessygloZbdGXdeny"", ""rlFMgzIscUfZTRobFRryygNfFjnywhdVZWUaVRtOoYnaessygloZbdGXdeny"", ""rlFMgzIscUfZTRobFJ"": ""True"", ""qvAZzBTVPtbU"": -373547142}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 179 (char 178)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:14:00
+json_decoder,INVALIDITY,713c4a399c32a138,"{""iUijWeAeEscdUSF"": ""abaJNKeZbqhHvtyDmjyTWmQUPsGAfTjHNFVyaFwGCAwbtQUeLRryygNfFjnywhdVZWUaVRtOoYnaessygloZbdGXdeny"", ""rlFMgzIscUfZTRobFJ"": ""True"", ""qvAZzBTVPtbU"": -373547142}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid control character '\r' at: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:14:04
+json_decoder,INVALIDITY,736473c6d257036a,"{""GvcHpLrHpauz"": ""True"", ""SOKNjASd"": ""['OHNFFvtZFkWdUMLaRTvxfGGYMFqVxjiiHFTbtgeNDNaMEitrkZi', '55', 'True', 'Tru","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 38 (char 37)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:14:07
+json_decoder,INVALIDITY,2f2a23a409dc61d6,"{""__comp","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 2 (char 1)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.de","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:14:10
+json_decoder,INVALIDITY,e03fe3ea3c5f1375,"{""V"": """", ""KkgcByKhjhvW"": ""['null', '49', 'False', 'False', '79', 'True', 'True', ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 27 (char 26)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:14:13
+json_decoder,INVALIDITY,8f2d9c4c5b8a1ec2,"{""iUijWeAeEwcdUSF"": ""abaJNKeZbqhHvtyDmjyTWmQUPsGAfTjHNFVyaFwGCAwbtQUeLRryygNfFjnywhdVZWUaVRtOoYnaessygloZbdGXdeny"", ""rlFMgzIscUfZTRobFJ"": ""True"", ""qvAZzBTVPtbU"": -3735\47142}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 168 (char 167)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-09 00:14:18
+json_decoder,INVALIDITY,a82402d24f980a3b,EUbQQq,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,truncate,2026-04-09 00:14:24
+json_decoder,INVALIDITY,4b8806b0b575eb16,ZgUYyZLoqqboSHbNvnLBxmYaRpSiiaCVWWJWRImotsdbcdEUEeutHVyETUwFMIaIOzcPPWWFLLhdiwjAOxhcKShlMrNeLFsLj,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting value: line 1 column 1 (char 0)', 'C","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,grammar_mutate,2026-04-09 00:14:24
+json_decoder,INVALIDITY,d2d61870509826be,"{""Cf"": ""False"", ""AEElZgrZebLjjyXEoXb"": """", ""fEHdRvttDxxQpAER"": ""True"", ""rtbtdYKAXobRlJrLaLpg"": ""['MeGbZkX', '76', 'lpNJGPOa', 'True', 'nrMykqLvsvRPABQoHKgtmNldJvvWnctcTb', '', 'null', 'null']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlp"": ""False"", ""vjnExlLZnjPKVg"": ""False""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 214 (char 213)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:14:29
+json_decoder,INVALIDITY,93637060d4b45b5b,"{""Cf"": ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 8 (char 7)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:14:41
+json_decoder,INVALIDITY,0ddc44e723e32012,"{""kkrCLZGW"": {""eSDvQgRgmEmj"": ""eWYQTdQIsJeAfQqzcdTcqmWoVICDfJxHaHrxmEVYQKOFLkbNUaIgEAelZEwPvLgfgA"", ""lxm"": 17, ""qVxZcorP"": 52}, ""fQyXa"": """", ""rfoWbfns"": """", ""jZbu"": -2051255769, ""slEYX"": ""True"", ""LAQKGKSkhGDWzYhhY"": -1413118457, ""ollaCZWRlKuNKxrj"": -54483965, ""XqDQs"": {""VkYiVoSELMNdZHwetW"": null, ""bswiylYfVw"": null, ""udoO"": ""SrdnztxxTfnwSGzSaZSsDGJikEmEmvz"", ""XgHAYzSWxiWwchs"": 67, ""wMyjXgOKssq67, ""wMyjXgOKssq67, ""wMyjXgOKssq67, ""wMyjXgOKssq67, ""wMyjXgOKssq67, ""wMyjXgOKssq67, ""wMyjXgOKssq67, ""wMyjXgOKssq"": null}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 402 (char 401)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:14:42
+json_decoder,INVALIDITY,84a2850888045caf,"{""Cf"": ""False"", ""AEElZgrZebLjjyXEoXb"": """", ""fEHdRvttDxxQpAER"": ""True"", ""rtbtdYKAXobRlJrLaLpg"": ""['MeGbZkX', '76', 'lpNJGPOa', 'True'+, 'nrMykqLvsvRPABQoHKgtmNldJvvWnctcTb', '', 'null', 'null']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlll']"", ""jtdrjiChVeszlp"": ""False"", ""vjnExlLZnjPKVg"": ""False""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 215 (char 214)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,byte_insert,2026-04-09 00:14:44
+json_decoder,INVALIDITY,3880c18f8f58f7f9,"{""ihMNyqlkHvCmooOdx"": 1517496322, ""XGPErKpShjgAjiDqUT"": -103129\5572, ""PHBobendWUPKRAzpH"": 1507847537}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 64 (char 63)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:14:46
+json_decoder,INVALIDITY,f1eb7ab145137823,"{""MJLUnqA"": """", ""Ox"": -1859859236, ""iMFLVfSUYeohTpIRLOX""","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 57 (char 56)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:14:52
+json_decoder,INVALIDITY,4b8806b0b575eb16,qmlEiwvaKvZAWRtRHiUynNEWjuRzqgfHONXvnramaccfmMKtbVQNwquaaTiRFWxHHZRn,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting value: line 1 column 1 (char 0)', 'C","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-09 00:17:22
+json_decoder,INVALIDITY,1d0007f71f580c65,"{""__complex__"": true, ""real"": 1, *imag"": 2}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 34 (char 33)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,bit_flip,2026-04-09 00:17:44
+json_decoder,INVALIDITY,15ab74bbf61149fc,"{""yPdfQlqToJWsG"": {""STzHOskSFKWBynhxY"": 76, ""BtB"": 78, ""RqQjh"": null, ""svAZV"": ""CPEfqDGVGeDCRCYChJgDaVVy""}, ""H"": ""False"", ""qLhLqmtYiGw"": ""True"", ""ztJqk"": ""True"", ""MYBkMDr"": """", ""cJEEOSApVYlChei"": """", ""YluWrGBBiol"": """", ""eUIbyCTOtwtcD"": {""VvrnVCMUXsHS"":|| null, ""bZLfkbUqsWt"": 64, ""lFgBvqZLE"": ""False""}, ""SobeAXYnFXsmkB"": """"}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 253 (char 252)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JS","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:17:45
+json_decoder,INVALIDITY,a82402d24f980a3b,"uSECnQxEdCaotiMsVEyMFxqyxpKIWroNfKWeirqgYTZGCZ","An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,insert_special_char,2026-04-09 00:17:53
+json_decoder,INVALIDITY,4b8806b0b575eb16,lFuFbKdmyCGEOxQUMZuGjUJGRGlAhTQIOLiIgGyikzcmMyICZfxcDweJiakbcHetWaayYpvRMFetqiRmOlcqtXdDgG,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Expecting value: line 1 column 1 (char 0)', 'C","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,grammar_mutate,2026-04-09 00:17:54
+json_decoder,INVALIDITY,c56535862823f002,"{""tupXjrfYjKa"": ""True"", ""AaIfrsFOXz"": """", ""yeGlomdkeyQ"": """", ""zitgsgRMxJ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 62 (char 61)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:17:58
+json_decoder,INVALIDITY,3483beddb21494df,"{""tupXjrfYjKa"": ""T{rue"", ""AaIfrsFOXz"": """", ""yeGlomdkeyQ"": """", ""zitgsgRMxJ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 63 (char 62)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:18:04
+json_decoder,INVALIDITY,c53036e3f32173a6,"[""foo"", {""bar"":[""baz"", null, ||1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 30 (char 29)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:18:06
+json_decoder,INVALIDITY,aa439bece6ba1bef,"{""tupXjrfYjKa"": ""True"", ""AaIfrsFOXz"":jrfYjKa"": ""True"", ""AaIfrsFOXz"":jrfYjKa"": ""True"", ""AaIfrsFOXz"":jrfYjKa"": ""True"", ""AaIfrsFOXz"":jrfYjKa"": ""True"", ""AaIfrsFOXz"": """", ""yeGlomdkeyQ"": """", ""zitgsgRMxJ","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 38 (char 37)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:18:08
+json_decoder,INVALIDITY,44f9727b37338576,"{""c"": ""['HxTCQPmbNHutMpRnQwtFBevdYKwjDgLqopQINUTZfxWbyvcXDKtPDtCKMwTuLsUXheaxbQoOymxbxfBCBiXcoWrcD', 'True', 'False', '64']"", ""csGXPvwvErS"": 1612003766, ""SruRyfe"": """", ""RvJNLBXvt"": ""UHLYbmbCVVMMZVwofAMXSdLEDoMuXnONgkoYNpaxRAAVRrXwYSquuGocdGuBwHFApmYrNNUDgUPCwxncwVlUCkp"", ""VoncRUkaPcbEdX"": {""KLFmKneyJcuXEsTI"": ""False"""", ""LgXaMJe"": ""False"", ""cIWeYmpbypdXPBFJxm"": 59, ""lSWBaZAmORo"": ""False"", ""Nj"": 37}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 319 (char 318)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:18:11
+json_decoder,INVALIDITY,ae3e326eb27773c3,"{""__complex__""[: true, ""real"": 1, ""imag"": 2}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 15 (char 14)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:18:14
+json_decoder,INVALIDITY,0b8806ef42d8bb87,"{""lWzCpNnwRjySJQhCFST""{: 1725101140, ""CSOkHXAjrizKguEmvWzQ"": """", ""LVNEIQYGqSCIE"": 431319876, ""vJSaVWDCWhDJ"": """", ""ObeelWuGuRfotdbw"": """", ""aPPE"": """", ""TSdRcijijTfsQvAPsOj"": 486382242}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 23 (char 22)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:18:18
+json_decoder,INVALIDITY,ffe2fd547ed2180f,"{""tupXjrfYjKa"": ""Tru","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Unterminated string starting at: line 1 column 17 (char 16)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:18:22
+json_decoder,INVALIDITY,537365a8c09b4c9e,"{""c"": ""['HxTCQPmbNHutMpRnQwtFBevdYKwjDgLqopQINUTZfxWbyvcXDKtPDtCKMwTuLsUXheaxbQoOymxbxfBCBiXcoWrcD', 'True', 'False', '64']"", ""csGXPvwvErS"": 1612003766, ""SruRyfe"": """", ""RvJNLBXvt"": ""UHLYbmbCVVMMZVwofAMXSdLEDoMuXnONgkoYNpaxRAAVRrXwYSquuGocdGuBwHFApmYrNNUDgUPCwxncwVlUCkp"", ""VoncRUkaPcbEdX"": {""KLFmKneyJcuXEsTI"": """"False"""", ""LgXaMJe"": ""False"", ""cIWeYmpbypdXPBFJxm"": 59, ""lSWBaZAmORo"": ""False"", ""Nj"": 37}}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 314 (char 313)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,constraint_violation,2026-04-09 00:18:22
+json_decoder,INVALIDITY,9c1810b8bb729029,"{""yzEJ"": ""['True', 'GThy', 'True', 'True', '50', '89']"", ""LjTQHpzEag"": {""rWlHSDyDPV"": null, ""IvTbWPblaQ\eunhax"": null, ""LJjukhMcF"": 85}, ""w"": ""False"", ""hfDtuUOpr"": """"}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Invalid \escape: 'e': line 1 column 105 (char 104)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_s","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line 133, in py_scanstring
+    char = _b[esc]
+           ~~^^^^^
+KeyError: 'e'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  ",0,False,False,insert_special_char,2026-04-09 00:18:24
+json_decoder,INVALIDITY,a82402d24f980a3b,iPTqjPfdunUTaPkMcXpIkIndRLFjIcPEcJTWYPlD,"An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,byte_insert,2026-04-09 00:18:25
+json_decoder,INVALIDITY,4484e9a1c43d2ec5,"{""Hluf"": """", ""E"": """", ""aMJEQMovaUK"": {""tgjZ"": ""fGxVbkkA","An invalidity bug has been triggered: Unterminated string starting at: line 1 column 47 (char 46)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDecodeError'>, 'Unterminated string starting","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,truncate,2026-04-09 00:18:26
+json_decoder,INVALIDITY,4b8806b0b575eb16,IWUimfpCrBjPyouPKwCPxcxBzNWoznYWmfWbJuXxxrmebD,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,grammar_mutate,2026-04-09 00:18:27
+json_decoder,INVALIDITY,b8a6527e6d23573f,"{""Hluf"": """", ""E"": """", ||""aMJEQMovaUK"": {""tgjZ"": ""fGxVbkkA","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting property name enclosed in double quotes: line 1 column 23 (char 22)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-09 00:18:30
+json_decoder,INVALIDITY,aa41376502114c47,"[""foo"", {""bar"":[""baz"", nz"", nz"", nz"", null, 1.0, 2]}]","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 24 (char 23)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSON","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:18:32
+json_decoder,RELIABILITY,6b6acc3ca57e4f54,"{""__com plex__"": true, ""real"": 1, ""imag"": 2}",,,-1,False,True,insert_special_char,2026-04-09 00:18:32
+json_decoder,INVALIDITY,2a199dc245923502,"{""oV"": {""rhOKnZdsritzvyjoaIp"": ""True"", ""tahoEnXgyLUYLJsvX"": null, ""auppRwqB"": null}, ""fbTNToXl"": """", ""XpMVHxRRMadpUR"": -1275934\13, ""lmxv"": {""oEWbeylUz"": null, ""ya"": null, ""MP"": 11, ""nFQmjlxqLgAyjLb"": null, ""Yy"": ""AGBADvBN""}, ""TjRntUQstWVFqbRUL"": ""False"", ""iZBHGepDXiuh"": ""tBZXTGuYRdGnRvdEumyBhscYzvUIrTkuaZFmmZcnTKRZyGCqQfHaWmcQzNUkxkIbzkifMRRBRHcDeHeXfPIkvnMblOBFOEeKfe""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ',' delimiter: line 1 column 128 (char 127)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decode","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,insert_special_char,2026-04-09 00:18:39
+json_decoder,INVALIDITY,b41cca5bd6f4a0b6,"{""Hluf"": """", ""E"": """", ""aMJEQMovaUK"": {""tgjZ"""": """", ""aMJEQMovaUK"": {""tgjZ"""": """", ""aMJEQMovaUK"": {""tgjZ"""": """", ""aMJEQMovaUK"": {""tgjZ"""": """", ""aMJEQMovaUK"": {""tgjZ"""": """", ""aMJEQMovaUK"": {""tgjZ"""": """", ""aMJEQMovaUK"": {""tgjZ"""": """", ""aMJEQMovaUK"": {""tgjZ"": ""fGxVbkkA","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 45 (char 44)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:18:43
+json_decoder,INVALIDITY,aaf2c8ad34fa1d0a,"{""Hluf"": o"""", ""E"": """", ""aMJEQMovaUK"": {""tgjZ"": ""fGxVbkkA","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 10 (char 9)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSOND","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,byte_insert,2026-04-09 00:18:43
+json_decoder,INVALIDITY,6ec60d80316ffa24,"{""json"":json"":json"":json"":json"":json"":json"":""obj""}","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 9 (char 8)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_stv.JSONDe","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:18:45
+json_decoder,INVALIDITY,ba4734051d2ad4bc,"{""Hluf"": """", "", "", ""E"": """", ||""aMJEQMovaUK"": {""tgjZ"": ""fGxVbkkA","Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting ':' delimiter: line 1 column 18 (char 17)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+Saved bug count report and tracebacks for the bugs encountered!
+Final bug count: defaultdict(<class 'int'>, {('invalidity', <class 'buggy_json.decoder_","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",0,False,False,repeat_chunk,2026-04-09 00:18:49
+json_decoder,INVALIDITY,43c0986dfa896764,qKmsfnTgNVDqHxiMdFkeLsICZUhUSwTsq;ddXgoxoJLcTmNTOVMXPiynpbOIQiKVOacKJhKepSoDkpXUewwaVQiUXLjJthAILWSL,"Loading existing coverage data from .coverage_buggy_json
+
+An invalidity bug has been triggered: Expecting value: line 1 column 1 (char 0)
+============================================================
+TRACEBACK
+============================================================
+============================================================
+","Traceback (most recent call last):
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\json_decoder_stv.py"", line 262, in <module>
+    data = loads(args.str_json)
+          ^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\__init__.py"", line 134, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\natasha\Desktop\STV_Project_Group_2\json-decoder\buggy_json\decoder_stv.py"", line ",1,False,False,byte_insert,2026-04-09 00:18:51

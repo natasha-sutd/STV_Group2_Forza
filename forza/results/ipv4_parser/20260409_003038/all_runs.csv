@@ -1,0 +1,4 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'125.70.160.234.extra',INVALIDITY,1,0
+2,12.407,'202.123.17.158.extra',INVALIDITY,1,0
+3,25.250,'570.56.186.48',INVALIDITY,1,0

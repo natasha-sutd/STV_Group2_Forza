@@ -1,0 +1,7 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'TpRGIGVPFyyAenOcCRQRgMNzNWÆ',INVALIDITY,1,0
+2,2.000,'TpRG',INVALIDITY,0,0
+3,4.359,'TpRGIGVPFyyAenOcCRQRgMNzNWÆ',INVALIDITY,0,0
+4,6.328,'TpRGIGVPFyyAe~OcCRQRgMNzNWÆ',INVALIDITY,0,0
+5,8.156,'hMVXAsTwtBqhnGsSDvpfucLmTWiKZHlNCFE',INVALIDITY,0,0
+6,10.203,"'{""rECmEAH"": ""False"", ""HPYAqN"": ""qaLFlKjqqtScogYryzsbRDUznxbRpzYc"", ""CHTDxXi"": {""tAUgXrpujszDi"": null}, ""TMozyazWa'",INVALIDITY,1,0

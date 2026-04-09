@@ -2,7 +2,7 @@ name: cidrize
 
 # commands
 buggy_cmd: 
-  windows: ["../cidrize-runner-main/bin/win-cidrize-runner.exe", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
+  windows: ["cidrize-runner-main/bin/win-cidrize-runner.exe", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
   mac: ["../cidrize-runner-main/bin/mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
 buggy_cwd: "../../cidrize-runner-main"
 

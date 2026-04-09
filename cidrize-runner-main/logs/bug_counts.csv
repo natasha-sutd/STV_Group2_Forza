@@ -6,3 +6,10 @@ invalidity,InvalidCidrFormatError,More than permitted number of '-',buggy_cidriz
 invalidity,InvalidCidrFormatError,There are too many /,buggy_cidrize/cidrize_stv.py,444,4
 performance,PerformanceBug,Unhandled while True loop.,buggy_cidrize/cidrize_stv.py,421,13
 performance,PerformanceBug,Unhandled while True loop.,buggy_cidrize\cidrize_stv.py,421,2
+syntactic,AddrFormatError,invalid IPNetwork 179.1||13.72.146/12,netaddr\ip\__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 192.0.2.80-19V2.0.2.85,netaddr\ip\__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 192.0.20.6[4/26,netaddr\ip\__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 2<29.41.47.174/14,netaddr\ip\__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 58.253.>82.21/7,netaddr\ip\__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 8.207.²20.125/24,netaddr\ip\__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 9.242.102.217217217/19,netaddr\ip\__init__.py,1045,1

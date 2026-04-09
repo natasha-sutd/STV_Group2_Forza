@@ -1,0 +1,9 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,"'{""EihDFOJ"": """", ""LdkSAP"": """", ""ERkDfWkJMorgpF"": ""yDcnjJVDQdBXIGQcZofnMvkPFBtEqkveDfbdUotIPQqDXlLyaRvVNuaxSGLoAYGrfHoNbi",INVALIDITY,1,0
+2,3.062,"'{""wrKnfFfTPhEhZT"": 963495609, ""VqylqUlo"": ""iY""dzh, ""GpFSIklKIJUt"": 185018304}'",INVALIDITY,0,0
+3,4.578,'pqbZVvmE_QtiEwrlLttqlPMoRKRYMZquDKIWP',INVALIDITY,1,0
+4,6.250,'GYXJximyqHDCLpzdNibGzJXzbHNnKpFcUyqhSlXHGPwVKAHuFdwIeVLhMPBfta',INVALIDITY,0,0
+5,9.469,'p',INVALIDITY,0,0
+6,11.000,'pqbZMvmEQtiEwrlLttqlPVoRKRYMZquDKIWP',INVALIDITY,0,0
+7,12.578,'oDFmJGzCAFqdFz]JJmTIZiJGptHcxuNWYBYq',INVALIDITY,0,0
+8,14.047,'NUIVHaZPiuHGebUGBhAHkZæNqDdTI',INVALIDITY,0,0

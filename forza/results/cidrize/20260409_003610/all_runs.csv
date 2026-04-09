@@ -1,0 +1,3 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'9.242.102.217217217/19',SYNTACTIC,1,0
+2,15.672,'58.253.>82.21/7',SYNTACTIC,1,0

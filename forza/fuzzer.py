@@ -601,6 +601,7 @@ def run_fuzz_mode(
     duration: float | None,
     max_iters: int,
     all_targets: list[str] | None = None,
+    max_workers: int = 2,
 ) -> None:
     """
     AFL-style energy-based mutation loop.
@@ -742,7 +743,7 @@ def run_fuzz_mode(
         completed_iterations = 0  # Tracks actual completed work for calibration
         MAX_WINDOW = 100
         
-        with ThreadPoolExecutor(max_workers=2) as executor:
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
             futures = {}
             next_iter = 1
             pending_futures = set()
@@ -897,6 +898,136 @@ def _collect_yamls(explicit: str | None, run_all: bool) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
+# Benchmarking: 1-worker vs 2-worker comparison
+# ---------------------------------------------------------------------------
+def run_benchmark(config: dict, duration: float | None, max_iters: int, all_targets: list[str] | None = None) -> None:
+    """
+    Benchmark the fuzzer with 1 worker vs 2 workers.
+    
+    Measures:
+    - Time taken for each worker configuration
+    - Iterations/second (throughput)
+    - Speedup factor
+    """
+    import psutil
+    import os
+    
+    target_name = config.get("name", "unknown")
+    print(f"\n{C.bold('╔════════════════════════════════════════╗')}")
+    print(f"{C.bold('║   PARALLEL FUZZER BENCHMARK            ║')}")
+    print(f"{C.bold('╚════════════════════════════════════════╝')}\n")
+    print(f"Target: {C.cyan(target_name)}")
+    print(f"Duration: {duration}s" if duration else f"Iterations: {max_iters}")
+    print()
+    
+    # Determine milestone (e.g., 10% of max_iters for quick benchmarks)
+    milestone = max(100, max_iters // 10) if max_iters else (int(duration * 10) if duration else 1000)
+    
+    results = {}
+    
+    # Test thread counts: 1, 2, 4 (adjust based on your CPU cores)
+    import multiprocessing
+    max_cores = multiprocessing.cpu_count()
+    test_workers = [1, 2, 4]
+    # Filter to reasonable values based on actual CPU count
+    test_workers = [w for w in test_workers if w <= max_cores * 2]
+    
+    for num_workers in test_workers:
+        print(f"\n{C.yellow(f'─ Running with {num_workers} worker(s) ─')}")
+        
+        # Reset global state
+        coverage_tracker.reset()
+        bug_logger.reset()
+        
+        # Measure process memory
+        process = psutil.Process(os.getpid())
+        mem_before = process.memory_info().rss / 1024 / 1024  # MB
+        
+        start_run = time.monotonic()
+        
+        # Run fuzzing
+        run_fuzz_mode(
+            config=config,
+            duration=duration,
+            max_iters=max_iters,
+            all_targets=all_targets,
+            max_workers=num_workers,
+        )
+        
+        elapsed_run = time.monotonic() - start_run
+        mem_after = process.memory_info().rss / 1024 / 1024  # MB
+        
+        # Get completed iterations from coverage tracker
+        tracker = coverage_tracker.get_tracker()
+        iterations_completed = coverage_tracker._iteration if tracker else 0
+        
+        throughput = iterations_completed / elapsed_run if elapsed_run > 0 else 0
+        
+        results[num_workers] = {
+            "time_sec": elapsed_run,
+            "iterations": iterations_completed,
+            "throughput": throughput,
+            "mem_mb": mem_after - mem_before,
+        }
+        
+        print(f"  Time:       {elapsed_run:.2f}s")
+        print(f"  Iterations: {iterations_completed}")
+        print(f"  Throughput: {throughput:.1f} iters/sec")
+        print(f"  Memory Δ:   {results[num_workers]['mem_mb']:+.1f} MB")
+    
+    # Report comparison
+    print(f"\n{C.bold('╔════════════════════════════════════════╗')}")
+    print(f"{C.bold('║   SCALING ANALYSIS                     ║')}")
+    print(f"{C.bold('╚════════════════════════════════════════╝')}\n")
+    
+    # Print table
+    print(f"{'Workers':<10} {'Time (s)':<12} {'Iterations':<15} {'Throughput':<15} {'vs 1W':<10} {'Efficiency':<12}")
+    print("─" * 85)
+    
+    baseline_tput = results[1]["throughput"]
+    best_workers = max(results.keys(), key=lambda w: results[w]["throughput"])
+    
+    for num_workers in sorted(results.keys()):
+        r = results[num_workers]
+        vs_1w = r["throughput"] / baseline_tput if num_workers > 1 else 1.0
+        efficiency = (vs_1w / num_workers) * 100  # Parallel efficiency: speedup/workers
+        
+        print(f"{num_workers:<10} {r['time_sec']:<12.2f} {r['iterations']:<15,} {r['throughput']:<15.1f} {vs_1w:<10.2f}x {efficiency:<12.1f}%")
+    
+    print()
+    
+    # Identify optimal thread count
+    if best_workers == 1:
+        print(C.yellow(f"⚠ Single-threaded is fastest: threading overhead exceeds benefits."))
+    else:
+        efficiency = (results[best_workers]["throughput"] / (baseline_tput * best_workers)) * 100
+        if efficiency >= 75:
+            print(C.green(f"✓ Optimal threads: {best_workers} ({efficiency:.0f}% efficiency)"))
+        elif efficiency >= 50:
+            print(C.yellow(f"✓ Acceptable threads: {best_workers} ({efficiency:.0f}% efficiency)"))
+        else:
+            print(C.red(f"⚠ Poor scaling at {best_workers} threads ({efficiency:.0f}% efficiency)"))
+    
+    # Save results to JSON for visualization
+    import json
+    benchmark_file = Path("benchmark_results.json")
+    with open(benchmark_file, 'w') as f:
+        # Convert results to be JSON-serializable
+        json_results = {
+            str(k): {
+                "time_sec": v["time_sec"],
+                "iterations": v["iterations"],
+                "throughput": v["throughput"],
+                "mem_mb": v["mem_mb"],
+            }
+            for k, v in results.items()
+        }
+        json.dump(json_results, f, indent=2)
+    print(f"\n📊 Results saved to {benchmark_file} (for visualization)")
+    print()
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
@@ -936,6 +1067,12 @@ def main() -> None:
         "--seed",
         action="store_true",
         help="Seed mode: run each seed once with no mutation (sanity check)",
+    )
+    parser.add_argument(
+        "--benchmark",
+        "-b",
+        action="store_true",
+        help="Benchmark mode: compare 1-worker vs 2-worker performance",
     )
 
     # Stop conditions
@@ -984,6 +1121,18 @@ def main() -> None:
 
         if args.seed:
             run_seed_mode(config)
+        elif args.benchmark:
+            try:
+                run_benchmark(
+                    config=config,
+                    duration=args.duration,
+                    max_iters=args.iterations,
+                    all_targets=all_targets,
+                )
+            except ImportError as e:
+                print(C.red(f"\n  [error] missing module: psutil\n  {e}\n"))
+                print(C.dim("  install with: pip install psutil"))
+                sys.exit(1)
         else:
             try:
                 run_fuzz_mode(

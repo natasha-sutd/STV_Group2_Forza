@@ -1,0 +1,9 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,'Z{gvlh',INVALIDITY,1,0
+2,2.031,'Z{gflh',INVALIDITY,0,0
+3,4.000,'pvmNaCrLua>vOFda',INVALIDITY,0,0
+4,7.359,'sCihCbKeRFEtYVVUzNXwmGewTNCvBSYGzOLDSQgRGouWQdwKijOGsYCmEOBroyipOxlzG&&XaGPemyzzNIeSJfyyFc',INVALIDITY,0,0
+5,9.234,'Z{gvl999999999999999999999999h',INVALIDITY,0,0
+6,11.250,'VPBTFsHlHostTeLMmjmfEcDpzCIAPZoyTuygYC<VyuhsbPmGGTbSNwSoEhjyfDTWjDkFORcmVNechQJdmQTMj',INVALIDITY,0,0
+7,13.609,"'{""czek"": ""True"", ""YoX"": """", ""LorrEKg"": """", ""vepOzYnJswoIT"": """", ""ulJ"": {""wnRSoqLjdolMrUpDyh"": ""True""}, ""pwsoaCbKPtQcxrU",INVALIDITY,1,0
+8,15.718,'pvm&NaCrLuavOFda',INVALIDITY,0,0

@@ -1041,3 +1041,285 @@ Traceback (most recent call last):
 buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
 
 
+================================================================================
+Timestamp : 2026-04-08 16:35:13.532704+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 179.1||13.72.146/12
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr\fbsocket.py", line 126, in _inet_pton_af_inet
+ValueError: invalid literal for int() with base 10: '1||13'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\strategy\ipv4.py", line 128, in str_to_int
+  File "netaddr\fbsocket.py", line 147, in inet_pton
+  File "netaddr\fbsocket.py", line 128, in _inet_pton_af_inet
+OSError: illegal IP address string '179.1||13.72.146'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 346, in __init__
+  File "netaddr\strategy\ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '179.1||13.72.146' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 1034, in __init__
+  File "netaddr\ip\__init__.py", line 902, in parse_ip_network
+  File "netaddr\ip\__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '179.1||13.72.146' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 481, in cidrize
+  File "netaddr\ip\__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 179.1||13.72.146/12
+
+
+================================================================================
+Timestamp : 2026-04-08 16:35:38.299599+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 2<29.41.47.174/14
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr\fbsocket.py", line 126, in _inet_pton_af_inet
+ValueError: invalid literal for int() with base 10: '2<29'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\strategy\ipv4.py", line 128, in str_to_int
+  File "netaddr\fbsocket.py", line 147, in inet_pton
+  File "netaddr\fbsocket.py", line 128, in _inet_pton_af_inet
+OSError: illegal IP address string '2<29.41.47.174'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 346, in __init__
+  File "netaddr\strategy\ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '2<29.41.47.174' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 1034, in __init__
+  File "netaddr\ip\__init__.py", line 902, in parse_ip_network
+  File "netaddr\ip\__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '2<29.41.47.174' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 481, in cidrize
+  File "netaddr\ip\__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 2<29.41.47.174/14
+
+
+================================================================================
+Timestamp : 2026-04-08 16:36:08.166126+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 9.242.102.217217217/19
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr\strategy\ipv4.py", line 128, in str_to_int
+  File "netaddr\fbsocket.py", line 147, in inet_pton
+  File "netaddr\fbsocket.py", line 131, in _inet_pton_af_inet
+OSError: illegal IP address string '9.242.102.217217217'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 346, in __init__
+  File "netaddr\strategy\ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '9.242.102.217217217' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 1034, in __init__
+  File "netaddr\ip\__init__.py", line 902, in parse_ip_network
+  File "netaddr\ip\__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '9.242.102.217217217' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 445, in cidrize
+  File "netaddr\ip\__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 9.242.102.217217217/19
+
+
+================================================================================
+Timestamp : 2026-04-08 16:36:21.265412+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 58.253.>82.21/7
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr\fbsocket.py", line 126, in _inet_pton_af_inet
+ValueError: invalid literal for int() with base 10: '>82'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\strategy\ipv4.py", line 128, in str_to_int
+  File "netaddr\fbsocket.py", line 147, in inet_pton
+  File "netaddr\fbsocket.py", line 128, in _inet_pton_af_inet
+OSError: illegal IP address string '58.253.>82.21'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 346, in __init__
+  File "netaddr\strategy\ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '58.253.>82.21' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 1034, in __init__
+  File "netaddr\ip\__init__.py", line 902, in parse_ip_network
+  File "netaddr\ip\__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '58.253.>82.21' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 481, in cidrize
+  File "netaddr\ip\__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 58.253.>82.21/7
+
+
+================================================================================
+Timestamp : 2026-04-08 16:36:55.484767+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 8.207.²20.125/24
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr\fbsocket.py", line 126, in _inet_pton_af_inet
+ValueError: invalid literal for int() with base 10: '²20'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\strategy\ipv4.py", line 128, in str_to_int
+  File "netaddr\fbsocket.py", line 147, in inet_pton
+  File "netaddr\fbsocket.py", line 128, in _inet_pton_af_inet
+OSError: illegal IP address string '8.207.²20.125'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 346, in __init__
+  File "netaddr\strategy\ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '8.207.²20.125' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 1034, in __init__
+  File "netaddr\ip\__init__.py", line 902, in parse_ip_network
+  File "netaddr\ip\__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '8.207.²20.125' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 481, in cidrize
+  File "netaddr\ip\__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 8.207.²20.125/24
+
+
+================================================================================
+Timestamp : 2026-04-08 16:36:55.983799+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 192.0.20.6[4/26
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr\fbsocket.py", line 126, in _inet_pton_af_inet
+ValueError: invalid literal for int() with base 10: '6[4'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\strategy\ipv4.py", line 128, in str_to_int
+  File "netaddr\fbsocket.py", line 147, in inet_pton
+  File "netaddr\fbsocket.py", line 128, in _inet_pton_af_inet
+OSError: illegal IP address string '192.0.20.6[4'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 346, in __init__
+  File "netaddr\strategy\ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '192.0.20.6[4' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 1034, in __init__
+  File "netaddr\ip\__init__.py", line 902, in parse_ip_network
+  File "netaddr\ip\__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '192.0.20.6[4' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 481, in cidrize
+  File "netaddr\ip\__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 192.0.20.6[4/26
+
+
+================================================================================
+Timestamp : 2026-04-08 16:37:12.852998+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 192.0.2.80-19V2.0.2.85
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr\strategy\ipv4.py", line 128, in str_to_int
+  File "netaddr\fbsocket.py", line 147, in inet_pton
+  File "netaddr\fbsocket.py", line 135, in _inet_pton_af_inet
+OSError: illegal IP address string '192.0.2.80-19V2.0.2.85'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 346, in __init__
+  File "netaddr\strategy\ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '192.0.2.80-19V2.0.2.85' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr\ip\__init__.py", line 1034, in __init__
+  File "netaddr\ip\__init__.py", line 902, in parse_ip_network
+  File "netaddr\ip\__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '192.0.2.80-19V2.0.2.85' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 481, in cidrize
+  File "netaddr\ip\__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 192.0.2.80-19V2.0.2.85
+
+
