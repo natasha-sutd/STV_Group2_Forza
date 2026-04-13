@@ -377,6 +377,10 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
     """
     Coverage over time: line charts per metric showing how coverage grows
     as the fuzzer tests more inputs (in-vivo, from coverage_tracker.py).
+
+    - map_density is ALWAYS shown (works for both whitebox and blackbox).
+    - statement/branch/function are only shown when non-zero data exists
+      (whitebox targets only).
     """
     import json as _json
 
@@ -391,20 +395,53 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
     <div class="nc-sub">
       <code>coverage_tracker.py</code> needs to write
       <code>results/&lt;target&gt;_coverage.csv</code> during the fuzzing run (in-vivo).<br/>
-      Expected columns: <code>timestamp, statement_coverage, branch_coverage, function_coverage, total_inputs</code>
+      Expected columns: <code>timestamp, statement_coverage, branch_coverage, function_coverage, map_density, total_inputs</code>
     </div>
   </div>
 </div>"""
 
+    # Tooltip text for each metric
+    tooltips = {
+        "map_density": (
+            "Map density measures the fraction of the 64KB AFL-style bitmap that has been populated. "
+            "For whitebox targets, each slot represents a code edge (basicblock→basicblock) hit during execution. "
+            "For blackbox targets, each slot represents a distinct behavioral response class "
+            "(unique combination of exit code, output type, and error type). "
+            "Higher density means more distinct program behaviors have been observed."
+        ),
+        "statement_coverage": (
+            "Statement coverage tracks the percentage of source code lines executed at least once. "
+            "Only available for whitebox targets with source-code instrumentation enabled. "
+            "Not applicable to blackbox (compiled binary) targets."
+        ),
+        "branch_coverage": (
+            "Branch coverage tracks the percentage of conditional branches (if/else, switch) "
+            "where both the true and false paths have been taken. "
+            "Only available for whitebox targets with source-code instrumentation enabled."
+        ),
+        "function_coverage": (
+            "Function coverage tracks the percentage of functions/methods that have been called "
+            "at least once during fuzzing. "
+            "Only available for whitebox targets with source-code instrumentation enabled."
+        ),
+    }
+
     palette = ["#00ff88", "#45aaf2", "#ffd32a", "#ff4757"]
+
+    # Define all metrics — map_density first (always shown), then code coverage
+    all_metrics = [
+        ("map_density",          "map density (%)"),
+        ("statement_coverage",   "statement coverage (%)"),
+        ("branch_coverage",      "branch coverage (%)"),
+        ("function_coverage",    "function coverage (%)"),
+    ]
+
     charts_html = ""
-    for metric, metric_label in [
-        ("statement_coverage", "statement coverage (%)"),
-        ("branch_coverage",    "branch coverage (%)"),
-        ("function_coverage",  "function coverage (%)"),
-    ]:
+    for metric, metric_label in all_metrics:
         chart_id = f"cov_{metric}"
         datasets = []
+        has_nonzero = False
+
         for i, t in enumerate(targets):
             rows = all_coverage[t]
             if not rows:
@@ -413,8 +450,11 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
             data_pts = []
             for r in rows:
                 try:
+                    y_val = round(float(r.get(metric, 0)), 4)
                     data_pts.append({"x": float(r.get("total_inputs", 0)),
-                                     "y": round(float(r.get(metric, 0)), 2)})
+                                     "y": y_val})
+                    if y_val > 0:
+                        has_nonzero = True
                 except (ValueError, TypeError):
                     continue
             if not data_pts:
@@ -427,6 +467,12 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
                 "fill": True, "tension": 0.35,
                 "pointRadius": 2, "borderWidth": 1.5,
             })
+
+        # Skip code-coverage charts (statement, branch, function) if all values are 0
+        # This hides them for blackbox targets where they don't exist.
+        # map_density is always shown.
+        if metric != "map_density" and not has_nonzero:
+            continue
 
         if not datasets:
             continue
@@ -441,9 +487,15 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
         else:
             y_min, y_max = 0, 100
 
+        # Tooltip hint for this metric
+        tip_text = _esc(tooltips.get(metric, ""))
+
         charts_html += f"""
 <div class="chart-box">
-  <div class="chart-label">{metric_label} vs inputs tested</div>
+  <div class="chart-label">
+    {metric_label} vs inputs tested
+    <span class="chart-tooltip" data-tip="{tip_text}">ⓘ</span>
+  </div>
   <div style="position:relative;height:220px;">
     <canvas id="{chart_id}"></canvas>
   </div>
@@ -492,10 +544,10 @@ def render_bug_table(rows: list[dict], target: str) -> str:
     trows = "".join(
         f"<tr>"
         f"<td>{_pill(r)}</td>"
-        f'<td class="input-cell mono" title="{_esc(r.get("input_data", "")[:80])}">{_esc(r.get("input_data", "")[:80])}</td>'
-        f"<td class='mono'>{_esc(r.get('strategy', '') or '—')}</td>"
-        f"<td class='mono num'>{_esc(r.get('returncode', ''))}</td>"
-        f'<td class="ts-cell mono">{_esc(r.get("timestamp", "")[:19])}</td>'
+        f'<td class="input-cell mono" title="{_esc((r.get("input_data") or "")[:80])}">{_esc((r.get("input_data") or "")[:80])}</td>'
+        f"<td class='mono'>{_esc(r.get('strategy', '') or '\u2014')}</td>"
+        f"<td class='mono num'>{_esc(str(r.get('returncode', '')))}</td>"
+        f'<td class="ts-cell mono">{_esc((r.get("timestamp") or "")[:19])}</td>'
         f"</tr>"
         for r in display
     )
@@ -523,12 +575,12 @@ def _render_target_bug_reports(t: str, rows: list[dict], bug_num_start: int) -> 
         bug_num += 1
 
         bug_type = bug_type_key
-        ts = r.get("timestamp", "unknown")[:19]
-        inp = r.get("input_data", "")
-        stdout = r.get("stdout", "")[:400]
-        stderr = r.get("stderr", "")[:400]
+        ts = (r.get("timestamp") or "unknown")[:19]
+        inp = r.get("input_data") or ""
+        stdout = (r.get("stdout") or "")[:400]
+        stderr = (r.get("stderr") or "")[:400]
         rc = r.get("returncode", "?")
-        strat = r.get("strategy", "unknown")
+        strat = r.get("strategy") or "unknown"
         crashed = str(r.get("crashed", "")).lower() == "true"
         timed = str(r.get("timed_out", "")).lower() == "true"
 
@@ -672,7 +724,10 @@ h1{font-family:var(--sans);font-weight:800;font-size:2.2rem;color:#fff;line-heig
 .ablation-wrap{background:var(--surface);border:1px solid var(--border);padding:1.5rem}
 .coverage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:1.5rem}
 .chart-box{background:var(--surface);border:1px solid var(--border);padding:1.2rem 1.5rem}
-.chart-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
+.chart-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.chart-tooltip{position:relative;cursor:help;color:var(--text-dim);font-size:.75rem;line-height:1;flex-shrink:0;text-transform:none;letter-spacing:0}
+.chart-tooltip::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);background:#1a1e2a;color:var(--text);border:1px solid var(--border);padding:.6rem .8rem;font-family:var(--mono);font-size:.65rem;line-height:1.6;white-space:normal;width:320px;z-index:100;pointer-events:none;opacity:0;transition:opacity .2s ease;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.chart-tooltip:hover::after{opacity:1}
 .no-coverage-msg{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--muted);padding:1.5rem 2rem;display:flex;align-items:flex-start;gap:1.5rem;font-family:var(--mono);font-size:.75rem}
 .nc-icon{font-size:1.5rem;color:var(--muted);flex-shrink:0;margin-top:.1rem}
 .nc-title{color:var(--text);margin-bottom:.4rem;font-size:.8rem}
