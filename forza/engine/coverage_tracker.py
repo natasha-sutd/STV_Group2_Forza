@@ -966,22 +966,35 @@ def _extract_coverage_lines(stdout: str, stderr: str) -> set[str]:
         coverage: engine/json_decoder.py:42
         → assumes 1 hit
 
-    Format 2 — json_decoder's --show-coverage report:
+    Format 2 — json_decoder's --show-coverage summary:
         line coverage     : 63.16% (204/323)
         branch coverage   : 65.22% (90/138)
 
     Format 3 — edge frequency tracking (AFL-style):
         coverage_freq: engine/foo.py:40->42=5
         → tracks edge 40→42 with count of 5
+
+    Format 4 — coverage.py table (per-file Stmts/Miss/Missing):
+        buggy_json\\decoder_stv.py     224    174     78     13    21%   3-85, 101, ...
+        → Infers covered lines by subtracting Missing ranges from 1..Stmts
+        → Generates entries like 'decoder_stv.py:L42' for each covered line
+        → Also parses 'X->Y' branch entries as 'decoder_stv.py:B42->44'
     """
     frequencies: dict[str, int] = {}
     combined = stdout + "\n" + stderr
+
+    # --- Coverage table regex (coverage.py format) ---
+    # Matches lines like:
+    #   buggy_json\decoder_stv.py     224    174     78     13    21%   3-85, 101, ...
+    _COV_TABLE_RE = re.compile(
+        r'^(\S+\.py)\s+(\d+)\s+(\d+)\s+\d+\s+\d+\s+\d+%\s*(.*)?$'
+    )
 
     for line in combined.splitlines():
         stripped = line.strip()
 
         if stripped.startswith("coverage_freq:"):
-            parts = stripped[len("coverage_freq:") :].split("=")
+            parts = stripped[len("coverage_freq:"):].split("=")
             if len(parts) == 2:
                 loc = parts[0].strip()
                 try:
@@ -990,7 +1003,7 @@ def _extract_coverage_lines(stdout: str, stderr: str) -> set[str]:
                     pass
 
         elif stripped.startswith("coverage:"):
-            loc = stripped[len("coverage:") :].strip()
+            loc = stripped[len("coverage:"):].strip()
             frequencies[loc] = frequencies.get(loc, 0) + 1
 
         elif "line coverage" in stripped.lower() and "%" in stripped:
@@ -1002,6 +1015,55 @@ def _extract_coverage_lines(stdout: str, stderr: str) -> set[str]:
             m = re.search(r"(\d+)/(\d+)", stripped)
             if m:
                 frequencies[f"branch:{m.group(1)}/{m.group(2)}"] = 1
+
+        else:
+            # Format 4: coverage.py table row
+            m = _COV_TABLE_RE.match(stripped)
+            if m:
+                fname = m.group(1).replace("\\", "/")
+                # Use just the basename for shorter keys
+                base = fname.rsplit("/", 1)[-1] if "/" in fname else fname
+                total_stmts = int(m.group(2))
+                miss_count = int(m.group(3))
+                missing_str = (m.group(4) or "").strip()
+
+                # Parse the Missing column into a set of line numbers
+                missing_lines: set[int] = set()
+                if missing_str:
+                    for part in missing_str.split(","):
+                        part = part.strip()
+                        if not part:
+                            continue
+                        # Skip branch entries like "105->109" — those are branches, not lines
+                        if "->" in part:
+                            # Parse as a branch edge: "105->109"
+                            br_parts = part.split("->")
+                            if len(br_parts) == 2:
+                                try:
+                                    src = int(br_parts[0].strip())
+                                    dst = int(br_parts[1].strip())
+                                    # This is a MISSING branch — we don't add it
+                                except ValueError:
+                                    pass
+                            continue
+                        # Line range: "3-85" or single line: "101"
+                        range_match = re.match(r"(\d+)-(\d+)", part)
+                        if range_match:
+                            lo = int(range_match.group(1))
+                            hi = int(range_match.group(2))
+                            missing_lines.update(range(lo, hi + 1))
+                        else:
+                            try:
+                                missing_lines.add(int(part))
+                            except ValueError:
+                                pass
+
+                # Generate covered line entries: all lines in 1..total_stmts
+                # that are NOT in the missing set
+                for line_no in range(1, total_stmts + 1):
+                    if line_no not in missing_lines:
+                        edge_key = f"{base}:L{line_no}"
+                        frequencies[edge_key] = frequencies.get(edge_key, 0) + 1
 
     return frequencies
 
