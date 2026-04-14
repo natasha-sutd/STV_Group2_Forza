@@ -201,10 +201,18 @@ def print_banner(
     dur_str = f"{duration:.0f}s" if duration else "∞"
     iter_str = f"{max_iters:,}"
 
+    # Label: whitebox targets with coverage_enabled → "greybox fuzzer",
+    # blackbox behavioral targets → "blackbox fuzzer"
+    tracking_mode = str(config.get("tracking_mode", "behavioral")).strip().lower()
+    if config.get("coverage_enabled") or tracking_mode == "code_execution":
+        fuzzer_label = "greybox fuzzer"
+    else:
+        fuzzer_label = "blackbox fuzzer"
+
     print()
     print(_div())
     print(
-        f"  {C.bold(C.cyan('greybox fuzzer'))}  ·  "
+        f"  {C.bold(C.cyan(fuzzer_label))}  ·  "
         f"target: {C.green(target)}  ·  mode: {C.yellow(mode)}"
     )
     print(_div())
@@ -286,9 +294,16 @@ def print_fuzz_status(
     from engine.coverage_tracker import get_tracker
 
     _trk = get_tracker()
+    tracking_mode = str(config.get("tracking_mode", "behavioral")).strip().lower()
     if _trk:
         t_map_dens = _trk.map_density
-        t_count_cov = _trk.count_coverage_bits
+        # Count coverage only makes sense for code_execution mode (edge-frequency
+        # data from instrumented targets).  In behavioral mode there are no
+        # per-edge hit counts, so show n/a instead of a misleading "1.00 bits/tuple".
+        if tracking_mode == "behavioral" and not config.get("coverage_enabled"):
+            t_count_cov = "n/a"
+        else:
+            t_count_cov = _trk.count_coverage_bits
         # Item geometry — real values from tracker
         t_levels = str(_trk.levels)
         t_pending = str(_trk.pending)
@@ -334,7 +349,7 @@ def print_fuzz_status(
         f"┌─ process timing ─────────────────────────────────────┬─ overall results ─────┐",
         f"│        run time : {_cp(t_run_time, 35, C.white)}│  cycles done : {_cp(t_cycles, 7, C.magenta)}│",
         f"│   last new find : {_cp(t_last_find, 35, C.white)}│ corpus count : {_cp(t_corpus, 7, C.cyan)}│",
-        f"│last saved crash : {_cp(t_last_crash, 35, C.white)}│saved crashes : {_cp(t_crashes, 7, C.red)}│",
+        f"│last saved crash : {_cp(t_last_crash, 35, C.white)}│saved crashes : {_cp(t_unique, 7, C.red)}│",
         f"│  last saved hang : {_cp(t_last_hang, 34, C.white)}│ unique bugs  : {_cp(t_unique, 7, C.yellow)}│",
         f"├─ cycle progress ──────────────────┬─ map coverage ───┴───────────────────────┤",
         f"│  now processing : {_cp(t_now_proc, 16, C.white)}│ map density : {_cp(t_map_dens, 27, C.white)}│", 
@@ -789,6 +804,14 @@ def run_fuzz_mode(
                             total_bugs += 1
                             last_bug = bug
                             strategy_counts[bug.strategy] = strategy_counts.get(bug.strategy, 0) + 1
+
+                        # Use the logger's deduplicated count for the UI
+                        # instead of raw total_bugs to avoid inflated numbers.
+                        _lg = bug_logger._logger
+                        if _lg:
+                            unique_bug_count = _lg.unique_bugs
+                        else:
+                            unique_bug_count = 0
                         
                         # ── Calibrate timeout based on completed iterations ───────────
                         with _stats_lock:

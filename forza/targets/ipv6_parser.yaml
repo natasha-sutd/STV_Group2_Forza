@@ -39,4 +39,4 @@ output_pattern: "Output: [{value}]"
 
 # coverage
 coverage_enabled: false
-tracking_mode: code_execution
+tracking_mode: behavioral

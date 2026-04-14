@@ -87,6 +87,8 @@ class FuzzIterationPayload:
     input_data: Optional[str] = None
     exec_time_ms: float = 0.0
     input_depth: int = 1
+    # Behavioral fingerprint for blackbox targets (computed from raw target output)
+    output_signature: Optional[str] = None
 
 
 class CoverageTracker:
@@ -126,6 +128,11 @@ class CoverageTracker:
 
         # State for black-box novelty tracking
         self.seen_bug_keys: set[str] = set()
+
+        # Behavioral output signatures for blackbox coverage.
+        # Each unique (exit_code_bucket, stdout_shape, stderr_line1) fingerprint
+        # is a distinct "behavioral edge" mapped into the 64KB bitmap.
+        self._seen_output_signatures: set[str] = set()
 
         # State for white-box edge coverage tracking
         self.covered_line_ids: set[str] = set()
@@ -258,16 +265,38 @@ class CoverageTracker:
 
         if self.mode == "behavioral":
             self.current_metric = self.behavioral_metric
-            new_path_found = new_behavior_found
-            statement_coverage = min(100.0, float(self.behavioral_metric) * 2.0)
-            branch_coverage = statement_coverage
-            function_coverage = statement_coverage
+
+            # --- Bitmap: mark bug_key slot ---
             if payload.bug_key:
-                self.global_edge_buckets[payload.bug_key].add(0)  # 1 hit bucket
-                # --- Update bitmap for behavioral mode ---
+                self.global_edge_buckets[payload.bug_key].add(0)  # 1-hit bucket
                 idx = _hash_edge_to_bitmap_idx(payload.bug_key)
                 self._bitmap[idx] = max(self._bitmap[idx], 1)
                 self._bitmap_virgin[idx] = 0xFF
+
+            # --- Bitmap: mark output-signature slot (blackbox behavioral edge) ---
+            # Every distinct output fingerprint (exit-code bucket + output shape)
+            # is treated as a new "edge" in the 64KB bitmap, exactly like AFL does
+            # for compiled targets.  This gives a meaningful, monotonically growing
+            # map_density for fully black-box targets.
+            new_sig_found = False
+            if payload.output_signature:
+                sig = payload.output_signature
+                if sig not in self._seen_output_signatures:
+                    self._seen_output_signatures.add(sig)
+                    sig_idx = _hash_edge_to_bitmap_idx(sig)
+                    self._bitmap[sig_idx] = max(self._bitmap[sig_idx], 1)
+                    self._bitmap_virgin[sig_idx] = 0xFF
+                    self.global_edge_buckets[sig].add(0)
+                    new_sig_found = True
+
+            new_path_found = new_behavior_found or new_sig_found
+
+            # Behavioral mode has NO source code instrumentation, so
+            # statement/branch/function coverage cannot exist — log 0.0.
+            # The map_density (computed below) is the meaningful metric.
+            statement_coverage = 0.0
+            branch_coverage = 0.0
+            function_coverage = 0.0
         elif self.mode == "code_execution":
             if coverage_percentages:
                 # Real instrumented percentages — detect novelty by comparing
@@ -283,6 +312,12 @@ class CoverageTracker:
                 self.current_metric = self.execution_metric
                 new_path_found = new_execution_found
             else:
+                # No coverage data from this run (target crashed / produced no
+                # --show-coverage output).  Fall back to bug-key novelty for
+                # corpus-growth decisions, but DO NOT mutate the logged coverage
+                # value — carry the last real measurement forward instead.
+                # The old formula `behavioral_metric * 2.0` created visible spikes
+                # in the coverage chart every time a bug was found without data.
                 self.current_metric = self.behavioral_metric
                 new_path_found = new_behavior_found
 
@@ -295,8 +330,11 @@ class CoverageTracker:
                     "function", coverage_percentages.get("combined", statement_coverage)
                 )
             else:
-                statement_coverage = round(float(self.current_metric), 2)
-                branch_coverage = statement_coverage
+                # No --show-coverage data this iteration (e.g. target crashed).
+                # Carry the last valid measurement forward so the chart stays
+                # flat during bad runs rather than spiking down to a raw count.
+                statement_coverage = self._last_line_cov if self._last_line_cov is not None else 0.0
+                branch_coverage = self._last_branch_cov if self._last_branch_cov is not None else 0.0
                 function_coverage = statement_coverage
 
             # --- AFL bucket novelty detection ---
@@ -359,6 +397,9 @@ class CoverageTracker:
         if self.total_inputs % self._snapshot_interval == 0:
             self._export_bitmap_snapshot()
 
+        # --- Compute map density (universal metric for both modes) ---
+        map_density_pct = sum(1 for b in self._bitmap if b > 0) / MAP_SIZE * 100
+
         self.log_state(
             current_metric=self.current_metric,
             new_path_found=new_path_found,
@@ -367,6 +408,7 @@ class CoverageTracker:
             statement_coverage=statement_coverage,
             branch_coverage=branch_coverage,
             function_coverage=function_coverage,
+            map_density=map_density_pct,
             coverage_source=("instrumented" if coverage_percentages else "proxy"),
         )
         return new_path_found
@@ -581,6 +623,7 @@ class CoverageTracker:
                     "statement_coverage",
                     "branch_coverage",
                     "function_coverage",
+                    "map_density",
                     "total_inputs",
                     "coverage_source",
                 ]
@@ -595,6 +638,7 @@ class CoverageTracker:
         statement_coverage: float,
         branch_coverage: float,
         function_coverage: float,
+        map_density: float,
         coverage_source: str,
     ) -> None:
 
@@ -608,6 +652,7 @@ class CoverageTracker:
                     statement_coverage,
                     branch_coverage,
                     function_coverage,
+                    round(map_density, 4),
                     self.total_inputs,
                     coverage_source,
                 ]
@@ -701,6 +746,137 @@ _iteration: int = 0
 _tracker_lock = threading.Lock()
 
 
+def _extract_output_class(line: str) -> str:
+    """Reduce a raw output line to its behavioral CLASS, stripping specific values.
+
+    Examples:
+        "Output: [192.168.0.1]"   → "output:bracketed"
+        "Reference: Invalid IP"   → "reference:invalid"
+        "IPNetwork('1.2.3.0/24')" → "ipnetwork"
+        "CidrizeError: bad addr"  → "error:cidrize"
+        "ParseException: ..."     → "error:parse"
+        "Traceback (most recent)" → "traceback"
+        ""                        → "empty"
+
+    The goal: two inputs that trigger the *same program path* should produce
+    the same class string even if the output *value* differs.
+    """
+    if not line:
+        return "empty"
+
+    lo = line.lower()
+
+    # Traceback / Python exception header
+    if lo.startswith("traceback"):
+        return "traceback"
+
+    # Known error class names (grab the class name only, not the message)
+    import re as _re
+    err_match = _re.match(r"([A-Z][A-Za-z]+(?:Error|Exception|Warning))\s*:", line)
+    if err_match:
+        return f"error:{err_match.group(1).lower()}"
+
+    # "Reference: ..." lines (these are explicit reference-script labels)
+    if lo.startswith("reference:"):
+        label = line.split(":", 1)[1].strip().lower()
+        # Collapse specific messages into a few classes
+        if "invalid" in label:
+            return "reference:invalid"
+        if "valid" in label:
+            return "reference:valid"
+        return f"reference:{label[:20]}"
+
+    # "Output: [...]" — the parsed value is in brackets; strip it
+    if lo.startswith("output:"):
+        rest = line[7:].strip()
+        if rest.startswith("[") and rest.endswith("]"):
+            return "output:bracketed"
+        if rest.startswith("{"):
+            return "output:object"
+        if rest.startswith("["):
+            return "output:array"
+        return "output:other"
+
+    # IPNetwork / IPRange / IPAddress repr strings (cidrize output)
+    if lo.startswith("ipnetwork(") or lo.startswith("iprange("):
+        return "ipnetwork"
+    if lo.startswith("ipaddress("):
+        return "ipaddress"
+
+    # Generic: take only the first word (the "verb" / label) of the line
+    first_word = lo.split()[0].rstrip(":").rstrip("(")[:20]
+    return f"generic:{first_word}"
+
+
+def _compute_output_signature(
+    stdout: str, stderr: str, returncode: int, timed_out: bool
+) -> str:
+    """Compute a canonical BEHAVIORAL CLASS fingerprint from raw target output.
+
+    For blackbox targets this fingerprint substitutes for edge-coverage data.
+
+    ### Design: class-level, not value-level
+
+    The key insight is that behavioral coverage should count DISTINCT PROGRAM
+    PATHS, not distinct output VALUES.  An IPv4 parser that returns
+    "Output: [192.168.0.1]" and one that returns "Output: [10.0.0.2]" both
+    exercised the SAME path (the valid-parse path).  Treating them as different
+    "edges" would saturate the bitmap with value diversity, not path diversity.
+
+    This function reduces each observation to a small, stable class label so
+    that the bitmap's 65,536 slots correspond to distinct behavioral responses
+    (parse-success, error-type-A, error-type-B, crash, timeout), NOT to the
+    universe of possible output values.
+
+    ### What does map_density mean for blackbox targets?
+
+    The number of possible behavioral class combinations is small and bounded
+    by the target's logic — typically a few dozen at most for a parser.
+    Therefore 100% map density = "we have seen every distinct behavioral
+    response class at least once".  The metric saturates only when no new
+    behavior can be triggered, which is what we actually want to measure.
+
+    ### Components
+    - exit_code_bucket: ok / e1 / e2 / eN / crash(sig) / timeout
+    - output_class:     structural class of first stdout line (see _extract_output_class)
+    - error_class:      structural class of first stderr line (same logic)
+    """
+    if timed_out:
+        return "rc=timeout|out=empty|err=empty"
+
+    # ── 1. Exit-code bucket ────────────────────────────────────────────────
+    if returncode == 0:
+        rc = "ok"
+    elif returncode == 1:
+        rc = "e1"
+    elif returncode == 2:
+        rc = "e2"
+    elif returncode < 0:
+        rc = "crash"
+    else:
+        rc = "eN"
+
+    # ── 2. Output class (first non-empty stdout line, value-stripped) ──────
+    stdout_line1 = ""
+    for line in stdout.splitlines():
+        stripped = line.strip()
+        if stripped:
+            stdout_line1 = stripped
+            break
+    out_class = _extract_output_class(stdout_line1)
+
+    # ── 3. Error class (first non-empty stderr line, value-stripped) ───────
+    stderr_line1 = ""
+    for line in stderr.splitlines():
+        stripped = line.strip()
+        if stripped:
+            stderr_line1 = stripped
+            break
+    err_class = _extract_output_class(stderr_line1)
+
+    return f"rc={rc}|out={out_class}|err={err_class}"
+
+
 def update(
     bug: BugResult, config: dict, input_depth: int = 1, reference_result=None
 ) -> bool:
@@ -714,13 +890,27 @@ def update(
 
         coverage_enabled = bool(config.get("coverage_enabled", False))
 
-        # coverage_enabled = True means white box
-        if not coverage_enabled and reference_result is not None:
+        # For whitebox targets (coverage_enabled=True): coverage comes from the
+        # buggy target's own --show-coverage output (bug.stdout).
+        # For blackbox targets: use the reference's stdout/stderr ONLY if the
+        # tracker is in code_execution mode (i.e. it expects line-coverage text).
+        # In behavioral mode, we ignore reference output for coverage — only the
+        # buggy binary's behavioral fingerprint matters.
+        tracking_mode = str(config.get("tracking_mode", "behavioral")).strip().lower()
+
+        if coverage_enabled:
+            # Whitebox: always read from the buggy target itself
+            cov_stdout = bug.stdout
+            cov_stderr = bug.stderr
+        elif tracking_mode == "code_execution" and reference_result is not None:
+            # Blackbox + code_execution: reference emits "line coverage : N%"
             cov_stdout = reference_result.stdout
             cov_stderr = reference_result.stderr
         else:
-            cov_stdout = bug.stdout
-            cov_stderr = bug.stderr
+            # Behavioral blackbox: no coverage lines to parse; set empty so the
+            # tracker reaches the output-signature path cleanly
+            cov_stdout = ""
+            cov_stderr = ""
 
         covered_lines = _extract_coverage_lines(cov_stdout, cov_stderr)
         coverage_percentages = _extract_coverage_percentages(cov_stdout, cov_stderr)
@@ -728,6 +918,14 @@ def update(
             "covered_lines": covered_lines,
             "coverage_percentages": coverage_percentages,
         }
+
+        # Compute a behavioral output fingerprint from the BUGGY target's output.
+        # This is always derived from bug.stdout/stderr/returncode — independent of
+        # whether a reference was run — because we want to characterise the behavior
+        # of the system-under-test, not its oracle.
+        output_sig = _compute_output_signature(
+            bug.stdout, bug.stderr, bug.returncode, bug.timed_out
+        )
 
         payload = FuzzIterationPayload(
             iteration_id=_iteration,
@@ -738,6 +936,7 @@ def update(
             input_data=bug.input_data,
             exec_time_ms=bug.exec_time_ms,
             input_depth=input_depth,
+            output_signature=output_sig,
         )
 
         new_path = _tracker.update(payload)
@@ -757,6 +956,7 @@ def reset() -> None:
 
 def get_tracker() -> CoverageTracker | None:
     return _tracker
+
 
 
 def _extract_coverage_lines(stdout: str, stderr: str) -> set[str]:
