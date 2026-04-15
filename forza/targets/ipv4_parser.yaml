@@ -8,9 +8,9 @@ buggy_cmd:
 buggy_cwd: "../../IPv4-IPv6-parser-main"
 
 reference_cmd:
-  windows: ["python", "ipv4_parser.py", "{input}"]
-  mac: ["python3", "ipv4_parser.py", "{input}"]
-reference_cwd: "../../IPv4-IPv6-parser-main/ipyparse/src"
+  windows: ["python", "ipyparse/src/ipv4_parser.py", "{input}"]
+  mac: ["python3", "ipyparse/src/ipv4_parser.py", "{input}"]
+reference_cwd: "../../IPv4-IPv6-parser-main"
 
 # input
 input_mode: arg

@@ -10,7 +10,7 @@ def main():
 
     ip_to_test = sys.argv[1]
 
-    cov = coverage.Coverage(source=["ipv6"], branch=True)
+    cov = coverage.Coverage(source=["ipyparse"], branch=True)
     cov.start()
 
     try:

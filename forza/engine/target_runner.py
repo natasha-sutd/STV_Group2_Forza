@@ -427,7 +427,6 @@ def run_both(
                     use_wsl=use_wsl,
                 )
             reference_result.strategy = strategy
-
     return buggy_result, reference_result
 
 

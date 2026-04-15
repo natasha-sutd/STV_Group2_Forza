@@ -8,7 +8,7 @@ def main():
 
     ip_to_test = sys.argv[1]
 
-    cov = coverage.Coverage(source=["ipv4"])
+    cov = coverage.Coverage(source=["ipyparse"])
     cov.start()
 
     try:

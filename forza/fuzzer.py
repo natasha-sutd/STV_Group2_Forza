@@ -90,7 +90,7 @@ DEFAULT_DURATION = None  # None = no time limit unless --duration given
 DEFAULT_ITERS = 100_000  # safety cap when no --iterations given
 
 TARGETS_DIR = Path(__file__).resolve().parent / "targets"
-KNOWN_YAMLS = [f.name for f in TARGETS_DIR.glob("*.yaml")]
+KNOWN_YAMLS = [f.name for f in sorted(TARGETS_DIR.glob("*.yaml"))]
 
 MAX_CORPUS = 10000
 
@@ -248,8 +248,23 @@ def _cp(s: str, w: int, c_fn=None) -> str:
     return c_fn(padded) if c_fn else padded
 
 _STATUS_LINES = 23
-_status_drawn = False
+_status_reserved = False
 stdout_lock = threading.Lock()
+
+
+def _reserve_status_block() -> None:
+    """
+    Print _STATUS_LINES blank lines immediately after the banner so the
+    terminal has a fixed region that print_fuzz_status can always overwrite
+    with \033[{N}A. Must be called exactly once per fuzz run, right after
+    print_banner(). This is the only correct way to ensure the cursor is
+    always exactly _STATUS_LINES below the top of the block.
+    """
+    global _status_reserved
+    sys.stdout.write("\n" * _STATUS_LINES)
+    sys.stdout.flush()
+    _status_reserved = True
+
 
 def print_fuzz_status(
     config: dict,
@@ -375,16 +390,11 @@ def print_fuzz_status(
         len(lines) == _STATUS_LINES
     ), f"_STATUS_LINES mismatch: expected {_STATUS_LINES}, got {len(lines)}"
 
-    global _status_drawn
-    prefix = f"\033[{_STATUS_LINES}A\r" if _status_drawn else ""
-
-    final_output = f"\033[?25l{prefix}" + "\n".join(lines) + "\n\033[?25h"
+    final_output = f"\033[?25l\033[{_STATUS_LINES}A\r" + "\n".join(lines) + "\n\033[?25h"
 
     with stdout_lock:
         sys.stdout.write(final_output)
         sys.stdout.flush()
-
-    _status_drawn = True
 
 
 def print_seed_result(
@@ -554,7 +564,7 @@ def _fuzz_one_iteration(
     # ── 2. run target (I/O bound, no lock needed)
     t0 = time.monotonic()
     buggy_result, reference_result = run_both(
-        config, mutated, strategy=strategy, use_coverage=True, timeout=timeout
+        config, mutated, strategy=strategy, use_coverage=config.get("coverage_enabled", False), timeout=timeout
     )
     exec_time = time.monotonic() - t0
 
@@ -634,10 +644,6 @@ def run_fuzz_mode(
         in a daemon thread. Final refresh happens on shutdown.
     """
 
-    # Reset draw flag so the first status block of this run prints fresh
-    global _status_drawn
-    _status_drawn = False
-
     seeds = load_seeds(config["seeds_path"])
     if not seeds:
         print(C.yellow("  [warn] no seeds found — check seeds_path in YAML"))
@@ -653,7 +659,7 @@ def run_fuzz_mode(
     # Corpus stores (input_str, depth) tuples; seeds start at depth 1
     corpus: list[tuple[str, int]] = [(s, 1) for s in seeds]
     target = config.get("name", "unknown")
-    out_path = report_generator.RESULTS_DIR / "report.html"
+    out_path = report_generator.RESULTS_DIR / f"{target}_report.html"
 
     # Track which corpus indices have been used as mutation parents
     used_as_parent: set[int] = set()
@@ -717,6 +723,7 @@ def run_fuzz_mode(
                 print(C.yellow(f"  [warn] could not reset coverage file: {e}"))
 
     print_banner(config, mode="fuzz", duration=duration, max_iters=max_iters)
+    _reserve_status_block()  # carve out fixed region for in-place status redraws
 
     # ── background report refresher ───────────────────────────────────────
     # Report on all known targets so the HTML always shows the full picture,
@@ -919,6 +926,59 @@ def _collect_yamls(explicit: str | None, run_all: bool) -> list[str]:
 # ---------------------------------------------------------------------------
 
 
+def _preflight(all_targets: list[str]) -> None:
+    """
+    Run once before any fuzz target starts.
+    Connects to both Firestore databases and warms the report cache so the
+    first ReportRefresher tick is instant. All connection status is printed
+    here — firestore_client.py is fully silent, so nothing leaks into the
+    status table during fuzzing.
+    """
+    print()
+    print(_div("startup"))
+    print(_kv("targets", C.cyan(", ".join(all_targets))))
+
+    # ── Archive Firestore ─────────────────────────────────────────────────
+    sys.stdout.write(_kv("firestore archive", C.dim("connecting...")) + "\r")
+    sys.stdout.flush()
+    try:
+        from engine.firestore_client import get_archive_db
+        db = get_archive_db()
+        if db is not None:
+            list(db.collection("bugs").limit(1).stream())  # ping
+            print(_kv("firestore archive", C.green("connected")) + "              ")
+        else:
+            print(_kv("firestore archive", C.dim("unavailable — local CSVs only")) + "  ")
+    except Exception as e:
+        print(_kv("firestore archive", C.yellow(f"failed ({e.__class__.__name__})")) + "  ")
+
+    # ── Current Firestore ─────────────────────────────────────────────────
+    sys.stdout.write(_kv("firestore current", C.dim("connecting...")) + "\r")
+    sys.stdout.flush()
+    try:
+        from engine.firestore_client import get_current_db
+        db = get_current_db()
+        if db is not None:
+            list(db.collection("bugs").limit(1).stream())  # ping
+            print(_kv("firestore current", C.green("connected")) + "              ")
+        else:
+            print(_kv("firestore current", C.dim("unavailable — local CSVs only")) + "  ")
+    except Exception as e:
+        print(_kv("firestore current", C.yellow(f"failed ({e.__class__.__name__})")) + "  ")
+
+    # ── Warm report cache ─────────────────────────────────────────────────
+    sys.stdout.write(_kv("report cache", C.dim("warming...")) + "\r")
+    sys.stdout.flush()
+    try:
+        report_generator.load_all(all_targets, use_firestore=True)
+        print(_kv("report cache", C.green("ready")) + "              ")
+    except Exception as e:
+        print(_kv("report cache", C.yellow(f"warn: {e}")) + "  ")
+
+    print(_div())
+    print()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="fuzzer.py",
@@ -992,6 +1052,10 @@ def main() -> None:
             all_targets.append(load_config(yp).get("name", "unknown"))
         except Exception:
             pass
+
+    # Connect to Firestore + warm cache before any banner or fuzzing starts
+    if not args.seed:
+        _preflight(all_targets)
 
     for yaml_path in yaml_paths:
         try:
