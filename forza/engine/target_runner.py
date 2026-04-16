@@ -11,11 +11,16 @@ import subprocess
 import sys
 import tempfile
 import json
+import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path, PureWindowsPath
 from typing import Any
 
 import yaml
+
+
+_FRIDA_SCRIPT_CACHE: dict[tuple[str, tuple[str, ...], bool, int], str] = {}
 
 
 def get_platform() -> str:
@@ -346,6 +351,7 @@ def run_reference_with_coverage(
 
 
 _AFL_MAP_LINE_RE = re.compile(r"^([0-9a-fA-FxX]+)\s*[:=]\s*(\d+)$")
+_COVERAGE_FREQ_LINE_RE = re.compile(r"^coverage_freq:\s*([^=\s]+)\s*=\s*(\d+)$")
 
 
 def _resolve_platform_cmd(cmd_config: Any) -> list[str] | None:
@@ -414,6 +420,40 @@ def _parse_afl_showmap_text(text: str) -> dict[str, int]:
     return edge_counts
 
 
+def _parse_coverage_freq_text(text: str) -> dict[str, int]:
+    edge_counts: dict[str, int] = {}
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        m = _COVERAGE_FREQ_LINE_RE.match(line)
+        if not m:
+            continue
+        edge_id, count_text = m.group(1), m.group(2)
+        try:
+            count = int(count_text)
+        except ValueError:
+            continue
+        edge_counts[str(edge_id).strip().lower()] = count
+    return edge_counts
+
+
+def _apply_edge_prefix(edge_counts: dict[str, int], edge_prefix: str) -> dict[str, int]:
+    normalized_prefix = str(edge_prefix or "edge").strip().lower().strip(":")
+    if not normalized_prefix:
+        normalized_prefix = "edge"
+
+    out: dict[str, int] = {}
+    for edge_id, count in edge_counts.items():
+        raw_id = str(edge_id).strip().lower()
+        if not raw_id:
+            continue
+        suffix = raw_id.split(":", 1)[1] if ":" in raw_id else raw_id
+        merged_id = f"{normalized_prefix}:{suffix}"
+        out[merged_id] = out.get(merged_id, 0) + int(count)
+    return out
+
+
 def _format_coverage_freq_lines(edge_counts: dict[str, int]) -> str:
     if not edge_counts:
         return ""
@@ -427,6 +467,31 @@ def _resolve_instrumentation_kind(instr_cfg: dict) -> str:
     if instr_cfg.get(override_key):
         return str(instr_cfg.get(override_key)).strip().lower()
     return str(instr_cfg.get("kind", "afl_showmap")).strip().lower()
+
+
+def _resolve_instrumentation_kinds(instr_cfg: dict) -> list[str]:
+    primary = _resolve_instrumentation_kind(instr_cfg)
+
+    current_os = get_platform()
+    fallback_key = f"fallback_kinds_{current_os}"
+    fallback_raw = instr_cfg.get(fallback_key, instr_cfg.get("fallback_kinds", []))
+
+    fallback_values: list[Any]
+    if isinstance(fallback_raw, list):
+        fallback_values = fallback_raw
+    elif fallback_raw is None:
+        fallback_values = []
+    else:
+        fallback_values = [fallback_raw]
+
+    ordered: list[str] = []
+    for raw_kind in [primary] + fallback_values:
+        kind = str(raw_kind).strip().lower()
+        if not kind or kind in ordered:
+            continue
+        ordered.append(kind)
+
+    return ordered or [primary]
 
 
 def _run_afl_showmap_instrumentation(
@@ -509,6 +574,20 @@ def _resolve_frida_cmd_template(instr_cfg: dict, config: dict) -> list[str] | No
     return None
 
 
+def _resolve_tinyinst_cmd_template(instr_cfg: dict) -> list[str] | None:
+    tinyinst_cmd = _resolve_platform_cmd(instr_cfg.get("tinyinst_cmd"))
+    if tinyinst_cmd:
+        return tinyinst_cmd
+
+    tinyinst_cfg = instr_cfg.get("tinyinst")
+    if isinstance(tinyinst_cfg, dict):
+        nested_cmd = _resolve_platform_cmd(tinyinst_cfg.get("cmd"))
+        if nested_cmd:
+            return nested_cmd
+
+    return None
+
+
 def _classify_frida_error(raw_error: str) -> str:
     text = str(raw_error or "").strip()
     lowered = text.lower()
@@ -525,16 +604,134 @@ def _classify_frida_error(raw_error: str) -> str:
     return "frida instrumentation failed"
 
 
+def _is_transient_frida_attach_error(error_text: str) -> bool:
+    lowered = str(error_text or "").strip().lower()
+    return (
+        "process not found" in lowered
+        or "unable to access process" in lowered
+        or "target exited before instrumentation could attach" in lowered
+    )
+
+
+def _prepare_arg_mode_instrumentation_input(
+    input_str: str,
+    cfg: dict,
+) -> tuple[str, str | None]:
+    if "\x00" not in input_str:
+        return input_str, None
+
+    policy = str(cfg.get("arg_null_policy", "escape")).strip().lower()
+    if policy in {"skip", "strict", "error"}:
+        return "", "frida arg mode cannot pass NUL bytes; configure arg_null_policy=escape or use non-arg input mode"
+
+    replacement = str(cfg.get("arg_null_replacement", "\\x00"))
+    if not replacement:
+        replacement = "\\x00"
+    if "\x00" in replacement:
+        replacement = replacement.replace("\x00", "\\x00")
+
+    return input_str.replace("\x00", replacement), None
+
+
+def _as_bool(value: Any, default: bool = False) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        lowered = value.strip().lower()
+        if lowered in {"1", "true", "yes", "on"}:
+            return True
+        if lowered in {"0", "false", "no", "off"}:
+            return False
+    return default
+
+
+def _as_int(
+    value: Any,
+    default: int,
+    *,
+    minimum: int | None = None,
+    maximum: int | None = None,
+) -> int:
+    try:
+        out = int(value)
+    except (TypeError, ValueError):
+        out = default
+
+    if minimum is not None and out < minimum:
+        out = minimum
+    if maximum is not None and out > maximum:
+        out = maximum
+    return out
+
+
+def _get_cached_frida_stalker_script(
+    target_module: str,
+    exclude_modules: list[str],
+    use_call_summary: bool,
+    flush_event_count: int,
+) -> str:
+    normalized_target = str(target_module).strip().lower()
+    normalized_excludes = tuple(sorted(str(mod).strip().lower() for mod in exclude_modules))
+    normalized_flush_count = _as_int(flush_event_count, 2048, minimum=64, maximum=50000)
+    cache_key = (
+        normalized_target,
+        normalized_excludes,
+        bool(use_call_summary),
+        normalized_flush_count,
+    )
+    cached = _FRIDA_SCRIPT_CACHE.get(cache_key)
+    if cached is not None:
+        return cached
+
+    script = _build_frida_stalker_script(
+        target_module=normalized_target,
+        exclude_modules=list(normalized_excludes),
+        use_call_summary=bool(use_call_summary),
+        flush_event_count=normalized_flush_count,
+    )
+    _FRIDA_SCRIPT_CACHE[cache_key] = script
+    return script
+
+
 def _build_frida_stalker_script(
     target_module: str,
     exclude_modules: list[str],
+    use_call_summary: bool,
+    flush_event_count: int,
 ) -> str:
     target_module_json = json.dumps(target_module.lower())
     exclude_modules_json = json.dumps([m.lower() for m in exclude_modules])
+    use_call_summary_json = "true" if use_call_summary else "false"
+    flush_event_count = _as_int(flush_event_count, 2048, minimum=64, maximum=50000)
     return f"""
 const TARGET_MODULE = {target_module_json};
 const EXCLUDE_MODULES = {exclude_modules_json};
+const USE_CALL_SUMMARY = {use_call_summary_json};
+const FLUSH_EVENT_COUNT = {flush_event_count};
 const followed = new Set();
+const pendingCounts = {{}};
+let pendingEvents = 0;
+let targetModule = null;
+let targetModuleBase = null;
+let targetModuleEnd = null;
+
+if (TARGET_MODULE) {{
+    try {{
+        const modules = Process.enumerateModules();
+        for (let i = 0; i < modules.length; i++) {{
+            const mod = modules[i];
+            const name = (mod.name || '').toLowerCase();
+            if (name === TARGET_MODULE) {{
+                targetModule = mod;
+                targetModuleBase = mod.base;
+                targetModuleEnd = mod.base.add(mod.size);
+                break;
+            }}
+        }}
+    }} catch (_) {{}}
+}}
 
 function shouldTrackModule(moduleName) {{
   if (!moduleName) return false;
@@ -566,6 +763,13 @@ function eventAddress(event) {{
 function toEdgeKey(rawAddr) {{
   if (rawAddr === null || rawAddr === undefined) return null;
   const addr = ptr(rawAddr);
+
+    if (targetModule !== null && targetModuleBase !== null && targetModuleEnd !== null) {{
+        if (addr.compare(targetModuleBase) < 0 || addr.compare(targetModuleEnd) >= 0) return null;
+        const offset = addr.sub(targetModuleBase);
+        return targetModule.name.toLowerCase() + ':' + offset.toString();
+    }}
+
   const mod = Process.findModuleByAddress(addr);
   if (mod === null) return null;
   if (!shouldTrackModule(mod.name)) return null;
@@ -573,16 +777,47 @@ function toEdgeKey(rawAddr) {{
   return mod.name.toLowerCase() + ':' + offset.toString();
 }}
 
+function addEdgeCount(key, count) {{
+    if (!key) return;
+    pendingCounts[key] = (pendingCounts[key] || 0) + count;
+}}
+
+function flushBatch() {{
+    const keys = Object.keys(pendingCounts);
+    if (keys.length === 0) return;
+    send({{ type: 'bb_batch', counts: pendingCounts }});
+    for (let i = 0; i < keys.length; i++) {{
+        delete pendingCounts[keys[i]];
+    }}
+    pendingEvents = 0;
+}}
+
 function emitBatch(parsedEvents) {{
-  const batch = {{}};
   for (let i = 0; i < parsedEvents.length; i++) {{
     const key = toEdgeKey(eventAddress(parsedEvents[i]));
     if (!key) continue;
-    batch[key] = (batch[key] || 0) + 1;
+        addEdgeCount(key, 1);
+        pendingEvents += 1;
+    }}
+    if (pendingEvents >= FLUSH_EVENT_COUNT) {{
+        flushBatch();
+    }}
+}}
+
+function emitCallSummary(summary) {{
+    if (!summary || typeof summary !== 'object') return;
+    const addrs = Object.keys(summary);
+    for (let i = 0; i < addrs.length; i++) {{
+        const rawAddr = addrs[i];
+        const key = toEdgeKey(rawAddr);
+        if (!key) continue;
+        const rawCount = Number(summary[rawAddr]);
+        if (!isFinite(rawCount) || rawCount <= 0) continue;
+        addEdgeCount(key, Math.floor(rawCount));
+        pendingEvents += 1;
   }}
-  const keys = Object.keys(batch);
-  if (keys.length > 0) {{
-    send({{ type: 'bb_batch', counts: batch }});
+    if (pendingEvents >= FLUSH_EVENT_COUNT) {{
+        flushBatch();
   }}
 }}
 
@@ -590,17 +825,30 @@ function followThread(threadId) {{
   if (followed.has(threadId)) return;
   followed.add(threadId);
   try {{
-    Stalker.follow(threadId, {{
-      events: {{ block: true }},
-      onReceive(events) {{
-        try {{
-          const parsed = Stalker.parse(events, {{ annotate: false }});
-          emitBatch(parsed);
-        }} catch (err) {{
-          send({{ type: 'stalker_error', error: String(err) }});
-        }}
-      }}
-    }});
+        const stalkerOptions = USE_CALL_SUMMARY
+            ? {{
+                    events: {{ call: true }},
+                    onCallSummary(summary) {{
+                        try {{
+                            emitCallSummary(summary);
+                            flushBatch();
+                        }} catch (err) {{
+                            send({{ type: 'stalker_error', error: String(err) }});
+                        }}
+                    }}
+                }}
+            : {{
+                    events: {{ block: true }},
+                    onReceive(events) {{
+                        try {{
+                            const parsed = Stalker.parse(events, {{ annotate: false }});
+                            emitBatch(parsed);
+                        }} catch (err) {{
+                            send({{ type: 'stalker_error', error: String(err) }});
+                        }}
+                    }}
+                }};
+        Stalker.follow(threadId, stalkerOptions);
   }} catch (err) {{
     send({{ type: 'follow_error', threadId: threadId, error: String(err) }});
   }}
@@ -633,7 +881,12 @@ rpc.exports = {{
     }} catch (_) {{}}
     return true;
   }},
+    flush() {{
+        flushBatch();
+        return true;
+    }},
   stop() {{
+        flushBatch();
     unfollowAll();
     return true;
   }}
@@ -685,8 +938,43 @@ def _run_frida_stalker_instrumentation(
     )
     if not isinstance(exclude_modules, list):
         exclude_modules = []
+    use_call_summary = _as_bool(frida_cfg.get("use_call_summary"), default=False)
+    flush_event_count = _as_int(
+        frida_cfg.get("flush_event_count"),
+        default=2048,
+        minimum=64,
+        maximum=50000,
+    )
+    capture_target_output = _as_bool(
+        frida_cfg.get("capture_target_output"),
+        default=False,
+    )
+    attach_retries = _as_int(
+        frida_cfg.get("attach_retries"),
+        1,
+        minimum=1,
+        maximum=5,
+    )
+    attach_retry_delay_ms = _as_int(
+        frida_cfg.get("attach_retry_delay_ms"),
+        20,
+        minimum=0,
+        maximum=1000,
+    )
+    fail_fast_on_setup_error = _as_bool(
+        frida_cfg.get("fail_fast_on_setup_error"),
+        default=True,
+    )
 
-    input_bytes = input_str.encode(errors="replace")
+    effective_input = input_str
+    if input_mode == "arg":
+        effective_input, prep_err = _prepare_arg_mode_instrumentation_input(
+            input_str=input_str,
+            cfg=frida_cfg,
+        )
+        if prep_err:
+            return "", prep_err
+
     cmd: list[str] = []
     tmp_file: str | None = None
     proc: subprocess.Popen | None = None
@@ -725,7 +1013,7 @@ def _run_frida_stalker_instrumentation(
     try:
         cmd, stdin_data, tmp_file = _prepare_run_command(
             cmd_template=cmd_template,
-            input_str=input_str,
+            input_str=effective_input,
             input_mode=input_mode,
             use_wsl=False,
             extra_flags=None,
@@ -735,26 +1023,65 @@ def _run_frida_stalker_instrumentation(
             cmd,
             cwd=instr_cwd or None,
             stdin=subprocess.PIPE if stdin_data is not None else None,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE if capture_target_output else subprocess.DEVNULL,
+            stderr=subprocess.PIPE if capture_target_output else subprocess.DEVNULL,
         )
 
-        try:
-            session = frida.attach(proc.pid)
-            script = session.create_script(
-                _build_frida_stalker_script(
-                    target_module=target_module,
-                    exclude_modules=[str(x) for x in exclude_modules],
+        setup_error: str | None = None
+        for attempt_idx in range(attach_retries):
+            try:
+                session = frida.attach(proc.pid)
+                script = session.create_script(
+                    _get_cached_frida_stalker_script(
+                        target_module=target_module,
+                        exclude_modules=[str(x) for x in exclude_modules],
+                        use_call_summary=use_call_summary,
+                        flush_event_count=flush_event_count,
+                    )
                 )
-            )
-            script.on("message", _on_frida_message)
-            script.load()
-            script.exports_sync.start()
-        except Exception as exc:
-            frida_errors.append(_classify_frida_error(str(exc)))
+                script.on("message", _on_frida_message)
+                script.load()
+                script.exports_sync.start()
+                setup_error = None
+                break
+            except Exception as exc:
+                setup_error = _classify_frida_error(str(exc))
+
+                if session is not None:
+                    try:
+                        session.detach()
+                    except Exception:
+                        pass
+                    session = None
+                script = None
+
+                last_attempt = attempt_idx + 1 >= attach_retries
+                if last_attempt or not _is_transient_frida_attach_error(setup_error):
+                    break
+                if attach_retry_delay_ms > 0:
+                    time.sleep(attach_retry_delay_ms / 1000.0)
+
+        if setup_error:
+            frida_errors.append(setup_error)
+            if fail_fast_on_setup_error:
+                if proc.poll() is None:
+                    try:
+                        proc.kill()
+                    except Exception:
+                        pass
+                try:
+                    proc.communicate()
+                except Exception:
+                    pass
+                return "", setup_error
 
         try:
             proc.communicate(input=stdin_data if stdin_data is not None else None, timeout=run_timeout)
+            if script is not None:
+                try:
+                    script.exports_sync.flush()
+                except Exception:
+                    pass
         except subprocess.TimeoutExpired:
             proc.kill()
             proc.communicate()
@@ -790,6 +1117,105 @@ def _run_frida_stalker_instrumentation(
     return "", "instrumentation produced no edge map data"
 
 
+def _run_tinyinst_instrumentation(
+    instr_cfg: dict,
+    config: dict,
+    input_str: str,
+    timeout: int,
+    default_input_mode: str,
+    default_use_wsl: bool,
+) -> tuple[str, str | None]:
+    cmd_template = _resolve_tinyinst_cmd_template(instr_cfg)
+    if not cmd_template:
+        return "", "tinyinst instrumentation command is missing for current platform"
+
+    tinyinst_cfg = instr_cfg.get("tinyinst")
+    if not isinstance(tinyinst_cfg, dict):
+        tinyinst_cfg = {}
+
+    input_mode = str(
+        tinyinst_cfg.get(
+            "input_mode",
+            instr_cfg.get("input_mode", default_input_mode),
+        )
+    ).strip().lower()
+    instr_cwd = tinyinst_cfg.get("cwd") or instr_cfg.get("cwd") or config.get("buggy_cwd")
+
+    timeout_raw = tinyinst_cfg.get("timeout", instr_cfg.get("timeout", timeout))
+    try:
+        instr_timeout = int(timeout_raw)
+    except (TypeError, ValueError):
+        instr_timeout = timeout
+
+    use_wsl = bool(tinyinst_cfg.get("use_wsl", instr_cfg.get("use_wsl", default_use_wsl)))
+    if cmd_template and cmd_template[0].lower() == "wsl":
+        use_wsl = False
+
+    edge_prefix = str(
+        tinyinst_cfg.get(
+            "edge_prefix",
+            instr_cfg.get("tinyinst_edge_prefix", "tinyinst"),
+        )
+    ).strip().lower()
+    if not edge_prefix:
+        edge_prefix = "tinyinst"
+
+    map_file_host_path: str | None = None
+    cmd_for_run = list(cmd_template)
+    if any("{map_file}" in part for part in cmd_template):
+        fd, map_file_host_path = tempfile.mkstemp(prefix="forza_tinyinst_", suffix=".txt")
+        os.close(fd)
+        cmd_for_run = _replace_instrumentation_placeholders(
+            cmd_template=cmd_template,
+            config=config,
+            map_file_host_path=map_file_host_path,
+        )
+
+    try:
+        instr_result = run_target(
+            cmd_template=cmd_for_run,
+            input_str=input_str,
+            input_mode=input_mode,
+            cwd=instr_cwd,
+            timeout=max(1, instr_timeout),
+            use_wsl=use_wsl,
+        )
+
+        parsed = _parse_coverage_freq_text(instr_result.stdout)
+        if not parsed:
+            parsed = _parse_coverage_freq_text(instr_result.stderr)
+
+        if not parsed:
+            parsed = _parse_afl_showmap_text(instr_result.stdout)
+        if not parsed:
+            parsed = _parse_afl_showmap_text(instr_result.stderr)
+
+        if not parsed and map_file_host_path and os.path.exists(map_file_host_path):
+            try:
+                with open(map_file_host_path, "r", encoding="utf-8", errors="replace") as f:
+                    map_text = f.read()
+                parsed = _parse_coverage_freq_text(map_text)
+                if not parsed:
+                    parsed = _parse_afl_showmap_text(map_text)
+            except OSError:
+                parsed = {}
+
+        parsed = _apply_edge_prefix(parsed, edge_prefix=edge_prefix)
+        coverage_text = _format_coverage_freq_lines(parsed)
+        if coverage_text:
+            return coverage_text, None
+
+        if instr_result.error:
+            return "", f"tinyinst command failed: {instr_result.error}"
+        return "", "tinyinst produced no edge map data"
+    finally:
+        if map_file_host_path and os.path.exists(map_file_host_path):
+            try:
+                os.remove(map_file_host_path)
+            except OSError:
+                pass
+
+
 def run_blackbox_instrumentation(
     config: dict,
     input_str: str,
@@ -799,20 +1225,35 @@ def run_blackbox_instrumentation(
 ) -> tuple[str, str | None]:
     """Run optional black-box instrumentation and return coverage_freq text.
 
-    Supported mode:
+        Supported mode:
         blackbox_instrumentation:
           enabled: true
-          kind: afl_showmap | frida_stalker
+                    kind: afl_showmap | frida_stalker | tinyinst
           kind_windows: frida_stalker      # optional platform override
           kind_linux: afl_showmap          # optional platform override
           kind_mac: afl_showmap            # optional platform override
+                    fallback_kinds: [tinyinst, afl_showmap]              # optional
+                    fallback_kinds_windows: [tinyinst, afl_showmap]      # optional
           cmd:                             # used by afl_showmap
             windows: ["wsl", "afl-showmap", "-Q", "-o", "{map_file}", "--", ...]
           frida_cmd:                       # optional custom command for frida_stalker
             windows: ["./bin/target.exe", "--arg", "{input}"]
+                    tinyinst_cmd:                    # optional tinyinst runner command
+                        windows: ["python", "tinyinst_runner.py", "--target", "./bin/target.exe", "--input", "{input}"]
           frida_config:
             target_module: "target.exe"
             exclude_modules: ["ntdll.dll"]
+                        use_call_summary: true         # optional (faster, less granular)
+                        flush_event_count: 4096        # optional (message batch size)
+                        capture_target_output: false   # optional (faster)
+                        parallel_with_reference: true  # optional run_both optimization gate
+          tinyinst:                        # optional tinyinst backend options
+            cmd:
+              windows: ["python", "tinyinst_runner.py", "--target", "./bin/target.exe", "--input", "{input}"]
+            edge_prefix: "tinyinst"
+            input_mode: "arg|stdin|file"
+            timeout: 15
+            use_wsl: false
           cwd: "..."                # optional
           input_mode: "arg|stdin|file"  # optional
           timeout: 10                # optional, seconds
@@ -822,28 +1263,118 @@ def run_blackbox_instrumentation(
     if not isinstance(instr_cfg, dict) or not instr_cfg.get("enabled", False):
         return "", None
 
-    kind = _resolve_instrumentation_kind(instr_cfg)
-    if kind == "afl_showmap":
-        return _run_afl_showmap_instrumentation(
-            instr_cfg=instr_cfg,
-            config=config,
-            input_str=input_str,
-            timeout=timeout,
-            default_input_mode=default_input_mode,
-            default_use_wsl=default_use_wsl,
-        )
-    if kind == "frida_stalker":
-        return _run_frida_stalker_instrumentation(
-            instr_cfg=instr_cfg,
-            config=config,
-            input_str=input_str,
-            timeout=timeout,
-            default_input_mode=default_input_mode,
-        )
+    kinds = _resolve_instrumentation_kinds(instr_cfg)
+    attempt_errors: list[tuple[str, str]] = []
 
-    if kind not in {"afl_showmap", "frida_stalker"}:
-        return "", f"unsupported instrumentation kind: {kind!r}"
-    return "", "unsupported instrumentation configuration"
+    for kind in kinds:
+        if kind == "afl_showmap":
+            coverage_text, instr_err = _run_afl_showmap_instrumentation(
+                instr_cfg=instr_cfg,
+                config=config,
+                input_str=input_str,
+                timeout=timeout,
+                default_input_mode=default_input_mode,
+                default_use_wsl=default_use_wsl,
+            )
+        elif kind == "frida_stalker":
+            coverage_text, instr_err = _run_frida_stalker_instrumentation(
+                instr_cfg=instr_cfg,
+                config=config,
+                input_str=input_str,
+                timeout=timeout,
+                default_input_mode=default_input_mode,
+            )
+        elif kind == "tinyinst":
+            coverage_text, instr_err = _run_tinyinst_instrumentation(
+                instr_cfg=instr_cfg,
+                config=config,
+                input_str=input_str,
+                timeout=timeout,
+                default_input_mode=default_input_mode,
+                default_use_wsl=default_use_wsl,
+            )
+        else:
+            coverage_text, instr_err = "", f"unsupported instrumentation kind: {kind!r}"
+
+        if coverage_text:
+            return coverage_text, None
+
+        if instr_err:
+            attempt_errors.append((kind, str(instr_err).strip()))
+
+    if not attempt_errors:
+        return "", "instrumentation produced no edge map data"
+    if len(attempt_errors) == 1:
+        return "", attempt_errors[0][1]
+    return "", " ; ".join(f"{kind}: {err}" for kind, err in attempt_errors)
+
+
+def _record_instrumentation_status(
+    config: dict,
+    instrumentation_coverage_text: str,
+    instr_err: str | None,
+) -> None:
+    stats = config.get("_instr_stats")
+    if not isinstance(stats, dict):
+        stats = {}
+        config["_instr_stats"] = stats
+
+    runs = _as_int(stats.get("runs"), 0, minimum=0)
+    data_hits = _as_int(stats.get("data_hits"), 0, minimum=0)
+    no_data_streak = _as_int(stats.get("no_data_streak"), 0, minimum=0)
+
+    stats["runs"] = runs + 1
+    if instrumentation_coverage_text:
+        stats["data_hits"] = data_hits + 1
+        stats["no_data_streak"] = 0
+    else:
+        stats["data_hits"] = data_hits
+        stats["no_data_streak"] = no_data_streak + 1
+
+    if instr_err:
+        stats["last_error"] = str(instr_err).strip()
+
+
+def _should_parallelize_instrumentation_with_reference(config: dict) -> bool:
+    instr_cfg = config.get("blackbox_instrumentation")
+    if not isinstance(instr_cfg, dict) or not instr_cfg.get("enabled", False):
+        return False
+    if _resolve_instrumentation_kind(instr_cfg) != "frida_stalker":
+        return False
+
+    frida_cfg = instr_cfg.get("frida_config")
+    if isinstance(frida_cfg, dict):
+        if not _as_bool(frida_cfg.get("parallel_with_reference"), default=True):
+            return False
+
+    stats = config.get("_instr_stats")
+    if not isinstance(stats, dict):
+        return False
+
+    data_hits = _as_int(stats.get("data_hits"), 0, minimum=0)
+    no_data_streak = _as_int(stats.get("no_data_streak"), 0, minimum=0)
+    return data_hits >= 3 and no_data_streak == 0
+
+
+def _should_parallelize_buggy_with_instrumentation(config: dict) -> bool:
+    instr_cfg = config.get("blackbox_instrumentation")
+    if not isinstance(instr_cfg, dict) or not instr_cfg.get("enabled", False):
+        return False
+    if _resolve_instrumentation_kind(instr_cfg) != "frida_stalker":
+        return False
+
+    frida_cfg = instr_cfg.get("frida_config")
+    if not isinstance(frida_cfg, dict):
+        return False
+    return _as_bool(frida_cfg.get("parallel_with_buggy"), default=False)
+
+
+def _store_instrumentation_error(config: dict, instr_err: str | None) -> None:
+    error_text = str(instr_err or "").strip()
+    config["_last_instr_error"] = error_text
+    if error_text and not config.get("_instr_warning_emitted"):
+        print(f"[instrumentation] {config.get('name', 'target')}: {error_text}")
+        config["_instr_warning_emitted"] = True
 
 
 def run_both(
@@ -872,63 +1403,148 @@ def run_both(
         raise RuntimeError(f"No command configured for {current_os} in YAML!")
     buggy_cmd = raw_buggy_cmd[current_os]
 
-    buggy_result = run_target(
-        cmd_template=buggy_cmd,
-        input_str=input_str,
-        input_mode=input_mode,
-        cwd=config.get("buggy_cwd"),
-        timeout=timeout,
-        use_wsl=use_wsl,
-        extra_flags=extra_flags,
+    instrumentation_coverage_text = ""
+    config["_last_instr_error"] = ""
+    tracking_mode = str(config.get("tracking_mode", "behavioral")).strip().lower()
+    should_collect_instr = (
+        use_coverage
+        and not config.get("coverage_enabled")
+        and tracking_mode == "code_execution"
     )
+
+    parallel_with_buggy = (
+        should_collect_instr and _should_parallelize_buggy_with_instrumentation(config)
+    )
+
+    if parallel_with_buggy:
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            buggy_future = pool.submit(
+                run_target,
+                buggy_cmd,
+                input_str,
+                input_mode,
+                config.get("buggy_cwd"),
+                timeout,
+                use_wsl,
+                extra_flags,
+            )
+            instr_future = pool.submit(
+                run_blackbox_instrumentation,
+                config,
+                input_str,
+                timeout,
+                input_mode,
+                use_wsl,
+            )
+
+            buggy_result = buggy_future.result()
+            instrumentation_coverage_text, instr_err = instr_future.result()
+
+        _record_instrumentation_status(
+            config=config,
+            instrumentation_coverage_text=instrumentation_coverage_text,
+            instr_err=instr_err,
+        )
+        _store_instrumentation_error(config, instr_err)
+    else:
+        buggy_result = run_target(
+            cmd_template=buggy_cmd,
+            input_str=input_str,
+            input_mode=input_mode,
+            cwd=config.get("buggy_cwd"),
+            timeout=timeout,
+            use_wsl=use_wsl,
+            extra_flags=extra_flags,
+        )
+
     buggy_result.strategy = strategy
 
-    instrumentation_coverage_text = ""
-    if use_coverage and not config.get("coverage_enabled"):
-        tracking_mode = str(config.get("tracking_mode", "behavioral")).strip().lower()
-        if tracking_mode == "code_execution":
-            instrumentation_coverage_text, instr_err = run_blackbox_instrumentation(
-                config=config,
-                input_str=input_str,
-                timeout=timeout,
-                default_input_mode=input_mode,
-                default_use_wsl=use_wsl,
-            )
-            if instr_err and not config.get("_instr_warning_emitted"):
-                print(f"[instrumentation] {config.get('name', 'target')}: {instr_err}")
-                config["_instr_warning_emitted"] = True
-
     reference_result = None
-    if (
+    buggy_ok = (
         buggy_result.returncode == 0
         and not buggy_result.timed_out
         and not buggy_result.crashed
-    ):
-        ref_cmd = config.get("reference_cmd")
-        if ref_cmd:
-            needs_reference_coverage = (
-                use_coverage
-                and not config.get("coverage_enabled")
-                and not instrumentation_coverage_text
+    )
+    ref_cmd = config.get("reference_cmd") if buggy_ok else None
+
+    can_parallelize = (
+        should_collect_instr
+        and not parallel_with_buggy
+        and bool(ref_cmd)
+        and _should_parallelize_instrumentation_with_reference(config)
+    )
+
+    if should_collect_instr and not parallel_with_buggy and not can_parallelize:
+        instrumentation_coverage_text, instr_err = run_blackbox_instrumentation(
+            config=config,
+            input_str=input_str,
+            timeout=timeout,
+            default_input_mode=input_mode,
+            default_use_wsl=use_wsl,
+        )
+        _record_instrumentation_status(
+            config=config,
+            instrumentation_coverage_text=instrumentation_coverage_text,
+            instr_err=instr_err,
+        )
+        _store_instrumentation_error(config, instr_err)
+
+    if ref_cmd:
+        if can_parallelize:
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                instr_future = pool.submit(
+                    run_blackbox_instrumentation,
+                    config,
+                    input_str,
+                    timeout,
+                    input_mode,
+                    use_wsl,
+                )
+                ref_future = pool.submit(
+                    run_target,
+                    ref_cmd[current_os],
+                    input_str,
+                    input_mode,
+                    config.get("reference_cwd"),
+                    timeout,
+                    use_wsl,
+                )
+
+                instrumentation_coverage_text, instr_err = instr_future.result()
+                reference_result = ref_future.result()
+
+            _record_instrumentation_status(
+                config=config,
+                instrumentation_coverage_text=instrumentation_coverage_text,
+                instr_err=instr_err,
             )
-            if needs_reference_coverage:
-                reference_result = run_reference_with_coverage(
-                    cmd_template=ref_cmd[current_os],
-                    input_str=input_str,
-                    input_mode=input_mode,
-                    cwd=config.get("reference_cwd"),
-                    timeout=timeout,
-                    use_wsl=use_wsl,
-                )
-            else:
-                reference_result = run_target(
-                    cmd_template=ref_cmd[current_os],
-                    input_str=input_str,
-                    input_mode=input_mode,
-                    cwd=config.get("reference_cwd"),
-                    timeout=timeout,
-                    use_wsl=use_wsl,
-                )
+            _store_instrumentation_error(config, instr_err)
+        else:
+            reference_result = run_target(
+                cmd_template=ref_cmd[current_os],
+                input_str=input_str,
+                input_mode=input_mode,
+                cwd=config.get("reference_cwd"),
+                timeout=timeout,
+                use_wsl=use_wsl,
+            )
+
+        needs_reference_coverage = (
+            use_coverage
+            and not config.get("coverage_enabled")
+            and not instrumentation_coverage_text
+        )
+        if needs_reference_coverage:
+            reference_result = run_reference_with_coverage(
+                cmd_template=ref_cmd[current_os],
+                input_str=input_str,
+                input_mode=input_mode,
+                cwd=config.get("reference_cwd"),
+                timeout=timeout,
+                use_wsl=use_wsl,
+            )
+
+        if reference_result is not None:
             reference_result.strategy = strategy
 
     return buggy_result, reference_result, instrumentation_coverage_text

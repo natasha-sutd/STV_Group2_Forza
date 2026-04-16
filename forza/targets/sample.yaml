@@ -39,3 +39,53 @@ output_pattern: "_"
 coverage_enabled: true / false # white box / black box
 coverage_flag: "_"
 tracking_mode: code_execution / behavioral
+
+# optional for blackbox targets when coverage_enabled: false
+blackbox_instrumentation:
+  enabled: true
+  kind: frida_stalker / tinyinst / afl_showmap
+  kind_windows: frida_stalker
+  kind_linux: afl_showmap
+  kind_mac: afl_showmap
+
+  # ordered retries when primary kind does not return instrumentation edges
+  fallback_kinds: [tinyinst, afl_showmap]
+  fallback_kinds_windows: [tinyinst, afl_showmap]
+
+  # afl-showmap backend
+  cmd:
+    windows: ["wsl", "afl-showmap", "-Q", "-o", "{map_file}", "--", "./bin/linux-target", "{input}"]
+    linux: ["afl-showmap", "-Q", "-o", "{map_file}", "--", "./bin/linux-target", "{input}"]
+    mac: ["afl-showmap", "-Q", "-o", "{map_file}", "--", "./bin/mac-target", "{input}"]
+
+  # frida backend
+  frida_cmd:
+    windows: ["./bin/target.exe", "--arg", "{input}"]
+  frida_config:
+    target_module: "target.exe"
+    exclude_modules: ["ntdll.dll", "kernel32.dll", "kernelbase.dll", "ucrtbase.dll"]
+    use_call_summary: true
+    flush_event_count: 4096
+    capture_target_output: false
+    parallel_with_buggy: false
+    parallel_with_reference: true
+    attach_retries: 2
+    attach_retry_delay_ms: 20
+    fail_fast_on_setup_error: true
+    arg_null_policy: escape
+    arg_null_replacement: "\\x00"
+
+  # tinyinst backend
+  tinyinst_cmd:
+    windows: ["python", "tinyinst_runner.py", "--target", "./bin/target.exe", "--input", "{input}"]
+  tinyinst:
+    edge_prefix: "tinyinst"
+    input_mode: arg / stdin / file
+    timeout: 15
+    use_wsl: false
+
+  # shared options (can be overridden in tinyinst block)
+  cwd: "_"
+  input_mode: arg / stdin / file
+  timeout: 10
+  use_wsl: false

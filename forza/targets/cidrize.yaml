@@ -45,6 +45,16 @@ blackbox_instrumentation:
   kind_windows: frida_stalker
   frida_config:
     target_module: "win-cidrize-runner.exe"
+    use_call_summary: true
+    flush_event_count: 4096
+    capture_target_output: false
+    parallel_with_buggy: true
+    parallel_with_reference: true
+    attach_retries: 3
+    attach_retry_delay_ms: 20
+    fail_fast_on_setup_error: true
+    arg_null_policy: escape
+    arg_null_replacement: "\\x00"
     exclude_modules:
       - "ntdll.dll"
       - "kernel32.dll"

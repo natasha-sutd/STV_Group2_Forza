@@ -300,6 +300,82 @@ def _to_float(row: dict, key: str) -> float | None:
         return None
 
 
+def _to_bool(row: dict, key: str) -> bool | None:
+    val = row.get(key)
+    if val is None:
+        return None
+    text = str(val).strip().lower()
+    if text in {"1", "true", "yes", "y"}:
+        return True
+    if text in {"0", "false", "no", "n"}:
+        return False
+    return None
+
+
+def _render_coverage_quality_panel(all_coverage: dict[str, list[dict]], targets: list[str]) -> str:
+    fallback_sources = {"reference_percentages", "proxy_none", "buggy_output"}
+    rows_html = ""
+
+    for t in targets:
+        rows = all_coverage.get(t, [])
+        if not rows:
+            continue
+
+        source_counts: Counter = Counter()
+        error_counts: Counter = Counter()
+        fallback_count = 0
+        invalid_count = 0
+
+        for row in rows:
+            source = str(row.get("coverage_source") or "unknown").strip() or "unknown"
+            source_counts[source] += 1
+            if source.lower() in fallback_sources:
+                fallback_count += 1
+
+            valid = _to_bool(row, "coverage_data_valid")
+            if valid is None:
+                valid = source.lower() not in {"proxy_none", "proxy"}
+            if not valid:
+                invalid_count += 1
+
+            err = str(row.get("instrumentation_error") or "").strip()
+            if err:
+                error_counts[err] += 1
+
+        total = len(rows)
+        fallback_pct = round(fallback_count / total * 100) if total else 0
+        invalid_pct = round(invalid_count / total * 100) if total else 0
+        top_sources = ", ".join(
+            f"{_esc(src)}:{cnt}" for src, cnt in source_counts.most_common(3)
+        )
+        top_error = _esc(error_counts.most_common(1)[0][0]) if error_counts else "—"
+
+        rows_html += (
+            f"<tr>"
+            f"<td>{_target_label(t)}</td>"
+            f"<td class='mono num'>{total}</td>"
+            f"<td class='mono num'>{fallback_count} ({fallback_pct}%)</td>"
+            f"<td class='mono num'>{invalid_count} ({invalid_pct}%)</td>"
+            f"<td class='mono'>{top_sources or '—'}</td>"
+            f"<td class='mono'>{top_error}</td>"
+            f"</tr>"
+        )
+
+    if not rows_html:
+        return ""
+
+    return f"""
+<div class="chart-box" style="grid-column:1/-1;">
+  <div class="chart-label">coverage quality and fallback diagnostics</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>target</th><th>points</th><th>fallback rows</th><th>invalid rows</th><th>top coverage sources</th><th>top instrumentation error</th></tr></thead>
+      <tbody>{rows_html}</tbody>
+    </table>
+  </div>
+</div>"""
+
+
 def _looks_like_combined_proxy(rows: list[dict]) -> bool:
     """Heuristically detect function coverage values derived from combined coverage.
 
@@ -546,6 +622,7 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
     proxy_target_labels = ", ".join(_target_label(t) for t in function_proxy_targets)
 
     palette = ["#00ff88", "#45aaf2", "#ffd32a", "#ff4757"]
+    quality_panel_html = _render_coverage_quality_panel(all_coverage, targets)
 
     # Define all metrics — map_density first (always shown), then code coverage
     all_metrics = [
@@ -662,7 +739,7 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
 
     return f"""
 <div class="section-title">coverage over time</div>
-<div class="coverage-grid">{charts_html}</div>"""
+<div class="coverage-grid">{quality_panel_html}{charts_html}</div>"""
 
 
 def render_bug_table(rows: list[dict], target: str) -> str:
@@ -675,7 +752,7 @@ def render_bug_table(rows: list[dict], target: str) -> str:
         f"<tr>"
         f"<td>{_pill(r)}</td>"
         f'<td class="input-cell mono" title="{_esc((r.get("input_data") or "")[:80])}">{_esc((r.get("input_data") or "")[:80])}</td>'
-        f"<td class='mono'>{_esc(r.get('strategy', '') or '\u2014')}</td>"
+        f"<td class='mono'>{_esc(r.get('strategy', '') or '—')}</td>"
         f"<td class='mono num'>{_esc(str(r.get('returncode', '')))}</td>"
         f'<td class="ts-cell mono">{_esc((r.get("timestamp") or "")[:19])}</td>'
         f"</tr>"

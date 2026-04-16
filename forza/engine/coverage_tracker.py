@@ -37,6 +37,19 @@ _ENGINE_DIR = Path(__file__).resolve().parent
 _PROJECT_DIR = _ENGINE_DIR.parent
 _RESULTS_DIR = _PROJECT_DIR / "results"
 
+_COVERAGE_LOG_FIELDS = [
+    "timestamp",
+    "run_id",
+    "statement_coverage",
+    "branch_coverage",
+    "function_coverage",
+    "map_density",
+    "total_inputs",
+    "coverage_source",
+    "coverage_data_valid",
+    "instrumentation_error",
+]
+
 
 def get_bucket(count: int) -> int:
     """Map a raw hit count to one of AFL's 8 frequency buckets.
@@ -191,6 +204,7 @@ class CoverageTracker:
         # None = not yet seen, use proxy metric instead
         self._last_line_cov: float | None = None
         self._last_branch_cov: float | None = None
+        self._last_function_cov: float | None = None
 
         # Current statement coverage (used in map_density calculation)
         self.current_statement_cov: float = 0.0
@@ -217,6 +231,7 @@ class CoverageTracker:
 
         _RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         self.coverage_log_path = _RESULTS_DIR / f"{self.target}_coverage.csv"
+        self._coverage_log_fields: list[str] = []
         self.ensure_log_file()
 
     def update(self, payload: FuzzIterationPayload) -> bool:
@@ -241,10 +256,14 @@ class CoverageTracker:
             payload.execution_metrics
         )
         payload_coverage_source = ""
+        payload_instrumentation_error = ""
         if isinstance(payload.execution_metrics, dict):
             raw_source = payload.execution_metrics.get("coverage_source")
             if raw_source is not None:
                 payload_coverage_source = str(raw_source).strip().lower()
+            raw_instr_err = payload.execution_metrics.get("instrumentation_error")
+            if raw_instr_err:
+                payload_instrumentation_error = str(raw_instr_err).strip()
         if newly_seen_lines:
             novel_lines = newly_seen_lines - self.covered_line_ids
             if novel_lines:
@@ -303,19 +322,45 @@ class CoverageTracker:
             branch_coverage = 0.0
             function_coverage = 0.0
         elif self.mode == "code_execution":
+            prev_statement_cov = self._last_line_cov if self._last_line_cov is not None else 0.0
+            prev_branch_cov = self._last_branch_cov if self._last_branch_cov is not None else prev_statement_cov
+            prev_function_cov = self._last_function_cov if self._last_function_cov is not None else prev_statement_cov
+
             if coverage_percentages:
-                # Real instrumented percentages — detect novelty by comparing
-                # against the last recorded statement coverage value.
-                new_statement = coverage_percentages.get("statement", 0.0)
-                new_path_found = new_statement > (self._last_line_cov or 0.0)
-                self._last_line_cov = new_statement
-                self._last_branch_cov = coverage_percentages.get(
-                    "branch", self._last_branch_cov
+                # Keep percentage-based coverage cumulative so charts represent
+                # "coverage discovered so far" rather than per-input volatility.
+                raw_statement_cov = coverage_percentages.get(
+                    "statement", round(float(self.current_metric), 2)
                 )
+                raw_branch_cov = coverage_percentages.get("branch", raw_statement_cov)
+                raw_function_cov = coverage_percentages.get(
+                    "function", coverage_percentages.get("combined", raw_statement_cov)
+                )
+
+                self._last_line_cov = max(prev_statement_cov, raw_statement_cov)
+                self._last_branch_cov = max(prev_branch_cov, raw_branch_cov)
+                self._last_function_cov = max(prev_function_cov, raw_function_cov)
+
+                statement_coverage = self._last_line_cov
+                branch_coverage = self._last_branch_cov
+                function_coverage = self._last_function_cov
+
+                coverage_improved = (
+                    statement_coverage > prev_statement_cov
+                    or branch_coverage > prev_branch_cov
+                    or function_coverage > prev_function_cov
+                )
+                new_path_found = coverage_improved
                 self.current_metric = self.execution_metric
             elif newly_seen_lines:
                 self.current_metric = self.execution_metric
                 new_path_found = new_execution_found
+
+                # No percentage metrics this iteration; retain the best known
+                # percentages so missing data does not create visual drops.
+                statement_coverage = prev_statement_cov
+                branch_coverage = prev_branch_cov
+                function_coverage = prev_function_cov
             else:
                 # No coverage data from this run (target crashed / produced no
                 # --show-coverage output).  Fall back to bug-key novelty for
@@ -326,21 +371,12 @@ class CoverageTracker:
                 self.current_metric = self.behavioral_metric
                 new_path_found = new_behavior_found
 
-            if coverage_percentages:
-                statement_coverage = coverage_percentages.get(
-                    "statement", round(float(self.current_metric), 2)
-                )
-                branch_coverage = coverage_percentages.get("branch", statement_coverage)
-                function_coverage = coverage_percentages.get(
-                    "function", coverage_percentages.get("combined", statement_coverage)
-                )
-            else:
                 # No --show-coverage data this iteration (e.g. target crashed).
                 # Carry the last valid measurement forward so the chart stays
                 # flat during bad runs rather than spiking down to a raw count.
-                statement_coverage = self._last_line_cov if self._last_line_cov is not None else 0.0
-                branch_coverage = self._last_branch_cov if self._last_branch_cov is not None else 0.0
-                function_coverage = statement_coverage
+                statement_coverage = prev_statement_cov
+                branch_coverage = prev_branch_cov
+                function_coverage = prev_function_cov
 
             # --- AFL bucket novelty detection ---
             # Extract per-edge hit frequencies and check for new bucket entries.
@@ -419,6 +455,10 @@ class CoverageTracker:
                 if payload_coverage_source
                 else ("instrumented" if coverage_percentages else "proxy")
             ),
+            coverage_data_valid=(
+                self.mode == "behavioral" or payload_coverage_source != "proxy_none"
+            ),
+            instrumentation_error=payload_instrumentation_error,
         )
         return new_path_found
 
@@ -619,24 +659,40 @@ class CoverageTracker:
     # --- Coverage log file ---
 
     def ensure_log_file(self) -> None:
-        # Create the log file with headers if it doesn't already exist
+        # Create the log file with headers if it doesn't already exist.
+        # If the file already exists, migrate legacy headers to include
+        # diagnostics columns while preserving prior rows.
         if self.coverage_log_path.exists():
+            try:
+                with self.coverage_log_path.open("r", newline="", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    existing_rows = list(reader)
+                    existing_fields = list(reader.fieldnames or [])
+
+                if not existing_fields:
+                    self._coverage_log_fields = list(_COVERAGE_LOG_FIELDS)
+                    return
+
+                missing_fields = [
+                    name for name in _COVERAGE_LOG_FIELDS if name not in existing_fields
+                ]
+                if missing_fields:
+                    with self.coverage_log_path.open("w", newline="", encoding="utf-8") as f:
+                        writer = csv.writer(f)
+                        writer.writerow(_COVERAGE_LOG_FIELDS)
+                        for row in existing_rows:
+                            writer.writerow([row.get(name, "") for name in _COVERAGE_LOG_FIELDS])
+                    self._coverage_log_fields = list(_COVERAGE_LOG_FIELDS)
+                else:
+                    self._coverage_log_fields = existing_fields
+            except Exception:
+                self._coverage_log_fields = list(_COVERAGE_LOG_FIELDS)
             return
 
         with self.coverage_log_path.open("w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow(
-                [
-                    "timestamp",
-                    "run_id",
-                    "statement_coverage",
-                    "branch_coverage",
-                    "function_coverage",
-                    "map_density",
-                    "total_inputs",
-                    "coverage_source",
-                ]
-            )
+            writer.writerow(_COVERAGE_LOG_FIELDS)
+        self._coverage_log_fields = list(_COVERAGE_LOG_FIELDS)
 
     def log_state(
         self,
@@ -649,23 +705,28 @@ class CoverageTracker:
         function_coverage: float,
         map_density: float,
         coverage_source: str,
+        coverage_data_valid: bool,
+        instrumentation_error: str,
     ) -> None:
 
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
 
+        row = {
+            "timestamp": timestamp,
+            "run_id": self.run_id,
+            "statement_coverage": statement_coverage,
+            "branch_coverage": branch_coverage,
+            "function_coverage": function_coverage,
+            "map_density": round(map_density, 4),
+            "total_inputs": self.total_inputs,
+            "coverage_source": coverage_source,
+            "coverage_data_valid": int(bool(coverage_data_valid)),
+            "instrumentation_error": instrumentation_error,
+        }
+        fields = self._coverage_log_fields or list(_COVERAGE_LOG_FIELDS)
+
         with self.coverage_log_path.open("a", newline="", encoding="utf-8") as f:
-            csv.writer(f).writerow(
-                [
-                    timestamp,
-                    self.run_id,
-                    statement_coverage,
-                    branch_coverage,
-                    function_coverage,
-                    round(map_density, 4),
-                    self.total_inputs,
-                    coverage_source,
-                ]
-            )
+            csv.writer(f).writerow([row.get(name, "") for name in fields])
 
         firestore_client.upload_coverage(
             target=self.target,
@@ -956,10 +1017,12 @@ def update(
 
         covered_lines = _extract_coverage_lines(cov_stdout, cov_stderr)
         coverage_percentages = _extract_coverage_percentages(cov_stdout, cov_stderr)
+        instrumentation_error = str(config.get("_last_instr_error") or "").strip()
         execution_metrics = {
             "covered_lines": covered_lines,
             "coverage_percentages": coverage_percentages,
             "coverage_source": coverage_source,
+            "instrumentation_error": instrumentation_error,
         }
 
         # Compute a behavioral output fingerprint from the BUGGY target's output.
