@@ -149,7 +149,9 @@ class MutationEngine:
     def __init__(
         self,
         input_format: str = "*",
-        grammar_spec: dict | None = None
+        grammar_spec: dict | None = None,
+        enabled_strategies: list[str] | None = None,
+        disabled_strategies: list[str] | None = None,
     ) -> None:
         self.input_format = input_format
         self._grammar_spec = grammar_spec or {}
@@ -174,6 +176,17 @@ class MutationEngine:
                 "fn": self._constraint_violation,
                 "weight": 2.0,  # High weight — directly targets logic bugs
             })
+
+        if enabled_strategies:
+            allowed = {str(name).strip() for name in enabled_strategies if str(name).strip()}
+            self.strategies = [s for s in self.strategies if s["name"] in allowed]
+
+        if disabled_strategies:
+            blocked = {str(name).strip() for name in disabled_strategies if str(name).strip()}
+            self.strategies = [s for s in self.strategies if s["name"] not in blocked]
+
+        if not self.strategies:
+            self.strategies = [{"name": "bit_flip", "fn": bit_flip, "weight": 1.0}]
 
     # ── Public interface ──────────────────────────────────────────────────
     def mutate(self, seed: str) -> str:

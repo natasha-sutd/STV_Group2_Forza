@@ -28,8 +28,21 @@ class FuzzLogger:
     Call 'record(result)' after every run and 'snapshot()' periodically to update the stats CSV for graphing.
     """
 
-    RUNS_FIELDS = ["iteration", "timestamp", "input", "bug_type", "is_new", "exit_code"]
+    RUNS_FIELDS = [
+        "iteration",
+        "timestamp",
+        "input",
+        "bug_type",
+        "is_new",
+        "exit_code",
+        "strategy",
+        "bug_key",
+        "gen_time_ms",
+        "run_time_ms",
+    ]
     BUGS_FIELDS = [
+        "run_id",
+        "iteration",
         "target",
         "bug_type",
         "bug_key",
@@ -63,10 +76,21 @@ class FuzzLogger:
         self._run_path = run_dir / "all_runs.csv"
         self._stat_path = run_dir / "stats.csv"
         self._tb_path = run_dir / "tracebacks.log"
+        self._cases_dir = run_dir / "bug_inputs"
+        self._cases_dir.mkdir(parents=True, exist_ok=True)
 
         self._init_csv(self._run_path, self.RUNS_FIELDS)
         self._init_csv(self._stat_path, self.STATS_FIELDS)
-        if not self._bug_path.exists():
+        if not self._bug_path.exists() or self._bugs_csv_is_stale():
+            if self._bug_path.exists():
+                backup = self._bug_path.with_suffix(
+                    f".bak_{time.strftime('%Y%m%d_%H%M%S')}.csv"
+                )
+                try:
+                    self._bug_path.replace(backup)
+                    print(f"[logger] Rotated stale bug CSV to: {backup}")
+                except OSError:
+                    pass
             self._init_csv(self._bug_path, self.BUGS_FIELDS)
 
         self._iteration = 0
@@ -86,11 +110,19 @@ class FuzzLogger:
         firestore_client.clear_current_db(run_id)
 
     # Public API
-    def record(self, result: BugResult, corpus_size: int = 0) -> None:
+    def record(
+        self,
+        result: BugResult,
+        corpus_size: int = 0,
+        generation_time_ms: float = 0.0,
+        execution_time_ms: float = 0.0,
+        is_new_coverage: bool | None = None,
+    ) -> None:
         """Record a single run result."""
         self._iteration += 1
         now = time.monotonic() - self._start_time
         input_repr = repr(result.input_data)[:120]
+        row_is_new = result.new_coverage if is_new_coverage is None else bool(is_new_coverage)
 
         with open(self._run_path, "a", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
@@ -100,25 +132,40 @@ class FuzzLogger:
                     f"{now:.3f}",
                     input_repr,
                     result.bug_type.name,
-                    "1" if result.new_coverage else "0",
+                    "1" if row_is_new else "0",
                     result.returncode,
+                    result.strategy,
+                    result.bug_key,
+                    f"{float(generation_time_ms):.4f}",
+                    f"{float(execution_time_ms):.4f}",
                 ]
             )
 
-        if result.bug_key and result.bug_key not in self._seen_keys:
+        if result.is_bug() and result.bug_key and result.bug_key not in self._seen_keys:
             self._seen_keys.add(result.bug_key)
             self._unique_bugs += 1
 
-            if (
+            # Save the triggering testcase for unique bugs.
+            safe_type = result.bug_type.name.lower()
+            case_path = self._cases_dir / f"iter{self._iteration:07d}_{result.bug_key}_{safe_type}.txt"
+            try:
+                case_path.write_text(str(result.input_data), encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+            is_representative = (
                 result.bug_type is not BugType.NORMAL
                 and result.bug_type not in self._first_by_type
-            ):
+            )
+            if is_representative:
                 self._first_by_type[result.bug_type] = result
 
             with open(self._bug_path, "a", newline="", encoding="utf-8") as f:
                 writer = csv.DictWriter(f, fieldnames=self.BUGS_FIELDS, quoting=csv.QUOTE_ALL)
                 writer.writerow(
                     {
+                        "run_id": self._run_id,
+                        "iteration": self._iteration,
                         "target": self.target,
                         "bug_type": result.bug_type.name,
                         "bug_key": result.bug_key,
@@ -130,7 +177,7 @@ class FuzzLogger:
                         "crashed": result.crashed,
                         "strategy": result.strategy,
                         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-                        "is_representative": result.bug_type is not BugType.NORMAL and result.bug_type not in self._first_by_type,
+                        "is_representative": is_representative,
                     }
                 )
 
@@ -242,7 +289,15 @@ _logger: FuzzLogger | None = None
 _logger_lock = threading.Lock()
 
 
-def log(bug: BugResult, config: dict) -> None:
+def log(
+    bug: BugResult,
+    config: dict,
+    *,
+    corpus_size: int = 0,
+    generation_time_ms: float = 0.0,
+    execution_time_ms: float = 0.0,
+    is_new_coverage: bool | None = None,
+) -> None:
     global _logger
     target = bug.target or config.get("name", "unknown")
 
@@ -250,10 +305,22 @@ def log(bug: BugResult, config: dict) -> None:
         if _logger is None or _logger.target != target:
             _logger = FuzzLogger(target=target)
 
-    _logger.record(bug)
+    _logger.record(
+        bug,
+        corpus_size=corpus_size,
+        generation_time_ms=generation_time_ms,
+        execution_time_ms=execution_time_ms,
+        is_new_coverage=is_new_coverage,
+    )
 
 
 def reset() -> None:
     global _logger
     with _logger_lock:
         _logger = None
+
+
+def get_run_id() -> str | None:
+    if _logger is None:
+        return None
+    return _logger._run_id

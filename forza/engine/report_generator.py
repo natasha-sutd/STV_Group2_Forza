@@ -22,25 +22,51 @@ _CACHE_PATH = RESULTS_DIR / "firestore_cache.json"
 KNOWN_TARGETS = ["json_decoder", "cidrize", "ipv4_parser", "ipv6_parser"]
 
 # Data loading
-def load_csv(target: str) -> list[dict]:
-    csv_path = RESULTS_DIR / f"{target}_bugs.csv"
+def _read_csv_rows(csv_path: Path) -> list[dict]:
     if not csv_path.exists():
         return []
     with open(csv_path, newline="", encoding="utf-8", errors="replace") as f:
         return list(csv.DictReader(f))
 
 
-def load_coverage_csv(target: str) -> list[dict]:
+def resolve_latest_run_id(target: str) -> str:
+    coverage_rows = _read_csv_rows(RESULTS_DIR / f"{target}_coverage.csv")
+    coverage_run_ids = [str(r.get("run_id", "")) for r in coverage_rows if r.get("run_id")]
+    if coverage_run_ids:
+        return max(coverage_run_ids)
+
+    bug_rows = _read_csv_rows(RESULTS_DIR / f"{target}_bugs.csv")
+    bug_run_ids = [str(r.get("run_id", "")) for r in bug_rows if r.get("run_id")]
+    if bug_run_ids:
+        return max(bug_run_ids)
+
+    return ""
+
+
+def resolve_latest_run_ids(targets: list[str]) -> dict[str, str]:
+    return {t: resolve_latest_run_id(t) for t in targets}
+
+
+def load_csv(target: str, run_id: str | None = None) -> list[dict]:
+    csv_path = RESULTS_DIR / f"{target}_bugs.csv"
+    rows = _read_csv_rows(csv_path)
+    if run_id is None:
+        run_id = resolve_latest_run_id(target)
+    if run_id:
+        return [r for r in rows if str(r.get("run_id", "")) == run_id]
+    return rows
+
+
+def load_coverage_csv(target: str, run_id: str | None = None) -> list[dict]:
     csv_path = RESULTS_DIR / f"{target}_coverage.csv"
-    if not csv_path.exists():
-        return []
-    with open(csv_path, newline="", encoding="utf-8", errors="replace") as f:
-        rows = list(csv.DictReader(f))
+    rows = _read_csv_rows(csv_path)
     if not rows:
         return []
-    # Filter to only the latest run_id
-    latest_run = max(r.get("run_id", "") for r in rows)
-    return [r for r in rows if r.get("run_id") == latest_run]
+    if run_id is None:
+        run_id = resolve_latest_run_id(target)
+    if run_id:
+        return [r for r in rows if str(r.get("run_id", "")) == run_id]
+    return rows
 
 
 def _normalise_row(row: dict) -> dict:
@@ -53,7 +79,10 @@ def _normalise_row(row: dict) -> dict:
     return row
 
 
-def _load_from_firestore(targets: list[str]) -> tuple[dict[str, list[dict]], int] | None:
+def _load_from_firestore(
+    targets: list[str],
+    run_ids: dict[str, str] | None = None,
+) -> tuple[dict[str, list[dict]], int] | None:
     """
     Fetch bugs from Firestore using a local cache to minimise reads.
 
@@ -105,7 +134,7 @@ def _load_from_firestore(targets: list[str]) -> tuple[dict[str, list[dict]], int
             dt = datetime.fromisoformat(
                 last_timestamp).replace(tzinfo=timezone.utc)
             try:
-                from google.cloud.firestore_v1.base_query import FieldFilter
+                from google.cloud.firestore_v1.base_query import FieldFilter  # type: ignore[import-not-found]
                 query = query.where(filter=FieldFilter("timestamp", ">", dt))
             except ImportError:
                 query = query.where("timestamp", ">", dt)
@@ -143,8 +172,20 @@ def _load_from_firestore(targets: list[str]) -> tuple[dict[str, list[dict]], int
                 "total_ever": total_ever,
             }, f)
 
+        filtered = result
+        if run_ids:
+            filtered = {}
+            for t in targets:
+                selected_run = run_ids.get(t, "")
+                rows_for_target = result.get(t, [])
+                if selected_run:
+                    rows_for_target = [
+                        r for r in rows_for_target if str(r.get("run_id", "")) == selected_run
+                    ]
+                filtered[t] = rows_for_target
+
         print(f"[report_generator] Total ever: {total_ever} unique bugs (by bug_key)")
-        return result, total_ever
+        return filtered, total_ever
 
     except Exception as e:
         print(f"[report_generator] Firestore fetch failed: {e}")
@@ -155,20 +196,32 @@ def _load_from_firestore(targets: list[str]) -> tuple[dict[str, list[dict]], int
 _total_ever: int | None = None
 
 
-def load_all(targets: list[str], use_firestore: bool = True) -> dict[str, list[dict]]:
+def load_all(
+    targets: list[str],
+    use_firestore: bool = True,
+    run_ids: dict[str, str] | None = None,
+) -> dict[str, list[dict]]:
     """Try Firestore first, fall back to local CSVs if unavailable."""
     global _total_ever
+    selected_run_ids = run_ids or resolve_latest_run_ids(targets)
+    _total_ever = None
     if use_firestore:
-        firestore_result = _load_from_firestore(targets)
+        firestore_result = _load_from_firestore(targets, run_ids=selected_run_ids)
         if firestore_result is not None:
-            data, total_ever = firestore_result
-            _total_ever = total_ever
+            data, _ = firestore_result
             return data
-    return {t: load_csv(t) for t in targets}
+    return {t: load_csv(t, run_id=selected_run_ids.get(t, "")) for t in targets}
 
 
-def load_all_coverage(targets: list[str]) -> dict[str, list[dict]]:
-    return {t: load_coverage_csv(t) for t in targets}
+def load_all_coverage(
+    targets: list[str],
+    run_ids: dict[str, str] | None = None,
+) -> dict[str, list[dict]]:
+    selected_run_ids = run_ids or resolve_latest_run_ids(targets)
+    return {
+        t: load_coverage_csv(t, run_id=selected_run_ids.get(t, ""))
+        for t in targets
+    }
 
 # Aggregation
 def summarise(rows: list[dict]) -> dict:
@@ -235,6 +288,66 @@ def _bar_row(key: str, count: int, maximum: int) -> str:
         f'  <span class="breakdown-count">{count}</span>'
         f'</div>'
     )
+
+
+def _to_float(row: dict, key: str) -> float | None:
+    val = row.get(key)
+    if val is None:
+        return None
+    try:
+        return float(val)
+    except (TypeError, ValueError):
+        return None
+
+
+def _looks_like_combined_proxy(rows: list[dict]) -> bool:
+    """Heuristically detect function coverage values derived from combined coverage.
+
+    combined coverage is a weighted blend of statement and branch coverage, so
+    function values sourced from combined typically:
+    1) stay between statement and branch on almost all points, and
+    2) produce a near-constant blend factor across points.
+    """
+    valid = []
+    midpoint_blend_factors = []
+    between_count = 0
+    distinct_midpoint_count = 0
+
+    for row in rows:
+        statement = _to_float(row, "statement_coverage")
+        branch = _to_float(row, "branch_coverage")
+        function = _to_float(row, "function_coverage")
+        if statement is None or branch is None or function is None:
+            continue
+
+        valid.append((statement, branch, function))
+        lo = min(statement, branch)
+        hi = max(statement, branch)
+        if lo - 1e-6 <= function <= hi + 1e-6:
+            between_count += 1
+
+        # A midpoint distinct from both anchors is stronger evidence of a blend.
+        is_midpoint = abs(function - statement) > 0.01 and abs(function - branch) > 0.01
+        if is_midpoint:
+            distinct_midpoint_count += 1
+
+            if abs(statement - branch) > 1e-9:
+                alpha = (function - branch) / (statement - branch)
+                if 0.0 <= alpha <= 1.0:
+                    midpoint_blend_factors.append(alpha)
+
+    if len(valid) < 5:
+        return False
+
+    between_ratio = between_count / len(valid)
+    if between_ratio < 0.98 or distinct_midpoint_count < 5:
+        return False
+
+    if len(midpoint_blend_factors) < 5:
+        return False
+
+    # For a true combined proxy, the blend factor should stay nearly constant.
+    return (max(midpoint_blend_factors) - min(midpoint_blend_factors)) <= 0.06
 
 
 # Section renderers
@@ -426,6 +539,12 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
         ),
     }
 
+    function_proxy_targets = [
+        t for t in targets if _looks_like_combined_proxy(all_coverage.get(t, []))
+    ]
+    has_function_proxy = bool(function_proxy_targets)
+    proxy_target_labels = ", ".join(_target_label(t) for t in function_proxy_targets)
+
     palette = ["#00ff88", "#45aaf2", "#ffd32a", "#ff4757"]
 
     # Define all metrics — map_density first (always shown), then code coverage
@@ -488,12 +607,23 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
             y_min, y_max = 0, 100
 
         # Tooltip hint for this metric
-        tip_text = _esc(tooltips.get(metric, ""))
+        effective_metric_label = metric_label
+        tip_text_value = tooltips.get(metric, "")
+        if metric == "function_coverage" and has_function_proxy:
+            effective_metric_label = "function / combined proxy coverage (%)"
+            tip_text_value = (
+                "Explicit function coverage is unavailable for at least one target in this chart, "
+                "so the series is derived from combined coverage as a proxy. "
+                f"Proxy detected for: {proxy_target_labels}. "
+                + tip_text_value
+            )
+
+        tip_text = _esc(tip_text_value)
 
         charts_html += f"""
 <div class="chart-box">
   <div class="chart-label">
-    {metric_label} vs inputs tested
+    {effective_metric_label} vs inputs tested
     <span class="chart-tooltip" data-tip="{tip_text}">ⓘ</span>
   </div>
   <div style="position:relative;height:220px;">
@@ -802,7 +932,7 @@ def generate_report(
     now = datetime.now()
     ts = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    total_bugs = _total_ever if _total_ever is not None else sum(len(v) for v in all_data.values())
+    total_bugs = sum(len(v) for v in all_data.values())
     total_timeouts = sum(summarise(v)["timeouts"] for v in all_data.values())
     targets_run = sum(1 for v in all_data.values() if v)
     global_stats = f"""
@@ -831,7 +961,7 @@ def generate_report(
   <div class="header-right">
     generated &nbsp;<span>{ts}</span><br/>
     targets &nbsp;&nbsp;&nbsp;<span>{", ".join(targets)}</span><br/>
-    total bugs&nbsp;<span>{_total_ever if _total_ever is not None else total_bugs}</span>
+    total bugs&nbsp;<span>{total_bugs}</span>
   </div>
 </header>
 <main class="container">
@@ -876,10 +1006,11 @@ def main() -> None:
 
     targets = args.target if args.target else KNOWN_TARGETS
     out_path = Path(args.out).resolve()
+    run_ids = resolve_latest_run_ids(targets)
 
     print(f"[report_generator] Loading data for: {', '.join(targets)}")
-    all_data = load_all(targets)
-    all_coverage = load_all_coverage(targets)
+    all_data = load_all(targets, run_ids=run_ids)
+    all_coverage = load_all_coverage(targets, run_ids=run_ids)
 
     for t in targets:
         print(f"  {'v' if all_data[t] else '.'} {t:<20} "

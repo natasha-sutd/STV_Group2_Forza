@@ -3,11 +3,13 @@ name: cidrize
 # commands
 buggy_cmd: 
   windows: ["../cidrize-runner-main/bin/win-cidrize-runner.exe", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
+  linux: ["./bin/linux-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
   mac: ["../cidrize-runner-main/bin/mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
 buggy_cwd: "../../cidrize-runner-main"
 
 reference_cmd:
   windows: ["python", "cidrize.py", "{input}"]
+  linux: ["python3", "cidrize.py", "{input}"]
   mac: ["python3", "cidrize.py", "{input}"]
 reference_cwd: "../../cidrize-runner-main/cidrize"
 
@@ -36,4 +38,24 @@ output_pattern: "IPNetwork('{value}')"
 
 # coverage
 coverage_enabled: false
-tracking_mode: behavioral
+tracking_mode: code_execution
+blackbox_instrumentation:
+  enabled: true
+  kind: afl_showmap
+  kind_windows: frida_stalker
+  frida_config:
+    target_module: "win-cidrize-runner.exe"
+    exclude_modules:
+      - "ntdll.dll"
+      - "kernel32.dll"
+      - "kernelbase.dll"
+      - "ucrtbase.dll"
+  cmd:
+    windows:
+      ["wsl", "--cd", "{buggy_cwd_wsl}", "afl-showmap", "-Q", "-m", "none", "-o", "{map_file}", "--", "./bin/linux-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
+    linux:
+      ["afl-showmap", "-Q", "-m", "none", "-o", "{map_file}", "--", "./bin/linux-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
+    mac:
+      ["afl-showmap", "-Q", "-m", "none", "-o", "{map_file}", "--", "./bin/mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
+  timeout: 20
+  timeout_windows: 60

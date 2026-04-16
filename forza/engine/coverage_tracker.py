@@ -240,6 +240,11 @@ class CoverageTracker:
         coverage_percentages = self.extract_percentage_metrics(
             payload.execution_metrics
         )
+        payload_coverage_source = ""
+        if isinstance(payload.execution_metrics, dict):
+            raw_source = payload.execution_metrics.get("coverage_source")
+            if raw_source is not None:
+                payload_coverage_source = str(raw_source).strip().lower()
         if newly_seen_lines:
             novel_lines = newly_seen_lines - self.covered_line_ids
             if novel_lines:
@@ -409,7 +414,11 @@ class CoverageTracker:
             branch_coverage=branch_coverage,
             function_coverage=function_coverage,
             map_density=map_density_pct,
-            coverage_source=("instrumented" if coverage_percentages else "proxy"),
+            coverage_source=(
+                payload_coverage_source
+                if payload_coverage_source
+                else ("instrumented" if coverage_percentages else "proxy")
+            ),
         )
         return new_path_found
 
@@ -877,8 +886,23 @@ def _compute_output_signature(
     return f"rc={rc}|out={out_class}|err={err_class}"
 
 
+def _has_coverage_signal(stdout: str, stderr: str) -> bool:
+    text = (stdout or "") + "\n" + (stderr or "")
+    lo = text.lower()
+    return (
+        "coverage_freq:" in text
+        or "line coverage" in lo
+        or "branch coverage" in lo
+        or "combined coverage" in lo
+    )
+
+
 def update(
-    bug: BugResult, config: dict, input_depth: int = 1, reference_result=None
+    bug: BugResult,
+    config: dict,
+    input_depth: int = 1,
+    reference_result=None,
+    instrumentation_coverage_text: str = "",
 ) -> bool:
     """Translate a BugResult into a FuzzIterationPayload and update the tracker."""
     global _tracker, _iteration
@@ -902,21 +926,40 @@ def update(
             # Whitebox: always read from the buggy target itself
             cov_stdout = bug.stdout
             cov_stderr = bug.stderr
-        elif tracking_mode == "code_execution" and reference_result is not None:
-            # Blackbox + code_execution: reference emits "line coverage : N%"
-            cov_stdout = reference_result.stdout
-            cov_stderr = reference_result.stderr
+            coverage_source = "whitebox_target"
+        elif tracking_mode == "code_execution":
+            if instrumentation_coverage_text:
+                # Preferred blackbox path: instrumentation emitted edge frequencies.
+                cov_stdout = instrumentation_coverage_text
+                cov_stderr = ""
+                coverage_source = "instrumentation_edges"
+            elif _has_coverage_signal(bug.stdout, bug.stderr):
+                # Some targets emit coverage directly from the buggy binary.
+                cov_stdout = bug.stdout
+                cov_stderr = bug.stderr
+                coverage_source = "buggy_output"
+            elif reference_result is not None:
+                # Fallback path: reference emits summarized coverage percentages.
+                cov_stdout = reference_result.stdout
+                cov_stderr = reference_result.stderr
+                coverage_source = "reference_percentages"
+            else:
+                cov_stdout = ""
+                cov_stderr = ""
+                coverage_source = "proxy_none"
         else:
             # Behavioral blackbox: no coverage lines to parse; set empty so the
             # tracker reaches the output-signature path cleanly
             cov_stdout = ""
             cov_stderr = ""
+            coverage_source = "behavioral_signature"
 
         covered_lines = _extract_coverage_lines(cov_stdout, cov_stderr)
         coverage_percentages = _extract_coverage_percentages(cov_stdout, cov_stderr)
         execution_metrics = {
             "covered_lines": covered_lines,
             "coverage_percentages": coverage_percentages,
+            "coverage_source": coverage_source,
         }
 
         # Compute a behavioral output fingerprint from the BUGGY target's output.

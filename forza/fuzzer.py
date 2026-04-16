@@ -30,7 +30,7 @@ fuzzer.py
     └── bug_logger.log()                     →  CSV + crash file
             │
             ▼
-    report_generator.generate()              →  report.html
+    report_generator.generate()              →  report_<target_name>.html
 
 fuzzer.py
 =========
@@ -430,7 +430,7 @@ def print_summary(
 
 class ReportRefresher(threading.Thread):
     """
-    Daemon thread that regenerates report.html every REPORT_INTERVAL seconds.
+    Daemon thread that regenerates the configured report path every REPORT_INTERVAL seconds.
     Keeps the report warm during long fuzz runs so Ctrl+C exit is fast.
     """
 
@@ -452,8 +452,9 @@ class ReportRefresher(threading.Thread):
     def _refresh(self, final: bool = False) -> None:
         try:
             rg = self._rg
-            all_data = rg.load_all(self.targets, use_firestore=final)
-            all_coverage = rg.load_all_coverage(self.targets)
+            run_ids = rg.resolve_latest_run_ids(self.targets)
+            all_data = rg.load_all(self.targets, use_firestore=final, run_ids=run_ids)
+            all_coverage = rg.load_all_coverage(self.targets, run_ids=run_ids)
             rg.generate_report(all_data, all_coverage, self.targets, self.out_path)
             self.last_run = time.monotonic()
         except Exception as e:
@@ -500,7 +501,7 @@ def run_seed_mode(config: dict) -> None:
     target = config.get("name", "unknown")
 
     for idx, seed in enumerate(seeds, 1):
-        buggy_result, ref = run_both(config, seed, strategy="seed")
+        buggy_result, ref, _ = run_both(config, seed, strategy="seed")
         bug = oracle.classify(buggy_result, seed, target, config, ref)
         if bug.is_bug():
             total_bugs += 1
@@ -529,11 +530,11 @@ def _fuzz_one_iteration(
     energy: dict,
     engine: MutationEngine,
     timeout: int,
-) -> tuple[BugResult, bool, int, float]:
+) -> tuple[BugResult, bool, int, float, float]:
     """
     Execute one fuzzing iteration: pick seed, mutate, run, classify, update coverage.
     
-    Returns: (bug_result, found_new, child_depth, exec_time_ms)
+    Returns: (bug_result, found_new, child_depth, run_time_s, generation_time_s)
     
     Thread-safe: only acquires lock for corpus/energy reads and updates + engine operations.
     """
@@ -546,17 +547,19 @@ def _fuzz_one_iteration(
         seed, seed_depth = corpus[corpus_idx]
     
     with _engine_lock:
+        gen_t0 = time.monotonic()
         mutated = engine.mutate(seed)
+        generation_time = time.monotonic() - gen_t0
         strategy = engine.get_last_strategy()
     
     child_depth = seed_depth + 1
 
     # ── 2. run target (I/O bound, no lock needed)
     t0 = time.monotonic()
-    buggy_result, reference_result = run_both(
+    buggy_result, reference_result, instrumentation_coverage_text = run_both(
         config, mutated, strategy=strategy, use_coverage=True, timeout=timeout
     )
-    exec_time = time.monotonic() - t0
+    run_time = time.monotonic() - t0
 
     # ── 3. classify (no lock needed)
     bug = oracle.classify(
@@ -567,9 +570,16 @@ def _fuzz_one_iteration(
         ref=reference_result,
     )
     bug.strategy = strategy
+    bug.exec_time_ms = run_time * 1000.0
 
     # ── 4. coverage tracking (has internal lock)
-    found_new = coverage_tracker.update(bug, config, input_depth=child_depth, reference_result=reference_result)
+    found_new = coverage_tracker.update(
+        bug,
+        config,
+        input_depth=child_depth,
+        reference_result=reference_result,
+        instrumentation_coverage_text=instrumentation_coverage_text,
+    )
     
     # ── 5. corpus growth + energy boost (needs lock)
     if found_new:
@@ -600,11 +610,19 @@ def _fuzz_one_iteration(
         for s in energy:
             energy[s] = max(0.1, energy[s] * 0.999)
 
-    # ── 6. log bugs (has internal lock)
-    if bug.is_bug():
-        bug_logger.log(bug, config)
+    # ── 6. log run (has internal lock)
+    with _corpus_energy_lock:
+        corpus_size = len(corpus)
+    bug_logger.log(
+        bug,
+        config,
+        corpus_size=corpus_size,
+        generation_time_ms=generation_time * 1000.0,
+        execution_time_ms=run_time * 1000.0,
+        is_new_coverage=found_new,
+    )
 
-    return (bug, found_new, child_depth, exec_time)
+    return (bug, found_new, child_depth, run_time, generation_time)
 
 def run_fuzz_mode(
     config: dict,
@@ -630,7 +648,7 @@ def run_fuzz_mode(
         be used as seeds for further mutation (greybox fuzzing).
 
     Background reporting:
-        ReportRefresher regenerates report.html every REPORT_INTERVAL seconds
+        ReportRefresher regenerates report_<target_name>.html every REPORT_INTERVAL seconds
         in a daemon thread. Final refresh happens on shutdown.
     """
 
@@ -647,13 +665,16 @@ def run_fuzz_mode(
     grammar_spec = config.get("input", {})
 
     engine = MutationEngine(
-        input_format=get_input_type(config), grammar_spec=grammar_spec
+        input_format=get_input_type(config),
+        grammar_spec=grammar_spec,
+        enabled_strategies=config.get("enabled_strategies"),
+        disabled_strategies=config.get("disabled_strategies"),
     )
     oracle = BugOracle()
     # Corpus stores (input_str, depth) tuples; seeds start at depth 1
     corpus: list[tuple[str, int]] = [(s, 1) for s in seeds]
     target = config.get("name", "unknown")
-    out_path = report_generator.RESULTS_DIR / "report.html"
+    out_path = report_generator.RESULTS_DIR / f"report_{target}.html"
 
     # Track which corpus indices have been used as mutation parents
     used_as_parent: set[int] = set()
@@ -788,12 +809,12 @@ def run_fuzz_mode(
                 for future in done_set:
                     iteration = futures[future]
                     try:
-                        bug, found_new, child_depth, exec_time = future.result()
+                        bug, found_new, child_depth, run_time, _generation_time = future.result()
                         
                         # ── Update stats with lock ────────────────────────────────────
                         with _stats_lock:
                             completed_iterations += 1
-                            exec_time_window.append(exec_time)
+                            exec_time_window.append(run_time)
                             if len(exec_time_window) > MAX_WINDOW:
                                 exec_time_window.pop(0)
                         
