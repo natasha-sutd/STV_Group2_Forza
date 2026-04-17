@@ -318,7 +318,7 @@ def _render_coverage_quality_panel(all_coverage: dict[str, list[dict]], targets:
         "How coverage_source is tracked: "
         "whitebox_target/instrumented = direct target code percentages; "
         "instrumentation_edges = blackbox edge-frequency instrumentation (drives map density, not code %); "
-        "reference_percentages = fallback coverage from the reference implementation; "
+        "reference_percentages = reference-implementation fallback observed for diagnostics only, not binary code coverage; "
         "buggy_output = percentages parsed directly from target output; "
         "behavioral_signature = behavioral class fingerprinting for blackbox novelty; "
         "proxy/proxy_none = no valid percentage signal this iteration."
@@ -755,10 +755,11 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
                 + tip_text_value
             )
         if metric in {"statement_coverage", "branch_coverage", "function_coverage"} and has_reference_fallback:
-            effective_metric_label = f"{effective_metric_label} (includes reference fallback)"
+            effective_metric_label = f"{effective_metric_label} (fallback rows carried forward)"
             tip_text_value = (
-                "At least one series uses reference-script fallback coverage rather than "
-                "direct target instrumentation. "
+                "At least one series encountered reference-script fallback rows. "
+                "Those points carry forward the last valid target measurement instead of "
+                "injecting reference-script percentages into the binary coverage chart. "
                 f"Fallback detected for: {reference_fallback_labels}. "
                 + tip_text_value
             )

@@ -24,6 +24,8 @@ input:
     min: 0
     max: 0xFFFF
 parallel_workers: 4
+seeds_path: "../inputs/ipv6_parser/seeds.txt"
+seed_count: 30
 
 # execution
 timeout: 60

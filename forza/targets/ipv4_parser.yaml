@@ -25,6 +25,8 @@ input:
     min: 0
     max: 255
 parallel_workers: 4
+seeds_path: "../inputs/ipv4_parser/seeds.txt"
+seed_count: 30
 
 # special bug keywords
 bug_keywords:

@@ -16,12 +16,40 @@ from engine.types import BugResult, BugType
 from engine.target_runner import RawResult
 
 
+def _last_meaningful_line(stdout: str) -> Optional[str]:
+    lines: list[str] = []
+    for raw_line in stdout.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        lower = line.lower()
+        if lower.startswith(
+            (
+                "line coverage",
+                "branch coverage",
+                "combined coverage",
+                "coverage data saved to",
+                "saved bug count report",
+                "loading existing coverage data from",
+                "final bug count:",
+            )
+        ):
+            continue
+        if set(line) == {"="}:
+            continue
+        lines.append(line)
+    return lines[-1] if lines else None
+
+
 def _extract_output(stdout: str, pattern: str) -> Optional[str]:
     if not pattern or "{value}" not in pattern:
         return None
     regex = re.escape(pattern).replace(r"\{value\}", r"(.+?)")
-    match = re.search(regex, stdout)
-    return match.group(1).strip() if match else None
+    regex = regex.replace(r"\ ", r"\s*")
+    match = re.search(regex, stdout, flags=re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    return _last_meaningful_line(stdout)
 
 # def _extract_output(text, pattern):
 #     if not pattern:

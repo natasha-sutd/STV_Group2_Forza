@@ -1046,6 +1046,8 @@ def run_fuzz_mode(
             strategy_counts=strategy_counts,
         )
 
+        coverage_tracker.flush()
+
         # Stop refresher → triggers final report generation
         sys.stdout.write(f"\n{C.dim('  stopping report refresher...')}\n")
         sys.stdout.flush()
