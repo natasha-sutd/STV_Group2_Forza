@@ -48,5 +48,8 @@ output_pattern: "Output decoded data: {value} of type"
 # coverage
 coverage_enabled: true
 coverage_flag: "--show-coverage"
+coverage_file_flag: "--coverage-file"
+coverage_file_template: ".coverage_buggy_json.{pid}.{thread}.{time_ns}"
+coverage_file_cleanup: true
 tracking_mode: code_execution
  

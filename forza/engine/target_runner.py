@@ -1616,13 +1616,38 @@ def run_both(
     """Run buggy and reference targets and optionally collect instrumentation edges."""
     input_mode = config.get("input_mode", "arg")
     use_wsl = config.get("use_wsl", False)
-    extra_flags = (
-        [config["coverage_flag"]]
-        if use_coverage
+    extra_flags: list[str] | None = None
+    coverage_file_cleanup_path: str | None = None
+    if (
+        use_coverage
         and config.get("coverage_enabled")
         and config.get("coverage_flag")
-        else None
-    )
+    ):
+        extra_flags = [config["coverage_flag"]]
+
+        coverage_file_template = config.get("coverage_file_template")
+        if coverage_file_template:
+            coverage_file_rendered = str(coverage_file_template)
+            coverage_file_rendered = (
+                coverage_file_rendered
+                .replace("{pid}", str(os.getpid()))
+                .replace("{thread}", str(threading.get_ident()))
+                .replace("{time_ns}", str(time.time_ns()))
+            )
+
+            coverage_file_path = Path(coverage_file_rendered)
+            if not coverage_file_path.is_absolute():
+                base_dir = Path(config.get("buggy_cwd") or ".")
+                coverage_file_path = (base_dir / coverage_file_path).resolve()
+
+            coverage_file_flag = (
+                str(config.get("coverage_file_flag", "--coverage-file")).strip()
+                or "--coverage-file"
+            )
+            extra_flags.extend([coverage_file_flag, str(coverage_file_path)])
+
+            if _as_bool(config.get("coverage_file_cleanup"), default=True):
+                coverage_file_cleanup_path = str(coverage_file_path)
 
     raw_buggy_cmd = config["buggy_cmd"]
     if not raw_buggy_cmd:
@@ -1687,6 +1712,11 @@ def run_both(
         )
 
     buggy_result.strategy = strategy
+    if coverage_file_cleanup_path and os.path.exists(coverage_file_cleanup_path):
+        try:
+            os.remove(coverage_file_cleanup_path)
+        except OSError:
+            pass
 
     reference_result = None
     buggy_ok = (

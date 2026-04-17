@@ -10,8 +10,6 @@ import tempfile
 import json
 import coverage
 
-DEFAULT_COVERAGE_FILE = ".coverage_buggy_json"
-
 
 def print_full_coverage_summary(cov):
     """
@@ -215,35 +213,23 @@ Using json from the shell to validate and pretty-print::
     parser = ArgumentParser("JSON-decoder", description=notes, formatter_class=RawDescriptionHelpFormatter)
 
     parser.add_argument("--str-json", help="Deserialize ``str-json`` (a ``str``, ``bytes`` or ``bytearray`` instance containing a JSON document) to a Python object.")
-    parser.add_argument("--coverage-file", help="Path to store coverage data (default: .coverage_buggy_json)", default=DEFAULT_COVERAGE_FILE)
+    parser.add_argument("--coverage-file", help="Path to store coverage data (default: .coverage_buggy_json)", default=".coverage_buggy_json")
     parser.add_argument("--show-coverage", help="Display coverage report after execution", action="store_true")
     parser.add_argument("--reset-coverage", help="Reset coverage data before this run", action="store_true")
     parser.add_argument("--coverage-summary", help="Show only coverage summary without running any function", action="store_true")
     args = parser.parse_args()
-
-    auto_isolated_coverage = (
-        args.show_coverage
-        and not args.coverage_summary
-        and not args.reset_coverage
-        and args.coverage_file == DEFAULT_COVERAGE_FILE
-    )
-    coverage_file = (
-        f"{DEFAULT_COVERAGE_FILE}.{os.getpid()}"
-        if auto_isolated_coverage
-        else args.coverage_file
-    )
     
     bug_count = defaultdict(int)
 
     cov = coverage.Coverage(
-        data_file=coverage_file,
+        data_file=args.coverage_file,
         source=['buggy_json'],  
         branch=True  
     )
     
     
     if args.coverage_summary:
-        if os.path.exists(coverage_file):
+        if os.path.exists(args.coverage_file):
             cov.load()
             print("\n" + "="*60)
             print("CUMULATIVE COVERAGE SUMMARY")
@@ -251,24 +237,24 @@ Using json from the shell to validate and pretty-print::
             cov.report(file=None, show_missing=True)
             print_full_coverage_summary(cov)
             print_missing_branches(cov)
-            print(f"Coverage data saved to: {coverage_file}")
+            print(f"Coverage data saved to: {args.coverage_file}")
         else:
-            print(f"No coverage data found at {coverage_file}")
+            print(f"No coverage data found at {args.coverage_file}")
 
         exit()
 
     if args.reset_coverage:
-        if os.path.exists(coverage_file):
-            os.remove(coverage_file)
+        if os.path.exists(args.coverage_file):
+            os.remove(args.coverage_file)
             print(f"Coverage data reset. Starting fresh.\n")
         else:
             print("No file found to reset")
         exit()
 
 
-    if os.path.exists(coverage_file):
+    if os.path.exists(args.coverage_file):
         cov.load()
-        print(f"Loading existing coverage data from {coverage_file}\n")
+        print(f"Loading existing coverage data from {args.coverage_file}\n")
 
 
     cov.start()
@@ -323,20 +309,8 @@ Using json from the shell to validate and pretty-print::
         cov.report(file=None, show_missing=True)
         print_full_coverage_summary(cov)
         print_missing_branches(cov)
-        if auto_isolated_coverage:
-            print("Coverage data was collected in an isolated temporary file for this run.")
-        else:
-            print(f"Coverage data saved to: {coverage_file}")
+        print(f"Coverage data saved to: {args.coverage_file}")
 
     else:
-        if auto_isolated_coverage:
-            print("\nCoverage data was collected in an isolated temporary file for this run.")
-        else:
-            print(f"\nCoverage data saved to: {coverage_file}")
+        print(f"\nCoverage data saved to: {args.coverage_file}")
         print(f"Run with --show-coverage to see the report or --coverage-summary to view accumulated coverage.")
-
-    if auto_isolated_coverage and os.path.exists(coverage_file):
-        try:
-            os.remove(coverage_file)
-        except OSError:
-            pass
