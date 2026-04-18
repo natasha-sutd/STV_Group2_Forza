@@ -201,9 +201,10 @@ class BugOracle:
         if "bonus" in lower or any(key.lower() in lower for key in bug_keywords):
             # Extract exception class name for dedup (e.g. "JSONDecodeError")
             exc_class = self._extract_exc_class(combined)
+            trace = self._extract_traceback_lines(combined)
             return self._make_result(
                 bug_type=BugType.BONUS,
-                raw_key=("bonus", exc_class),
+                raw_key=("bonus", exc_class, trace),
                 input_data=input_data,
                 target=target,
                 raw=raw,
@@ -220,12 +221,12 @@ class BugOracle:
             )
 
         if raw.returncode != 0:
-            # Dedup by (exit_code, exception_class, line_number)
+            # Dedup by (exit_code, exception_class, traceback)
             exc_class = self._extract_exc_class(combined)
-            line_num = self._extract_line_number(combined)
+            trace = self._extract_traceback_lines(combined)
             return self._make_result(
                 bug_type=BugType.RELIABILITY,
-                raw_key=("reliability", str(raw.returncode), exc_class, line_num),
+                raw_key=("reliability", str(raw.returncode), exc_class, trace),
                 input_data=input_data,
                 target=target,
                 raw=raw,
@@ -276,11 +277,14 @@ class BugOracle:
         match = cls._EXC_CLASS_RE.search(text)
         return match.group(1) if match else "UnknownError"
 
-
     @classmethod
-    def _extract_line_number(cls, text: str) -> str:
-        match = cls._TRACEBACK_LINE_RE.search(text)
-        return match.group(1) if match else ""
+    def _extract_traceback_lines(cls, text: str, n: int = 3) -> str:
+        # read top 3 lines to check the context of crash
+        lines = cls._TRACEBACK_LINE_RE.findall(text)
+
+        top_lines = lines[-n:]
+        return ":".join(top_lines) if top_lines else ""
+
     @staticmethod
     def _make_result(
         bug_type: BugType,
