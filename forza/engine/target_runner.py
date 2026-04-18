@@ -26,6 +26,7 @@ _FRIDA_SCRIPT_CACHE: dict[tuple[str, tuple[str, ...], bool, int], str] = {}
 _parallel_pool: ThreadPoolExecutor | None = None
 _parallel_pool_lock = threading.Lock()
 _instr_stats_lock = threading.Lock()
+_reference_cov_lock = threading.Lock()
 _DEFAULT_PARALLEL_POOL_WORKERS = 4
 
 
@@ -378,6 +379,9 @@ def run_reference_with_coverage(
     cwd: str | None,
     timeout: int,
     use_wsl: bool,
+    source_scope: str | list[str] | tuple[str, ...] | None = None,
+    data_file: str | None = None,
+    append: bool = False,
 ) -> RawResult:
     """
     'coverage run' a plain Python reference script under, then immediately
@@ -388,22 +392,48 @@ def run_reference_with_coverage(
     import uuid
 
     python_interpreters = {"python", "python3", "py"}
-    rest = (
-        cmd_template[1:]
-        if cmd_template[0].lower().split(os.sep)[-1].split(".")[0]
-        in python_interpreters
-        else cmd_template
-    )
+    first = str(cmd_template[0]) if cmd_template else ""
+    first_name = Path(first).name.lower().split(".")[0] if first else ""
+    if first_name in python_interpreters:
+        reference_python = first
+        rest = cmd_template[1:]
+    else:
+        reference_python = sys.executable
+        rest = cmd_template
 
-    data_file = f".coverage_{uuid.uuid4().hex[:8]}"
+    source_tokens: list[str] = []
+    if isinstance(source_scope, str):
+        token = source_scope.strip()
+        if token:
+            source_tokens = [token]
+    elif isinstance(source_scope, (list, tuple)):
+        source_tokens = [str(x).strip() for x in source_scope if str(x).strip()]
+
+    source_flags: list[str] = []
+    if source_tokens:
+        source_flags = [f"--source={','.join(source_tokens)}"]
+
+    cleanup_data_file = False
+    if data_file:
+        cov_data_file = Path(data_file)
+        if not cov_data_file.is_absolute():
+            cov_data_file = (Path(cwd or ".") / cov_data_file).resolve()
+    else:
+        cov_data_file = (Path(cwd or ".") / f".coverage_{uuid.uuid4().hex[:8]}").resolve()
+        cleanup_data_file = True
+
+    cov_data_file.parent.mkdir(parents=True, exist_ok=True)
+
     cov_run_cmd = [
-        sys.executable,
+        reference_python,
         "-m",
         "coverage",
         "run",
         "--branch",
-        f"--data-file={data_file}",
-    ] + rest
+        f"--data-file={cov_data_file}",
+    ] + source_flags + rest
+    if append:
+        cov_run_cmd.append("--append")
 
     run_result = run_target(
         cmd_template=cov_run_cmd,
@@ -421,16 +451,20 @@ def run_reference_with_coverage(
         )
         os.close(fd)
 
+        report_cmd = [
+            reference_python,
+            "-m",
+            "coverage",
+            "json",
+            f"--data-file={cov_data_file}",
+            "-o",
+            report_json_file,
+        ]
+        report_cmd = resolve_cmd(report_cmd)
+        report_cmd = _resolve_executable_against_cwd(report_cmd, cwd)
+
         report_proc = subprocess.run(
-            [
-                sys.executable,
-                "-m",
-                "coverage",
-                "json",
-                f"--data-file={data_file}",
-                "-o",
-                report_json_file,
-            ],
+            report_cmd,
             capture_output=True,
             timeout=15,
             cwd=cwd or None,
@@ -459,12 +493,12 @@ def run_reference_with_coverage(
     except Exception:
         pass
     finally:
-        try:
-            cleanup_path = Path(cwd or ".") / data_file
-            if cleanup_path.exists():
-                cleanup_path.unlink()
-        except OSError:
-            pass
+        if cleanup_data_file:
+            try:
+                if cov_data_file.exists():
+                    cov_data_file.unlink()
+            except OSError:
+                pass
 
         if report_json_file and os.path.exists(report_json_file):
             try:
@@ -561,22 +595,6 @@ def _parse_coverage_freq_text(text: str) -> dict[str, int]:
             continue
         edge_counts[str(edge_id).strip().lower()] = count
     return edge_counts
-
-
-def _apply_edge_prefix(edge_counts: dict[str, int], edge_prefix: str) -> dict[str, int]:
-    normalized_prefix = str(edge_prefix or "edge").strip().lower().strip(":")
-    if not normalized_prefix:
-        normalized_prefix = "edge"
-
-    out: dict[str, int] = {}
-    for edge_id, count in edge_counts.items():
-        raw_id = str(edge_id).strip().lower()
-        if not raw_id:
-            continue
-        suffix = raw_id.split(":", 1)[1] if ":" in raw_id else raw_id
-        merged_id = f"{normalized_prefix}:{suffix}"
-        out[merged_id] = out.get(merged_id, 0) + int(count)
-    return out
 
 
 def _format_coverage_freq_lines(edge_counts: dict[str, int]) -> str:
@@ -695,20 +713,6 @@ def _resolve_frida_cmd_template(instr_cfg: dict, config: dict) -> list[str] | No
         cmd = raw_buggy_cmd.get(get_platform())
         if isinstance(cmd, list):
             return list(cmd)
-
-    return None
-
-
-def _resolve_tinyinst_cmd_template(instr_cfg: dict) -> list[str] | None:
-    tinyinst_cmd = _resolve_platform_cmd(instr_cfg.get("tinyinst_cmd"))
-    if tinyinst_cmd:
-        return tinyinst_cmd
-
-    tinyinst_cfg = instr_cfg.get("tinyinst")
-    if isinstance(tinyinst_cfg, dict):
-        nested_cmd = _resolve_platform_cmd(tinyinst_cfg.get("cmd"))
-        if nested_cmd:
-            return nested_cmd
 
     return None
 
@@ -1329,105 +1333,6 @@ def _run_frida_stalker_instrumentation(
     return "", "instrumentation produced no edge map data"
 
 
-def _run_tinyinst_instrumentation(
-    instr_cfg: dict,
-    config: dict,
-    input_str: str,
-    timeout: int,
-    default_input_mode: str,
-    default_use_wsl: bool,
-) -> tuple[str, str | None]:
-    cmd_template = _resolve_tinyinst_cmd_template(instr_cfg)
-    if not cmd_template:
-        return "", "tinyinst instrumentation command is missing for current platform"
-
-    tinyinst_cfg = instr_cfg.get("tinyinst")
-    if not isinstance(tinyinst_cfg, dict):
-        tinyinst_cfg = {}
-
-    input_mode = str(
-        tinyinst_cfg.get(
-            "input_mode",
-            instr_cfg.get("input_mode", default_input_mode),
-        )
-    ).strip().lower()
-    instr_cwd = tinyinst_cfg.get("cwd") or instr_cfg.get("cwd") or config.get("buggy_cwd")
-
-    timeout_raw = tinyinst_cfg.get("timeout", instr_cfg.get("timeout", timeout))
-    try:
-        instr_timeout = int(timeout_raw)
-    except (TypeError, ValueError):
-        instr_timeout = timeout
-
-    use_wsl = bool(tinyinst_cfg.get("use_wsl", instr_cfg.get("use_wsl", default_use_wsl)))
-    if cmd_template and cmd_template[0].lower() == "wsl":
-        use_wsl = False
-
-    edge_prefix = str(
-        tinyinst_cfg.get(
-            "edge_prefix",
-            instr_cfg.get("tinyinst_edge_prefix", "tinyinst"),
-        )
-    ).strip().lower()
-    if not edge_prefix:
-        edge_prefix = "tinyinst"
-
-    map_file_host_path: str | None = None
-    cmd_for_run = list(cmd_template)
-    if any("{map_file}" in part for part in cmd_template):
-        fd, map_file_host_path = tempfile.mkstemp(prefix="forza_tinyinst_", suffix=".txt")
-        os.close(fd)
-        cmd_for_run = _replace_instrumentation_placeholders(
-            cmd_template=cmd_template,
-            config=config,
-            map_file_host_path=map_file_host_path,
-        )
-
-    try:
-        instr_result = run_target(
-            cmd_template=cmd_for_run,
-            input_str=input_str,
-            input_mode=input_mode,
-            cwd=instr_cwd,
-            timeout=max(1, instr_timeout),
-            use_wsl=use_wsl,
-        )
-
-        parsed = _parse_coverage_freq_text(instr_result.stdout)
-        if not parsed:
-            parsed = _parse_coverage_freq_text(instr_result.stderr)
-
-        if not parsed:
-            parsed = _parse_afl_showmap_text(instr_result.stdout)
-        if not parsed:
-            parsed = _parse_afl_showmap_text(instr_result.stderr)
-
-        if not parsed and map_file_host_path and os.path.exists(map_file_host_path):
-            try:
-                with open(map_file_host_path, "r", encoding="utf-8", errors="replace") as f:
-                    map_text = f.read()
-                parsed = _parse_coverage_freq_text(map_text)
-                if not parsed:
-                    parsed = _parse_afl_showmap_text(map_text)
-            except OSError:
-                parsed = {}
-
-        parsed = _apply_edge_prefix(parsed, edge_prefix=edge_prefix)
-        coverage_text = _format_coverage_freq_lines(parsed)
-        if coverage_text:
-            return coverage_text, None
-
-        if instr_result.error:
-            return "", f"tinyinst command failed: {instr_result.error}"
-        return "", "tinyinst produced no edge map data"
-    finally:
-        if map_file_host_path and os.path.exists(map_file_host_path):
-            try:
-                os.remove(map_file_host_path)
-            except OSError:
-                pass
-
-
 def run_blackbox_instrumentation(
     config: dict,
     input_str: str,
@@ -1440,18 +1345,16 @@ def run_blackbox_instrumentation(
         Supported mode:
         blackbox_instrumentation:
           enabled: true
-                    kind: afl_showmap | frida_stalker | tinyinst
+                                        kind: afl_showmap | frida_stalker
           kind_windows: frida_stalker      # optional platform override
           kind_linux: afl_showmap          # optional platform override
           kind_mac: afl_showmap            # optional platform override
-                    fallback_kinds: [tinyinst, afl_showmap]              # optional
-                    fallback_kinds_windows: [tinyinst, afl_showmap]      # optional
+                                        fallback_kinds: [afl_showmap]              # optional
+                                        fallback_kinds_windows: [afl_showmap]      # optional
           cmd:                             # used by afl_showmap
             windows: ["wsl", "afl-showmap", "-Q", "-o", "{map_file}", "--", ...]
           frida_cmd:                       # optional custom command for frida_stalker
             windows: ["./bin/target.exe", "--arg", "{input}"]
-                    tinyinst_cmd:                    # optional tinyinst runner command
-                        windows: ["python", "tinyinst_runner.py", "--target", "./bin/target.exe", "--input", "{input}"]
           frida_config:
             target_module: "target.exe"
             exclude_modules: ["ntdll.dll"]
@@ -1460,13 +1363,6 @@ def run_blackbox_instrumentation(
                         capture_target_output: false   # optional (faster)
                         inherit_target_output: false   # optional (default false keeps table output clean)
                         parallel_with_reference: true  # optional run_both optimization gate
-          tinyinst:                        # optional tinyinst backend options
-            cmd:
-              windows: ["python", "tinyinst_runner.py", "--target", "./bin/target.exe", "--input", "{input}"]
-            edge_prefix: "tinyinst"
-            input_mode: "arg|stdin|file"
-            timeout: 15
-            use_wsl: false
           cwd: "..."                # optional
           input_mode: "arg|stdin|file"  # optional
           timeout: 10                # optional, seconds
@@ -1498,13 +1394,10 @@ def run_blackbox_instrumentation(
                 default_input_mode=default_input_mode,
             )
         elif kind == "tinyinst":
-            coverage_text, instr_err = _run_tinyinst_instrumentation(
-                instr_cfg=instr_cfg,
-                config=config,
-                input_str=input_str,
-                timeout=timeout,
-                default_input_mode=default_input_mode,
-                default_use_wsl=default_use_wsl,
+            coverage_text, instr_err = (
+                "",
+                "unsupported instrumentation kind: 'tinyinst' "
+                "(removed; use 'frida_stalker' or 'afl_showmap')",
             )
         else:
             coverage_text, instr_err = "", f"unsupported instrumentation kind: {kind!r}"
@@ -1604,6 +1497,69 @@ def _store_instrumentation_error(config: dict, instr_err: str | None) -> None:
         if emit_warning:
             print(f"[instrumentation] {config.get('name', 'target')}: {error_text}")
         config["_instr_warning_emitted"] = True
+
+
+def _sanitize_filename_token(value: str) -> str:
+    token = re.sub(r"[^A-Za-z0-9._-]+", "_", str(value or "").strip())
+    return token or "target"
+
+
+def _ensure_reference_coverage_data_file(config: dict) -> str:
+    existing = str(config.get("_reference_cov_data_file") or "").strip()
+    if existing:
+        return existing
+
+    base_dir = Path(str(config.get("reference_cwd") or config.get("buggy_cwd") or ".")).resolve()
+    base_dir.mkdir(parents=True, exist_ok=True)
+
+    target_token = _sanitize_filename_token(config.get("name", "target"))
+    run_token = str(config.get("_reference_cov_run_token") or "").strip()
+    if not run_token:
+        run_token = f"{int(time.time())}_{os.getpid()}"
+        config["_reference_cov_run_token"] = run_token
+
+    data_file = base_dir / f".coverage_forza_reference_{target_token}_{run_token}"
+    config["_reference_cov_data_file"] = str(data_file)
+    return str(data_file)
+
+
+def _run_reference_with_cumulative_coverage(
+    config: dict,
+    cmd_template: list[str],
+    input_str: str,
+    input_mode: str,
+    timeout: int,
+    use_wsl: bool,
+) -> RawResult:
+    # Serialize cumulative fallback updates so multi-worker runs do not race on one data file.
+    with _reference_cov_lock:
+        data_file = _ensure_reference_coverage_data_file(config)
+        return run_reference_with_coverage(
+            cmd_template=cmd_template,
+            input_str=input_str,
+            input_mode=input_mode,
+            cwd=config.get("reference_cwd"),
+            timeout=timeout,
+            use_wsl=use_wsl,
+            source_scope=config.get("reference_coverage_source"),
+            data_file=data_file,
+            append=True,
+        )
+
+
+def reset_reference_coverage_artifacts(config: dict) -> None:
+    """Clear per-run cumulative reference coverage data for a target config."""
+    with _reference_cov_lock:
+        data_file = str(config.pop("_reference_cov_data_file", "") or "").strip()
+        config.pop("_reference_cov_run_token", None)
+
+        if data_file:
+            try:
+                data_path = Path(data_file)
+                if data_path.exists():
+                    data_path.unlink()
+            except OSError:
+                pass
 
 
 def run_both(
@@ -1789,18 +1745,23 @@ def run_both(
                 and not config.get("coverage_enabled")
                 and not instrumentation_coverage_text
             )
-
-            # Avoid re-running the reference target in this path. The reference
-            # process already executed in parallel above, so fallback coverage
-            # is skipped here to preserve throughput.
             if needs_reference_coverage:
-                needs_reference_coverage = False
+                # Accuracy-first mode: rerun reference with cumulative coverage
+                # if instrumentation returned no edge-map data.
+                reference_result = _run_reference_with_cumulative_coverage(
+                    config=config,
+                    cmd_template=ref_cmd[current_os],
+                    input_str=input_str,
+                    input_mode=input_mode,
+                    timeout=timeout,
+                    use_wsl=use_wsl,
+                )
         elif needs_reference_coverage:
-            reference_result = run_reference_with_coverage(
+            reference_result = _run_reference_with_cumulative_coverage(
+                config=config,
                 cmd_template=ref_cmd[current_os],
                 input_str=input_str,
                 input_mode=input_mode,
-                cwd=config.get("reference_cwd"),
                 timeout=timeout,
                 use_wsl=use_wsl,
             )

@@ -315,13 +315,26 @@ def upload_coverage(
     iteration: int,
     total_inputs: int,
     tracking_mode: str,
-    statement_coverage: float,
-    branch_coverage: float,
-    function_coverage: float,
-    new_path_found: bool,
+    statement_coverage: float = 0.0,
+    branch_coverage: float = 0.0,
+    function_coverage: float = 0.0,
+    new_path_found: bool = False,
     behavioral_metric: float = 0.0,
     execution_metric: float = 0.0,
     coverage_source: str = "proxy",
+    coverage_data_valid: bool = False,
+    binary_statement_coverage: Optional[float] = None,
+    binary_branch_coverage: Optional[float] = None,
+    binary_function_coverage: Optional[float] = None,
+    reference_statement_coverage: Optional[float] = None,
+    reference_branch_coverage: Optional[float] = None,
+    reference_function_coverage: Optional[float] = None,
+    binary_coverage_source: str = "",
+    reference_coverage_source: str = "",
+    binary_coverage_data_valid: bool = False,
+    reference_coverage_data_valid: bool = False,
+    binary_instrumentation_error: str = "",
+    reference_instrumentation_error: str = "",
 ) -> Optional[str]:
     """
     Upload one coverage snapshot to both Archive and Current Firestore databases.
@@ -329,6 +342,11 @@ def upload_coverage(
     Collection: 'coverage'
     """
     archive_db, current_db = get_both_dbs()
+
+    def _float_or_none(value: Optional[float]) -> Optional[float]:
+        if value is None:
+            return None
+        return float(value)
 
     doc_data = {
         "target": target,
@@ -342,6 +360,19 @@ def upload_coverage(
         "behavioral_metric": float(behavioral_metric),
         "execution_metric": float(execution_metric),
         "coverage_source": str(coverage_source),
+        "coverage_data_valid": bool(coverage_data_valid),
+        "binary_statement_coverage": _float_or_none(binary_statement_coverage),
+        "binary_branch_coverage": _float_or_none(binary_branch_coverage),
+        "binary_function_coverage": _float_or_none(binary_function_coverage),
+        "reference_statement_coverage": _float_or_none(reference_statement_coverage),
+        "reference_branch_coverage": _float_or_none(reference_branch_coverage),
+        "reference_function_coverage": _float_or_none(reference_function_coverage),
+        "binary_coverage_source": str(binary_coverage_source),
+        "reference_coverage_source": str(reference_coverage_source),
+        "binary_coverage_data_valid": bool(binary_coverage_data_valid),
+        "reference_coverage_data_valid": bool(reference_coverage_data_valid),
+        "binary_instrumentation_error": str(binary_instrumentation_error),
+        "reference_instrumentation_error": str(reference_instrumentation_error),
         "new_path_found": bool(new_path_found),
         "timestamp": firestore.SERVER_TIMESTAMP if FIREBASE_AVAILABLE else None,
     }

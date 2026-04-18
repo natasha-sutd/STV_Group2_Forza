@@ -12,6 +12,7 @@ reference_cmd:
   linux: ["python3", "cidrize.py", "{input}"]
   mac: ["python3", "cidrize.py", "{input}"]
 reference_cwd: "../../cidrize-runner-main/cidrize"
+reference_coverage_source: ["."]
 
 # input
 input_mode: arg

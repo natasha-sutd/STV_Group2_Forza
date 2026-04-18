@@ -77,7 +77,12 @@ from pathlib import Path
 from engine.types import BugResult
 from engine.mutation_engine import MutationEngine
 from engine.bug_oracle import BugOracle
-from engine.target_runner import load_config, load_seeds, run_both
+from engine.target_runner import (
+    load_config,
+    load_seeds,
+    reset_reference_coverage_artifacts,
+    run_both,
+)
 from engine import coverage_tracker, bug_logger, report_generator
 
 # ---------------------------------------------------------------------------
@@ -96,6 +101,7 @@ MAX_CORPUS = 10000
 ENERGY_MIN = 0.1
 ENERGY_DECAY_PER_ITER = 0.999
 ENERGY_DECAY_INTERVAL = 50
+STRATEGY_DECAY_BASE = 0.95
 DEFAULT_GENERATED_SEEDS = 30
 DEFAULT_PARALLEL_WORKERS = 2
 MAX_PARALLEL_WORKERS = 16
@@ -128,6 +134,11 @@ def get_parallel_workers(config: dict) -> int:
     except (TypeError, ValueError):
         workers = DEFAULT_PARALLEL_WORKERS
     return max(1, min(MAX_PARALLEL_WORKERS, workers))
+
+
+def get_strategy_decay_factor(parallel_workers: int) -> float:
+    """Normalize per-call strategy decay so effective decay is worker-count invariant."""
+    return STRATEGY_DECAY_BASE ** (1.0 / max(1, parallel_workers))
 
 
 def _config_bool(config: dict, key: str, default: bool = False) -> bool:
@@ -665,6 +676,7 @@ def _fuzz_one_iteration(
     energy: dict,
     engine: MutationEngine,
     timeout: int,
+    strategy_decay_factor: float,
 ) -> tuple[BugResult, bool, int, float, float]:
     """
     Execute one fuzzing iteration: pick seed, mutate, run, classify, update coverage.
@@ -740,7 +752,7 @@ def _fuzz_one_iteration(
     # AFL-style energy decay
     with _engine_lock:
         _maybe_apply_plateau_escalation(config, engine)
-        engine.decay()
+        engine.decay(factor=strategy_decay_factor)
     
     with _corpus_energy_lock:
         _energy_decay_counter += 1
@@ -856,6 +868,7 @@ def run_fuzz_mode(
         return
 
     # Reset per-target state in module-level wrappers
+    reset_reference_coverage_artifacts(config)
     bug_logger.reset()
     coverage_tracker.reset()
 
@@ -917,6 +930,7 @@ def run_fuzz_mode(
         completed_iterations = 0  # Tracks actual completed work for calibration
         MAX_WINDOW = 100
         parallel_workers = get_parallel_workers(config)
+        strategy_decay_factor = get_strategy_decay_factor(parallel_workers)
         
         with ThreadPoolExecutor(max_workers=parallel_workers) as executor:
             futures = {}
@@ -929,7 +943,13 @@ def run_fuzz_mode(
                 if next_iter <= max_iters and not _shutdown.is_set():
                     future = executor.submit(
                         _fuzz_one_iteration,
-                        config, oracle, corpus, energy, engine, timeout
+                        config,
+                        oracle,
+                        corpus,
+                        energy,
+                        engine,
+                        timeout,
+                        strategy_decay_factor,
                     )
                     futures[future] = next_iter
                     pending_futures.add(future)
@@ -1047,6 +1067,7 @@ def run_fuzz_mode(
         )
 
         coverage_tracker.flush()
+        reset_reference_coverage_artifacts(config)
 
         # Stop refresher → triggers final report generation
         sys.stdout.write(f"\n{C.dim('  stopping report refresher...')}\n")

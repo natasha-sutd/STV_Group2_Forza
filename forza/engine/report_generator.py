@@ -312,16 +312,90 @@ def _to_bool(row: dict, key: str) -> bool | None:
     return None
 
 
+def _has_split_coverage_columns(row: dict) -> bool:
+    split_keys = {
+        "binary_statement_coverage",
+        "binary_branch_coverage",
+        "binary_function_coverage",
+        "reference_statement_coverage",
+        "reference_branch_coverage",
+        "reference_function_coverage",
+        "binary_coverage_source",
+        "reference_coverage_source",
+    }
+    return any(k in row for k in split_keys)
+
+
+def _legacy_coverage_family(row: dict) -> str:
+    source = str(row.get("coverage_source") or "").strip().lower()
+    if source == "reference_percentages":
+        return "reference"
+    return "binary"
+
+
+def _adapt_row_for_family(row: dict, family: str) -> dict | None:
+    if family not in {"binary", "reference"}:
+        return None
+
+    if _has_split_coverage_columns(row):
+        prefix = family
+        adapted = {
+            "timestamp": row.get("timestamp", ""),
+            "run_id": row.get("run_id", ""),
+            "total_inputs": row.get("total_inputs", 0),
+            "map_density": row.get("map_density", "") if family == "binary" else "",
+            "statement_coverage": row.get(f"{prefix}_statement_coverage", ""),
+            "branch_coverage": row.get(f"{prefix}_branch_coverage", ""),
+            "function_coverage": row.get(f"{prefix}_function_coverage", ""),
+            "coverage_source": row.get(f"{prefix}_coverage_source", ""),
+            "coverage_data_valid": row.get(f"{prefix}_coverage_data_valid", ""),
+            "instrumentation_error": row.get(f"{prefix}_instrumentation_error", ""),
+        }
+
+        if family == "reference":
+            has_reference_signal = (
+                _to_float(adapted, "statement_coverage") is not None
+                or _to_float(adapted, "branch_coverage") is not None
+                or _to_float(adapted, "function_coverage") is not None
+                or bool(str(adapted.get("coverage_source") or "").strip())
+            )
+            if not has_reference_signal:
+                return None
+
+        return adapted
+
+    if _legacy_coverage_family(row) != family:
+        return None
+
+    return {
+        "timestamp": row.get("timestamp", ""),
+        "run_id": row.get("run_id", ""),
+        "total_inputs": row.get("total_inputs", 0),
+        "map_density": row.get("map_density", "") if family == "binary" else "",
+        "statement_coverage": row.get("statement_coverage", ""),
+        "branch_coverage": row.get("branch_coverage", ""),
+        "function_coverage": row.get("function_coverage", ""),
+        "coverage_source": row.get("coverage_source", ""),
+        "coverage_data_valid": row.get("coverage_data_valid", ""),
+        "instrumentation_error": row.get("instrumentation_error", ""),
+    }
+
+
+def _build_family_coverage_rows(rows: list[dict], family: str) -> list[dict]:
+    adapted_rows: list[dict] = []
+    for row in rows:
+        adapted = _adapt_row_for_family(row, family)
+        if adapted is not None:
+            adapted_rows.append(adapted)
+    return adapted_rows
+
+
 def _render_coverage_quality_panel(all_coverage: dict[str, list[dict]], targets: list[str]) -> str:
-    fallback_sources = {"reference_percentages", "proxy_none", "buggy_output"}
     mode_tracking_tip = (
-        "How coverage_source is tracked: "
-        "whitebox_target/instrumented = direct target code percentages; "
-        "instrumentation_edges = blackbox edge-frequency instrumentation (drives map density, not code %); "
-        "reference_percentages = reference-implementation fallback observed for diagnostics only, not binary code coverage; "
-        "buggy_output = percentages parsed directly from target output; "
-        "behavioral_signature = behavioral class fingerprinting for blackbox novelty; "
-        "proxy/proxy_none = no valid percentage signal this iteration."
+        "Coverage diagnostics are split into independent binary and reference lanes. "
+        "Binary lane reflects target instrumentation/edge signals and drives map density. "
+        "Reference lane captures reference-script percentages for comparison only. "
+        "Legacy mixed rows are adapted by source: reference_percentages -> reference lane, everything else -> binary lane."
     )
     rows_html = ""
 
@@ -330,32 +404,68 @@ def _render_coverage_quality_panel(all_coverage: dict[str, list[dict]], targets:
         if not rows:
             continue
 
-        source_counts: Counter = Counter()
+        binary_rows = 0
+        reference_rows = 0
+        invalid_binary = 0
+        invalid_reference = 0
+        binary_sources: Counter = Counter()
+        reference_sources: Counter = Counter()
         error_counts: Counter = Counter()
-        fallback_count = 0
-        invalid_count = 0
 
         for row in rows:
-            source = str(row.get("coverage_source") or "unknown").strip() or "unknown"
-            source_counts[source] += 1
-            if source.lower() in fallback_sources:
-                fallback_count += 1
+            if _has_split_coverage_columns(row):
+                b_source = str(row.get("binary_coverage_source") or "").strip()
+                r_source = str(row.get("reference_coverage_source") or "").strip()
 
+                if b_source:
+                    binary_rows += 1
+                    binary_sources[b_source] += 1
+                    b_valid = _to_bool(row, "binary_coverage_data_valid")
+                    if b_valid is False:
+                        invalid_binary += 1
+
+                if r_source:
+                    reference_rows += 1
+                    reference_sources[r_source] += 1
+                    r_valid = _to_bool(row, "reference_coverage_data_valid")
+                    if r_valid is False:
+                        invalid_reference += 1
+
+                b_err = str(row.get("binary_instrumentation_error") or "").strip()
+                r_err = str(row.get("reference_instrumentation_error") or "").strip()
+                if b_err:
+                    error_counts[b_err] += 1
+                if r_err:
+                    error_counts[r_err] += 1
+                continue
+
+            source = str(row.get("coverage_source") or "unknown").strip() or "unknown"
+            family = _legacy_coverage_family(row)
             valid = _to_bool(row, "coverage_data_valid")
             if valid is None:
                 valid = source.lower() not in {"proxy_none", "proxy"}
-            if not valid:
-                invalid_count += 1
+
+            if family == "reference":
+                reference_rows += 1
+                reference_sources[source] += 1
+                if not valid:
+                    invalid_reference += 1
+            else:
+                binary_rows += 1
+                binary_sources[source] += 1
+                if not valid:
+                    invalid_binary += 1
 
             err = str(row.get("instrumentation_error") or "").strip()
             if err:
                 error_counts[err] += 1
 
         total = len(rows)
-        fallback_pct = round(fallback_count / total * 100) if total else 0
-        invalid_pct = round(invalid_count / total * 100) if total else 0
-        top_sources = ", ".join(
-            f"{_esc(src)}:{cnt}" for src, cnt in source_counts.most_common(3)
+        top_binary_sources = ", ".join(
+            f"{_esc(src)}:{cnt}" for src, cnt in binary_sources.most_common(3)
+        )
+        top_reference_sources = ", ".join(
+            f"{_esc(src)}:{cnt}" for src, cnt in reference_sources.most_common(3)
         )
         top_error = _esc(error_counts.most_common(1)[0][0]) if error_counts else "—"
 
@@ -363,9 +473,12 @@ def _render_coverage_quality_panel(all_coverage: dict[str, list[dict]], targets:
             f"<tr>"
             f"<td>{_target_label(t)}</td>"
             f"<td class='mono num'>{total}</td>"
-            f"<td class='mono num'>{fallback_count} ({fallback_pct}%)</td>"
-            f"<td class='mono num'>{invalid_count} ({invalid_pct}%)</td>"
-            f"<td class='mono'>{top_sources or '—'}</td>"
+            f"<td class='mono num'>{binary_rows}</td>"
+            f"<td class='mono num'>{reference_rows}</td>"
+            f"<td class='mono num'>{invalid_binary}</td>"
+            f"<td class='mono num'>{invalid_reference}</td>"
+            f"<td class='mono'>{top_binary_sources or '—'}</td>"
+            f"<td class='mono'>{top_reference_sources or '—'}</td>"
             f"<td class='mono'>{top_error}</td>"
             f"</tr>"
         )
@@ -376,12 +489,12 @@ def _render_coverage_quality_panel(all_coverage: dict[str, list[dict]], targets:
     return f"""
 <div class="chart-box" style="grid-column:1/-1;">
   <div class="chart-label">
-    coverage quality and fallback diagnostics
+    coverage quality diagnostics
     <span class="chart-tooltip" data-tip="{_esc(mode_tracking_tip)}">ⓘ</span>
   </div>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>target</th><th>points</th><th>fallback rows</th><th>invalid rows</th><th>top coverage sources</th><th>top instrumentation error</th></tr></thead>
+      <thead><tr><th>target</th><th>points</th><th>binary rows</th><th>reference rows</th><th>invalid binary</th><th>invalid reference</th><th>top binary sources</th><th>top reference sources</th><th>top instrumentation error</th></tr></thead>
       <tbody>{rows_html}</tbody>
     </table>
   </div>
@@ -574,159 +687,97 @@ def render_ablation_section(all_data: dict[str, list[dict]], targets: list[str])
 </script>"""
 
 
-def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[str]) -> str:
-    """
-    Coverage over time: line charts per metric showing how coverage grows
-    as the fuzzer tests more inputs (in-vivo, from coverage_tracker.py).
-
-    - map_density is ALWAYS shown (works for both whitebox and blackbox).
-    - statement/branch/function are only shown when non-zero data exists
-      (whitebox targets only).
-    """
+def _render_coverage_family_charts(
+    family_coverage: dict[str, list[dict]],
+    targets: list[str],
+    *,
+    family: str,
+    include_map_density: bool,
+) -> tuple[str, bool]:
     import json as _json
 
-    has_any = any(all_coverage[t] for t in targets)
-    if not has_any:
-        return f"""
-<div class="section-title">coverage over time</div>
-<div class="no-coverage-msg">
-  <span class="nc-icon">◇</span>
-  <div>
-    <div class="nc-title">no coverage data yet</div>
-    <div class="nc-sub">
-      <code>coverage_tracker.py</code> needs to write
-      <code>results/&lt;target&gt;_coverage.csv</code> during the fuzzing run (in-vivo).<br/>
-      Expected columns: <code>timestamp, statement_coverage, branch_coverage, function_coverage, map_density, total_inputs</code>
-    </div>
-  </div>
-</div>"""
+    family_name = "binary" if family == "binary" else "reference"
 
-    # Tooltip text for each metric
     tooltips = {
         "map_density": (
-            "Map density measures the fraction of the 64KB AFL-style bitmap that has been populated. "
-            "For whitebox targets, each slot represents a code edge (basicblock→basicblock) hit during execution. "
-            "For blackbox targets, each slot represents a distinct behavioral response class "
-            "(unique combination of exit code, output type, and error type). "
-            "Higher density means more distinct program behaviors have been observed."
+            "Map density measures the fraction of the AFL-style 64KB bitmap populated by observed behaviors. "
+            "This is a binary-lane metric driven by target execution signals."
         ),
         "statement_coverage": (
-            "Statement coverage tracks the percentage of source code lines executed at least once. "
-            "Only available for whitebox targets with source-code instrumentation enabled. "
-            "Not applicable to blackbox (compiled binary) targets."
+            f"{family_name.title()} statement coverage percentage over time."
         ),
         "branch_coverage": (
-            "Branch coverage tracks the percentage of conditional branches (if/else, switch) "
-            "where both the true and false paths have been taken. "
-            "Only available for whitebox targets with source-code instrumentation enabled."
+            f"{family_name.title()} branch coverage percentage over time."
         ),
         "function_coverage": (
-            "Function coverage tracks the percentage of functions/methods that have been called "
-            "at least once during fuzzing. "
-            "Only available for whitebox targets with source-code instrumentation enabled."
+            f"{family_name.title()} function coverage percentage over time."
         ),
     }
 
-    direct_percentage_sources = {
-        "whitebox_target",
-        "instrumented",
-        "buggy_output",
-        "instrumented_percentages",
-    }
-
-    def _source_name(row: dict) -> str:
-        return str(row.get("coverage_source") or "").strip().lower()
-
-    direct_codecov_targets = {
-        t
-        for t in targets
-        if any(_source_name(row) in direct_percentage_sources for row in all_coverage.get(t, []))
-    }
-    fallback_only_targets = [
-        t
-        for t in targets
-        if all_coverage.get(t, []) and t not in direct_codecov_targets
-    ]
-    fallback_only_labels = ", ".join(_target_label(t) for t in fallback_only_targets)
+    metrics: list[tuple[str, str]] = []
+    if include_map_density:
+        metrics.append(("map_density", "map density (%)"))
+    metrics.extend(
+        [
+            ("statement_coverage", f"{family_name} statement coverage (%)"),
+            ("branch_coverage", f"{family_name} branch coverage (%)"),
+            ("function_coverage", f"{family_name} function coverage (%)"),
+        ]
+    )
 
     function_proxy_targets = [
-        t for t in targets if _looks_like_combined_proxy(all_coverage.get(t, []))
+        t for t in targets if _looks_like_combined_proxy(family_coverage.get(t, []))
     ]
     has_function_proxy = bool(function_proxy_targets)
     proxy_target_labels = ", ".join(_target_label(t) for t in function_proxy_targets)
 
-    reference_fallback_targets = [
-        t
-        for t in targets
-        if any(
-            str(row.get("coverage_source") or "").strip().lower()
-            == "reference_percentages"
-            for row in all_coverage.get(t, [])
-        )
-    ]
-    has_reference_fallback = bool(reference_fallback_targets)
-    reference_fallback_labels = ", ".join(
-        _target_label(t) for t in reference_fallback_targets
-    )
-
     palette = ["#00ff88", "#45aaf2", "#ffd32a", "#ff4757"]
-    quality_panel_html = _render_coverage_quality_panel(all_coverage, targets)
-
-    # Define all metrics — map_density first (always shown), then code coverage
-    all_metrics = [
-        ("map_density",          "map density (%)"),
-        ("statement_coverage",   "statement coverage (%)"),
-        ("branch_coverage",      "branch coverage (%)"),
-        ("function_coverage",    "function coverage (%)"),
-    ]
-
     charts_html = ""
     rendered_code_chart = False
-    for metric, metric_label in all_metrics:
-        chart_id = f"cov_{metric}"
+
+    for metric, metric_label in metrics:
+        chart_id = f"cov_{family_name}_{metric}"
         datasets = []
-        has_nonzero = False
 
         for i, t in enumerate(targets):
-            if metric != "map_density" and t not in direct_codecov_targets:
-                continue
-            rows = all_coverage[t]
+            rows = family_coverage.get(t, [])
             if not rows:
                 continue
+
+            if metric != "map_density" and not any(
+                _to_float(r, metric) is not None for r in rows
+            ):
+                continue
+
             col = palette[i % len(palette)]
             data_pts = []
             for r in rows:
-                try:
-                    y_val = round(float(r.get(metric, 0)), 4)
-                    data_pts.append({"x": float(r.get("total_inputs", 0)),
-                                     "y": y_val})
-                    if y_val > 0:
-                        has_nonzero = True
-                except (ValueError, TypeError):
+                x_val = _to_float(r, "total_inputs")
+                y_val = _to_float(r, metric)
+                if x_val is None or y_val is None:
                     continue
+                data_pts.append({"x": x_val, "y": round(y_val, 4)})
+
             if not data_pts:
                 continue
-            datasets.append({
-                "label": _target_label(t),
-                "data":  data_pts,
-                "borderColor": col,
-                "backgroundColor": col + "22",
-                "fill": True, "tension": 0.35,
-                "pointRadius": 2, "borderWidth": 1.5,
-            })
 
-        # Skip code-coverage charts (statement, branch, function) if all values are 0
-        # This hides them for blackbox targets where they don't exist.
-        # map_density is always shown.
-        if metric != "map_density" and not has_nonzero:
-            continue
+            datasets.append(
+                {
+                    "label": _target_label(t),
+                    "data": data_pts,
+                    "borderColor": col,
+                    "backgroundColor": col + "22",
+                    "fill": True,
+                    "tension": 0.35,
+                    "pointRadius": 2,
+                    "borderWidth": 1.5,
+                }
+            )
 
         if not datasets:
             continue
 
         datasets_js = _json.dumps(datasets)
-
-        # Dynamic y-axis range with padding to highlight differences
         all_y = [pt["y"] for ds in datasets for pt in ds["data"]]
         if all_y:
             y_min = max(0.0, round(min(all_y) - 5, 1))
@@ -734,33 +785,13 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
         else:
             y_min, y_max = 0, 100
 
-        # Tooltip hint for this metric
         effective_metric_label = metric_label
         tip_text_value = tooltips.get(metric, "")
-
-        if metric != "map_density" and fallback_only_targets:
-            tip_text_value = (
-                "Fallback-only blackbox targets are hidden from this code-coverage chart and are "
-                "represented via map density instead. "
-                f"Hidden here: {fallback_only_labels}. "
-                + tip_text_value
-            )
-
         if metric == "function_coverage" and has_function_proxy:
-            effective_metric_label = "function / combined proxy coverage (%)"
+            effective_metric_label = f"{family_name} function / combined proxy coverage (%)"
             tip_text_value = (
-                "Explicit function coverage is unavailable for at least one target in this chart, "
-                "so the series is derived from combined coverage as a proxy. "
+                "Function coverage appears to be derived from combined coverage for at least one target. "
                 f"Proxy detected for: {proxy_target_labels}. "
-                + tip_text_value
-            )
-        if metric in {"statement_coverage", "branch_coverage", "function_coverage"} and has_reference_fallback:
-            effective_metric_label = f"{effective_metric_label} (fallback rows carried forward)"
-            tip_text_value = (
-                "At least one series encountered reference-script fallback rows. "
-                "Those points carry forward the last valid target measurement instead of "
-                "injecting reference-script percentages into the binary coverage chart. "
-                f"Fallback detected for: {reference_fallback_labels}. "
                 + tip_text_value
             )
 
@@ -809,26 +840,129 @@ def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[s
 }})();
 </script>"""
 
-    code_mode_note = ""
-    if not rendered_code_chart:
-        code_mode_note = (
-            "<div class=\"no-coverage-msg\" style=\"grid-column:1/-1;\">"
-            "<span class=\"nc-icon\">◇</span>"
-            "<div>"
-            "<div class=\"nc-title\">code-coverage charts hidden (no direct instrumentation percentages)</div>"
-            "<div class=\"nc-sub\">"
-            "This report is in blackbox mode for the selected targets. "
-            "Use <code>map density</code> for growth trends. "
-            "If source-level coverage is required, run a whitebox target with <code>coverage_enabled: true</code>"
-            " and <code>coverage_flag</code>."
-            "</div>"
-            "</div>"
-            "</div>"
+    return charts_html, rendered_code_chart
+
+
+def render_coverage_section(all_coverage: dict[str, list[dict]], targets: list[str]) -> str:
+        has_any = any(all_coverage[t] for t in targets)
+        if not has_any:
+                return f"""
+<div class="section-title">coverage over time</div>
+<div class="no-coverage-msg">
+    <span class="nc-icon">◇</span>
+    <div>
+        <div class="nc-title">no coverage data yet</div>
+        <div class="nc-sub">
+            <code>coverage_tracker.py</code> needs to write
+            <code>results/&lt;target&gt;_coverage.csv</code> during the fuzzing run (in-vivo).<br/>
+            Expected columns (split schema): <code>timestamp, binary_statement_coverage, binary_branch_coverage, binary_function_coverage, reference_statement_coverage, reference_branch_coverage, reference_function_coverage, map_density, total_inputs</code>.<br/>
+            Legacy mixed columns are still supported for historical rows.
+        </div>
+    </div>
+</div>"""
+
+        binary_coverage = {
+                t: _build_family_coverage_rows(all_coverage.get(t, []), "binary")
+                for t in targets
+        }
+        reference_coverage = {
+                t: _build_family_coverage_rows(all_coverage.get(t, []), "reference")
+                for t in targets
+        }
+
+        quality_panel_html = _render_coverage_quality_panel(all_coverage, targets)
+
+        binary_charts_html, _ = _render_coverage_family_charts(
+                binary_coverage,
+                targets,
+                family="binary",
+                include_map_density=True,
+        )
+        reference_charts_html, reference_has_code_chart = _render_coverage_family_charts(
+                reference_coverage,
+                targets,
+                family="reference",
+                include_map_density=False,
         )
 
-    return f"""
+        if not binary_charts_html:
+                binary_charts_html = (
+                        "<div class=\"no-coverage-msg\" style=\"grid-column:1/-1;\">"
+                        "<span class=\"nc-icon\">◇</span>"
+                        "<div>"
+                        "<div class=\"nc-title\">binary coverage charts unavailable</div>"
+                        "<div class=\"nc-sub\">No binary-lane data points were found for this run.</div>"
+                        "</div>"
+                        "</div>"
+                )
+
+        if not reference_charts_html:
+                if any(reference_coverage.get(t) for t in targets) and not reference_has_code_chart:
+                        reference_charts_html = (
+                                "<div class=\"no-coverage-msg\" style=\"grid-column:1/-1;\">"
+                                "<span class=\"nc-icon\">◇</span>"
+                                "<div>"
+                                "<div class=\"nc-title\">reference lane present, but no percentage metrics available</div>"
+                                "<div class=\"nc-sub\">Reference rows exist, but statement/branch/function percentages were unavailable.</div>"
+                                "</div>"
+                                "</div>"
+                        )
+                else:
+                        reference_charts_html = (
+                                "<div class=\"no-coverage-msg\" style=\"grid-column:1/-1;\">"
+                                "<span class=\"nc-icon\">◇</span>"
+                                "<div>"
+                                "<div class=\"nc-title\">no reference coverage rows in this run</div>"
+                                "<div class=\"nc-sub\">Run with reference fallback enabled to populate this tab.</div>"
+                                "</div>"
+                                "</div>"
+                        )
+
+        default_tab = "binary" if any(binary_coverage.get(t) for t in targets) else "reference"
+
+        return f"""
 <div class="section-title">coverage over time</div>
-<div class="coverage-grid">{quality_panel_html}{code_mode_note}{charts_html}</div>"""
+<div class="coverage-grid">{quality_panel_html}</div>
+<div class="coverage-tabs" data-default-tab="{default_tab}">
+    <div class="coverage-tab-buttons">
+        <button type="button" class="coverage-tab-btn" data-tab="binary">binary coverage</button>
+        <button type="button" class="coverage-tab-btn" data-tab="reference">reference coverage</button>
+    </div>
+    <div class="coverage-tab-panel" data-panel="binary">
+        <div class="coverage-grid">{binary_charts_html}</div>
+    </div>
+    <div class="coverage-tab-panel" data-panel="reference">
+        <div class="coverage-grid">{reference_charts_html}</div>
+    </div>
+</div>
+<script>
+(function(){{
+    var roots = document.querySelectorAll('.coverage-tabs');
+    roots.forEach(function(root) {{
+        var buttons = root.querySelectorAll('.coverage-tab-btn');
+        var panels = root.querySelectorAll('.coverage-tab-panel');
+
+        function activate(name) {{
+            buttons.forEach(function(btn) {{
+                var on = btn.getAttribute('data-tab') === name;
+                btn.classList.toggle('is-active', on);
+            }});
+            panels.forEach(function(panel) {{
+                var on = panel.getAttribute('data-panel') === name;
+                panel.classList.toggle('is-active', on);
+            }});
+        }}
+
+        buttons.forEach(function(btn) {{
+            btn.addEventListener('click', function() {{
+                activate(btn.getAttribute('data-tab') || 'binary');
+            }});
+        }});
+
+        activate(root.getAttribute('data-default-tab') || 'binary');
+    }});
+}})();
+</script>"""
 
 
 def render_bug_table(rows: list[dict], target: str) -> str:
@@ -1019,6 +1153,13 @@ h1{font-family:var(--sans);font-weight:800;font-size:2.2rem;color:#fff;line-heig
 .no-data-msg::before{content:'//';color:var(--border)}
 .ablation-wrap{background:var(--surface);border:1px solid var(--border);padding:1.5rem}
 .coverage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:1.5rem}
+.coverage-tabs{margin-top:1.25rem}
+.coverage-tab-buttons{display:flex;gap:.5rem;border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.coverage-tab-btn{background:#0d1017;color:var(--text-dim);border:1px solid var(--border);padding:.45rem .9rem;font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.coverage-tab-btn:hover{color:var(--text)}
+.coverage-tab-btn.is-active{color:#0a0c0f;background:var(--accent);border-color:var(--accent)}
+.coverage-tab-panel{display:none}
+.coverage-tab-panel.is-active{display:block}
 .chart-box{background:var(--surface);border:1px solid var(--border);padding:1.2rem 1.5rem}
 .chart-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
 .chart-tooltip{position:relative;cursor:help;color:var(--text-dim);font-size:.75rem;line-height:1;flex-shrink:0;text-transform:none;letter-spacing:0}

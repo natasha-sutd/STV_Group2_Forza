@@ -10,6 +10,9 @@ reference_cmd:
   windows: ["_"]
   mac: ["_"]
 reference_cwd: "_"
+# optional: scope used when running reference coverage fallback
+# accepts a string or list; paths are resolved relative to reference_cwd
+reference_coverage_source: ["."]
 
 # input
 input_mode: _
@@ -43,14 +46,14 @@ tracking_mode: code_execution / behavioral
 # optional for blackbox targets when coverage_enabled: false
 blackbox_instrumentation:
   enabled: true
-  kind: frida_stalker / tinyinst / afl_showmap
+  kind: frida_stalker / afl_showmap
   kind_windows: frida_stalker
   kind_linux: afl_showmap
   kind_mac: afl_showmap
 
   # ordered retries when primary kind does not return instrumentation edges
-  fallback_kinds: [tinyinst, afl_showmap]
-  fallback_kinds_windows: [tinyinst, afl_showmap]
+  fallback_kinds: [afl_showmap]
+  fallback_kinds_windows: [afl_showmap]
 
   # afl-showmap backend
   cmd:
@@ -75,16 +78,7 @@ blackbox_instrumentation:
     arg_null_policy: escape
     arg_null_replacement: "\\x00"
 
-  # tinyinst backend
-  tinyinst_cmd:
-    windows: ["python", "tinyinst_runner.py", "--target", "./bin/target.exe", "--input", "{input}"]
-  tinyinst:
-    edge_prefix: "tinyinst"
-    input_mode: arg / stdin / file
-    timeout: 15
-    use_wsl: false
-
-  # shared options (can be overridden in tinyinst block)
+  # shared options
   cwd: "_"
   input_mode: arg / stdin / file
   timeout: 10

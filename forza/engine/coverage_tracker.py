@@ -40,15 +40,52 @@ _RESULTS_DIR = _PROJECT_DIR / "results"
 _COVERAGE_LOG_FIELDS = [
     "timestamp",
     "run_id",
+    "binary_statement_coverage",
+    "binary_branch_coverage",
+    "binary_function_coverage",
+    "reference_statement_coverage",
+    "reference_branch_coverage",
+    "reference_function_coverage",
+    "map_density",
+    "total_inputs",
+    "binary_coverage_source",
+    "reference_coverage_source",
+    "binary_coverage_data_valid",
+    "reference_coverage_data_valid",
+    "binary_instrumentation_error",
+    "reference_instrumentation_error",
+    # Deprecated mixed fields: preserved for compatibility, left blank for new writes.
     "statement_coverage",
     "branch_coverage",
     "function_coverage",
-    "map_density",
-    "total_inputs",
     "coverage_source",
     "coverage_data_valid",
     "instrumentation_error",
 ]
+
+_BINARY_COVERAGE_SOURCES = {
+    "whitebox_target",
+    "instrumentation_edges",
+    "buggy_output",
+    "instrumented",
+    "instrumented_percentages",
+}
+
+_REFERENCE_COVERAGE_SOURCES = {
+    "reference_percentages",
+}
+
+
+def _max_optional(prev: float | None, current: float) -> float:
+    if prev is None:
+        return current
+    return max(prev, current)
+
+
+def _csv_cov_value(value: float | None) -> str:
+    if value is None:
+        return ""
+    return f"{float(value):.4f}"
 
 
 def get_bucket(count: int) -> int:
@@ -208,8 +245,16 @@ class CoverageTracker:
         self._cached_map_density: str = "0.00%"
         self._cached_count_coverage_bits: str = "1.00 bits/tuple"
 
-        # Real coverage percentages from --show-coverage output (json_decoder)
-        # None = not yet seen, use proxy metric instead
+        # Split cumulative coverage state.
+        # None means we have not observed a concrete percentage for that lane yet.
+        self._last_binary_statement_cov: float | None = None
+        self._last_binary_branch_cov: float | None = None
+        self._last_binary_function_cov: float | None = None
+        self._last_reference_statement_cov: float | None = None
+        self._last_reference_branch_cov: float | None = None
+        self._last_reference_function_cov: float | None = None
+
+        # Deprecated aliases kept for compatibility with external callers/tests.
         self._last_line_cov: float | None = None
         self._last_branch_cov: float | None = None
         self._last_function_cov: float | None = None
@@ -304,6 +349,19 @@ class CoverageTracker:
             self.behavioral_metric = len(self.seen_bug_keys)
             self.execution_metric = len(self.covered_line_ids)
 
+            binary_statement_coverage = self._last_binary_statement_cov
+            binary_branch_coverage = self._last_binary_branch_cov
+            binary_function_coverage = self._last_binary_function_cov
+            reference_statement_coverage = self._last_reference_statement_cov
+            reference_branch_coverage = self._last_reference_branch_cov
+            reference_function_coverage = self._last_reference_function_cov
+            binary_coverage_source_for_log = ""
+            reference_coverage_source_for_log = ""
+            binary_coverage_data_valid = False
+            reference_coverage_data_valid = False
+            binary_instrumentation_error = ""
+            reference_instrumentation_error = ""
+
             if self.mode == "behavioral":
                 self.current_metric = self.behavioral_metric
 
@@ -331,17 +389,21 @@ class CoverageTracker:
                         new_sig_found = True
 
                 new_path_found = new_behavior_found or new_sig_found
-
-                # Behavioral mode has NO source code instrumentation, so
-                # statement/branch/function coverage cannot exist — log 0.0.
-                # The map_density (computed below) is the meaningful metric.
-                statement_coverage = 0.0
-                branch_coverage = 0.0
-                function_coverage = 0.0
             elif self.mode == "code_execution":
+                source_for_metrics = (
+                    payload_coverage_source
+                    if payload_coverage_source
+                    else ("instrumented" if coverage_percentages else "proxy")
+                )
+                is_reference_source = source_for_metrics in _REFERENCE_COVERAGE_SOURCES
+                is_binary_source = (
+                    source_for_metrics in _BINARY_COVERAGE_SOURCES
+                    or not is_reference_source
+                )
+
                 fallback_sig_novel = False
                 if (
-                    payload_coverage_source in {"proxy_none", "reference_percentages"}
+                    source_for_metrics in {"proxy_none", "reference_percentages"}
                     and payload.output_signature
                 ):
                     sig = payload.output_signature
@@ -349,110 +411,179 @@ class CoverageTracker:
                         self._seen_output_signatures.add(sig)
                         fallback_sig_novel = True
 
-                prev_statement_cov = (
-                    self._last_line_cov if self._last_line_cov is not None else 0.0
-                )
-                prev_branch_cov = (
-                    self._last_branch_cov
-                    if self._last_branch_cov is not None
-                    else prev_statement_cov
-                )
-                prev_function_cov = (
-                    self._last_function_cov
-                    if self._last_function_cov is not None
-                    else prev_statement_cov
-                )
+                if is_reference_source:
+                    reference_coverage_source_for_log = source_for_metrics
+                    reference_instrumentation_error = payload_instrumentation_error
 
-                if coverage_percentages:
-                    # Keep percentage-based coverage cumulative so charts represent
-                    # "coverage discovered so far" rather than per-input volatility.
-                    raw_statement_cov = coverage_percentages.get(
-                        "statement", round(float(self.current_metric), 2)
-                    )
-                    raw_branch_cov = coverage_percentages.get(
-                        "branch", raw_statement_cov
-                    )
-                    raw_function_cov = coverage_percentages.get(
-                        "function", coverage_percentages.get("combined", raw_statement_cov)
-                    )
+                    prev_reference_statement_cov = self._last_reference_statement_cov
+                    prev_reference_branch_cov = self._last_reference_branch_cov
+                    prev_reference_function_cov = self._last_reference_function_cov
 
-                    self._last_line_cov = max(prev_statement_cov, raw_statement_cov)
-                    self._last_branch_cov = max(prev_branch_cov, raw_branch_cov)
-                    self._last_function_cov = max(prev_function_cov, raw_function_cov)
+                    if coverage_percentages:
+                        raw_reference_statement = coverage_percentages.get("statement")
+                        if raw_reference_statement is None:
+                            raw_reference_statement = coverage_percentages.get("combined")
+                        if raw_reference_statement is not None:
+                            self._last_reference_statement_cov = _max_optional(
+                                prev_reference_statement_cov, raw_reference_statement
+                            )
 
-                    statement_coverage = self._last_line_cov
-                    branch_coverage = self._last_branch_cov
-                    function_coverage = self._last_function_cov
+                        raw_reference_branch = coverage_percentages.get("branch")
+                        if raw_reference_branch is None:
+                            raw_reference_branch = raw_reference_statement
+                        if raw_reference_branch is not None:
+                            self._last_reference_branch_cov = _max_optional(
+                                prev_reference_branch_cov, raw_reference_branch
+                            )
 
-                    coverage_improved = (
-                        statement_coverage > prev_statement_cov
-                        or branch_coverage > prev_branch_cov
-                        or function_coverage > prev_function_cov
-                    )
-                    new_path_found = coverage_improved
-                    self.current_metric = self.execution_metric
-                elif newly_seen_lines:
-                    self.current_metric = self.execution_metric
-                    new_path_found = new_execution_found
+                        raw_reference_function = coverage_percentages.get("function")
+                        if raw_reference_function is not None:
+                            self._last_reference_function_cov = _max_optional(
+                                prev_reference_function_cov, raw_reference_function
+                            )
 
-                    # No percentage metrics this iteration; retain the best known
-                    # percentages so missing data does not create visual drops.
-                    statement_coverage = prev_statement_cov
-                    branch_coverage = prev_branch_cov
-                    function_coverage = prev_function_cov
-                else:
-                    # No coverage data from this run (target crashed / produced no
-                    # --show-coverage output). Keep the execution-scale metric stable,
-                    # and use output-signature novelty as a separate fallback signal.
+                        reference_coverage_data_valid = True
+
+                    reference_statement_coverage = self._last_reference_statement_cov
+                    reference_branch_coverage = self._last_reference_branch_cov
+                    reference_function_coverage = self._last_reference_function_cov
+
                     self.current_metric = self.execution_metric
                     new_path_found = fallback_sig_novel
+                elif is_binary_source:
+                    binary_coverage_source_for_log = source_for_metrics
+                    binary_instrumentation_error = payload_instrumentation_error
 
-                    # No --show-coverage data this iteration (e.g. target crashed).
-                    # Carry the last valid measurement forward so the chart stays
-                    # flat during bad runs rather than spiking down to a raw count.
-                    statement_coverage = prev_statement_cov
-                    branch_coverage = prev_branch_cov
-                    function_coverage = prev_function_cov
+                    prev_binary_statement_cov = self._last_binary_statement_cov
+                    prev_binary_branch_cov = self._last_binary_branch_cov
+                    prev_binary_function_cov = self._last_binary_function_cov
 
-                # --- AFL bucket novelty detection ---
-                # Extract per-edge hit frequencies and check for new bucket entries.
-                # A new bucket for an EXISTING edge = new path (AFL virgin-bits).
-                line_frequencies = self.extract_line_frequencies(payload.execution_metrics)
+                    if coverage_percentages:
+                        # Keep percentage-based coverage cumulative so charts represent
+                        # "coverage discovered so far" rather than per-input volatility.
+                        raw_binary_statement = coverage_percentages.get("statement")
+                        if raw_binary_statement is None:
+                            raw_binary_statement = coverage_percentages.get("combined")
+                        raw_binary_branch = coverage_percentages.get(
+                            "branch", raw_binary_statement
+                        )
+                        raw_binary_function = coverage_percentages.get("function")
+                        if raw_binary_function is None:
+                            raw_binary_function = coverage_percentages.get(
+                                "combined", raw_binary_statement
+                            )
 
-                # Bitmap-hash fast path: if the entire frequency dict hashes the
-                # same as last iteration, skip the per-edge bucket check.
-                bitmap_hash = hashlib.md5(
-                    str(sorted(line_frequencies.items())).encode()
-                ).hexdigest()
+                        if raw_binary_statement is not None:
+                            self._last_binary_statement_cov = _max_optional(
+                                prev_binary_statement_cov, raw_binary_statement
+                            )
+                        if raw_binary_branch is not None:
+                            self._last_binary_branch_cov = _max_optional(
+                                prev_binary_branch_cov, raw_binary_branch
+                            )
+                        if raw_binary_function is not None:
+                            self._last_binary_function_cov = _max_optional(
+                                prev_binary_function_cov, raw_binary_function
+                            )
 
-                if bitmap_hash != self._last_bitmap_hash:
-                    self._last_bitmap_hash = bitmap_hash
+                        binary_coverage_data_valid = True
 
-                    for edge_id, count in line_frequencies.items():
-                        # Skip summary entries (line:N/M, branch:N/M)
-                        if edge_id.startswith(("line:", "branch:")):
-                            continue
-                        b = get_bucket(count)
+                        binary_statement_coverage = self._last_binary_statement_cov
+                        binary_branch_coverage = self._last_binary_branch_cov
+                        binary_function_coverage = self._last_binary_function_cov
 
-                        # --- Update the simulated 64KB bitmap ---
-                        idx = _hash_edge_to_bitmap_idx(edge_id)
-                        self._bitmap[idx] = max(self._bitmap[idx], b + 1)
-                        self._bitmap_virgin[idx] = 0xFF
+                        coverage_improved = (
+                            (
+                                binary_statement_coverage is not None
+                                and (
+                                    prev_binary_statement_cov is None
+                                    or binary_statement_coverage > prev_binary_statement_cov
+                                )
+                            )
+                            or (
+                                binary_branch_coverage is not None
+                                and (
+                                    prev_binary_branch_cov is None
+                                    or binary_branch_coverage > prev_binary_branch_cov
+                                )
+                            )
+                            or (
+                                binary_function_coverage is not None
+                                and (
+                                    prev_binary_function_cov is None
+                                    or binary_function_coverage > prev_binary_function_cov
+                                )
+                            )
+                        )
+                        new_path_found = coverage_improved
+                        self.current_metric = self.execution_metric
+                    elif newly_seen_lines:
+                        self.current_metric = self.execution_metric
+                        new_path_found = new_execution_found
+                        binary_coverage_data_valid = True
 
-                        # Check if this bucket is NEW for this edge
-                        if b not in self.global_edge_buckets[edge_id]:
-                            # Skip variable edges for novelty decisions
-                            if edge_id not in self._variable_edges:
-                                bucket_novel = True
-                        self.global_edge_buckets[edge_id].add(b)
+                        # No percentage metrics this iteration; retain the best known
+                        # percentages so missing data does not create visual drops.
+                        binary_statement_coverage = self._last_binary_statement_cov
+                        binary_branch_coverage = self._last_binary_branch_cov
+                        binary_function_coverage = self._last_binary_function_cov
+                    else:
+                        # No coverage data from this run (target crashed / produced no
+                        # --show-coverage output). Keep the execution-scale metric stable,
+                        # and use output-signature novelty as a separate fallback signal.
+                        self.current_metric = self.execution_metric
+                        new_path_found = fallback_sig_novel
 
-                        # Update stability tracking
-                        self._edge_stability[edge_id].add(b)
+                        # No --show-coverage data this iteration (e.g. target crashed).
+                        # Carry the last valid measurement forward so the chart stays
+                        # flat during bad runs rather than spiking down to a raw count.
+                        binary_statement_coverage = self._last_binary_statement_cov
+                        binary_branch_coverage = self._last_binary_branch_cov
+                        binary_function_coverage = self._last_binary_function_cov
 
-                if bucket_novel:
-                    new_path_found = True
+                    # --- AFL bucket novelty detection ---
+                    # Extract per-edge hit frequencies and check for new bucket entries.
+                    # A new bucket for an EXISTING edge = new path (AFL virgin-bits).
+                    line_frequencies = self.extract_line_frequencies(payload.execution_metrics)
 
-            self.current_statement_cov = statement_coverage
+                    # Bitmap-hash fast path: if the entire frequency dict hashes the
+                    # same as last iteration, skip the per-edge bucket check.
+                    bitmap_hash = hashlib.md5(
+                        str(sorted(line_frequencies.items())).encode()
+                    ).hexdigest()
+
+                    if bitmap_hash != self._last_bitmap_hash:
+                        self._last_bitmap_hash = bitmap_hash
+
+                        for edge_id, count in line_frequencies.items():
+                            # Skip summary entries (line:N/M, branch:N/M)
+                            if edge_id.startswith(("line:", "branch:")):
+                                continue
+                            b = get_bucket(count)
+
+                            # --- Update the simulated 64KB bitmap ---
+                            idx = _hash_edge_to_bitmap_idx(edge_id)
+                            self._bitmap[idx] = max(self._bitmap[idx], b + 1)
+                            self._bitmap_virgin[idx] = 0xFF
+
+                            # Check if this bucket is NEW for this edge
+                            if b not in self.global_edge_buckets[edge_id]:
+                                # Skip variable edges for novelty decisions
+                                if edge_id not in self._variable_edges:
+                                    bucket_novel = True
+                            self.global_edge_buckets[edge_id].add(b)
+
+                            # Update stability tracking
+                            self._edge_stability[edge_id].add(b)
+
+                    if bucket_novel:
+                        new_path_found = True
+
+            # Deprecated aliases represent binary lane only.
+            self._last_line_cov = self._last_binary_statement_cov
+            self._last_branch_cov = self._last_binary_branch_cov
+            self._last_function_cov = self._last_binary_function_cov
+            self.current_statement_cov = float(binary_statement_coverage or 0.0)
 
             # --- Own finds tracking ---
             if new_path_found:
@@ -476,24 +607,15 @@ class CoverageTracker:
 
             # --- Compute map density (universal metric for both modes) ---
             map_density_pct = sum(1 for b in self._bitmap if b > 0) / MAP_SIZE * 100
-            coverage_source_for_log = (
-                payload_coverage_source
-                if payload_coverage_source
-                else ("instrumented" if coverage_percentages else "proxy")
-            )
-            valid_coverage_sources = {
-                "whitebox_target",
-                "instrumentation_edges",
-                "buggy_output",
-                "instrumented",
-                "instrumented_percentages",
-            }
-            coverage_data_valid = (
-                self.mode == "behavioral"
-                or coverage_source_for_log in valid_coverage_sources
-                or bool(coverage_percentages)
-                or bool(newly_seen_lines)
-            )
+            if self.mode == "behavioral":
+                coverage_source_for_log = "behavioral_signature"
+            else:
+                coverage_source_for_log = (
+                    reference_coverage_source_for_log
+                    if reference_coverage_source_for_log
+                    else binary_coverage_source_for_log
+                )
+            coverage_data_valid = bool(binary_coverage_data_valid)
             total_inputs_for_log = self.total_inputs
             iteration_id_for_log = self.last_iteration_id
             current_metric_for_log = self.current_metric
@@ -507,13 +629,22 @@ class CoverageTracker:
             new_path_found=new_path_found,
             behavioral_metric=behavioral_metric_for_log,
             execution_metric=execution_metric_for_log,
-            statement_coverage=statement_coverage,
-            branch_coverage=branch_coverage,
-            function_coverage=function_coverage,
+            binary_statement_coverage=binary_statement_coverage,
+            binary_branch_coverage=binary_branch_coverage,
+            binary_function_coverage=binary_function_coverage,
+            reference_statement_coverage=reference_statement_coverage,
+            reference_branch_coverage=reference_branch_coverage,
+            reference_function_coverage=reference_function_coverage,
             map_density=map_density_pct,
+            binary_coverage_source=binary_coverage_source_for_log,
+            reference_coverage_source=reference_coverage_source_for_log,
+            binary_coverage_data_valid=binary_coverage_data_valid,
+            reference_coverage_data_valid=reference_coverage_data_valid,
             coverage_source=coverage_source_for_log,
             coverage_data_valid=coverage_data_valid,
-            instrumentation_error=payload_instrumentation_error,
+            binary_instrumentation_error=binary_instrumentation_error,
+            reference_instrumentation_error=reference_instrumentation_error,
+            instrumentation_error=binary_instrumentation_error,
         )
         return new_path_found
 
@@ -778,12 +909,21 @@ class CoverageTracker:
         new_path_found: bool,
         behavioral_metric: int,
         execution_metric: int,
-        statement_coverage: float,
-        branch_coverage: float,
-        function_coverage: float,
+        binary_statement_coverage: float | None,
+        binary_branch_coverage: float | None,
+        binary_function_coverage: float | None,
+        reference_statement_coverage: float | None,
+        reference_branch_coverage: float | None,
+        reference_function_coverage: float | None,
         map_density: float,
+        binary_coverage_source: str,
+        reference_coverage_source: str,
+        binary_coverage_data_valid: bool,
+        reference_coverage_data_valid: bool,
         coverage_source: str,
         coverage_data_valid: bool,
+        binary_instrumentation_error: str,
+        reference_instrumentation_error: str,
         instrumentation_error: str,
     ) -> None:
 
@@ -792,11 +932,24 @@ class CoverageTracker:
         row = {
             "timestamp": timestamp,
             "run_id": self.run_id,
-            "statement_coverage": statement_coverage,
-            "branch_coverage": branch_coverage,
-            "function_coverage": function_coverage,
+            "binary_statement_coverage": _csv_cov_value(binary_statement_coverage),
+            "binary_branch_coverage": _csv_cov_value(binary_branch_coverage),
+            "binary_function_coverage": _csv_cov_value(binary_function_coverage),
+            "reference_statement_coverage": _csv_cov_value(reference_statement_coverage),
+            "reference_branch_coverage": _csv_cov_value(reference_branch_coverage),
+            "reference_function_coverage": _csv_cov_value(reference_function_coverage),
             "map_density": round(map_density, 4),
             "total_inputs": total_inputs,
+            "binary_coverage_source": binary_coverage_source,
+            "reference_coverage_source": reference_coverage_source,
+            "binary_coverage_data_valid": int(bool(binary_coverage_data_valid)),
+            "reference_coverage_data_valid": int(bool(reference_coverage_data_valid)),
+            "binary_instrumentation_error": binary_instrumentation_error,
+            "reference_instrumentation_error": reference_instrumentation_error,
+            # Deprecated mixed fields intentionally left blank for new rows.
+            "statement_coverage": "",
+            "branch_coverage": "",
+            "function_coverage": "",
             "coverage_source": coverage_source,
             "coverage_data_valid": int(bool(coverage_data_valid)),
             "instrumentation_error": instrumentation_error,
@@ -827,13 +980,26 @@ class CoverageTracker:
                 iteration=iteration_id,
                 total_inputs=total_inputs,
                 tracking_mode=self.mode,
-                statement_coverage=statement_coverage,
-                branch_coverage=branch_coverage,
-                function_coverage=function_coverage,
+                statement_coverage=0.0,
+                branch_coverage=0.0,
+                function_coverage=0.0,
                 new_path_found=new_path_found,
                 behavioral_metric=float(behavioral_metric),
                 execution_metric=float(execution_metric),
                 coverage_source=coverage_source,
+                coverage_data_valid=coverage_data_valid,
+                binary_statement_coverage=binary_statement_coverage,
+                binary_branch_coverage=binary_branch_coverage,
+                binary_function_coverage=binary_function_coverage,
+                reference_statement_coverage=reference_statement_coverage,
+                reference_branch_coverage=reference_branch_coverage,
+                reference_function_coverage=reference_function_coverage,
+                binary_coverage_source=binary_coverage_source,
+                reference_coverage_source=reference_coverage_source,
+                binary_coverage_data_valid=binary_coverage_data_valid,
+                reference_coverage_data_valid=reference_coverage_data_valid,
+                binary_instrumentation_error=binary_instrumentation_error,
+                reference_instrumentation_error=reference_instrumentation_error,
             )
 
     # --- Metric extraction from target output ---
@@ -1114,7 +1280,11 @@ def update(
 
     if coverage_source == "reference_percentages":
         covered_lines = {}
-        coverage_percentages = {}
+        coverage_percentages = _extract_coverage_percentages(
+            cov_stdout,
+            cov_stderr,
+            allow_combined_function_proxy=False,
+        )
     else:
         covered_lines = _extract_coverage_lines(cov_stdout, cov_stderr)
         coverage_percentages = _extract_coverage_percentages(cov_stdout, cov_stderr)
@@ -1285,7 +1455,12 @@ def _extract_coverage_lines(stdout: str, stderr: str) -> set[str]:
     return frequencies
 
 
-def _extract_coverage_percentages(stdout: str, stderr: str) -> dict[str, float]:
+def _extract_coverage_percentages(
+    stdout: str,
+    stderr: str,
+    *,
+    allow_combined_function_proxy: bool = True,
+) -> dict[str, float]:
     """
     Parse percentage values from target output lines like:
     - line coverage     : 37.50%
@@ -1310,7 +1485,7 @@ def _extract_coverage_percentages(stdout: str, stderr: str) -> dict[str, float]:
         except (TypeError, ValueError):
             continue
 
-    if "combined" in out and "function" not in out:
+    if allow_combined_function_proxy and "combined" in out and "function" not in out:
         out["function"] = out["combined"]
 
     return out

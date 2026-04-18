@@ -605,6 +605,19 @@ def violate_tree(node: CFGNode) -> CFGNode:
 
     return node
 
+
+def violate_constraints(seed: str, spec: dict) -> str:
+    """
+    Always apply a grammar-violating mutation when a spec is provided.
+    """
+    if not spec:
+        return seed
+    try:
+        tree = parse_string_to_tree(seed, spec)
+        return tree_to_string(violate_tree(tree))
+    except Exception:
+        return generate_from_spec(spec)
+
 def mutate_from_spec(seed: str, spec: dict) -> str:
     """
     CFG-based mutation using tree operations.
