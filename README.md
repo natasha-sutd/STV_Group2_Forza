@@ -41,7 +41,7 @@ forza/
 ├── results/
 │   ├── *_bugs.csv             # Deduplicated bug log per target
 │   ├── *_coverage.csv         # Coverage snapshots per target
-│   └── *_report.html          # Generated HTML report per target
+└── └── *_report.html          # Generated HTML report per target
 
 ```
 
@@ -72,7 +72,8 @@ Our fuzzer's overall design is as follows:
 | Libraries             | Description                                                                           |
 | --------------------- | ------------------------------------------------------------------------------------- |
 | `Radamsa`             | Specializes in generating extreme cases without needing to know code structure        |
-| `PyPYAML`             | Defines how each target is executed in separate YAML files. Promotes extensibility by allowing new targets to be added without modifying the core fuzzer logic  |
+| `PyYAML`             | Defines how each target is executed in separate YAML files. Promotes extensibility by allowing new targets to be added without modifying the core fuzzer logic  |
+| `Frida`               | Dynamic instrumentation toolkit that acts as an “external” entity injected into a running process to hook functions, trace code, and modify behavior at runtime  |
 
 ---
 
@@ -97,7 +98,7 @@ Every component in `engine/` was written from scratch:
 
 ### 1. Seed Generator (`seed_generator.py`)
 
-Generates initial corpus entries from a grammar specification defined in the YAML `input:` block. Supports: `int`, `hex`, `string`, `boolean`, `null`, `any`, `literal`, `array`, `object`, `sequence`, `one_of`, `weighted_one_of`.
+Generates initial corpus entries from a grammar specification defined in the YAML `input:` block. Supports: `int`, `hex`, `string`, `boolean`, `null`, `any`, `literal`, `array`, `object`, `sequence`, `one_of`.
 
 Also exposes `mutate_from_spec()` and `violate_constraints()` used by the mutation engine for grammar-aware fuzzing.
 
@@ -132,8 +133,6 @@ Executes any target as a subprocess using a YAML config. All target-specific log
 - Runs both the **buggy** binary and an optional **reference** binary (for differential testing)
 
 ### 4. Bug Oracle (`bug_oracle.py`)
-
-Ten-stage classification pipeline applied to every execution result:
 
 1. **TIMEOUT** — process was killed by the runner
 2. **Structured bug count** — parses `json_decoder`'s "Final bug count" line for exact category/type/message
@@ -266,7 +265,7 @@ Early versions counted every unique input that triggered a bug as a separate bug
 ### Prerequisites
 
 ```bash
-pip install firebase-admin pyyaml coverage pandas
+pip install firebase-admin pyyaml coverage pandas pyparsing radamsa
 ```
 
 Place `firebase-credentials.json` and `firebase-credentials-current.json` in the parent directory of `forza/`.
