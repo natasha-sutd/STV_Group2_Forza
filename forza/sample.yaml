@@ -1,0 +1,44 @@
+name: _
+
+# commands
+buggy_cmd:
+  windows: ["_"]
+  mac: ["_"]
+buggy_cwd: "_"
+
+reference_cmd:
+  windows: ["_"]
+  mac: ["_"]
+reference_cwd: "_"
+
+# input
+input_mode: _
+input:
+  # available options:
+  # - type: int, min: _, max: _
+  # - type: float, min: _, max: _
+  # - type: hex, min: _, max: _
+  # - type: string, min_length: _, max_length: _
+  # - type: literal, value: "_"
+  # - type: boolean
+  # - type: null
+  # - type: array, min_length: _, max_length: _, element: { type : _ }
+  # - type: object (dictionary), max_fields: _, key: { type: string, min_length: _, max_length: _ }, value: { type: _ }
+  # - type: sequence, separator: "_", min_length: _, max_length: _, element: { type: _ }
+  # - type: concat, parts: [ { type: _ }, { type: _ }, ... ]
+  # - type: one_of, options: [ { type: _ }, { type: _ }, ... ] (for union types)
+  # - any: options: [ { type: _ }, { type: _ }, ... ] (for recursive types)
+
+seeds_path: "_"
+
+# target specific keywords
+bug_keywords:
+  - "_"
+
+# differential output comparison
+output_pattern: "_"
+
+# coverage
+coverage_enabled: true / false # white box / black box
+coverage_flag: "_"
+tracking_mode: code_execution / behavioral

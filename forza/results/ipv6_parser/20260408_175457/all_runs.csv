@@ -1,0 +1,2 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,2.536,'982e:8fd0:d67e:10be:b714:4bc1:f261:bcc9.extra',BONUS,1,1

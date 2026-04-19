@@ -1,22 +1,81 @@
+# target
 name: ipv6_parser
+target_module: 
+    windows: "win-ipv6-parser.exe"
+    linux: "linux-ipv6-parser"
+    mac: "mac-ipv6-parser"
 
-buggy_cmd: ["./bin/mac-ipv6-parser", "--ipstr", "{input}"]
+# commands
+buggy_cmd: 
+  windows: ["../IPv4-IPv6-parser-main/bin/win-ipv6-parser.exe", "--ipstr", "{input}"]
+  linux: ["./bin/linux-ipv6-parser", "--ipstr", "{input}"]
+  mac: ["./bin/mac-ipv6-parser", "--ipstr", "{input}"]
 buggy_cwd: "../../IPv4-IPv6-parser-main"
+
+reference_cmd:
+  windows: ["python", "ipyparse/src/ipv6_parser.py", "{input}"]
+  linux: ["python3", "ipyparse/src/ipv6_parser.py", "{input}"]
+  mac: ["python3", "ipyparse/src/ipv6_parser.py", "{input}"]
+reference_cwd: "../../IPv4-IPv6-parser-main"
 
 # input
 input_mode: arg
-input_format: ipv6
+input:
+  type: one_of
+  options:
+    - type: sequence
+      separator: ":"
+      min_count: 8
+      max_count: 8
+      element: { type: hex, min: 0, max: 0xFFFF }
+
+    # Compressed with :: (left side only)
+    - type: concat
+      parts:
+        - type: sequence
+          separator: ":"
+          min_count: 1
+          max_count: 6
+          element: { type: hex, min: 0, max: 0xFFFF }
+        - { type: literal, value: "::" }
+
+    # Compressed with :: (both sides, total groups <= 6)
+    - type: concat
+      parts:
+        - type: sequence
+          separator: ":"
+          min_count: 1
+          max_count: 3
+          element: { type: hex, min: 0, max: 0xFFFF }
+        - { type: literal, value: "::" }
+        - type: sequence
+          separator: ":"
+          min_count: 1
+          max_count: 3
+          element: { type: hex, min: 0, max: 0xFFFF }
+
+    # IPv4-mapped: ::ffff:d.d.d.d
+    - type: concat
+      parts:
+        - { type: literal, value: "::ffff:" }
+        - type: sequence
+          separator: "."
+          min_count: 4
+          max_count: 4
+          element: { type: int, min: 0, max: 255 }
 seeds_path: "../inputs/ipv6_parser/seeds.txt"
 
 # execution
 timeout: 60
 
-# bug detection
-detection_mode: keyword
+# special bug keywords
 bug_keywords:
-  - "invalidity"
-  - "bonus"
-  - "Traceback (most recent call last)"
+  - "ParseException"
+
+# differential output comparison
+buggy_output_pattern: "Output: [{value}]"
+reference_output_pattern: "Output: [{value}]"
 
 # coverage
 coverage_enabled: false
+tracking_mode: code_execution

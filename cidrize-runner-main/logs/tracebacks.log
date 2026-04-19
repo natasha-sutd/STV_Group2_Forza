@@ -270,3 +270,2050 @@ Traceback (most recent call last):
 buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
 
 
+================================================================================
+Timestamp : 2026-03-21 04:47:03.381719+00:00
+Bug Type  : performance
+Exception: PerformanceBug: Unhandled while True loop.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 421, in cidrize
+buggy_cidrize.cidrize_stv.PerformanceBug: Unhandled while True loop.
+
+
+================================================================================
+Timestamp : 2026-03-21 04:48:57.459447+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize\cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-21 04:49:20.178692+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize\cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-21 04:49:42.901040+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize\cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-21 04:50:06.057639+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize\cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-21 05:11:23.569864+00:00
+Bug Type  : performance
+Exception: PerformanceBug: Unhandled while True loop.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 421, in cidrize
+buggy_cidrize.cidrize_stv.PerformanceBug: Unhandled while True loop.
+
+
+================================================================================
+Timestamp : 2026-03-21 05:13:13.905249+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize\cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-21 05:13:35.294555+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize\cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-21 05:13:56.634779+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize\cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-21 05:14:18.046890+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize\cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize\cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:23:55.598846+00:00
+Bug Type  : performance
+Exception: PerformanceBug: Unhandled while True loop.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 421, in cidrize
+buggy_cidrize.cidrize_stv.PerformanceBug: Unhandled while True loop.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:24:53.209191+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:25:04.718874+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:25:16.130070+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:25:27.786308+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:37:31.951781+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:38:51.971992+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:39:26.066286+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:40:27.540957+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:42:36.601916+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:42:47.994308+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:43:10.729665+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: There are too many /
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 444, in cidrize
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: There are too many /
+
+
+================================================================================
+Timestamp : 2026-03-22 10:43:56.333477+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:44:41.838358+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:45:20.465763+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: There are too many /
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 444, in cidrize
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: There are too many /
+
+
+================================================================================
+Timestamp : 2026-03-22 10:45:43.225519+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:46:28.791920+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:47:14.959342+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: Missing digit before hyphen.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 451, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 274, in parse_range
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: Missing digit before hyphen.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:47:29.410186+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:48:03.571353+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:49:23.357161+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:50:36.227275+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:51:21.725966+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 10:52:19.091540+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: There are too many /
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 444, in cidrize
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: There are too many /
+
+
+================================================================================
+Timestamp : 2026-03-22 10:53:07.566552+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: There are too many /
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 444, in cidrize
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: There are too many /
+
+
+================================================================================
+Timestamp : 2026-03-22 13:08:45.400479+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-22 13:09:09.745574+00:00
+Bug Type  : performance
+Exception: PerformanceBug: Unhandled while True loop.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 421, in cidrize
+buggy_cidrize.cidrize_stv.PerformanceBug: Unhandled while True loop.
+
+
+================================================================================
+Timestamp : 2026-03-24 04:33:27.032194+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 04:33:52.253345+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 04:45:32.997470+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 05:09:23.201681+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 05:30:25.073982+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:52:06.223845+00:00
+Bug Type  : performance
+Exception: PerformanceBug: Unhandled while True loop.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 421, in cidrize
+buggy_cidrize.cidrize_stv.PerformanceBug: Unhandled while True loop.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:53:03.031666+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:53:15.087857+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:53:26.376106+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 06:53:37.668927+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:20:11.325143+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:20:22.724310+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:20:45.495948+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:22:13.538397+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:22:48.476701+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:27:42.197970+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:29:48.471704+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:29:59.869426+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: More than permitted number of '-'
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 461, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 254, in parse_hyphen
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: More than permitted number of '-'
+
+
+================================================================================
+Timestamp : 2026-03-24 07:31:38.521073+00:00
+Bug Type  : invalidity
+Exception: InvalidCidrFormatError: More than permitted number of '-'
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 461, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 254, in parse_hyphen
+buggy_cidrize.cidrize_stv.InvalidCidrFormatError: More than permitted number of '-'
+
+
+================================================================================
+Timestamp : 2026-03-24 07:31:50.293385+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-03-24 07:32:58.563324+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-04-05 07:36:02.525886+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-04-05 07:36:13.741925+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-04-08 08:51:46.639176+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-04-08 09:06:28.702765+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 147.108.83.88/\18
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 907, in parse_ip_network
+ValueError: invalid literal for int() with base 10: '\\18'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '\\18' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 914, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '\\18' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 147.108.83.88/\18
+
+
+================================================================================
+Timestamp : 2026-04-08 09:08:14.210909+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 147.108.83.88]/18
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '147.108.83.88]' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '147.108.83.88]' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 147.108.83.88]/18
+
+
+================================================================================
+Timestamp : 2026-04-08 10:30:37.942190+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 3[7.8.11.15
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '3[7.8.11.15' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '3[7.8.11.15' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 3[7.8.11.15
+
+
+================================================================================
+Timestamp : 2026-04-08 10:31:04.843080+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 37.8.11/../.151/31
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '37.8.11' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '37.8.11' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 37.8.11/../.151/31
+
+
+================================================================================
+Timestamp : 2026-04-08 10:31:17.995521+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-04-08 10:31:42.876381+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 37."8.11.15
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '37."8.11.15' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '37."8.11.15' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 37."8.11.15
+
+
+================================================================================
+Timestamp : 2026-04-08 10:31:55.883974+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 8&&4.135.88.109/27
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '8&&4.135.88.109' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '8&&4.135.88.109' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 8&&4.135.88.109/27
+
+
+================================================================================
+Timestamp : 2026-04-08 10:49:31.629613+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 35.133.2y15.103/29
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '35.133.2y15.103' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '35.133.2y15.103' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 35.133.2y15.103/29
+
+
+================================================================================
+Timestamp : 2026-04-08 10:50:10.820600+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 20
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '20' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '20' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 20
+
+
+================================================================================
+Timestamp : 2026-04-08 11:02:49.469463+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 249.132.247.10707070707/6
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '249.132.247.10707070707' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '249.132.247.10707070707' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 445, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 249.132.247.10707070707/6
+
+
+================================================================================
+Timestamp : 2026-04-08 11:03:44.587037+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 104.185.222.ÿ64/28
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '104.185.222.ÿ64' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '104.185.222.ÿ64' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 104.185.222.ÿ64/28
+
+
+================================================================================
+Timestamp : 2026-04-08 11:04:09.381773+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 104.185.222.64/99999999999999999999999928
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 923, in parse_ip_network
+netaddr.core.AddrFormatError: invalid prefix for IPv4 address!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 445, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 104.185.222.64/99999999999999999999999928
+
+
+================================================================================
+Timestamp : 2026-04-08 11:04:22.271059+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 57.247.247.247.243.74.209/31
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '57.247.247.247.243.74.209' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '57.247.247.247.243.74.209' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 57.247.247.247.243.74.209/31
+
+
+================================================================================
+Timestamp : 2026-04-08 11:27:00.734555+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 160.78.145.224?17
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '160.78.145.224?17' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '160.78.145.224?17' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 160.78.145.224?17
+
+
+================================================================================
+Timestamp : 2026-04-08 11:28:17.899323+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 40.247.208.128q/7
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '40.247.208.128q' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '40.247.208.128q' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 40.247.208.128q/7
+
+
+================================================================================
+Timestamp : 2026-04-08 11:28:35.059096+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 224*.145.76.104/29
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '224*.145.76.104' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '224*.145.76.104' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 224*.145.76.104/29
+
+
+================================================================================
+Timestamp : 2026-04-08 11:28:48.049504+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 71.242.17%000.57/28
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '71.242.17%000.57' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '71.242.17%000.57' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 71.242.17%000.57/28
+
+
+================================================================================
+Timestamp : 2026-04-08 11:29:24.904849+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 19/../2.0.20.64/26
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '19' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '19' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 19/../2.0.20.64/26
+
+
+================================================================================
+Timestamp : 2026-04-08 11:29:37.812654+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 224.1
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '224.1' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '224.1' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 224.1
+
+
+================================================================================
+Timestamp : 2026-04-08 11:29:50.794389+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 213.112.151.127/>3
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 907, in parse_ip_network
+ValueError: invalid literal for int() with base 10: '>3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '>3' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 914, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '>3' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 213.112.151.127/>3
+
+
+================================================================================
+Timestamp : 2026-04-08 11:30:03.711043+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 142.173.137/../.141/14
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '142.173.137' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '142.173.137' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 142.173.137/../.141/14
+
+
+================================================================================
+Timestamp : 2026-04-08 11:30:16.859659+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 224.251.207.69999999999999999999999994/27
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '224.251.207.69999999999999999999999994' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '224.251.207.69999999999999999999999994' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 445, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 224.251.207.69999999999999999999999994/27
+
+
+================================================================================
+Timestamp : 2026-04-08 11:41:01.750737+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 43.201.137.87&&/0
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '43.201.137.87&&' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '43.201.137.87&&' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 43.201.137.87&&/0
+
+
+================================================================================
+Timestamp : 2026-04-08 11:42:47.091632+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: failed to detect a valid IP address from '192.}0.2.170'
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 461, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 262, in parse_hyphen
+  File "netaddr/ip/__init__.py", line 1475, in __init__
+  File "netaddr/ip/__init__.py", line 341, in __init__
+netaddr.core.AddrFormatError: failed to detect a valid IP address from '192.}0.2.170'
+
+
+================================================================================
+Timestamp : 2026-04-08 11:43:06.806076+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: base address '192.0.2.885' is not IPv4
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '192.0.2.885' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 451, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 275, in parse_range
+  File "netaddr/ip/__init__.py", line 1477, in __init__
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '192.0.2.885' is not IPv4
+
+
+================================================================================
+Timestamp : 2026-04-08 11:43:19.745984+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 253.170.p143.109/20
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '253.170.p143.109' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '253.170.p143.109' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 253.170.p143.109/20
+
+
+================================================================================
+Timestamp : 2026-04-08 11:43:32.953239+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 192.0.2.80-192.0.2&85
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '192.0.2.80-192.0.2&85' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '192.0.2.80-192.0.2&85' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 192.0.2.80-192.0.2&85
+
+
+================================================================================
+Timestamp : 2026-04-08 11:43:45.827375+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork >192.0.2.80-192.0.2&85
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '>192.0.2.80-192.0.2&85' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '>192.0.2.80-192.0.2&85' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork >192.0.2.80-192.0.2&85
+
+
+================================================================================
+Timestamp : 2026-04-08 11:43:58.751683+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 66.114.61.22/67
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 923, in parse_ip_network
+netaddr.core.AddrFormatError: invalid prefix for IPv4 address!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 445, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 66.114.61.22/67
+
+
+================================================================================
+Timestamp : 2026-04-08 11:44:11.819396+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: base address '192.0.2.885' is not IPv4
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '192.0.2.885' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 451, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 275, in parse_range
+  File "netaddr/ip/__init__.py", line 1477, in __init__
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '192.0.2.885' is not IPv4
+
+
+================================================================================
+Timestamp : 2026-04-08 11:44:23.911114+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 253.170.p143.109/20
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '253.170.p143.109' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '253.170.p143.109' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 253.170.p143.109/20
+
+
+================================================================================
+Timestamp : 2026-04-08 13:34:40.017484+00:00
+Bug Type  : functional
+Exception: FunctionalBug: 1-indexing used instead of 0-indexing.
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 240, in parse_brackets
+buggy_cidrize.cidrize_stv.FunctionalBug: 1-indexing used instead of 0-indexing.
+
+
+================================================================================
+Timestamp : 2026-04-08 13:35:14.040612+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 166.144.172.]171/31
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '166.144.172.]171' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '166.144.172.]171' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 166.144.172.]171/31
+
+
+================================================================================
+Timestamp : 2026-04-08 13:35:27.293637+00:00
+Bug Type  : bonus
+Exception: ValueError: too many values to unpack (expected 2)
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 225, in parse_brackets
+ValueError: too many values to unpack (expected 2)
+
+
+================================================================================
+Timestamp : 2026-04-08 13:35:40.652799+00:00
+Bug Type  : bonus
+Exception: ValueError: too many values to unpack (expected 2)
+
+Traceback:
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 474, in cidrize
+  File "buggy_cidrize/cidrize_stv.py", line 225, in parse_brackets
+ValueError: too many values to unpack (expected 2)
+
+
+================================================================================
+Timestamp : 2026-04-08 13:38:26.232949+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 418.220.49.241/0
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '418.220.49.241' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '418.220.49.241' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 445, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 418.220.49.241/0
+
+
+================================================================================
+Timestamp : 2026-04-08 13:46:54.408243+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 243.204.73.12/28
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '243.204.73.1\r2' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '243.204.73.1\r2' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 243.204.73.12/28
+
+
+================================================================================
+Timestamp : 2026-04-08 13:47:30.228787+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 192.0.2.170%00-175
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '192.0.2.170%00-175' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '192.0.2.170%00-175' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 192.0.2.170%00-175
+
+
+================================================================================
+Timestamp : 2026-04-08 13:47:46.201948+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 192.9999999999999999999999990.2.18
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '192.9999999999999999999999990.2.18' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '192.9999999999999999999999990.2.18' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 445, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 192.9999999999999999999999990.2.18
+
+
+================================================================================
+Timestamp : 2026-04-08 13:48:11.393938+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 7..249893.174/2
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '7..249893.174' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '7..249893.174' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 7..249893.174/2
+
+
+================================================================================
+Timestamp : 2026-04-08 13:48:24.475194+00:00
+Bug Type  : syntactic
+Exception: AddrFormatError: invalid IPNetwork 128.168>80.193/25
+
+Traceback:
+Traceback (most recent call last):
+  File "netaddr/strategy/ipv4.py", line 128, in str_to_int
+OSError: illegal IP address string passed to inet_pton
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 346, in __init__
+  File "netaddr/strategy/ipv4.py", line 132, in str_to_int
+netaddr.core.AddrFormatError: '128.168>80.193' is not a valid IPv4 address string!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "netaddr/ip/__init__.py", line 1034, in __init__
+  File "netaddr/ip/__init__.py", line 902, in parse_ip_network
+  File "netaddr/ip/__init__.py", line 348, in __init__
+netaddr.core.AddrFormatError: base address '128.168>80.193' is not IPv4
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cidrize_runner_stv.py", line 247, in <module>
+  File "buggy_cidrize/cidrize_stv.py", line 481, in cidrize
+  File "netaddr/ip/__init__.py", line 1045, in __init__
+netaddr.core.AddrFormatError: invalid IPNetwork 128.168>80.193/25
+
+

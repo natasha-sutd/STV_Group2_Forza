@@ -1,0 +1,6 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,26.859,'2001:db8::1:192.0.2.33.extra',BONUS,1,0
+2,54.035,'23d7:69e4:f113:3ecc:6c84:9d8c:1969e4:f113:3ecc:6c84:9d8c:1969e4:f113:3ecc:6c84:9d8c:1969e4:f113:3ecc:6c84:9d8c:1969e4:f,BONUS,1,0
+3,90.983,'2001:db8::1:2:3:4444444444',INVALIDITY,1,0
+4,104.007,'b504:6fd9:147d:3a0b:9213:be81:f40b:ca5b:ca5b:ca5b:ca5b:ca5b:ca5b:ca5b:ca5b:ca5b:ca5d',INVALIDITY,1,0
+5,117.050,'2001:db8::1:192.0.2.3001:db8::1:192.0.2.3001:db8::1:192.0.2.33.extra',BONUS,1,0

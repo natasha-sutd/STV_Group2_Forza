@@ -1,0 +1,25 @@
+
+============================================================
+Iteration 1 | 8 | 0.0s
+Input: '0.0.0.0'
+[STDERR]
+Traceback (most recent call last):
+  File "pyi_rth_inspect.py", line 98, in <module>
+  File "pyi_rth_inspect.py", line 17, in _pyi_rthook
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "zipfile/__init__.py", line 10, in <module>
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "shutil.py", line 30, in <module>
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "lzma.py", line 27, in <module>
+KeyboardInterrupt
+[PYI-37203:ERROR] Failed to execute script 'pyi_rth_inspect' due to unhandled exception!

@@ -1,0 +1,2 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,9.825,'418.220.49.241/0',SYNTACTIC,1,0

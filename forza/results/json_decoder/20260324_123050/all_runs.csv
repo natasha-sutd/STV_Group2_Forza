@@ -1,0 +1,299 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,"'{""a""P: null}'",INVALIDITY,1,0
+2,0.262,'{',INVALIDITY,1,0
+3,0.522,"'{""neg_float"": -1.23e-10}10}10}10}10}10}10}10}10[}'",INVALIDITY,1,0
+4,1.292,'nullllllllll',INVALIDITY,1,0
+5,1.553,"'{""a""P: null}'",INVALIDITY,0,0
+6,1.815,"'[]]]]""]]]'",INVALIDITY,1,0
+7,2.075,"'Y[]]]]""]]]'",INVALIDITY,1,0
+8,2.334,"'[{""unicode"": ""\\u0041\\u0042\\u0043""}'",INVALIDITY,1,0
+9,2.847,"'Y[]]]]""]]K]'",INVALIDITY,0,0
+10,3.107,'f\ralse',INVALIDITY,0,0
+11,3.368,"'[]]]]""]]]]]]""]]]]]]/../""]]]]]]""]]]'",INVALIDITY,0,0
+12,3.882,'[]]]]]%00]]]]]',INVALIDITY,0,0
+13,4.909,"'{999999999999999999999999""key"": ""v ""v ""v ""v ""v ""v ""v ""v ""value""}'",INVALIDITY,0,0
+14,5.169,"'[{""unicode"": ""\\u0041\\u0042\\u0043""}'",INVALIDITY,0,0
+15,5.942,'tr',INVALIDITY,0,0
+16,6.714,"'Y[]]]]""]]{]'",INVALIDITY,0,0
+17,8.000,"'[]]]]""]]]'",INVALIDITY,0,0
+18,8.517,"'[{""unicode"": ""\\u0041\\u0042\\u0043""}'",INVALIDITY,0,0
+19,9.031,'Nnullllllllll',INVALIDITY,0,0
+20,9.818,"'{""f{""f{""999999999999999999999999f{""f{""f{""f{""f{""float"": 1.23e10}'",INVALIDITY,1,0
+21,11.609,"'Y[]]]]""]]]'",INVALIDITY,0,0
+22,12.635,"'Y[]]]]""]]]'",INVALIDITY,0,0
+23,12.895,"'{""a""P: null}'",INVALIDITY,0,0
+24,14.178,'{',INVALIDITY,0,0
+25,14.438,"'{""f{""f{""999999999999999999999999f{""f{""f{""f{""f{""float"": 1.23e10}'",INVALIDITY,0,0
+26,14.954,'nullllllllll',INVALIDITY,0,0
+27,15.216,"'{""neg_float"": -1.23e-10}10}10}10}10}10}10}100}10}10}10}10}10}100}10}10}10}10}10}10}10[}'",INVALIDITY,0,0
+28,15.990,'',INVALIDITY,0,0
+29,18.325,'{',INVALIDITY,0,0
+30,19.875,"'[]]]]""]]]'",INVALIDITY,0,0
+31,20.410,"'{""neg_float"": -1.23e-10}10}10}10}10}10}10}10}10[}'",INVALIDITY,0,0
+32,23.534,'{',INVALIDITY,0,0
+33,25.091,'{',INVALIDITY,0,0
+34,26.384,"'{""neg_float"": -1.23e-10}10}10}10}10}10}10}10}10[}'",INVALIDITY,0,0
+35,29.785,"'[]]]]""]]]'",INVALIDITY,0,0
+36,30.310,"'{""a""P: null}'",INVALIDITY,0,0
+37,33.952,"'{""f{""f{""999999999999999999999999f{""f{""f{""f{""f{""float"": 1.23e10}'",INVALIDITY,0,0
+38,34.217,"'{""f{""f{""999999999999999999999999f{""f{""f{""f{""f{""float"": 1.23e10}'",INVALIDITY,0,0
+39,36.037,"'{b""neg_float"": -1.23e-10}'",INVALIDITY,0,0
+40,36.562,"'{""a""P: null}'",INVALIDITY,0,0
+41,37.868,"'""line\\nbreak""k""k""k""k""k""k""k""k""k""'",INVALIDITY,1,0
+42,39.167,"'[{""unicode"": ""\\u0041\\u0042\\u0043""}'",INVALIDITY,0,0
+43,40.732,"'{""key"": ""value""m'",INVALIDITY,1,0
+44,41.518,"'{""unicode"": ""\\u0041\\u0042\\u0040043""}'",INVALIDITY,1,0
+45,42.044,"'{""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""float"": 1.23e10}'",INVALIDITY,1,0
+46,42.832,"'Y[]]]]""]]]'",INVALIDITY,0,0
+47,43.098,'[',INVALIDITY,1,0
+48,44.155,"'{""f{""f{""999999999999999999999999f{""f{""f{""f{""f{""float"": 1.23e10}'",INVALIDITY,0,0
+49,44.442,'[',INVALIDITY,0,0
+50,45.238,"'Y[]]]]""]]]'",INVALIDITY,0,0
+51,45.503,"'[{""unicode"": ""\\u0041\\u0042\\u00431\\u0042\\u00431\\u0042\\u00431\\u0042\\u0}043""}'",INVALIDITY,0,0
+52,45.766,"'{""unicode""de""de""de""de""de""de""de"": ""\\u0041\\u0\r042\\u0043""}'",INVALIDITY,1,0
+53,46.815,"'{""json"": ""obj""'",INVALIDITY,1,0
+54,47.081,"'[]]]]""]]]'",INVALIDITY,0,0
+55,47.609,"'{""a"": t999999999999999999999999rue, ""b"": fal""b"": fal""b"": fal""b"": false}'",INVALIDITY,1,0
+56,47.875,"'{""a""P: null}'",INVALIDITY,0,0
+57,48.145,"'{""a""P: null}'",INVALIDITY,0,0
+58,48.411,"'""lineanbre\\k""'",INVALIDITY,1,0
+59,48.936,"'""lineanbre""k\\'",INVALIDITY,1,0
+60,49.203,"'{""unicode"": ""\\u0041\\u0042\\u0040043""}'",INVALIDITY,0,0
+61,49.730,"'{""zero:variants""_ [0, -0, 0.0, 0e0]}'",INVALIDITY,1,0
+62,50.006,'09999999999999999999999990',INVALIDITY,1,0
+63,50.271,"'""""||'",INVALIDITY,0,0
+64,50.538,"'{""emoji_escaped"": ""\\uD8\n3D\\uDE00""}'",INVALIDITY,0,0
+65,50.802,"'{""key""ey""ey""ey""ey""ey""ey"": ""value""}'",INVALIDITY,1,0
+66,51.067,"'""linean'",INVALIDITY,1,0
+67,51.331,'{',INVALIDITY,0,0
+68,51.598,"'[]]]]""]]]'",INVALIDITY,0,0
+69,51.863,"'[{""unicode""'",INVALIDITY,1,0
+70,52.127,"'{""emoji_escape\\"": ""duD83D\\uDE00""}'",INVALIDITY,1,0
+71,52.392,"'{""unicode""4 ""\\u0041\\u00:2\\u0043""}'",INVALIDITY,0,0
+72,52.657,"'[{""uni@code""'",INVALIDITY,1,0
+73,52.923,'{}[',INVALIDITY,0,0
+74,53.190,"'""linean'",INVALIDITY,0,0
+75,53.456,"'{""f:oat""l 1.23e10}'",INVALIDITY,1,0
+76,53.722,"'{""a"": nulle}'",INVALIDITY,1,0
+77,53.988,'',INVALIDITY,0,0
+78,54.250,"'{""unicode""de""de""de""de""de""de""de"": ""\\u0041\\u0\r042\\u0043""""""""""""""""""""}'",INVALIDITY,0,0
+79,54.515,'{',INVALIDITY,0,0
+80,55.044,"'[]]]]""]]]'",INVALIDITY,0,0
+81,55.309,"'""lineanbrebre""k\\'",INVALIDITY,1,0
+82,56.097,'{v',INVALIDITY,0,0
+83,56.622,"'{""int_max"": 9999999999999999999&&999999999999999999}'",INVALIDITY,1,0
+84,56.887,"'""lineanb'",INVALIDITY,0,0
+85,57.153,"'{""a"": t9999999999999999\\99999999rue, ""b"": fal""b"": fal""b"": fal""b"": false}'",INVALIDITY,0,0
+86,57.418,"'{""emoji_escape\\"": ""duD83@\\uDE00""}'",INVALIDITY,0,0
+87,57.682,"'{""}"": nulla'",INVALIDITY,0,0
+88,57.947,"'{""a"": t999999999999999999999999rue, ""b"": fal""b"": fal""b"": falS""b"": false}'",INVALIDITY,0,0
+89,58.212,"'{""key"": ""valukey"": ""valukey"": ""valukey\n"": ""valukey"": ""valukey"": ""value""}'",INVALIDITY,1,0
+90,58.477,"'{x""key"": ""value""}'",INVALIDITY,0,0
+91,59.001,'nulllllllSlll',INVALIDITY,0,0
+92,59.527,"'{""f{""f{""999999999999999999999999f{""f{""f{""f{""f{""fl%00oat"": 1.23e10}'",INVALIDITY,0,0
+93,59.791,"'{""float"":`1.23e10}'",INVALIDITY,1,0
+94,60.056,'falselselselsel\\selselselse',INVALIDITY,1,0
+95,60.320,'{}{}{}{}{}{}',INVALIDITY,0,0
+96,60.586,"'[null, true, false,'",INVALIDITY,1,0
+97,60.850,"'{""f{""f{""9999999999999999999999f{""9999999999999999999999f{""9999999999999999999999f{""9999999999999999999999f{""99999999999",INVALIDITY,0,0
+98,61.115,"'{""á'",INVALIDITY,1,0
+99,61.380,"'{""a"": true, ""b"": fal'",INVALIDITY,1,0
+100,61.645,"'{""emoji_escape'",INVALIDITY,0,0
+101,61.911,'n5ll',INVALIDITY,0,0
+102,62.175,"'{""a"": true,999999999999999999999999 ""b"":, ""b"":, ""b"":, ""b"":, ""b"": false}'",INVALIDITY,1,0
+103,62.472,'s}',INVALIDITY,0,0
+104,62.998,"'[{""uni""@code""'",INVALIDITY,1,0
+105,63.266,"'{""i"": nulle}'",INVALIDITY,0,0
+106,63.530,"'{""a"": null'",INVALIDITY,0,0
+107,63.794,'{6}',INVALIDITY,0,0
+108,64.059,"'{""e'",INVALIDITY,0,0
+109,64.323,"'""line\\n""break""'",INVALIDITY,1,0
+110,64.849,"'{""á"": null} null} null} null} null} null}'",INVALIDITY,1,0
+111,65.113,"'{""áá'",INVALIDITY,0,0
+112,65.637,"'Y[]]]\\]""]]]'",INVALIDITY,0,0
+113,65.902,"'{""neg_float"":t"":t"":t"":t"":t"":t"":t"": -1.23e-10}'",INVALIDITY,1,0
+114,66.166,"'[1, 2, 3<3333]'",INVALIDITY,1,0
+115,66.431,"'{""a"": {""b"": {""c"": 1}}1}}1}\n}1}}1}}1}}1}}}'",INVALIDITY,1,0
+116,66.694,'{}}}}}}}}}}',INVALIDITY,0,0
+117,66.958,"'{""unicode"": ""\\u0041\\u41\\u41\\u41\\u41\\u41\\u41\\u41\\u41\\u41\\u0042\\u0043""}'",INVALIDITY,0,0
+118,67.223,"'{""unicode""de""de""de""de""de""de""de"": ""\\u0041\\u0\r""de""de""de""de"": ""\\u0041\\u0\r""de""de""de""de"": ""\\u0041\\u0\r""de""de""de""de"":",INVALIDITY,0,0
+119,67.489,"'{""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""{""float"": {""{\\""float"": {""{",INVALIDITY,1,0
+120,67.757,"'{""float"": {""float"": {""float"": {""float"": {""float"": {""flo%00at"": {""float"": {""float"": {""float"": {""{""float"": {""{\\""float"": ",INVALIDITY,1,0
+121,68.019,"'""lineanbre\\nbre\\nbre\x00\\nbre\\nbre\\nbre\\nbre\\nbre\\k""'",RELIABILITY,1,-1
+122,68.287,"'{""key"": ""valualu\\alualualualualualue""}'",INVALIDITY,1,0
+123,68.551,"'{""emoji_es%00cape\\"": ""duD83D\\uDE0000000""}'",INVALIDITY,1,0
+124,68.812,'11]',INVALIDITY,0,0
+125,69.076,"'[null, true, false, 0, """", {}]{}]{}]{}]{}]{}]{}]{}]{}]{}]'",INVALIDITY,1,0
+126,69.337,'[',INVALIDITY,0,0
+127,69.599,"'{""float"": 11.23e{10}'",INVALIDITY,0,0
+128,69.868,"'""\\line\\n""break""""'",INVALIDITY,1,0
+129,70.134,"'{""a"": nul'",INVALIDITY,0,0
+130,70.398,'q',INVALIDITY,0,0
+131,70.664,"'{""unicode"": ""\\u0041\\u004'",INVALIDITY,0,0
+132,70.929,"'[]]]]""]]]]\']""]]]]]""]]]]]""]]]]]""]]]]]""]]]'",INVALIDITY,0,0
+133,71.194,"'""nble\\nireak""""'",INVALIDITY,0,0
+134,71.459,"'{""neg_float"": -1U.23e-10}10}10}10}10}10}10}10}10[}'",INVALIDITY,1,0
+135,71.725,"'{""unicode"": ""\\u0\'041\\u0042\\u0043""}}}}}}}'",INVALIDITY,0,0
+136,71.991,"'{""flo$at""flo$[at""flo$at""flo$at""flo$at"": 1.23e10}'",INVALIDITY,1,0
+137,72.257,"'{""float"":`1.23e1`1.23e1`1.23e1`1.23e1`1.23e1`1.23e1`1.23e1`1.2%003e1`1.23e1`1.23e10}'",INVALIDITY,0,0
+138,72.523,"'[null, true, false, 0, """", {}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}",INVALIDITY,0,0
+139,72.788,"'{""key""ey""e\ny""ey""ey""ey""ey"": ""value""}}}}}}}}}'",INVALIDITY,0,0
+140,73.051,'}{',INVALIDITY,0,0
+141,73.317,"'{""a"": {""b"": {""c"": 1}"": {""c"":%00 1}"": {""c"": 1}"": {""c"": 1}"": {""c"": 1}"": {""c"": 1}"": {""c"": 1}}}'",INVALIDITY,1,0
+142,73.580,"'""hello""""""""\'""""""""""'",INVALIDITY,1,0
+143,73.844,"'{""zero:variants""_ K0, -0, 0.0, 0e0]}'",INVALIDITY,0,0
+144,74.106,"'{"">a""P: n null}'",INVALIDITY,0,0
+145,74.373,"'{""a"": t999999999999999999999999rue, ""b99999999rue, ""b99999999rue, ""b99999999rue, ""b99999999rue, ""b99999999rue, ""b999999",INVALIDITY,0,0
+146,74.637,"'{""neg_float"": -1.23e-10}-1.23e-10}-1.23e-10}-1.23e-10}-1.23e-10}-1.23e-10}-1.23e-10}-1.ÿ23e-10}-1.23e-10}'",INVALIDITY,0,0
+147,74.903,"'{""key""ey""ey""ey""ey""ey""eyy""ey""ey""ey""eyy""ey""ey""ey""eyy""ey""ey""ey""eyy""ey""ey""ey""eyy""ey""ey""ey""eyy""ey""ey""ey""eyy""ey""ey""ey""ey"": &&",INVALIDITY,0,0
+148,75.168,'[',INVALIDITY,0,0
+149,75.433,"'[{""unicode"": ""\\u00'",INVALIDITY,0,0
+150,75.960,"'{""neg_float"":t"":t"":t"":t"":t}"":t"":t"": -1.23 -1.23 -1.23e-10}'",INVALIDITY,0,0
+151,75.960,"'{""neg_float"": -1.23eeg_float"": -1.23eeg_float"": -1.23eeg_float"": -1.23eeg_float"": -\x001.23eeg_float"": -1.23eeg_float"":",RELIABILITY,0,-1
+152,76.225,"'{""neg_float"": -1U.23e-<10}10}10}10}10}10}10}10}110}10}10}10}10[}'",INVALIDITY,0,0
+153,76.491,'09999999999999999999999990',INVALIDITY,0,0
+154,76.756,"'{""neg_float"":t'",INVALIDITY,0,0
+155,77.021,"'""lineaeaeaeaeae\raeaeaeaean'",INVALIDITY,1,0
+156,77.285,"'""hell'",INVALIDITY,0,0
+157,77.550,"'{""f{""f{""999999{""f{""999999{""f{""999999{""f{""999999999999999999999999<f{""f{""f{""f{""f{""float"": 1.23e10}'",INVALIDITY,0,0
+158,77.816,'falfalfalse',INVALIDITY,0,0
+159,78.085,"'""\\line\\n""break""""'",INVALIDITY,0,0
+160,78.353,"'[{/../""unicode"": ""\\u0041\\u0042\\u0043043043043043043043""}'",INVALIDITY,1,0
+161,78.620,"'Y[]N]]]""]]]'",INVALIDITY,0,0
+162,78.887,"'{""float"": {""float"": {""float"": {""float"": {""float"": {""flo%00at"": {""float"": {""float"": {""float"": {""{""float"": {""{\\""float"": ",INVALIDITY,0,0
+163,79.155,"'""\\line\\n""break""""'",INVALIDITY,0,0
+164,79.421,"'[null, true, fals fals fals fals fals fal}s fals false,'",INVALIDITY,0,0
+165,79.686,"'[1, 2, 3<33 3<33 3<33 3<33 3}<33 3<3333]'",INVALIDITY,0,0
+166,79.952,'{}}\\}}',INVALIDITY,0,0
+167,80.739,"'{""float"": {""float"": {""floa""floa""float"": {""float"": {""float"": {""flo%00at"": {""float"": {""float"": {""float"": {""{""float"": {""{\",INVALIDITY,1,0
+168,81.004,"'{""a""a""a""a""a""]a""a""a""a""a"": null}'",INVALIDITY,0,0
+169,81.269,"'{""a"": t999999999999999999999999rue, ""b"": fal""b"": fal""b"":999999999999999999rue, ""b"": fal""b"": fal""b"":999999999999999999ru",INVALIDITY,0,0
+170,81.269,"'{""neg_float"": t"": t"": t"": t"": t"": t"": t"": \x00t"": -1.23e-10}'",RELIABILITY,0,-1
+171,81.534,"'""hello""""o""""o""""o""""o""}""o""""o""""o""""""""\'""""""""""'",INVALIDITY,0,0
+172,81.800,"'{""unicode""de""de""de""de""de""d""unicode""de""de""de""de""de""d""unicode""de""de""de""de""de""d""unicode""de""de""de""de""de""d""unicode""de""de""de""",INVALIDITY,0,0
+173,82.065,"'[null, true, false, 0, """"\n, {}]{}]{}]{}]{}]{}]{}]{}]{}]{}]'",INVALIDITY,1,0
+174,82.330,'09[999999999999999999999990',INVALIDITY,0,0
+175,82.595,'y{',INVALIDITY,0,0
+176,82.860,'fa\\lalse',INVALIDITY,0,0
+177,83.387,"'[{2unicode""'",INVALIDITY,0,0
+178,83.660,"'""hello""""""&&""""'",INVALIDITY,0,0
+179,83.931,"'[null, true\\, false, 0, """", {}]{}]'",INVALIDITY,1,0
+180,84.201,'falfalfalfalfalfalfalfalfalfalse',INVALIDITY,0,0
+181,84.201,"'{""a"": [1, {""b""1, {""b""1, {""b""1, {""b""1, {""b""1, {""b""1, {""b""1, {""b""1, {""b""1, {""b\x00"": 2}]}'",RELIABILITY,0,-1
+182,84.468,"'""lbne\\inreak""'",INVALIDITY,1,0
+183,84.738,"'{""zero_variants"": [0, -0, 0.0, -0, 0.0, ÿ-0, 0.0, -0, 0.0, -0, 0.0, 0e0]}'",INVALIDITY,1,0
+184,85.004,"'{""a"": [1,'",INVALIDITY,0,0
+185,85.271,"'""""hel{lo""'",INVALIDITY,0,0
+186,85.271,"'{""cfloat"": cfloat"": 1.2\x003e10}'",RELIABILITY,0,-1
+187,85.536,"'{""unicode"": ""\\u0041\\u0042\\u0043""}042\\u0099999999999999999999999943""}042\\u0043""}042\\u0043""}042\\u0043""}042\\u0043""",INVALIDITY,1,0
+188,85.802,"'{""a"": t999999999999999999999999999999999999999999{9999999999999999999999999999999999999999999999999999rue, ""b"": fal""b"":",INVALIDITY,0,0
+189,86.071,"'{""ke""ke""ke""ke""ke""ke""ke""ke""key"": ""value""}}'",INVALIDITY,0,0
+190,86.338,'nuuu||uull',INVALIDITY,0,0
+191,86.604,"'{""a"":\' nullulle}'",INVALIDITY,1,0
+192,86.871,"'[n999999999999999999999999ull, true, ue, ue, false,'",INVALIDITY,0,0
+193,87.194,"'[nlll, true, fause,'",INVALIDITY,0,0
+194,87.195,"'{""neg_float"": -1.g_float"": -1.g_float"": -1.23e-10}\x00'",RELIABILITY,0,-1
+195,87.467,"'{""unicode"": ""\\u0041\\u0042\\u0040043""}: ""\\u0041\\u0042\\u0040043""}: ""\\u0041\\u0042\\u0040043""}: ""\\u0041\\u0042\\u00",INVALIDITY,0,0
+196,87.735,"'""hello""['",INVALIDITY,0,0
+197,88.003,"'{""a"": {""b"": {""}"": 1}}c'",INVALIDITY,0,0
+198,88.276,"'[1, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3<, 2, 3, 2, 3, 2, 3]'",INVALIDITY,1,0
+199,88.543,"'{""flo$at""flo$[at""""flo$[at""""flo$[&&at""flo$at""flo$at""flo$at"": 1.23e10}'",INVALIDITY,0,0
+200,88.809,"'{""float"": {""float"": {""floa""floa""float"": {""float"": {""float"": {""flo%00at"": {""float"": {""flo[at"": {""float"": {""{""float"": {""{",INVALIDITY,0,0
+201,89.074,"'{""emoji_escape\\"": ""duD83D\\uDE00""}D83D\\uDE00""}D83D\\uDE00""}D83D\\uDE00""}D83D\\uDE00""}D83D\\uDE00""}""D83D\\uDE00""}'",INVALIDITY,0,0
+202,89.339,"'{""a"": {""""b"": {""c"": 1}}1}}1}\n}1}}1}}1}}1}}"": 1}}1}}1}\n}1}}1}}1}}1}}"": 1}}1}}1}\n}1}}1}}1}}1}}"": 1}}1}}1}\n}1}}1}}1}}1}",INVALIDITY,0,0
+203,89.605,"'{""key"": ""valukey"": ""valukey"":v"" alukey\n"": ""valukey"": ""valukey"": ""value""}'",INVALIDITY,0,0
+204,89.874,'',INVALIDITY,0,0
+205,90.147,"'[||1111, 2, 3]'",INVALIDITY,0,0
+206,90.681,"'{""a"": n\rnulle}'",INVALIDITY,0,0
+207,90.950,"'""hellooooooooo""""""""\'""""<""""""'",INVALIDITY,1,0
+208,91.219,"'{""unicode"": ""\\u0041\\u004/../2\\u00\\u0042\\u00\\u0042\\u00\\u0042\\u0043""}'",INVALIDITY,0,0
+209,91.487,"'{""int_max"": 999999999999""int_max"": 999999999999""int_max"": 999999999999""int_max"": 999999999999""int_max"": 999999999999""in",INVALIDITY,1,0
+210,91.754,"'{""a"": nulle>}'",INVALIDITY,0,0
+211,92.035,"'{""a"": {""b"": {""c"": 1}}1}}1}\n}1}}1}}1}}""a"": {""b"":\r {""c"": 1}}1}}1}\n}1}}1}}1}}""a"": {""b"": {""c"": 1}}1}}1}\n}1}}1}}1}}""a"": ",INVALIDITY,0,0
+212,92.309,"'{""float"":`1.23e10}'",INVALIDITY,0,0
+213,92.577,"'""hellooooooooo""""""""\'""""<""""ooooooooo""""""""\'""""<""""ooooooooo""""""""\'""""<""""ooooooooo""""""""\'""""<""""""'",INVALIDITY,0,0
+214,92.852,"'{""emoji_es%00cape\\"": ""duD83D\\uDE000003D\\uDE0000\r03D\\uDE000003D\\uDE000003D\\uDE000003D\\uDE0000000""}'",INVALIDITY,0,0
+215,93.132,"'<""""""""""""""""""""""'",INVALIDITY,0,0
+216,93.132,"'""line}anbre\\nbre\\nbre\x00\\nbre\\nbre\\nbre\\nbre\\nbre\\k""e\\nbre\\k""e\\nbre\\k""e\\nbre\\k""'",RELIABILITY,0,-1
+217,93.412,"'{""a"": true,999999999999999999999999 ""b999999999 ""b999999999 ""b999999999 ""b&&999999999 ""b"":, ""b"":, ""b"":, ""b"":, ""b"": fals",INVALIDITY,0,0
+218,93.685,'c4',INVALIDITY,0,0
+219,93.959,"'{""un\\icode""de""de""de""de""de""de""de"": ""\\u0041\\u0\r042\\u0043""}de""de""de"": ""\\u0041\\u0\r042\\u0043""}de""de""de"": ""\\u0041\\",INVALIDITY,1,0
+220,94.236,"'{""a"":m true, ""b"": fal'",INVALIDITY,0,0
+221,94.622,"'""""%00""""""""""""'",INVALIDITY,0,0
+222,94.902,"'{""key""ey""ey""ey""ey""e""y""ey"": ""ey"": ""ey"": ""ey"": ""ey"": ""ey"": ""ey"": ""value""}'",INVALIDITY,0,0
+223,95.293,"'{""zero_variants"": [0, -0, 0.0,> 0e -0, 0.0, 0e -0, 0.0, 0e -0, 0.0, 0e -0, 0.0, 0e -0, 0.0, 0e -0, 0.0, 0e0]}'",INVALIDITY,1,0
+224,95.583,"'{""float"": {""float"": {""floa""floa""float"": {""float"": {""float"": {""flo%00at"": {""float"": {""float"": {""fa""float"": {""float"": {""f",INVALIDITY,0,0
+225,95.982,"'""lineanbneanbneanbne\'anbneanbre\\k""'",INVALIDITY,1,0
+226,96.279,"'""lbne\\inreakÿeakeak""'",INVALIDITY,0,0
+227,96.908,"'""hello""""""""\'""""""""""""""<""""""""""'",INVALIDITY,0,0
+228,97.290,'09999999999[9999999999999999999990',INVALIDITY,0,0
+229,97.604,"'{""neg_float"": -1.23e-10}10}10}10at"": -1.23e-10}10}10}10at"": -1.23e-10}10}10}10at"": -1.23e-10}10}10}10at"": -1.23e\'-10}1",INVALIDITY,0,0
+230,98.224,"'{""key"": ""valualu\\alualualualualualualualualualualualualualualualualualualualualualualualualualual{ualualualue""}'",INVALIDITY,0,0
+231,98.628,"'[null, true, false, 0,< """", {}]'",INVALIDITY,1,0
+232,99.013,"'""hello""""""""\'""""""""""'",INVALIDITY,0,0
+233,99.293,"'[{""uni@c{""uni@c{""uni@c{""uni@c{""uni@c{""uni@c{""uni@c{""uni@c{""uni@>code""'",INVALIDITY,0,0
+234,99.587,"'""""""""""""'",INVALIDITY,0,0
+235,99.904,"'{""neg_float"": J-1.23e-10}'",INVALIDITY,1,0
+236,100.175,"'}{""float"": 1.23e10}0}0}0}0}0}0}0}0}0}'",INVALIDITY,0,0
+237,100.446,'fal>alalalalse',INVALIDITY,0,0
+238,100.719,"'{""unicode"": ""\\u0041\\u0042\\u{""unicode"": ""\\\nu0041\\u0042\\u{""unicode"": ""\\u0041\\u0042\\u{""unicode"": ""\\u0041\\u0042",INVALIDITY,1,0
+239,101.002,"'[null, true, rÿue, false,'",INVALIDITY,0,0
+240,101.319,'[/../]]]]]]]',INVALIDITY,0,0
+241,101.588,'0/../0',INVALIDITY,0,0
+242,101.855,"'{""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""float"": {""fl}oat"": {""float"": {""{""float"": {""{\\""float"": {o",INVALIDITY,1,0
+243,102.662,"'{""a""P: nua""P: nua""P: nua""P: nua""P: nua""P: nua""P: [null}'",INVALIDITY,0,0
+244,102.944,"'[{""uni@co""u%00ni@co""uni@co""uni@co""uni@co""uni@co""uni@co""uni@code""'",INVALIDITY,0,0
+245,103.212,"'{\x02cfloat"": 1.23e10}'",INVALIDITY,0,0
+246,103.494,"'[null, true, false, 0, """"\n,""\n,""\n,""\n,""\n,""\n,""\n,""\n, {}]{}]{}]{}]{}]{}]{}]{}]{}]{}]'",INVALIDITY,1,0
+247,103.773,"'[1, 2, 3<3333]'",INVALIDITY,0,0
+248,104.046,"'""l""l""l""l""l""l""l""l""linean'",INVALIDITY,1,0
+249,104.322,"'{""fl}at"": 1.23e10o'",INVALIDITY,0,0
+250,104.593,'09999999999999999999]999999999990',INVALIDITY,0,0
+251,104.594,"'""lineanb\x00rebre""""""""""""""""""k\\'",RELIABILITY,0,-1
+252,104.861,'0999999999999999\\999999999999999999999990',INVALIDITY,0,0
+253,105.133,"'\\{""á"": nullá"": nullá"": nullá"": nullá"": nullá"": nullá"": nullá"": null}'",INVALIDITY,0,0
+254,105.403,']11',INVALIDITY,0,0
+255,105.674,"'{""json"": ""{ob{""json"": ""ob{""json"": ""ob{""json"": ""obj""'",INVALIDITY,0,0
+256,105.938,"'{""á999999999999999999999999á'",INVALIDITY,0,0
+257,106.207,"'[{""unicode"": ""\\u0041\\u0042\\042\\u0043""}'",INVALIDITY,1,0
+258,106.473,'nulllllll\n',INVALIDITY,0,0
+259,107.001,"'{""a"": null}null}null}null}null}null}null}'",INVALIDITY,0,0
+260,107.530,"'{""unicode""de""dE""de""de""de""de""de"": ""\\u0041\\u0\r042\\u0043""}'",INVALIDITY,0,0
+261,107.796,"'{""int_max"": 999999999999ÿ9999}9}'",INVALIDITY,0,0
+262,108.328,"'""lineaineaineaineaine/../aineaineaineaineaineanbre\\k""'",INVALIDITY,1,0
+263,108.595,"'{""a"":\' nullullellellellellel{lellelle}'",INVALIDITY,0,0
+264,109.123,'[]\n]\n]\n]\n]\n]\n]\n&&]\n',INVALIDITY,1,0
+265,109.388,"'[{""uni""@cod&&eeeeee""'",INVALIDITY,0,0
+266,109.659,'falselsels\nelsel\\selselselselselselse',INVALIDITY,0,0
+267,109.927,"'{""emoji_escaped"":""emoji_escaped"":""emoji_escaped"":""emoji_escaped"":""emoj[i_escaped"": ""\\uD83D\\uDE00""}'",INVALIDITY,1,0
+268,110.198,"'""\\lineineine>ineine\\n""break""""'",INVALIDITY,0,0
+269,110.469,"'[null, true, false, 0, """"\n,""\n,""\n,""\n,""\n,""\n,""\n,""\n, {}]{}]{}]{}>]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{}]{",INVALIDITY,0,0
+270,110.740,"'{""float"": {""float"": {""floa""floa""float"": {""float"": {""float"": {""flo%00at"": {""float"": {""float"": {""float"": {""{""float"": {""{\",INVALIDITY,0,0
+271,111.005,'trutrutrutrutr\\utrutrue',INVALIDITY,0,0
+272,111.273,'{\\{{{{{}',INVALIDITY,0,0
+273,111.540,"'""lineanbre""k\\lineanbre""k\\lineanbre""k\\lineanbre""k\\lineanbr||e""k\\lineanbre""k\\'",INVALIDITY,0,0
+274,111.807,"'""hello""""'",INVALIDITY,0,0
+275,112.333,"'[null, true, false, 0,< """",  """", /../ """",  """",  """",  """",  """",  """",  """", {}]'",INVALIDITY,0,0
+276,112.600,"'""lineanbneanbneanbne\'anbneabneanbne\'anbneabneanbne\'anbneabneanbne\'anbneabn999999999999999999999999eanbne\'anbneabne",INVALIDITY,1,0
+277,113.127,"'[null, true, faLse, 0, """", {}]'",INVALIDITY,0,0
+278,113.394,"'{""cf}loat"": 1.23oat"": 1.23oat"": 1.23oat"": 1.23oat"": 1.23oat"": 1.23oat"": 1.23e10}'",INVALIDITY,0,0
+279,113.660,"'""""""""""ÿ""""'",INVALIDITY,0,0
+280,113.926,"'\n""lllinean'",INVALIDITY,1,0
+281,114.194,"'{""a"": {""b/../"": {""c"": 1}}1}}1}\n}1}}1}}1}1}1}1}1}1}}1}}}'",INVALIDITY,1,0
+282,114.459,"'{""key"": ""valualu\\alualualualualualue""}alual""ue""}alualue""}alualue""}alualue""}'",INVALIDITY,0,0
+283,114.726,'&&11',INVALIDITY,0,0
+284,114.995,"'""lineanbre\\k""""}""""'",INVALIDITY,0,0
+285,115.262,"'{""||neg_float"": -1.t"": -1.23e-10}'",INVALIDITY,1,0
+286,115.533,"'[[/../{""uni""@code""'",INVALIDITY,1,0
+287,115.804,"'{""emoji_es%00i_es%00i_es%00i_es%00i_es%99999999999999999999999900i_es%00i_es%00cape\\"": ""duD83D\\uDE0000000""}'",INVALIDITY,1,0
+288,116.337,"'{""emoji_escaped"":""emoji_escaped"":""emoji_escaped"":""emoji_escaped"":""emoj[i_escaped"": ""\\ued"": ""\\ued"": ""\\ued"": ""\\u\rD83",INVALIDITY,0,0
+289,116.604,"'[1, 2, 3 3 3 3 &&3]'",INVALIDITY,1,0
+290,116.871,"'{""a"": {""{""{""{""{""{""{""{""b"": {""c"""": 1}}}'",INVALIDITY,0,0
+291,117.140,"'{""float"": {""float"": {""floa""floa""float"": {""float"": {""float"": {""flo%00at"": {""float"": {""float"": {""float"": {""{""float"": {""{\",INVALIDITY,0,0
+292,117.406,"'{""a"": true, ""b""""b""""b""""%00b""""b"": false}'",INVALIDITY,1,0
+293,117.675,"'{""un\\icode""de""de""de""de""de""de""de"": ""\\u0041\\u0\r042\\u0043""}de""de""de"": ""\\u0041\\u0\r042\\u0043""}de""de""de"": ""\\u0041\\",INVALIDITY,0,0
+294,117.940,"'{""neg_float"": -1.23e-10}0}0}0}0}0}0}\r0}0}'",INVALIDITY,0,0
+295,118.206,"'{""a"": true, ""b"">: ""b"": ""b"": ""b"": ""b"": ""b"": ""b"": ""b"": ""b"": ""b"": fal'",INVALIDITY,0,0
+296,118.472,"'{""a"": {""b"": {""c"": 1 {""c"": 1 {""c"": 1 {""c"": 1 ]{""c"": 1 {""c"": 1 {""c"": 1 {""c"": 1}}}'",INVALIDITY,0,0
+297,118.738,"'{""emoji_escape\\"": ""duD83D\\uDE00""cape\\"": ""duD83D\\uDE00""cape\\"": ""duD8""3D\\uDE00""cape\\"": ""duD83D\\uDE00""}'",INVALIDITY,0,0
+298,119.002,"""099999999999999999999999'909999999999999999999099999999999999999990""",INVALIDITY,0,0

@@ -1,24 +1,104 @@
+# target
 name: cidrize
+target_module: 
+    windows: "win-cidrize-runner.exe"
+    linux: "linux-cidrize-runner"
+    mac: "mac-cidrize-runner"
 
-buggy_cmd: ["./bin/mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}"]
+# commands
+buggy_cmd: 
+  windows: ["../cidrize-runner-main/bin/win-cidrize-runner.exe", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
+  linux: ["./bin/linux-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
+  mac: ["../cidrize-runner-main/bin/mac-cidrize-runner", "--func", "cidrize", "--ipstr", "{input}", "--raise-errors"]
 buggy_cwd: "../../cidrize-runner-main"
+
+reference_cmd:
+  windows: ["python", "cidrize/cidrize.py", "{input}"]
+  linux: ["python3", "cidrize/cidrize.py", "{input}"]
+  mac: ["python3", "cidrize/cidrize.py", "{input}"]
+reference_cwd: "../../cidrize-runner-main"
 
 # input
 input_mode: arg
-input_format: cidr
+input:
+  type: one_of
+  options:
+    - type: sequence
+      min_length: 4
+      max_length: 4
+      separator: "."
+      element: { type: int, min: 0, max: 255 }
+    - type: concat
+      parts:
+        - type: sequence
+          min_length: 4
+          max_length: 4
+          separator: "."
+          element: { type: int, min: 0, max: 255 }
+        - type: literal
+          value: "-"
+        - type: one_of
+          options:
+            - type: int
+              min: 0
+              max: 255
+            - type: sequence
+              min_length: 4
+              max_length: 4
+              separator: "."
+              element: { type: int, min: 0, max: 255 }
+    - type: concat
+      parts:
+        - type: sequence
+          min_length: 3
+          max_length: 3
+          separator: "."
+          element: { type: int, min: 0, max: 255 }
+        - type: literal
+          value: ".*"
+    - type: concat
+      parts:
+        - type: sequence
+          min_length: 3
+          max_length: 3
+          separator: "."
+          element: { type: int, min: 0, max: 255 }
+        - type: literal
+          value: "."
+        - type: int
+          min: 0
+          max: 255
+        - type: literal
+          value: "["
+        - type: one_of
+          options:
+            - type: concat 
+              parts:
+                - type: int
+                  min: 0
+                  max: 255
+                - type: literal
+                  value: "-"
+                - type: int
+                  min: 0
+                  max: 255
+            - type: sequence
+              min_length: 2
+              max_length: 4
+              separator: ""
+              element: { type: int, min: 0, max: 9 }
+        - type: literal
+          value: "]"
 seeds_path: "../inputs/cidrize/seeds.txt"
 
-# execution
-timeout: 60
-
-# bug detection
-detection_mode: keyword
+# special bug keywords
 bug_keywords:
-  - "bug has been triggered"
-  - "syntactic"
-  - "functional"
-  - "Traceback"
-  - "Error"
+  - "CidrizeError"
+
+# differential output comparison
+buggy_output_pattern: "IPNetwork('{value}')"
+reference_output_pattern: "{value}"
 
 # coverage
 coverage_enabled: false
+tracking_mode: code_execution

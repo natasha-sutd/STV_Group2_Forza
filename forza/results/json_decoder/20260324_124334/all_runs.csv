@@ -1,0 +1,20 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,"'{""unicode"": ""\\40041\\u0042\\u00u3""}'",INVALIDITY,1,0
+2,1.058,"'{""~eg_float"": -1.23_e-10}'",INVALIDITY,1,0
+3,1.600,"'nline\\""break""'",INVALIDITY,1,0
+4,1.885,"'[null, true, falre, 0, """", {}]'",INVALIDITY,1,0
+5,2.156,"'{""unicode"": ""\\u0041\\u004"": ""\\u00\'41\\u0042\\u0043""}'",INVALIDITY,1,0
+6,2.696,"'""""}""""""'",INVALIDITY,1,0
+7,2.961,"'{""unicode"": ""\\u0041\\u004"": ""\\u00\'\r41\\u0042\\u0043""}'",INVALIDITY,0,0
+8,3.223,"'{""zern_va iants"": [0, -0,r0.0, 0e0]}'",INVALIDITY,1,0
+9,3.486,"'{""int_max"": 999999999ÿ9999999999999999999999999999999999999999999999999999999999999999999}'",INVALIDITY,1,0
+10,3.749,"'{""a"": numl}'",INVALIDITY,1,0
+11,4.273,"'{""int_max"": 999999999ÿ9919999999999999999999999999999999999999999999999999999999999999999}'",INVALIDITY,0,0
+12,4.539,'t{rue',INVALIDITY,0,0
+13,4.806,"'{""a&: numl}'",INVALIDITY,1,0
+14,5.357,"'{""~eg_f&&loat"": -{""~eg_float"": -{""~eg_float"": -{""~eg_float"": -1.23_e-10}'",INVALIDITY,1,0
+15,5.900,"'{""unicode"": ""\\40041\\u0h042\\u00u3""}'",INVALIDITY,0,0
+16,6.169,"'{""zero_varian\rts"": [0, -0, 0.0, 0e0]}'",INVALIDITY,1,0
+17,6.434,"'{""feg_float"": -1.: -1.: -1.: -1.: -1.>: -1.: -1.: -1.23e-10}'",INVALIDITY,1,0
+18,6.697,"'{""a"": [1,`{""b"": 2}]}'",INVALIDITY,1,0
+19,7.455,'Null',INVALIDITY,0,1

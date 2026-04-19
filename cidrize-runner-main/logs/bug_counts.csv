@@ -1,3 +1,44 @@
 bug_type,exc_type,exc_message,filename,lineno,count
-functional,FunctionalBug,1-indexing used instead of 0-indexing.,buggy_cidrize/cidrize_stv.py,240,8
-performance,PerformanceBug,Unhandled while True loop.,buggy_cidrize/cidrize_stv.py,421,10
+bonus,ValueError,too many values to unpack (expected 2),buggy_cidrize/cidrize_stv.py,225,2
+functional,FunctionalBug,1-indexing used instead of 0-indexing.,buggy_cidrize/cidrize_stv.py,240,51
+functional,FunctionalBug,1-indexing used instead of 0-indexing.,buggy_cidrize\cidrize_stv.py,240,8
+invalidity,InvalidCidrFormatError,Missing digit before hyphen.,buggy_cidrize/cidrize_stv.py,274,1
+invalidity,InvalidCidrFormatError,More than permitted number of '-',buggy_cidrize/cidrize_stv.py,254,2
+invalidity,InvalidCidrFormatError,There are too many /,buggy_cidrize/cidrize_stv.py,444,4
+performance,PerformanceBug,Unhandled while True loop.,buggy_cidrize/cidrize_stv.py,421,13
+performance,PerformanceBug,Unhandled while True loop.,buggy_cidrize\cidrize_stv.py,421,2
+syntactic,AddrFormatError,base address '192.0.2.885' is not IPv4,netaddr/ip/__init__.py,348,2
+syntactic,AddrFormatError,failed to detect a valid IP address from '192.}0.2.170',netaddr/ip/__init__.py,341,1
+syntactic,AddrFormatError,invalid IPNetwork 104.185.222.64/99999999999999999999999928,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 104.185.222.ÿ64/28,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 128.168>80.193/25,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 142.173.137/../.141/14,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 147.108.83.88/\18,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 147.108.83.88]/18,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 160.78.145.224?17,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 166.144.172.]171/31,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 19/../2.0.20.64/26,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 192.0.2.170%00-175,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 192.0.2.80-192.0.2&85,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 192.9999999999999999999999990.2.18,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 20,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 213.112.151.127/>3,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 224*.145.76.104/29,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 224.1,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 224.251.207.69999999999999999999999994/27,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,"invalid IPNetwork 243.204.73.12/28",netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 249.132.247.10707070707/6,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 253.170.p143.109/20,netaddr/ip/__init__.py,1045,2
+syntactic,AddrFormatError,invalid IPNetwork 35.133.2y15.103/29,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,"invalid IPNetwork 37.""8.11.15",netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 37.8.11/../.151/31,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 3[7.8.11.15,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 40.247.208.128q/7,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 418.220.49.241/0,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 43.201.137.87&&/0,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 57.247.247.247.243.74.209/31,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 66.114.61.22/67,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 7..249893.174/2,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 71.242.17%000.57/28,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork 8&&4.135.88.109/27,netaddr/ip/__init__.py,1045,1
+syntactic,AddrFormatError,invalid IPNetwork >192.0.2.80-192.0.2&85,netaddr/ip/__init__.py,1045,1

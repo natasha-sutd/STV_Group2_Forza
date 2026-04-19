@@ -1,22 +1,45 @@
+# target
 name: ipv4_parser
+target_module:
+  windows: "win-ipv4-parser.exe"
+  linux: "linux-ipv4-parser"
+  mac: "mac-ipv4-parser"
 
-buggy_cmd: ["./bin/mac-ipv4-parser", "--ipstr", "{input}"]
+# commands
+buggy_cmd:
+  windows:
+    ["../IPv4-IPv6-parser-main/bin/win-ipv4-parser.exe", "--ipstr", "{input}"]
+  linux: ["./bin/linux-ipv4-parser", "--ipstr", "{input}"]
+  mac: ["./bin/mac-ipv4-parser", "--ipstr", "{input}"]
 buggy_cwd: "../../IPv4-IPv6-parser-main"
+
+reference_cmd:
+  windows: ["python", "ipyparse/src/ipv4_parser.py", "{input}"]
+  linux: ["python3", "ipyparse/src/ipv4_parser.py", "{input}"]
+  mac: ["python3", "ipyparse/src/ipv4_parser.py", "{input}"]
+reference_cwd: "../../IPv4-IPv6-parser-main"
 
 # input
 input_mode: arg
-input_format: ipv4
+input:
+  type: sequence
+  separator: "."
+  min_count: 4
+  max_count: 4
+  element:
+    type: int
+    min: 0
+    max: 255
 seeds_path: "../inputs/ipv4_parser/seeds.txt"
 
-# execution
-timeout: 60
-
-# bug detection
-detection_mode: keyword
+# special bug keywords
 bug_keywords:
-  - "invalidity"
-  - "bonus"
-  - "Traceback (most recent call last)"
+  - "ParseException"
+
+# differential output comparison
+buggy_output_pattern: "Output: [{value}]"
+reference_output_pattern: "Output: [{value}]"
 
 # coverage
 coverage_enabled: false
+tracking_mode: code_execution

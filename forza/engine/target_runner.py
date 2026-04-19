@@ -7,11 +7,13 @@ import os
 import platform
 import shutil
 import subprocess
+import sys
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path, PureWindowsPath
 
 import yaml
+
 
 def get_platform() -> str:
     system = platform.system()
@@ -26,7 +28,7 @@ def get_platform() -> str:
 def windows_to_wsl(win_path: str) -> str:
     p = PureWindowsPath(win_path)
     drive = p.drive.rstrip(":").lower()
-    parts = p.parts[1:] # skip root
+    parts = p.parts[1:]  # skip root
     posix_parts = "/".join(part.replace("\\", "/") for part in parts)
     return f"/mnt/{drive}/{posix_parts}"
 
@@ -52,12 +54,11 @@ def resolve_binary_for_platform(binary_config) -> str:
         return binary_config[current]
     return binary_config
 
+
 @dataclass
 class RawResult:
-    """
-    This is the OUTPUT of target_runner.py and the INPUT to oracle.py.
-    oracle.py then classifies this into a BugResult with bug_type, bug_key etc.
-    """
+    """output of target_runner.py, input to oracle.py"""
+
     stdout: str
     stderr: str
     returncode: int
@@ -67,14 +68,15 @@ class RawResult:
     strategy: str | None = None
     input_data: bytes = field(default_factory=bytes)
 
+
 # helper functions
+
+
 def _inject_input(cmd_template: list[str], replacement: str) -> list[str]:
-    """Replace all {input} placeholders in a command template."""
     return [part.replace("{input}", replacement) for part in cmd_template]
 
 
 def _make_error_result(e: Exception, input_bytes: bytes) -> RawResult:
-    """Return a RawResult representing an unexpected Python-level failure."""
     return RawResult(
         stdout="",
         stderr="",
@@ -87,14 +89,14 @@ def _make_error_result(e: Exception, input_bytes: bytes) -> RawResult:
 
 
 def resolve_cmd(cmd: list[str]) -> list[str]:
-    """Replace the command name (cmd[0]) with its full path using shutil.which()."""
+    if cmd[0] in ("python", "python3"):
+        return [sys.executable] + cmd[1:]
     resolved = shutil.which(cmd[0])
     if resolved:
         return [resolved] + cmd[1:]
-    return cmd 
+    return cmd
 
 
-# runner
 def run_target(
     cmd_template: list[str],
     input_str: str,
@@ -105,14 +107,12 @@ def run_target(
     extra_flags: list[str] | None = None,
 ) -> RawResult:
     input_bytes = input_str.encode(errors="replace")
-    tmp_file    = None
-    stdin_data  = None
+    tmp_file = None
+    stdin_data = None
 
     try:
         if input_mode == "file":
-            tmp = tempfile.NamedTemporaryFile(
-                mode="w", suffix=".txt", delete=False
-            )
+            tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False)
             tmp.write(input_str)
             tmp.close()
             tmp_file = tmp.name
@@ -142,24 +142,24 @@ def run_target(
         )
 
         return RawResult(
-            stdout = proc.stdout.decode(errors="replace"),
-            stderr = proc.stderr.decode(errors="replace"),
-            returncode = proc.returncode,
-            timed_out = False,
-            crashed = proc.returncode < 0,
-            error = None,
-            input_data = input_bytes,
+            stdout=proc.stdout.decode(errors="replace"),
+            stderr=proc.stderr.decode(errors="replace"),
+            returncode=proc.returncode,
+            timed_out=False,
+            crashed=proc.returncode < 0,
+            error=None,
+            input_data=input_bytes,
         )
 
     except subprocess.TimeoutExpired:
         return RawResult(
-            stdout = "",
-            stderr = "",
-            returncode = -1,
-            timed_out = True,
-            crashed = False,
-            error = "timeout",
-            input_data = input_bytes,
+            stdout="",
+            stderr="",
+            returncode=-1,
+            timed_out=True,
+            crashed=False,
+            error="timeout",
+            input_data=input_bytes,
         )
 
     except FileNotFoundError as e:
@@ -177,66 +177,189 @@ def run_target(
             os.remove(tmp_file)
 
 
-# wrapper
+def _parse_coverage_report_to_summary(report_text: str) -> str:
+    for line in report_text.splitlines():
+        parts = line.split()
+        if not parts or parts[0].upper() != "TOTAL":
+            continue
+        try:
+            if len(parts) >= 6:
+                stmts = int(parts[1])
+                miss_stmts = int(parts[2])
+                branches = int(parts[3])
+                br_part = int(parts[4])
+                covered_stmts = stmts - miss_stmts
+                covered_branches = br_part
+
+                line_pct = (covered_stmts / stmts * 100) if stmts else 0.0
+                branch_pct = (covered_branches / branches * 100) if branches else 0.0
+                combined_pct = (
+                    ((covered_stmts + covered_branches) / (stmts + branches) * 100)
+                    if (stmts + branches)
+                    else 0.0
+                )
+
+                return (
+                    f"line coverage     : {line_pct:.2f}%\n"
+                    f"branch coverage   : {branch_pct:.2f}%\n"
+                    f"combined coverage : {combined_pct:.2f}%\n"
+                )
+            elif len(parts) >= 4:
+                stmts = int(parts[1])
+                miss_stmts = int(parts[2])
+                covered_stmts = stmts - miss_stmts
+                line_pct = (covered_stmts / stmts * 100) if stmts else 0.0
+                return (
+                    f"line coverage     : {line_pct:.2f}%\n"
+                    f"branch coverage   : {line_pct:.2f}%\n"
+                    f"combined coverage : {line_pct:.2f}%\n"
+                )
+        except (ValueError, ZeroDivisionError):
+            continue
+    return ""
+
+def cleanup_coverage_files(config: dict) -> None:
+    target = config.get("name", "unknown")
+    cwd = config.get("reference_cwd")
+    coverage_file = Path(cwd or ".") / f".coverage_{target}"
+    if coverage_file.exists():
+        coverage_file.unlink()
+
+def run_reference_with_coverage(
+    target: str,
+    cmd_template: list[str],
+    input_str: str,
+    input_mode: str,
+    cwd: str | None,
+    timeout: int,
+    use_wsl: bool,
+) -> RawResult:
+    import uuid
+
+    python_interpreters = {"python", "python3", "py"}
+    rest = (
+        cmd_template[1:]
+        if cmd_template[0].lower().split(os.sep)[-1].split(".")[0]
+        in python_interpreters
+        else cmd_template
+    )
+
+    data_file = f".coverage_{target}"
+    cov_run_cmd = [
+        sys.executable,
+        "-m",
+        "coverage",
+        "run",
+        "--branch",
+        "--append",
+        f"--data-file={data_file}",
+    ] + rest
+
+    run_result = run_target(
+        cmd_template=cov_run_cmd,
+        input_str=input_str,
+        input_mode=input_mode,
+        cwd=cwd,
+        timeout=timeout,
+        use_wsl=use_wsl,
+    )
+
+    try:
+        report_proc = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "coverage",
+                "report",
+                f"--data-file={data_file}",
+                "--precision=2",
+                "-m",
+            ],
+            capture_output=True,
+            timeout=15,
+            cwd=cwd or None,
+        )
+        report_out = report_proc.stdout.decode(errors="replace")
+
+        cov_lines = _parse_coverage_report_to_summary(report_out)
+
+        run_result = RawResult(
+            stdout=run_result.stdout + "\t<cov_lines>" + cov_lines,
+            stderr=run_result.stderr,
+            returncode=run_result.returncode,
+            timed_out=run_result.timed_out,
+            crashed=run_result.crashed,
+            error=run_result.error,
+            strategy=run_result.strategy,
+            input_data=run_result.input_data,
+        )
+    except Exception:
+        pass
+    return run_result
+
+
 def run_both(
     config: dict,
     input_str: str,
+    use_coverage: bool,
     strategy: str | None = None,
-    use_coverage: bool = False,
-) -> tuple[list[RawResult], RawResult | None]:
-    """
-    Run ALL buggy binaries AND the reference target for a given config dict.
-    Returns (buggy_results, reference_result).
-
-    buggy_results is always a LIST of RawResult — one per buggy_cmd entry.
-    This supports targets like ip_parser that have multiple binaries
-    (mac-ipv4-parser + mac-ipv6-parser) in a single YAML config.
-
-    reference_result is None if no reference_cmd is defined in the config.
-    """
+    timeout: int = 60,
+) -> tuple[RawResult, RawResult | None]:
+    """run buggy binaries and the reference target if necessary, returns buggy result, reference result*"""
     input_mode = config.get("input_mode", "arg")
-    timeout = config.get("timeout", 60)
     use_wsl = config.get("use_wsl", False)
+    extra_flags = (
+        [config["coverage_flag"]]
+        if use_coverage
+        and config.get("coverage_enabled")
+        and config.get("coverage_flag")
+        else None
+    )
 
-    extra_flags = None
-    if use_coverage and config.get("coverage_enabled") and config.get("coverage_flag"):
-        extra_flags = [config["coverage_flag"]]
+    raw_buggy_cmd = config.get("buggy_cmd")
+    if not raw_buggy_cmd:
+        raise ValueError("buggy_cmd is required in the config")
+    current_os = get_platform()
+    if current_os not in raw_buggy_cmd:
+        raise RuntimeError(f"No command configured for {current_os} in YAML!")
+    buggy_cmd = raw_buggy_cmd[current_os]
 
-    raw_buggy_cmd = config["buggy_cmd"]
-    if isinstance(raw_buggy_cmd[0], list):
-        buggy_cmds = raw_buggy_cmd 
-    else:
-        buggy_cmds = [raw_buggy_cmd]
+    buggy_result = run_target(
+        cmd_template=buggy_cmd,
+        input_str=input_str,
+        input_mode=input_mode,
+        cwd=config.get("buggy_cwd"),
+        timeout=timeout,
+        use_wsl=use_wsl,
+        extra_flags=extra_flags,
+    )
+    buggy_result.strategy = strategy
 
-    buggy_results = []
-    for cmd in buggy_cmds:
-        result = run_target(
-            cmd_template = cmd,
-            input_str = input_str,
-            input_mode = input_mode,
-            cwd = config.get("buggy_cwd"),
-            timeout = timeout,
-            use_wsl = use_wsl,
-            extra_flags = extra_flags,
-        )
-        result.strategy = strategy
-        buggy_results.append(result)
-
+    reference_result = None
     ref_cmd = config.get("reference_cmd")
     if ref_cmd:
-        reference_result = run_target(
-            cmd_template = ref_cmd,
-            input_str = input_str,
-            input_mode = input_mode,
-            cwd = config.get("reference_cwd"),
-            timeout = timeout,
-            use_wsl = use_wsl,
-        )
+        if use_coverage and not config.get("coverage_enabled"):
+            reference_result = run_reference_with_coverage(
+                target=config.get("name"),
+                cmd_template=ref_cmd[current_os],
+                input_str=input_str,
+                input_mode=input_mode,
+                cwd=config.get("reference_cwd"),
+                timeout=timeout,
+                use_wsl=use_wsl,
+            )
+        else:
+            reference_result = run_target(
+                cmd_template=ref_cmd[current_os],
+                input_str=input_str,
+                input_mode=input_mode,
+                cwd=config.get("reference_cwd"),
+                timeout=timeout,
+                use_wsl=use_wsl,
+            )
         reference_result.strategy = strategy
-    else:
-        reference_result = None
+    return buggy_result, reference_result
 
-    return buggy_results, reference_result
 
 def load_config(yaml_path: str) -> dict:
     p = Path(yaml_path).resolve()
@@ -265,66 +388,3 @@ def load_seeds(seeds_path: str) -> list[str]:
             if line and not line.startswith("#"):
                 seeds.append(line)
     return seeds
-
-
-# test runner
-# python3 engine/target_runner.py
-if __name__ == "__main__":
-    import yaml
-
-    TARGET_YAMLS = [
-        "targets/json_decoder.yaml",
-        "targets/cidrize.yaml",
-        "targets/ipv4_parser.yaml",
-        "targets/ipv6_parser.yaml",
-    ]
-
-    print(f"Platform : {get_platform()}\n")
-
-    for yaml_file in TARGET_YAMLS:
-        if not Path(yaml_file).exists():
-            print(f"[SKIP] {yaml_file} not found\n")
-            continue
-
-        cfg = load_config(yaml_file)
-        seeds = load_seeds(cfg["seeds_path"])
-
-        print(f"{'='*60}")
-        print(f"TARGET : {cfg['name']}")
-        print(f"CWD    : {cfg.get('buggy_cwd', 'n/a')}")
-        print(f"SEEDS  : {len(seeds)} loaded from {cfg['seeds_path']}")
-        print(f"{'='*60}")
-
-        if not seeds:
-            print("[WARN] No seeds found — skipping\n")
-            continue
-
-        for seed in seeds:
-            buggy_results, ref = run_both(cfg, seed, strategy="sanity_test")
-            bug_keywords = cfg.get("bug_keywords", [])
-
-            for i, buggy in enumerate(buggy_results):
-                label = "buggy" if len(buggy_results) == 1 else f"buggy[{i}]"
-
-                if buggy.timed_out:
-                    bug_signal = "TIMEOUT"
-                elif buggy.crashed:
-                    bug_signal = "CRASH"
-                elif any(kw in buggy.stdout + buggy.stderr for kw in bug_keywords):
-                    bug_signal = "BUG?"
-                else:
-                    bug_signal = "ok"
-
-                ref_signal = ""
-                if ref and i == 0:
-                    if ref.timed_out: ref_signal = f"| [TIMEOUT] ref "
-                    elif ref.crashed: ref_signal = f"| [CRASH  ] ref "
-                    else: ref_signal = f"| [ok     ] ref "
-
-                print(
-                    f"  [{bug_signal:7s}] {label:10s} "
-                    + ref_signal
-                    + f"| {repr(seed[:50])}"
-                )
-
-        print()

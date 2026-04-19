@@ -1,0 +1,5 @@
+iteration,elapsed_s,runs_total,bugs_unique,corpus_size,runs_per_sec
+50,43.8,50,13,0,1.14
+100,88.5,100,30,0,1.13
+150,130.7,150,50,0,1.15
+200,168.9,200,66,0,1.18

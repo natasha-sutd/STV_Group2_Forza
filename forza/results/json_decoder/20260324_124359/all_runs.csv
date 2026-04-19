@@ -1,0 +1,221 @@
+iteration,timestamp,input,bug_type,is_new,exit_code
+1,0.000,"'[nul{l, tr[null, tr[null, tr[null, tr[null, tr[null, tr[null, tr[null, tr[null, tr[null, true, false, 0, """", {}]'",INVALIDITY,1,0
+2,0.262,"'{""int_max""º 9999999999999999}'",INVALIDITY,1,0
+3,0.542,"'{""neg_float"": -1[.23e-10}'",INVALIDITY,1,0
+4,0.811,"'{""json"":$""obj""}'",INVALIDITY,1,0
+5,1.085,"'{""ke"""": yvalue""}'",INVALIDITY,1,0
+6,1.361,'trururu{rururue',INVALIDITY,1,0
+7,1.633,"'[null, true, false, 0, ""e, 0, ""e, 0, ""e, 0, """", {}]'",INVALIDITY,1,0
+8,1.633,"'{""int_max""º x""º x""º x""º x""º x""º x""º x""º x""º x""º 9999999999999\x00999}'",RELIABILITY,1,-1
+9,1.898,'{}}}}}}}}999999999999999999999999}',INVALIDITY,1,0
+10,1.898,"'{""int_max""º x""º x""º x""º x""º x""º x""º x""º x""º x""º 9Z999999999999\x00999}'",RELIABILITY,0,-1
+11,2.942,'{}}}}}}}}999999999999999999999999}',INVALIDITY,0,0
+12,3.466,"'{""int_max""º 99]99999999999999}}}}}}}}}'",INVALIDITY,0,0
+13,3.730,"'{""neg_float"": -1.23e-101.23e-101.23e-101.23e-101].23e-101.23e-10}'",INVALIDITY,1,0
+14,3.730,'{}}}}}}}}999999999999999999999\x00999}}}',RELIABILITY,0,-1
+15,3.992,'tsue',INVALIDITY,0,0
+16,4.257,"'{""neg_float"": -1[.23e-10}'",INVALIDITY,0,0
+17,4.520,"'\x02hello""'",INVALIDITY,0,0
+18,4.785,"'[null, true, false, 0, ""e, 0, ""e, 0, ""e, 0, """",H {}]'",INVALIDITY,0,0
+19,5.050,"'[null, true, false, 0,  false, 0,  false, 0,  fa\nlse, 0, """", {}]'",INVALIDITY,1,0
+20,5.575,'<00',INVALIDITY,0,0
+21,5.838,'%00{}}}',INVALIDITY,0,0
+22,6.103,"'{""a"": {""b"">: {""c"": 1}}}}}}}}}}}}}}}'",INVALIDITY,0,0
+23,6.368,"'{""emoji_escaped"": ""\\uD83D\\uDE00""0""0""0""/../}'",INVALIDITY,1,0
+24,6.632,"'{""a""l nul:}'",INVALIDITY,1,0
+25,6.903,"'{""neg_float"": -1.23e-101.23e-101.23e-101101101101101.23e-101].23e-101.23[e-10}'",INVALIDITY,0,0
+26,7.185,"'{""unicode"":ÿ ""\\u0041\\u0042\\u004u004u004u004u004u004u004u004u0043""}'",INVALIDITY,1,0
+27,7.463,"'{""emoji_escaped"": ""\\uD83D\\uDE0E0E{0E0E0E0E00""}'",INVALIDITY,1,0
+28,7.728,'trrrrrr/../ue',INVALIDITY,0,0
+29,7.728,"'""line\\n\x00b\\b\\b\\b\\b\\b\\b\\b\\b\\nb\\nbreak""'",RELIABILITY,0,-1
+30,7.995,"'{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e<{""float"": 1.23e{""float"": 1.2",INVALIDITY,1,0
+31,8.266,'{}{}{}{\\}{}{}{}{}{}{}',INVALIDITY,0,0
+32,8.535,"'{""a"": {||""b"": {""c"": 1}}}"": {""b"": {""c"": 1}}}'",INVALIDITY,1,0
+33,8.801,'\x10',INVALIDITY,0,0
+34,9.071,"'{""a"": {||\\""b"": {""c"": 1}}}"": {""b"": {""a"": {||""b"": {""c"": 1}}}"": {""b"": {""a"": {||""b"": {""c"": 1}}}"": {""b"": {""a"": {||""b"": {""c""",INVALIDITY,0,0
+35,9.343,"'{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{&float"": 1.23e{""float"": 1.23e{""float"": 1.23e<{""float"": 1.23e{""float"": 1.2",INVALIDITY,0,0
+36,9.620,"'[null, tru}e, false, 0, ""e, 0, ""e, false, 0, ""e, 0, ""e, false, 0, ""e, 0, ""e, false, 0, ""e, 0, ""e, false, 0, ""e, 0, ""e, ",INVALIDITY,1,0
+37,10.159,"'{""emoji_escaped"": ""\\uD83D\\uDE00""0""0""0""/../}'",INVALIDITY,0,0
+38,10.421,"'{""emoji_escaped"": \\""\\uD83D\\uDE00""0""0""0""/../../../../../../../../}'",INVALIDITY,1,0
+39,10.693,"'{""emoji{_escaped"": ""\\uD83scaped"": ""\\uD83scaped"": ""\\uD83scaped"": ""\\uD83scaped"": ""\\uD83scaped"": ""\\uD83scaped"": ""\\u",INVALIDITY,0,0
+40,10.969,"'{""i\\nt_max"": 99999999: 9999999999999999}'",INVALIDITY,1,0
+41,11.241,"'{""a"": {||""b"": {""c"": 1}}}"": {""a"": {||""b"": {""c"": 1}}}"": {""a"": {||""b"": {""c"": 1}}}"": {""a"": {||""b"": {""c"": 1}}}"": {""a"": {||""b",INVALIDITY,0,0
+42,11.513,"'{""emoji_escaped"": \\""\\uD83D\\uDE00""0""0""0""/../.\\./../../../../../../}}}'",INVALIDITY,0,0
+43,11.785,"'[null, tru}e, false, 0, ""e, 0, ""e, false, 0, ""e, 0, ""e, false, 0, ""e, 0,se, 0, ""e, 0, ""e, false, 0, ""e, 0,se, 0, ""e, 0,",INVALIDITY,0,0
+44,12.056,'ÿ[[[[]',INVALIDITY,0,0
+45,12.328,"'{""json"": ""obj""%00}j""}j""}j""}j""}j""}j""}'",INVALIDITY,0,0
+46,12.600,"'{""zero_variants"": [0, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iants"": >[0, -0, 0.iants"": [0, -0, 0.0, 0e0]}'",INVALIDITY,1,0
+47,12.864,"'{""float"": 1.23e{""float"": 1.23e{""float"": \\1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23oat"": 1.23e{""float"": 1.23e{""",INVALIDITY,0,0
+48,12.865,"'{""unicode"":ÿ ""\\u0041\\u004\x002\\u004u004u0u004u0u004u0u004u0u004u004u004u004u004u004u004u0043""}'",RELIABILITY,0,-1
+49,13.158,'falfal&&falfalfalfalfalfalfalfalse',INVALIDITY,0,0
+50,13.429,"'{""emoji_escaped"": \\""\\uD83D\\uDE00""0""0aped"": \\""\\uD83D\\uDE00""0""0""0""/../../.ÿ./../../../../../}'",INVALIDITY,0,0
+51,13.700,"'{""zero_v}ariants"": [0, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iants"": >[0, -0, 0.iants"": [0, -0, 0.0, , 0.iants"": >[",INVALIDITY,1,0
+52,13.972,"'{""neg_float"": -1."": -1."": -1."": -1."": -1."": -1."": -1."": -1.23e-10}>'",INVALIDITY,0,0
+53,14.254,'nul\rlllllllll',INVALIDITY,0,0
+54,14.528,"'{""]emoji_escaped"": \\""\\uD83D\\uDE00""0""0""0""/../../../../../../../../../../../../../../}'",INVALIDITY,1,0
+55,14.800,"'{""json"": ""obj""json"": ""obj""json"": ""obj""json"": ""obj""json""%00: ""obj""}'",INVALIDITY,0,0
+56,15.065,"'{""a"": {""b"": {""c"": 1{}c"": 1}c"": 1}c"": 1}c"": 1}}}'",INVALIDITY,1,0
+57,15.341,"'""[[[[[[[]'",INVALIDITY,1,0
+58,15.613,"'[1, 999999999999999999999999, , , 2, 3]'",INVALIDITY,1,0
+59,15.883,"'""""""""""""""""""""""""\''",INVALIDITY,0,0
+60,16.150,"'{""emoji_escaped"": ""\\uD83<D\\uDE00""0""0""0""/../././././././././}'",INVALIDITY,0,0
+61,16.422,"'{""zero_variants"": [0, -0, 0.0, 0e0: [0, -0, 0.0, 0e0: [0, -0, 0.0, 0e0: [0, -0, 0.0, 0e0:"" [0, -0, 0.0, 0e0]}'",INVALIDITY,1,0
+62,16.690,"'[null,[ true, false, 0, """", {}{}{}{}{}{}{}{}{}]'",INVALIDITY,1,0
+63,16.966,"""['111, 2, 3]""",INVALIDITY,0,0
+64,17.248,"'{""a"": [1, {{""b"": 2}}]}'",INVALIDITY,1,0
+65,17.249,"'{""a"": nulln\x00ull}'",RELIABILITY,0,-1
+66,17.523,"'[null, tru}e, false, 0, ""e, 0, ""e, false, 0, ""e, 0, ""e, false, 0, ""e, 0, ""e, false, 0, ""e, 0, ""e, fl, tru}e, false, 0, ",INVALIDITY,0,0
+67,17.808,"'{""emoji_escaped"": ""\\uD83D\\uDE00ji_e[scaped"": ""\\uD83D\\uDE00ji_escaped"": ""\\uD83D\\uDE00ji_escaped"": ""\\uD83D\\uDE00j",INVALIDITY,1,0
+68,17.809,"'{""zero_variants"": [0, -0, 0.iants"": [0, -0, 0.iants"": [0, \x00-0, 0.iants"": >[0, -0, 0.iants"": [0, -0, 0.0, 0e0]]}'",RELIABILITY,0,-1
+69,17.809,"'{""int_max""º x""º x""º x""º x""º x""º x""º x""º x""º x""º 9999999999999\x00max""º x""º x""º x/../""º x""º x""º x""º x""º x""º x""º 99999999",RELIABILITY,0,-1
+70,18.086,"'{""i\\nt_max"": 99999999: 9999999%009999999999999999999}'",INVALIDITY,0,0
+71,18.372,"'{""json"": ""obj""ob\'j""obj""obj""obj""}'",INVALIDITY,0,0
+72,18.649,"'"">[[[[[[[[[[[[[[[[[[[[[[]'",INVALIDITY,0,0
+73,18.983,"'[null, true,"" false, 0, ""e, 0, ""e, 0, ""e, 0, """", ""e, 0, """", {}]'",INVALIDITY,1,0
+74,19.272,"'{""neg_float"": -1[.23e-10}-10}-10}-10}-10}-10}-10}-10\'}-10}-10}'",INVALIDITY,0,0
+75,19.543,"'[null, true, false, 0,  false, 0,  false, 0,  fa\nlse, 0, """", {}]lse, 0, """", {}]lse, 0, """",} {}]lse, 0, """", {}]lse, 0, ",INVALIDITY,0,0
+76,19.824,'{}\\}}}}}',INVALIDITY,0,0
+77,20.107,"'{""zero_v}ariants"": [0, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iants"": >[0, -0, 0.iants"": [0, -0, 0.0, , 0.iants"": >[",INVALIDITY,0,0
+78,20.375,'1<1',INVALIDITY,1,0
+79,20.655,"'{""zero_variants"": [0, -0, 0.iants"": [0, 999999999999999999999999-0, 0.iants"": [0, -0, 0.iants"": >[0, -0, 0.iants"": [0, ",INVALIDITY,0,0
+80,20.935,"'[1, 99999999\n9999999999999999, , ,99999999999999999, , ,99999999999999999, , ,99999999999999999, , , 2, 3]'",INVALIDITY,1,0
+81,21.202,"'{""zero_variants"": [0, -0, 0.0,ro_variants"": [0, -0, 0.0,ro_variants"": [0, -0, 0.0,ro_variants"": [0[, -0, 0.0,ro_variant",INVALIDITY,0,0
+82,21.490,"'{""int_max"": 99999999999999nt_max"": 99999999999\r999nt_max"": 99999999999999nt_max"": 99999999999999nt_max"": 9999999999999",INVALIDITY,1,0
+83,21.766,"""[]]]]]]]']]""",INVALIDITY,0,0
+84,22.081,'[][999999999999999999999999]',INVALIDITY,0,0
+85,22.360,"'""[[[[[[[[[[[\n]'",INVALIDITY,1,0
+86,22.635,'trururururur<urururue',INVALIDITY,0,0
+87,22.928,"'{""emoji_escaped"": ""\\uD83D\\uDE00ji_e[scaped"": ""\\uD83D\\uDE00ji_escaped"": ""\\uD83D\\uDE00ji_escaped"": ""\\uD83D\\uDE0\n",INVALIDITY,0,0
+88,23.223,'{}}||}}}}}}',INVALIDITY,0,0
+89,23.518,'1}1',INVALIDITY,0,0
+90,23.814,"'{""neg_float"": -1.23e-101.23e-101.23e-101e""-101.23e-101.23e-101].23e-101.23e-10}'",INVALIDITY,0,0
+91,24.108,'11ÿ',INVALIDITY,0,0
+92,24.389,"'/../{""int_max"": : : : : 9999999999999999}'",INVALIDITY,0,0
+93,24.688,'{}]}',INVALIDITY,0,0
+94,24.983,"'{""int_max"": 99999999999999nt_max"": 99999999999\r999nt_max"": 99999999999999nt_ma\\x"": 99999999999999nt_max"": 99999nt_max",INVALIDITY,0,0
+95,25.279,"""'11""",INVALIDITY,0,0
+96,25.553,'00\n',INVALIDITY,0,0
+97,25.829,"'{""float"": 1.23e10e10eÿ10e10e10e10e10}'",INVALIDITY,1,0
+98,26.135,"'{""int_max"": 999999999999999999999999999999999999int_max"": 999999999999int_max"": 999999999999int_max"": 9999999999999999}",INVALIDITY,1,0
+99,26.432,"'{""neg_float"": -g_float"": -g_float"": -g_float"": -g_float"": -g\'_float"": -1.23e-10}'",INVALIDITY,1,0
+100,26.720,"'[null, true,"" false, 0, ""e, 0, ""e, 0, ""e, 0, """", ""e, 0, """", {}]"""", {}]"""", {}]"""",< {}]'",INVALIDITY,0,0
+101,27.005,"'{""json"":$""obson"":$""obson"":$""obson"":$""obson"":$""obson"":$""obson"":$""obson"":$""obson"":\r$""obj""}'",INVALIDITY,0,0
+102,27.295,"'{""int_max""||º 9999999999999999999999999999999999999999}'",INVALIDITY,0,0
+103,27.605,"'{""neg_float"": -1.23e-10t"": -1.23e-10t"": -1.23e-10t"":ÿ -1.23e-10}'",INVALIDITY,1,0
+104,27.893,"'{""]emoji_esca\\ped"": \\""\\uD83D\\uDE00""0""0""0""/../../../../.././.././.././.././.././../../../../../../../../../../}'",INVALIDITY,1,0
+105,28.183,"'{""neg_float"": }-1.23e-10t"": -1.23e-10t"": -1.20t"": -1.20t"": -1.23e-10t"":ÿ -1.23e-10}'",INVALIDITY,0,0
+106,28.471,"'{""json"": ""obj""\\}""}""}""}""}'",INVALIDITY,0,0
+107,28.754,'nuuuuuuu}uuull',INVALIDITY,0,0
+108,29.039,"'{}}}}}}}}99999999999999999999999999999""9999999999999999999999999999999999999999999}'",INVALIDITY,0,0
+109,29.323,"'{""neg_float"": \n-1.23e-10-10-10-10-10-10}'",INVALIDITY,1,0
+110,29.604,"'{}}}""}}}}}999999999999999999999999999999999999}'",INVALIDITY,0,0
+111,29.886,'/../00',INVALIDITY,0,0
+112,29.886,"'{""int_max""º x""º x""º x""º x""º x""º x""º x""º x""º x""º 99""º 99""º 99\r""º 99""º 99""º 9999999999999\x00999}'",RELIABILITY,0,-1
+113,31.006,"'{""neg_floa<t"": -1.23e-10{""neg_float"": -1.23e-10{""neg_float"": -1.23e-10{""neg_float"": -1.23e-10{""neg_float"": -1.23e-10{""n",INVALIDITY,0,0
+114,31.290,"'{""emoji_es/../caped"": ""\\uD83D\\uDE0E0EDE0E0EDE0E0EDE0E0EDE0E0E{0E0E0E0E00""}'",INVALIDITY,0,0
+115,31.572,"'[1, 99999999\n9999999999999999, , ,99999999999999999, , ,99999999999999%00999, , ,99999999999999999, , 9, , 9, , , 2, 3",INVALIDITY,0,0
+116,31.857,"'""line\\""nbreak""""""""""""""""'",INVALIDITY,1,0
+117,32.139,"'{""]emoji_esca\\ped"": \\""\\uD83D\\uDE00""0""0""0""/../../../../.././.././.././.././../.D83D\\uDE00""0""0""0""/../../../../.././.",INVALIDITY,0,0
+118,32.415,'{}}}}}}}}99999999999\\999999999999999999999}',INVALIDITY,0,0
+119,32.682,"'""hello""hello""hello""hello""hello""hello""hello""hello""helloÿ""'",INVALIDITY,1,0
+120,32.949,"'{""a"": [1, {""b"": 2}]}: 2}]}: 2}]}: 2}]}:[ 2}]}: 2}]}: 2}]}: 2}]}'",INVALIDITY,1,0
+121,33.215,"'{""a"": [1,""a"": [1,""a"": [1, {{""b"": \r2}}]}'",INVALIDITY,1,0
+122,33.486,"'""[[[[[[[""]]'",INVALIDITY,1,0
+123,33.753,"'{""a"": [1, {""b""""b""""b""""b""""b""""b""<""b""""b""""b"": 2}]}'",INVALIDITY,1,0
+124,34.020,'\\[][][]',INVALIDITY,0,0
+125,34.287,"'{""float"":oat"": [1.23e10}'",INVALIDITY,1,0
+126,34.555,"'{""]emoji_escape||d"": \\""\\uD83D\\uDE00""0""0""0""/../../..../../..../../..../../..../../..../../..../../..../../../../../..",INVALIDITY,1,0
+127,34.821,"'{""key"": ""valll/../lllll\rlluue""}'",INVALIDITY,1,0
+128,35.085,'trururu{rurururu{rurururu{rurururu{rururu/../ru{rururue',INVALIDITY,0,0
+129,35.348,"""{}}}}}}}}9999999999999999999999999999999999999999999999999999999999'999999999999999999999999999999999999999999999999999",INVALIDITY,0,0
+130,35.612,"'[1,} 2, 3]3]3]3]'",INVALIDITY,1,0
+131,35.875,"'""[[>[[[[[[[[[[[[[[[[[[[\n]'",INVALIDITY,1,0
+132,36.165,"'{""a"": {||""b"": {""c"": 1}}}"": {""b"": {""cb]"": {""cb"": {""cb"": {""cb"": {""c"": 1}}}'",INVALIDITY,0,0
+133,36.431,"'{""js%00on"":$n"":$n"":$""obj""}'",INVALIDITY,0,0
+134,36.699,"'{""]emoji_escaped"": \\""\\uD83D\\uDE00""0""0""0""/../../..\r/../../../../..//../../../../../../../../../../../}'",INVALIDITY,0,0
+135,36.977,"'{""key"": ""vallllll/../lllll\rll%00uue""}'",INVALIDITY,1,0
+136,37.254,"'{""int_]max"": 99999999999999999999999999999999999999999999999999999999999999999999999999999999\\9999999999999999999}'",INVALIDITY,1,0
+137,37.520,'[999999999999999999999999]]]]',INVALIDITY,1,0
+138,38.047,"'[null, tr999999999999999999999999ue, false, 0, ""e, 0, ""e, 0, ""e, 0, """",   {}]'",INVALIDITY,0,0
+139,38.313,"'[nul{l, tr[null, tr[null, tr[null, tr[null, tr[null, tr[null, tr[null, tr[n, tr[null, tr[null, tr[n, tr[null, tr[null, ",INVALIDITY,0,0
+140,38.314,"'{""neg_float"":oat"":oat"":oat"":oat""\x00:oat"":oat"": -1[.23e-10}'",RELIABILITY,0,-1
+141,38.583,"'{""zero_variants"": [0, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iants"": >[0, s"": >[0, s"": >[0, s"": >[0, s"": >[0, s"": >[",INVALIDITY,0,0
+142,39.119,"'{""k&&e"""": yvalue""}}}}}}}}}'",INVALIDITY,1,0
+143,39.385,"'""""""""hell[o""'",INVALIDITY,0,0
+144,39.677,"'{""float"": 1.2"":|| 1.2"": 1.2"": 1.2"": 1.2"": 1.2"": 1.2"": 1.2"": 1.2"": 1.23e10}'",INVALIDITY,1,0
+145,39.953,"'{""key>"": ""vallllll/../lllll\rll%00uueeeeeeeee""}'",INVALIDITY,1,0
+146,40.246,"'{""float"":oat"": \\[1.23oat"": [1.23oat"": [1.23e10}'",INVALIDITY,0,0
+147,40.536,"'{""key>["": ""vallllll/../lllll\rll%00uueeeeeee00uueeeeeeeee""}'",INVALIDITY,1,0
+148,40.836,"'{""zero_variants"": [0, -0: [0, -0: [0, -0: [0, -0: [0, -0: [0, -0: [0, -0: [0, -0: [0, -0, 0.0, 0||e0]}'",INVALIDITY,0,0
+149,41.127,'1111\n<1',INVALIDITY,1,0
+150,41.128,"'{""emoji_escaped"":""emoji_escaped"":""emoji_escaped"": ""\\uD83D\\uDE00\x00""0""0""0""/../}'",RELIABILITY,0,-1
+151,41.448,"'{""zero_v}ariants""[: [0, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iants"": >[0, -0, 0.iants"": [0, -0, 0.0, , 0.iants"": >",INVALIDITY,1,0
+152,41.734,"'{""key>["": ""vallllll/../lllll\rll\rll""\rll\rll\rll%00uueeeeeee00uueeeeeeeee""}'",INVALIDITY,0,0
+153,42.021,"""[1, 99999999999 99999999999 99999999999 99999999999 99999999999 999999'999999999999999999, , , 2, 3]""",INVALIDITY,0,0
+154,42.314,"'{""neg_float"": -1.23e-101.23e-10e-101.23e-10e-101.23e-10e""-101.23e-101.23e-101.23e-101].23e-101.23e-10}'",INVALIDITY,0,0
+155,42.314,"'{""i\\nt_max"": 9999\x009999: 9999999999999999999999999999999999999999999999999999999999999999999999999999}'",RELIABILITY,0,-1
+156,42.599,"'{""a"": [1, {""b"": 2}]}: 2}]}: 2}]}: 2}]}:[ 2}]}: 2}]}: }: ""2}]}: 2}]}:[ 2}]}: 2}]}: }: 2}]}: 2}]}:[ 2}]}: 2}]}: 2}]}: 2}]",INVALIDITY,0,0
+157,42.872,"'{""]emoji_escaped"": \\""\\uD83D\\uDE00""0""0""0""/../../../../../../../../../../]emoji_escaped"": \\""\\uD83D\\uDE00""0""0""0""/../",INVALIDITY,0,0
+158,42.873,"'{""int_max""º x""º x""º x""º x""º x""º x""º x""ºmax""º x""º x""º x""º x""º x""º x""º /../x""ºmax""º x""º x""º x""º x""º x""º x""º x""º x""º x""º 9",RELIABILITY,0,-1
+159,43.145,"'{""key"": ""valll/../lllll\rlluue""{""key"": ""valll/&&../lllll\rlluue""}'",INVALIDITY,0,0
+160,43.412,'[]][]]]]',INVALIDITY,0,0
+161,43.681,'1[1',INVALIDITY,0,0
+162,43.682,"'{""zero_v}ariants"": [0\x00, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iants"": >[0, -0, 0.iants"": [0, -0, 0.0, , 0.iants""",RELIABILITY,0,-1
+163,43.948,"'{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e<{""float"": 1.23e{""float"": 1.a",INVALIDITY,0,0
+164,44.216,'[99999999999999999999999999999<9999999999999999999999]]]]',INVALIDITY,0,0
+165,44.484,"'{""emoji_escaped"": \\""\\uD83333333D\\uDE00""0""0""0""/../../../../../../../..ÿ/}'",INVALIDITY,0,0
+166,44.750,"'[null, trull, trull, true, false, 0, ""e, 0, ""e, 0, ""e, 0, """", {}]<'",INVALIDITY,0,0
+167,45.017,"'{""key>"": ""val""lllll/../lllll\rll/../lllll\rll/../lllll\rll/../lllll\rll/../lllll\rll/../lllll\rll/../lllll\rll%00uueeee",INVALIDITY,0,0
+168,45.282,"'{""emoji_escaped"": ""\\uD83D\\uDE0E0E{0E0E0E{0E0E0E{0{E0E0E{0E0E0E{0E0E0E{0E0E0E0E00""}'",INVALIDITY,0,0
+169,45.549,"'{""zero_variants"": [0, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iants"": >[0, -0, 0.iants"": [0, -0, 0.0, 0e0]nts"": >[0, ",INVALIDITY,0,0
+170,45.818,"'""\r""""""""""'",INVALIDITY,1,0
+171,46.087,"'{""a"": [1, {""b"": 2a"": [1, {""b"": 2a"": [1, {""b"": 2a"": [1999999999999999999999999, {""b"": 2a"": [1, {""b"": 2a"": [1, {""b"": 2}]}",INVALIDITY,0,0
+172,46.356,"'[null,[ true, false, 0, """", {}\\{}{}{}{}{}{}{}{}{}]'",INVALIDITY,0,0
+173,46.626,"'{""float"": 1.23e10e10eÿ10e10e10eÿ10e10e10eÿ10%00e10e10e10e10}'",INVALIDITY,0,0
+174,46.895,"'{""zero_v}ariants"": [0, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iantsts"": [0, -0, 0.iants"": [0, -0, 0.iantsts"": [0, -0",INVALIDITY,0,0
+175,47.161,"'{""json"":$""objjson"":$""objjson"":$""objjson"":$""objjson"":$""objjson"":$""objjson"":$""objjson"":$""objjson"":$""}objjson"":$""obj""}'",INVALIDITY,0,0
+176,47.427,"'{""n""eg_flg_float"": -1.23e-10}'",INVALIDITY,0,0
+177,47.694,"'{""float"": 1.23e10e10eÿ10e110e10eÿ10e110e10eÿ10\'e110e10eÿ10e10e10e10e10}'",INVALIDITY,0,0
+178,47.987,'[ÿ[[[[]',INVALIDITY,0,0
+179,48.294,"'falll""lllse'",INVALIDITY,0,0
+180,48.564,"'{""]emoji_escape||d"": \\""\\uD83D\\uDE00""0""0""0""/../../..../../..../../..../../..../../..../../..../../..../../../../../..",INVALIDITY,0,0
+181,48.851,"'""[[>[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[}[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[\n]'",INVALIDITY,1,0
+182,49.125,"""1111\n\n\n\n'\n<1""",INVALIDITY,1,0
+183,49.419,"'{""neg_flo>at"": -1.23e-1.23e-1.23e-1.23e-1.23e-1.23e-10}'",INVALIDITY,0,0
+184,49.420,"'[1, 999999999999999999999999, , , 2,  2,  2,  2, 3]\x00'",RELIABILITY,0,-1
+185,49.706,"'{""int_max""º 99999""º 99999""º 99999""º 99999""º 99999""º 99999""º 99999""º 99999""º 99999""º 999999999999999\'9}'",INVALIDITY,0,0
+186,49.707,"'{""floflofloflofl\x00oflofloat"": 1.23e10}'",RELIABILITY,0,-1
+187,50.260,"'{""n||eg_float"": -1[.23e-1[.23e-1[.23e-1[.23e-1[.23e-1[.23e-1[.23e-10}'",INVALIDITY,1,0
+188,50.526,"'{""neg_flo/../at"": -1[.23e-10}t"": -1[.23e-10}t"": -1[.23e-10}t"": -1[.23e-10}'",INVALIDITY,1,0
+189,51.093,"'{""float"":loat"":loat"":loat""\':loat"":loat"":loat"":loat"":loat"": 1.23e10}'",INVALIDITY,0,0
+190,51.386,"'{""a"": [1,""a"": [1,""a"": [1, {{""b"": \r2}: \r2}: \r2}: \r2}: \r2}}]}/../'",INVALIDITY,0,0
+191,51.386,"'[null, true, false, 0,  false, 0,  false, 0,  fa\nlse, 0,lse, 0,  fa\nlse, 0,lse, 0,  fa\nlse, 0,lse, 0,  fa\nlse, 0,ls",RELIABILITY,0,-1
+192,51.674,"'[null, true,"" false, 0, ""e, 0, ""e, 0, ""[null, true,"" false, 0, ""e, 0, ""e, 0, ""[null, true,"" false, 0, ""e, 0, ""e, 0, ""[n",INVALIDITY,0,0
+193,51.966,"'{""int_max"": 999999999999999999999999999999999999int_max"": 999999999999int_max"": 999ax"": 999ax||"": 999ax"": 999ax"": 999ax",INVALIDITY,0,0
+194,52.253,"'{""zero_v}ariants"": [0, -0, 0.iants"": [0, -0, 0.iants"": [0, -0, 0.iants"": >[0, -0, 0.iants"": [0, -0, <0.0, , 0.iants"": >",INVALIDITY,0,0
+195,52.529,"'{""json"": ""ob""ob""o{b""ob""ob""obj""}'",INVALIDITY,0,0
+196,52.814,'[999999999999999999999999999%00]]]]',INVALIDITY,0,0
+197,53.084,"'{""float"": 1.2"":|| 1\\.2"": 1.2"": 1.2"": 1.2"": 1.2"": 1.2"": 1.2"": 1.2"": 1.23e10}}}}'",INVALIDITY,0,0
+198,53.363,"'[1, 99999999\n9999999999999999, , ,99999999999999999, , ,99999999999999999, , ,99999999999999999, , ,99999999999999999,",INVALIDITY,0,0
+199,53.633,"'{""unicode"": ""\\<u0041\\u004 ""\\u0041\\u004 ""\\u0041\\u0042\\u0043""}'",INVALIDITY,1,0
+200,53.905,"'{""key"": ""valllllllllllllllllll/../lllll\r>lluue""}'",INVALIDITY,1,0
+201,54.180,"'{""int_max"": 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999int_max""",INVALIDITY,1,0
+202,54.478,"'[null, true, false, 0,  false, 0,  false, /../0,  fa\nlse, 0, """", {lse, 0,  fa\nlse, 0, """", {lse, 0,  fa\nlse, 0, """", {",INVALIDITY,1,0
+203,54.766,"'{""unic{ode"": ""\\u0041\\u004""\\u0041\\u004""\\u0041\\u004""\\u0041\\u004""\\u0041\\u004""\\u0041\\u0042\\u0043""}'",INVALIDITY,0,0
+204,55.035,"'{""float"": 1.23e1e1e]1e1e1e1e10}'",INVALIDITY,0,0
+205,55.302,"'{""||neg_float"": -g_float"": -g_float"": -g_float"": -g_float"": -g\'_float"": -at"": -at"": -1.23e-10}'",INVALIDITY,1,0
+206,55.591,"'{""f{""f{""flo\'at"": 1.23e10}'",INVALIDITY,0,0
+207,55.922,"'{""n||eg_float"":%00 -1[.23e-1[.23e-1[.23e-1[.23e-1[.23e-1[.23e-1[.23e-e-e-10}'",INVALIDITY,1,0
+208,56.241,"'[1,} 2, 3]3]3]3]3]3]999999999999999999999999'",INVALIDITY,0,0
+209,56.565,"'{""a""l nn\'nnnnnul:}'",INVALIDITY,0,0
+210,56.886,"'{""a"": [1,""a"": [1,""a"": [1, {{""b"": \r2}}]]]]]%00]]]]]}'",INVALIDITY,0,0
+211,57.170,"'{""ke"""": yv""ke"""": yv""ke"""": yv""ke"""": yv""ke"""": yv""ke"""": yv""ke"""": y{v""ke"""": yv""ke"""": yv""ke"""": yvalue""}'",INVALIDITY,0,0
+212,57.449,"'""line\\nbreak""ne\\nbrea{k""ne\\nbreak""ne\\nbreak""ne\\nbreak""ne\\nbreak""ne\\nbreak""ne\\nbreak""ne\\nbreak""ne\\nbreak""'",INVALIDITY,1,0
+213,57.731,"'{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e{""float"": 1.23e<{""float"": 1.23e{""float"": 1.2",INVALIDITY,0,0
+214,58.078,'{}{}{}{}{}[{}{}{}{}{}',INVALIDITY,0,0
+215,58.362,"'""hellohellohellohellohellohellohelloh\\ellohe&&lloooooooohello""'",INVALIDITY,1,0
+216,58.647,'[]]]}]',INVALIDITY,0,0
+217,58.922,"'{""zero_variants"": [0, -0, 0.0, 0e0: [0, -0, 0.0, 0e0: [0, -0, 0.0, 0e0: [0, -0, 0.0, 0e0:"" [: [0, -0, 0.0, 0e0: [0, -0,",INVALIDITY,0,0
+218,59.191,"'""hellohellohellohellohellohellohelloh\\ellohellohellohellohellohellohel\nloh\\ellohellohellohellohellohellohelloh\\ello",INVALIDITY,0,0
+219,59.459,"'[nul{l, tr[null, tr[nu\nll, tr[null, tr[null, tr[null, tr[null, tr[null, tr[null, tr[null, true, false, 0, """"l, tr[null",INVALIDITY,0,0
+220,59.724,"'{""int_max"": 99999""99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999}'",INVALIDITY,0,0

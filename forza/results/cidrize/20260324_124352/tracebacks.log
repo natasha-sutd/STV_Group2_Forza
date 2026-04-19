@@ -1,0 +1,36 @@
+
+============================================================
+Iteration 1 | 8 | 0.0s
+Input: '169.2%54.0.1'
+[STDERR]
+Traceback (most recent call last):
+  File "pyi_rth_pkgres.py", line 177, in <module>
+  File "pyi_rth_pkgres.py", line 44, in _pyi_rthook
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "pkg_resources/__init__.py", line 90, in <module>
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "setuptools/_vendor/jaraco/text/__init__.py", line 14, in <module>
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "setuptools/_vendor/jaraco/functools/__init__.py", line 13, in <module>
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "setuptools/_vendor/more_itertools/__init__.py", line 3, in <module>
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "pyimod02_importers.py", line 457, in exec_module
+  File "setuptools/_vendor/more_itertools/more.py", line 8, in <module>
+  File "heapq.py", line 583, in <module>
+KeyboardInterrupt
+[PYI-37190:ERROR] Failed to execute script 'pyi_rth_pkgres' due to unhandled exception!

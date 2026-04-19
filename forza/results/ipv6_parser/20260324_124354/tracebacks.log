@@ -1,0 +1,9 @@
+
+============================================================
+Iteration 1 | 8 | 0.0s
+Input: '2001:db8::\\2001:db8::2001:db8::2001:db8::1'
+[STDERR]
+[PYI-37213:ERROR] Module object for struct is NULL!
+Traceback (most recent call last):
+  File "struct.py", line 13, in <module>
+KeyboardInterrupt
