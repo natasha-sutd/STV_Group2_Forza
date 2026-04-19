@@ -1,13 +1,14 @@
 # target
 name: ipv4_parser
-target_module: 
-    windows: "win-ipv4-parser.exe"
-    linux: "linux-ipv4-parser"
-    mac: "mac-ipv4-parser"
+target_module:
+  windows: "win-ipv4-parser.exe"
+  linux: "linux-ipv4-parser"
+  mac: "mac-ipv4-parser"
 
 # commands
 buggy_cmd:
-  windows: ["./bin/win-ipv4-parser.exe", "--ipstr", "{input}"]
+  windows:
+    ["../IPv4-IPv6-parser-main/bin/win-ipv4-parser.exe", "--ipstr", "{input}"]
   linux: ["./bin/linux-ipv4-parser", "--ipstr", "{input}"]
   mac: ["./bin/mac-ipv4-parser", "--ipstr", "{input}"]
 buggy_cwd: "../../IPv4-IPv6-parser-main"

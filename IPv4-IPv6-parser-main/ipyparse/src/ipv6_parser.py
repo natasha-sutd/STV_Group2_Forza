@@ -11,7 +11,7 @@ def main():
     ip_to_test = sys.argv[1]
 
     cov = coverage.Coverage(
-        data_file=".coverage_ipv4_parser",
+        data_file=".coverage_ipv6_parser",
         source=["ipyparse"],
         branch=True
     )
@@ -28,8 +28,8 @@ def main():
 
     cov.stop()
 
-    stream = StringIO()
-    cov.report(file=stream, show_missing=False)
+    # stream = StringIO()
+    # cov.report(file=stream, show_missing=False)
     cov.save()
 
 
