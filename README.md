@@ -145,6 +145,7 @@ Executes any target as a subprocess driven entirely by YAML config. All target-s
 - Cross-platform binary resolution: reads OS-keyed paths (`linux`, `mac`, `windows`) from YAML
 - Optionally appends `--show-coverage` flag for instrumented targets when `coverage_enabled: true`
 - Runs both the **buggy** binary and an optional **reference** binary side-by-side for differential testing
+- Produces a `RawResult` after each execution for classification in the bug oracle 
 
 ### 4. Bug Oracle (`bug_oracle.py`)
 
