@@ -1,7 +1,7 @@
-# 50.053 SOFTWARE TESTING AND VERIFICATION PROJECT GROUP 2
+# 50.053 SOFTWARE TESTING & VERIFICATION PROJECT GROUP 2
 # Forza
 
-Forza is built from scratch to detect seeded bugs in four Python targets: json_decoder, cidrize, ipv4_parser, and ipv6_parser. It implements AFL-style energy-based mutation, grammar-aware seed generation via a Context-Free Grammar (CFG)Tree, differential oracle testing, and HTML reporting backed by Firebase Firestore. It is designed to be sufficiently general, and can be used to fuzz any target provided their target specific YAML configuration (not tested).
+Forza is built from scratch to detect seeded bugs in four Python targets: `json_decoder`, `cidrize`, `ipv4_parser`, and `ipv6_parser`. It implements AFL-style energy-based mutation, grammar-aware seed generation via a Context-Free Grammar (CFG) Tree, differential oracle testing, and HTML reporting backed by Firebase Firestore. It is designed to be sufficiently general, and can be used to fuzz any target provided their target specific YAML configuration (not tested).
 
 ---
 
@@ -21,17 +21,13 @@ Forza is built from scratch to detect seeded bugs in four Python targets: json_d
 
 ## Project Structure
 
-## Project Structure
-
 ```
 forza/
-├── fuzzer.py                  # Main entry point — orchestrates the full pipeline
 ├── targets/                   # Target configs: commands, seeds, coverage flags
 │   ├── json_decoder.yaml
 │   ├── cidrize.yaml
 │   ├── ipv4_parser.yaml
 |   └── ipv6_parser.yaml
-│    
 ├── engine/
 │   ├── types.py               # Shared types: BugType enum, BugResult dataclass
 │   ├── seed_generator.py      # Grammar-based seed generation and CFG tree mutations
@@ -42,37 +38,29 @@ forza/
 │   ├── bug_logger.py          # Writes bugs to CSV and uploads to Firestore
 │   ├── firestore_client.py    # Firebase Firestore client (archive + current DBs)
 │   └── report_generator.py    # Generates per-target report.html from CSV/Firestore data
-│   └── report_generator.py    # Generates per-target report.html from CSV/Firestore data
 ├── results/
 │   ├── *_bugs.csv             # Deduplicated bug log per target
 │   ├── *_coverage.csv         # Coverage snapshots per target
 |   ├── */<run_id>/            # Per-run directory: all_runs.csv, stats.csv, tracebacks.log, bug_inputs/
-|   ├── */<run_id>/            # Per-run directory: all_runs.csv, stats.csv, tracebacks.log, bug_inputs/
 │   └── *_report.html          # Generated HTML report per target
 ├── sample.yaml                # Sample yaml structure for new targets
-└── fuzzer.py                  # Main orchestrator
+└── fuzzer.py                  # Main entry point — orchestrates the full pipeline
 ```
 
 ---
 
 ## Design Overview
 
-Our fuzzer's overall design is as follows:
+Forza's overall design is as follows:
 
 ```
-1. Orchestrator picks a seed from the corpus
-        ↓
-2. Mutation engine modifies it (weighted strategy selection)
-        ↓
-3. Target Runner feeds it to the target 
-        ↓
+Repeat:
+1. Orchestrator picks a seed
+2. Mutation engine modifies it
+3. Target Runner feeds it to the target
 4. Bug Oracle monitors for crashes/memory leaks
-        ↓
 5. Coverage Tracker checks if new code paths were hit
-        ↓
 6. Bug Logger deduplicates and saves the bug to CSV + Firestore
-        ↓
-     Repeat
 ```
 
 ### External Libraries/Tools Used
@@ -88,18 +76,13 @@ Our fuzzer's overall design is as follows:
 
 ### What We Built Ourselves
 
-Every component in `engine/` was written from scratch:
-
-| Component             | Description |
-|-----------------------|-------------|
-| `mutation_engine.py`  | AFL-style weighted strategy selection, energy boosting/decay, grammar-aware mutations |
-| `seed_generator.py`   | CFG derivation tree for grammar-driven seed generation, tree mutation, and constraint violation |
-| `bug_oracle.py`       | Ten-stage classifier: timeout → keyword detection → crash → differential → normal |
-| `coverage_tracker.py` | Dual-mode tracker: AFL 64 KB bitmap with bucket novelty detection; behavioral proxy for blackbox targets |
-| `bug_logger.py`       | Per-run deduplication using MD5 hash keys, structured CSV logging, Firestore upload |
-| `firestore_client.py` | Dual Firestore setup (archive + current), singleton pattern, graceful fallback when credentials absent |
-| `report_generator.py` | Self-contained HTML report with ablation study, coverage graphs, and per-target bug cards |
-| `fuzzer.py`           | Main loop with AFL-style terminal UI, corpus growth, graceful shutdown, background report refresh |
+Besides the external libraries/tools/test targets used, the fuzzing framework which is a custom-built orchestration engine was built from scratch with the following components:
+1. Core fuzzer controller and fuzzing logic loop
+2. Seed generation and mutation engine for generating test inputs
+3. Bug detection and classification system
+4. Coverage tracking and analysis
+5. Automated report generation
+6. Firebase integration for distributed testing
 
 ---
 
@@ -107,18 +90,16 @@ Every component in `engine/` was written from scratch:
 
 ### 1. Seed Generator (`seed_generator.py`)
 
-Generates the initial corpus from a grammar specification defined in each YAML config's `input:` block. Supports: `int`, `float`, `hex`, `string`, `boolean`, `null`, `any`, `literal`, `array`, `object`, `sequence`, `one_of`, `concat`.
+Seed Generator is responsible for generating the initial corpus from a grammar specification defined in each YAML config's `input` block. Supports: `int`, `float`, `hex`, `string`, `boolean`, `null`, `any`, `literal`, `array`, `object`, `sequence`, `one_of`, `concat`.
 
-Seeds are produced by `generate_from_spec()`, which recursively walks the grammar tree and samples from each node type's range or character set.
-
-Beyond initial generation, `seed_generator.py` exposes two functions used by the mutation engine at runtime:
+Seeds are produced by `generate_from_spec()`, which recursively walks the grammar tree and samples from each node type's range or character set. Beyond initial generation, `seed_generator.py` exposes two functions used by the mutation engine at runtime:
 
 - **`mutate_from_spec(seed, spec)`** — parses the seed string back into a CFG derivation tree (`CFGNode`) and applies one of three operations chosen at random: `fresh` (regenerate from spec), `mutate` (probabilistic subtree replacement via `mutate_tree()`), or `violate` (intentional constraint breaking via `violate_tree()`).
 - **`violate_tree(node)`** — traverses the CFG tree and intentionally breaks constraints at each node type: out-of-range integers, wrong-length sequences, malformed hex, invalid characters for string fields, and field count overflow/underflow for objects. This directly targets logic bugs that only appear at boundary inputs.
 
 ### 2. Mutation Engine (`mutation_engine.py`)
 
-Two tiers of mutation:
+There are two tiers of mutation: generic and grammar-aware mutation.
 
 **Generic (format-agnostic):**
 
@@ -139,17 +120,15 @@ Each strategy carries a **weight**. Strategies that find new coverage get their 
 
 ### 3. Target Runner (`target_runner.py`)
 
-Executes any target as a subprocess driven entirely by YAML config. All target-specific logic lives in the YAML file.
+Target Runner is responsible for executing the targets with the commands specified in the target’s accompanying YAML configuration. Different input formats are supported including `arg`, `stdin`, and `file` input modes, though for this project, only `arg` is used across the four main targets. Different platforms are also supported, specifically windows, linux, and mac, as long as they are stated in the YAML configuration. Target Runner is also equipped with differential testing capabilities. Given that the YAML configuration specifies reference commands and the reference target folders are included in the root folder, Target Runner can execute reference targets when necessary. 
 
-- Supports `arg`, `stdin`, and `file` input modes
-- Cross-platform binary resolution: reads OS-keyed paths (`linux`, `mac`, `windows`) from YAML
-- Optionally appends `--show-coverage` flag for instrumented targets when `coverage_enabled: true`
-- Runs both the **buggy** binary and an optional **reference** binary side-by-side for differential testing
-- Produces a `RawResult` after each execution for classification in the bug oracle 
+After each execution, a `RawResult` class is produced, storing crucial information such as `input_data`, `stdout`, `stderr`, etc. Typically, the `run_both()` function is called, executing both the buggy target and the reference target, producing a buggy `RawResult` and a reference `RawResult` for the Bug Oracle to classify.
 
 ### 4. Bug Oracle (`bug_oracle.py`)
 
-Ten-stage classification pipeline applied to every execution result. Stages are evaluated in priority order; the first match wins:
+Bug Oracle is responsible for interpreting the RawResult from the target runner and returns a BugResult, which has a standardized data structure that every detected bug gets stored as. As such, bugs are fully reproducible from just the BugResult. The strategy field records which mutation strategy produced the bug, which feeds back into the fuzzer to boost that strategy's energy.
+
+A ten-stage classification pipeline applied to every execution result. Stages are evaluated in priority order; the first match wins:
 
 1. **TIMEOUT** — process was killed by the runner
 2. **PERFORMANCE** — `"performance bug"` or `PerformanceBug` keyword in output
@@ -158,41 +137,32 @@ Ten-stage classification pipeline applied to every execution result. Stages are 
 5. **SYNTACTIC** — `"syntax error"`, `AddrFormatError`, or `"syntactic"` keyword
 6. **FUNCTIONAL** — `"functional"` or `FunctionalBug` keyword
 7. **BOUNDARY** — `"boundary"` or `BoundaryBug` keyword
-8. **BONUS** — `"bonus"` keyword, or any YAML-defined `bug_keywords` match (catches untracked exceptions)
+8. **BONUS** — `"bonus"` keyword, or any YAML-defined `bug_keywords` match
 9. **RELIABILITY** — non-zero exit code with no structured output; also triggered by `ReliabilityBug` keyword
 10. **MISMATCH** — differential oracle: normalised buggy output diverges from reference output. is detected by comparing buggy output and reference output
 
 Bug deduplication uses a 16-char MD5 hash of a`(bug_type, exception_class, line_number)` tuple. Excluding the exception message text ensures that the same underlying bug triggered by many different inputs is counted as a single unique bug.
 
-Our rule-based bug detection uses keyword and pattern matching to identify bugs in the target's output.
-It detects three things, exception types like ValueError, crash signals, and custom bug markers like FunctionalBug that are defined in the YAML config. To do this, it extracts two key pieces of information. 
-
-First, the exception class using the EXC CLASS RE regex, which matches anything that looks like a Python exception name. Second, the line number from the traceback using TRACEBACK LINE RE, which takes the last 3 stack frames to give a more precise location of where the bug occurred.
-
-These two pieces together form the bug key, which is used to deduplicate bugs so we don't count the same crash twice.
+Bug Oracle's rule-based bug detection uses keyword and pattern matching to identify bugs in the target's output. It detects three things, exception types like ValueError, crash signals, and custom bug markers like FunctionalBug that are defined in the YAML config. To do this, it extracts two key pieces of information. First, the exception class using the EXC CLASS RE regex, which matches anything that looks like a Python exception name. Second, the line number from the traceback using TRACEBACK LINE RE, which takes the last 3 stack frames to give a more precise location of where the bug occurred. These two pieces together form the bug key, which is used to deduplicate bugs so we don't count the same crash twice.
 
 ### 5. Coverage Tracker (`coverage_tracker.py`)
 
-The `CoverageTracker` serves as the single point of truth for all novelty decisions in the fuzzing loop. Operating on the text outputs (stdout and stderr) captured from the target subprocess, the tracker evaluates execution results and emits a `new_path_found` boolean. This feedback directly drives the fuzzer's adaptive mutation: if true, the input is saved to the corpus and the mutation strategy that produced it receives an energy boost.
+The coverage tracker determines whether a generated input is interesting enough to be added to the corpus for future mutation. This is a core part of the feedback loop in the fuzzer, because it allows the system to retain inputs that reveal previously unseen behaviour and to discard those that do not contribute anything new. In this project, the tracker acts as the single decision point for novelty detection after execution and bug classification.
 
 Controlled by the `tracking_mode` flag in the YAML config, the tracker operates in one of two fundamental modes:
 
-* **`code_execution` mode:** Used when source-level instrumentation is available (e.g., the whitebox `json_decoder` target). 
-  * It extracts real statement, branch, and function coverage percentages from Python's `coverage` module. 
-  * These percentages are safely isolated from standard output using a tab-separated `\t<cov_lines>` sentinel protocol. 
-  * Novelty is determined via a monotone threshold (checking if the new statement percentage strictly exceeds the highest seen so far) alongside an AFL-style frequency bucket progression.
-  * *Greybox Fallback:* If the buggy binary lacks instrumentation but a reference binary has it, this mode can dynamically route to read the reference binary's stdout as a semantic proxy for coverage.
+The tracker supports three operational modes. 
+- For whitebox targets, where Python source-level instrumentation is possible, the tracker uses real execution coverage derived from the Python coverage framework. 
+- For greybox targets, where the buggy binary itself does not expose coverage but a reference implementation does, the tracker uses the reference program’s coverage output as an approximation of structural novelty. 
+- For blackbox targets, where neither the buggy program nor the reference implementation yields usable execution coverage, the tracker falls back to a behavioural model in which novelty is inferred from distinct output signatures or bug classifications. 
 
-* **`behavioral` mode:** Used for blackbox compiled binaries (like `ipv4_parser`, `ipv6_parser`, and `cidrize`) where true code coverage is inaccessible.
-  * It relies on a "behavioral proxy" metric, determining novelty by hashing a computed output signature fingerprint.
-  * This fingerprint abstracts raw text into a canonical string containing the exit code bucket and the behavioral class of the stdout/stderr messages.
-  * This abstraction (e.g., classifying specific IP addresses into a generic `output:bracketed` class) focuses the fuzzer on distinct structural paths while preventing the corpus from exploding with semantically equivalent inputs.
+For instrumented runs, the tracker uses an AFL-style 64 KB bitmap and hashes coverage identifiers into bitmap slots so that familiar metrics such as map density and count coverage can be displayed. In whitebox mode, coverage information is appended to program output using the `\t<cov_lines>` sentinel, allowing the tracker to separate actual coverage data from normal program output before parsing it. This makes the coverage pipeline more reliable and prevents accidental misinterpretation of ordinary output text as coverage information.
 
-**State & Persistence**
-Internally, the tracker maintains a simulated 64 KB AFL-style bitmap to compute standard metrics like map density and count coverage. To ensure no data is lost, it persists findings redundantly: appending metrics to a local CSV every iteration, saving periodic bitmap snapshots, and asynchronously uploading telemetry to Firebase Firestore.
+Novelty is determined mainly in two ways. First, the tracker checks whether the current execution produces a higher statement coverage percentage than any previous run. Second, it checks whether a coverage key has entered a new bucket that has not been observed before. In behavioural mode, novelty instead depends on whether a new output signature or bug key has appeared. The result of this decision is returned as `new_path_found`, which then drives corpus growth, seed energy updates, and mutation strategy boosting.
 
 ### 6. Bug Logger (`bug_logger.py`)
 
+Bug Logger records every fuzzing execution result. It tracks all runs in a CSV for the full history.
 Each fuzzing session creates a `FuzzLogger` with a timestamped `run_id`. It writes to three files:
 - `results/<target>_bugs.csv` — flat deduplicated bug log appended across all runs
 - `results/<target>/<run_id>/all_runs.csv` — one row per iteration (for throughput analysis)
@@ -206,26 +176,26 @@ Uploads to Firestore are fired on every unique bug and on every stats snapshot.
 
 ### 7. Firestore Integration (`firestore_client.py`)
 
-Two separate Firebase apps are initialised from credentials files in the project root:
+Firestore Client upload bugs and coverage snapshots to 2 separate databases. The two separate Firebase apps are initialized from credentials files in the project root:
 
-- **Archive DB** (`firebase-credentials.json`) — permanent record of all bugs across all runs, never cleared
-- **Current DB** (`firebase-credentials-current.json`) — cleared at the start of each new run via `clear_current_db()`; holds only the latest session
+- **Archive DB** — permanent record of all bugs across all runs, never cleared
+- **Current DB** — cleared at the start of each new run via `clear_current_db()`; holds only the latest session
 
 The archive DB is used by `report_generator.py` with a **local cache** (`results/firestore_cache.json`) to minimise Firestore reads — on subsequent runs only newly added documents are fetched.
 
 ### 8. Report Generator (`report_generator.py`)
 
-Generates a self-contained `<target>_report.html` per target. Data is split into two scopes:
+Report Generator is responsible for generating a self-contained, human-readable `<target>_report.html` per target. Data is split into two scopes:
 
 - **All-time** (deduped across all runs from the bug CSV): displayed in the overview card and ablation study
 - **Current run** (most recent `run_id` only): displayed in the coverage graph, recent bugs table, and bug report cards
 
 Report sections:
 
-- Overview card: total unique bugs (all-time), current-run stats, run ID
+- Overview card: total bugs across all runs, total unique bugs, timeouts, crashes
 - Ablation study: unique bugs broken down by mutation strategy
-- Coverage over time: statement, branch, and function coverage plotted against iteration count
-- Recent bugs table: sortable, scoped to current run
+- Coverage over time: statement, branch, and combined coverage vs iteration count
+- Recent bugs table: scoped to current run
 - Bug report cards: one per representative bug type, showing triggering input, stdout/stderr excerpt, and returncode
 
 The Firestore cache (`results/firestore_cache.json`) stores the last fetched timestamp so subsequent refreshes only pull newly added documents, avoiding repeated full collection scans.
@@ -242,24 +212,9 @@ All target-specific logic (binary paths, input mode, seeds path, coverage flag, 
 
 Rather than selecting mutations uniformly at random, strategies that find new coverage are boosted in weight. All weights decay each iteration to prevent premature convergence. This mirrors AFL's core insight: spend more time on strategies that are actually finding new paths.
 
-### CFG Tree Mutations
-
-Grammar-aware mutation operates directly on a derivation tree rather than the string representation. This allows structurally meaningful mutations (subtree replacement, count violation, type corruption) that would be extremely unlikely to arise from random byte-level mutations on format-sensitive inputs like IP addresses.
-
-### Dual Oracle Strategy
-
-For targets with a reference binary, we use differential testing: if the buggy binary's normalised output diverges from the reference for the same input, it's flagged as a `MISMATCH` bug. This catches semantic bugs that do not produce any exception or non-zero exit code.
-
-### Behavioral Output Signatures (Blackbox Coverage)
-For blackbox targets where source instrumentation is not possible, we treat unique (exit-code-class, stdout-class, stderr-class) triples as distinct program paths. The class extraction in `_extract_output_class()` strips specific values (IP addresses, error messages) and retains structural labels, so two inputs that exercise the same code path produce the same signature even if their output values differ.
-
 ### Corpus Growth
 
-Inputs that trigger new coverage are added to the corpus and can be selected as seeds for future mutations. This ensures the fuzzer progressively explores paths discovered by earlier iterations rather than repeatedly mutating from the same starting points.
-
-### Bug Deduplication by Signature
-
-Rather than hashing on input data (which would count every unique triggering input as a new bug), we hash the `(bug_type, exception_class, line_number)` tuple. This collapses many inputs triggering the same underlying bug into a single unique entry.
+Inputs that trigger new coverage are added to the corpus and can be selected as seeds for future mutations. This ensures the fuzzer explores paths discovered by previous iterations.
 
 ### Adaptive Timeout
 
@@ -267,16 +222,20 @@ The fuzzer begins with a default timeout of 60 seconds, which is recalibrated ev
 
 ### Dual Thread Setup
 
-To increase the efficiency of our fuzzer, we implemented 2 concurrent worker threads running in parallel. This gave us faster speed, higher throughput, and more iterations completed per run.
-To protect shared state across the two threads, we implemented 3 locks, one for the corpus and energy dictionary, one for the mutation engine weights, and one for the timing statistics. This ensures that when both threads are running simultaneously, they do not overwrite each other's data or produce inconsistent results.
+To increase the efficiency of our fuzzer, we implemented 2 concurrent worker threads running in parallel. This gave us faster speed, higher throughput, and more iterations completed per run. To protect shared state across the two threads, we implemented 3 locks, one for the corpus and energy dictionary, one for the mutation engine weights, and one for the timing statistics. This ensures that when both threads are running simultaneously, they do not overwrite each other's data or produce inconsistent results.
 
 ---
 
 ## Implementation Challenges
 
-### 1. Coverage Measurement for Blackbox Targets
+### 1. Coverage Measurement
 
-`ipv4_parser`, `ipv6_parser`, and `cidrize` are opaque binaries — we cannot instrument them directly. We implemented the behavioral output signature as a proxy, clearly labelled `proxy` in the coverage CSV and report. True statement/branch/function coverage is only available for `json_decoder`.
+A major limitation of the coverage system is that its accuracy depends heavily on the type of target being fuzzed. For whitebox Python targets, coverage measurement is meaningful because the tracker can obtain real statement and branch coverage through instrumentation. However, even in this case, the coverage is accumulated across runs, which means the tracker can detect that coverage has increased but cannot precisely identify which exact lines were newly contributed by a particular input. This makes the system good at measuring overall progress, but weaker at per-input attribution.
+The biggest limitations appear in blackbox mode. Since native binaries do not expose direct execution coverage, the system uses behavioural coverage based on output signatures and bug classifications. While this allows the fuzzer to remain feedback-guided, the signal saturates quickly because the number of distinct observable behaviours is small. Once saturation is reached, the tracker stops identifying new behaviour even if additional internal paths still exist.
+Another limitation is the use of reference implementation coverage as a proxy in greybox mode. This can help guide mutation, but it does not measure the buggy binary directly, since the buggy and reference programs may follow different internal paths on the same input. Therefore, greybox coverage should be interpreted as an approximation rather than exact code coverage of the target under test.
+Attempts to obtain stronger instrumentation coverage through python-afl or AFL QEMU-style mechanisms ran into major practical barriers, including interpreter compatibility problems, extra subprocess overhead, and throughput collapse caused by repeated target startup costs. In particular, designs that required multiple binary executions per iteration made fuzzing too slow to remain useful. Attempts to parallelise around this problem introduced secondary issues in the mutation decay and energy scheduling logic, showing that coverage instrumentation could not be changed in isolation without affecting the rest of the architecture. This demonstrates that the problem of coverage is not confined to one module; it is tightly coupled to the execution model and scheduler of the entire fuzzer.
+Finally, the coverage pipeline is vulnerable to silent failures. Because coverage information is passed through multiple components, a small change in formatting or configuration can silently break the signal without causing an obvious runtime error. This makes coverage bugs difficult to diagnose, since the fuzzer may continue running normally while the quality of the feedback signal has already degraded. Overall, the system works best for whitebox targets and becomes increasingly approximate for greybox and blackbox targets.
+
 
 ### 2. Firestore Read Costs
 
@@ -284,26 +243,33 @@ Initially, `report_generator.py` streamed all documents from Firestore on every 
 
 ### 3. Bug Over-counting
 
-Early versions counted every unique input triggering a bug as a separate bug, producing hundreds of "unique" entries for `json_decoder`. The fix was to exclude the exception message from the deduplication hash — since the same underlying bug (e.g. `ParseException`) produces different messages for different inputs, only the exception class and line number are used as the dedup key.
+Early versions counted every unique input triggering a bug as a separate bug, producing hundreds of "unique" entries for `json_decoder`. The fix was to exclude the exception message from the deduplication hash — since the same underlying bug (e.g. `ParseException`) produces different messages for different inputs, only the exception class and line number are used as the deduplication key.
 
 ---
 
 ## Experiments & Results
 
+Each target was run for 6 hours each per person, equating to 30 hours per target. Additionally, crashes are read the last 3 frames of the Traceback.
 Please refer to our report for detailed RQ1-RQ4 experiments.
 
 ---
 
 ## Lessons Learned
 
-- Our team had several issues with bug deduplication across project meetings 2 and 3 as we did not understand how we should define ‘deduplication’ correctly according to what our professor is looking for. Our first approach was to hash the input data to identify unique bugs, but that turned out to be wrong. A single ParseException would get triggered by hundreds of different inputs, each producing a slightly different error message, and we ended up with hundreds of “unique” bugs. What we learned after project meeting 3 was that what makes two bugs the same is not the input that triggers them, but the code path they exercise. Hence we switched to hashing (bug_type, exception_class, line_number) instead. That collapsed everything down to a much more honest count. In hindsight, we should have thought and clarified what “uniqueness” actually means at the start as this should be one of the first design decisions we nail down, not something we fix halfway through.
+- Our team had several issues with bug deduplication across project meetings 2 and 3 as we did not understand how we should define ‘deduplication’ correctly according to what our professor is looking for. Our first approach was to hash the input data to identify unique bugs, but that turned out to be wrong. A single ParseException would get triggered by hundreds of different inputs, each producing a slightly different error message, and we ended up with hundreds of “unique” bugs. What we learned after project meeting 3 was that what makes two bugs the same is not the input that triggers them, but the code path they exercise. Hence we switched to hashing (`bug_type`, `exception_class`, `line_number`) instead. That collapsed everything down to a much more honest count. In hindsight, we should have thought and clarified what “uniqueness” actually means at the start as this should be one of the first design decisions we nail down, not something we fix halfway through.
+
+- One key lesson we learnt from evolving our seed generator is the importance of moving from ad-hoc input generation to structured, grammar-driven design. Initially, our generators were simple and target-specific (e.g. manually crafting JSON or IPv4 strings with random values), which was easy to implement but not scalable or reusable. As we transitioned to a generalized grammar-based approach, we realized how powerful it is to separate input specification from generation logic using YAML and type-based generators. This made the system far more flexible, allowing us to support many input formats without rewriting code. We also learnt that effective fuzzing is not just about generating random inputs, but about maintaining structure while introducing controlled mutations, which we achieved through Context-Free Grammar (CFG) trees and grammar-aware mutations. This helped balance valid and invalid inputs, improving coverage and bug discovery. Overall, this process deepened our understanding of how abstraction, modular design, and structured randomness can significantly enhance both scalability and effectiveness in fuzzing systems.
+
+- Our 6 hours runs were done with each member running each target for 6 hours. This resulted in 5 different engines running each target, producing 5 very different results. Only after the long run did we realise that this would be problematic for empirical evaluation. Regardless, Forza managed to prove stable, as seen in RQ4, despite the very different engines, 6 hour runs allowed the fuzzing sessions to converge to a similar result. Having said that, it would have been a better comparison for each member to only run a single target, allowing for fairer comparisons across runs per target.
 
 ---
 
 ## Future Improvements
 
-- Bug Oracle and Target Runner: to be able to more accurately classify bugs (Timeout and Mismatch).
-- Coverage Tracker: to be able to accurately instrument black box binary targets for coverage tracking.
+- For our Bug Oracle and Target Runner, we would like them to be able to more accurately classify bugs such as Timeout and Mismatch. For our Coverage Tracker, we would like it to be able to accurately instrument black box binary targets for coverage tracking.
+
+- For Frida for Blackbox Coverage, a future improvement is to replace the current behavioural proxy with true blackbox coverage measurement using Frida-based dynamic instrumentation. In the current implementation, blackbox targets rely on output signatures and bug classifications as a substitute for real execution coverage, which causes the feedback signal to saturate quickly and limits the fuzzer’s ability to distinguish between structurally different internal paths. The report identifies Frida’s `Stalker.follow()` API as the correct long-term solution, since it can observe executed basic blocks in a running native binary without requiring source code access. These block transitions could then be hashed into AFL-style edge identifiers and written into the fuzzer’s bitmap, allowing the system to compute genuine blackbox coverage metrics such as edge discovery, map density, and count coverage rather than relying on behavioural approximations. 
+Using Frida would also avoid the throughput problems encountered in earlier blackbox instrumentation attempts, where separate subprocess executions were needed to extract coverage data. Instead, instrumentation could be attached directly to the target process during execution, making it possible to collect coverage information and program output in the same run. This would produce a more accurate and non-saturating guidance signal for native binaries, while also making blackbox coverage results more directly comparable to AFL-style metrics. Although this approach introduces engineering challenges such as callback overhead and instrumentation tuning, it would provide a much stronger foundation for future versions of the fuzzer.
 
 ---
 
@@ -311,18 +277,20 @@ Please refer to our report for detailed RQ1-RQ4 experiments.
 
 ### Prerequisites
 
-Ensure requirements.txt is in the project root folder.
 ```bash
+python3 -m venv .venv
 pip install -r requirements.txt
+cd forza
 ```
-
-Place `firebase-credentials.json` and `firebase-credentials-current.json` in the parent directory of `forza/`.
+Do ensure that your Python version is 3.10 and above before running the fuzzer.
 
 ### Running the Fuzzer
 
-Note: Run the following command before every fuzzing session
+Note: Run the following command before every fuzzing .
 ```bash
 rm ../json-decoder/logs/bug_counts.csv
+rm ../IPv4-IPv6-parser-main/logs/bug_counts.csv
+rm ../cidrize-runner-main/logs/bug_counts.csv
 ```
 
 ```bash
